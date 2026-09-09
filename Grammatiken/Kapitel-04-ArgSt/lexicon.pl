@@ -389,10 +389,10 @@ an ---> (word,
         pform:an_pform,
         case:Cas),
   spr:[],
-  comps:[(head:(noun,
-                case:Cas),
-          spr:[],
-          comps:[]) ] ).
+  arg_st:[(head:(noun,
+                 case:Cas),
+           spr:[],
+           comps:[]) ] ).
 
 
 
