@@ -55,11 +55,18 @@ graphviz_option(svg,'batik-squiggle').
 :- scope_mrs.
 
 
+% If a description that should be used for generation is produced from a chart edge,
+% which pathes of the input sign shall be considered?
+gen_pathes([[cat,head],[cat,spr],[cat,comps],[cont]]).
+
+syntactic_object(sign).
 ind_path([cont,ind]).
-gtop_path([cont,gtop]).
+%gtop_path([cont,gtop]).
 cont_path([cont]).
 liszt_path([cont,rels]).
 hcons_path([cont,hcons]).
+%pos_path([cat,head]).
+
 
 outscoped_feat(larg).
 sc_arg_feat(harg).

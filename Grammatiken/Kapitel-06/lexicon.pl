@@ -154,3 +154,4 @@ wahrscheinlich ---> @scopal_adv(wahrscheinlich_rel).
 
 
 dass ---> @complementizer(dass).
+

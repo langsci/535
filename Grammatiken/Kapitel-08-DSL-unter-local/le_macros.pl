@@ -401,7 +401,7 @@ attr_adj(Relation) :=
 attr_np_adj *>
  (%intersective_adj
   loc:(cat:arg_st:[@np(Ind2)],
-       cont:rels:hd:arg2:Ind2)).
+       cont:rels:[arg2:Ind2])).
 
 attr_adj_np(Relation,Case) :=
  (attr_np_adj,

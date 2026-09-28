@@ -66,6 +66,18 @@ signature(signature).
 % load a sequence that is executed after the grammar is loaded
 :- ['../Gemeinsames/common.pl'].
 
+% load the generator, see setup.pl for configuration
+% SICStus 3.0
+%:- ['../Gemeinsames/generator'].
+
+% SICStus 4.0
+:- ['../Gemeinsames/generator4'].
+
+% p_and_g("Der Affe schläft.",@decl).
+% p_and_g("Jede Frau und jeder Mann kennt ein Buch.",@decl).
+
+% p_and_g("Der Affe, von dessen Kind er ein Bild kennt, lacht.",@decl).
+
 
 examples(['  Der Affe, der schläft, kennt das Kind.',
           '  Ein Affe, dessen Kind schläft, lacht.',

@@ -204,6 +204,9 @@ pp(PForm,Case) :=
    loc:cat:head:(pform:PForm,
                  case:morph_case:Case)).
 
+pp(PForm,Case,Ind) :=
+  (@pp(PForm,Case),
+   loc:cont:ind:Ind).
 
 cp :=
   (@xp,
@@ -315,9 +318,14 @@ relational_noun *>
   synsem:loc:cat:arg_st:tl:[((@np_str(Ind2),
                               loc:cat:head:case:morph_case:gen,
                               nonloc:slash:[])
-                            ;(@pp(Ind2),
-                              loc:cat:head:case:morph_case:dat))],
+                            ;@pp(von_pform,dat,Ind2))],
    rels:hd:arg2:Ind2).
+
+% * Der Affe, ein Bild von dessen Kind er kennt lacht.
+% * Der Affe, ein Bild dessen Kindes er kennt lacht.
+relational_noun *>
+ (%det_noun_word
+  synsem:loc:cat:arg_st:tl:hd:nonloc:rel:[]).
 
 
 relational_noun(Case,Genus,Numerus,Relation) :=
@@ -438,6 +446,10 @@ cp_verb(Per,Num,Relation) :=
   @verb(Per,Num),
   rels:hd:Relation).
 
+two_place_verb *>
+ (%arg1_verb
+  synsem:loc:cat:arg_st:[_,_]).
+
 np_pp_verb *> 
  (%two_place_verb & subj_np_verb & non_scopal_le
   synsem:loc:cat:arg_st:tl:[ @pp ]).
@@ -545,8 +557,9 @@ preposition_word *>
  %non_scopal_le
  synsem:loc:cat:(head:(prep,
                        initial:plus),
-                                %          spr:[],
-                 arg_st:[ @np_lex ] )).
+                 spr:[], % otherwise the NP[lex] may map to the SPR
+                 arg_st:[ (@np_lex,
+                           nonloc:slash:[])] )).
 
 comp_preposition *>
  (%preposition_word,
@@ -611,7 +624,7 @@ attr_adj(Case,Num,DType,Relation) :=
 attr_np_adj *>
  (%intersective_adj
   synsem:loc:cat:arg_st:[@np(Ind2)],
-  rels:hd:arg2:Ind2).
+  rels:[arg2:Ind2]).
 
 attr_adj_np(Case,Genus,Num,DType,Relation,GCase) :=
  (attr_np_adj,

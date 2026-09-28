@@ -69,3 +69,10 @@ t(56,"Der Affe nimmt den Stock und lacht.",@decl,1,'Kapitel 9: Vorfeldbesetzung'
 t(57,"Ein Affe nimmt einen Stock und das Kind lacht.",@decl,1,'Kapitel 9: Vorfeldbesetzung'). 
 % Klaus ist ein Idiot und warum merkt das außer mir niemand?
 
+
+
+
+tg(1,"Lacht der Affe?",@interrog).
+tg(2,"Kennt jede Frau und jeder Mann ein Buch?",@interrog).
+
+tg(3,"Jede Frau und jeder Mann kennt ein Buch.",@decl).

@@ -130,10 +130,11 @@ root :=
  (cat:(spr:[],
        comps:[])).
 
-
 interrog :=
- (@root).
+ (@root,
+  cat:head:verb).
 
 decl :=
- (@root).
+ (@root,
+  cat:head:verb).
 

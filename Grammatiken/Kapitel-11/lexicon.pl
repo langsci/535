@@ -186,7 +186,7 @@ denkt ---> @np_pp_verb(an_pform,acc,denken_an_rel).
 
 
 an  ---> @comp_prep(an_pform,acc).
-von ---> @comp_prep(an_pform,dat).
+von ---> @comp_prep(von_pform,dat).
 
 
 in ---> @location_noun_mod_prep(in_rel).

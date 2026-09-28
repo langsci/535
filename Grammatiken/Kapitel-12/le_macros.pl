@@ -182,6 +182,10 @@ pp(PForm,Case) :=
    loc:cat:head:(pform:PForm,
                  case:Case)).
 
+pp(PForm,Case,Ind) :=
+  (@pp(PForm,Case),
+   loc:cont:ind:Ind).
+
 cp :=
   (@xp,
    loc:cat:head:(comp,
@@ -287,6 +291,18 @@ relational_noun *>
                                         comps:[]),
                                    cont:ind:Ind2)))],
    rels:hd:arg2:Ind2).
+
+% * Der Affe, ein Bild von dessen Kind er kennt lacht.
+% * Der Affe, ein Bild dessen Kindes er kennt lacht.
+relational_noun *>
+ (%det_noun_word
+  synsem:loc:cat:arg_st:tl:hd:nonloc:rel:[]).
+
+% * Der Affe, ein Bild von dessen Kind er kennt lacht.
+% * Der Affe, ein Bild dessen Kindes er kennt lacht.
+relational_noun *>
+ (%det_noun_word
+  synsem:loc:cat:arg_st:tl:hd:nonloc:rel:[]).
 
 
 relational_noun(Case,Genus,Numerus,Relation) :=
@@ -502,8 +518,9 @@ preposition_word *>
  %non_scopal_le
  synsem:loc:cat:(head:(prep,
                        initial:plus),
-                                %          spr:[],
-                 arg_st:[ @np ] )).
+                 spr:[], % otherwise the NP may map to the SPR
+                 arg_st:[ (@np,
+                           nonloc:slash:[])] )).
 
 comp_preposition *>
  (%preposition_word,
@@ -568,7 +585,7 @@ attr_adj(Case,Num,DType,Relation) :=
 attr_np_adj *>
  (%intersective_adj
   synsem:loc:cat:arg_st:[@np(Ind2)],
-  rels:hd:arg2:Ind2).
+  rels:[arg2:Ind2]).
 
 attr_adj_np(Case,Genus,Num,DType,Relation,GCase) :=
  (attr_np_adj,

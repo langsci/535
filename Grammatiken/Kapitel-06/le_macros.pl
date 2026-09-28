@@ -403,8 +403,8 @@ attr_np_adj *>
  (%intersective_adj
   cat:arg_st:[@np(Ind2)],
   cont:(ind:Ind,
-        rels:hd:(arg1:Ind,
-                 arg2:Ind2))).
+        rels:[(arg1:Ind,
+               arg2:Ind2)])).
 
 attr_adj_np(Relation,Case) :=
  (attr_np_adj,
@@ -469,7 +469,9 @@ location_noun_mod_prep(Relation) :=
 complementizer_word *>
  (%word,
   %transparent_head_le IND und LTOP geteilt.
-  cat:(head:comp,
+  cat:(head:(comp,
+             mod:none,
+             spec:none),
        spr:[],
        arg_st:[(cat:(head:(verb,
                            vform:fin),

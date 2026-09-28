@@ -87,6 +87,12 @@ graphviz_option(svg,'sleep 0.1; open').
 :- scope_mrs.
 
 
+% If a description that should be used for generation is produced from a chart edge,
+% which pathes of the input sign shall be considered?
+gen_pathes([[synsem,loc,cat,head],[synsem,loc,cat,spr],[synsem,loc,cat,comps],[synsem,loc,cont],[rels],[hcons]]).
+
+syntactic_object(sign).
+
 ind_path([synsem,loc,cont,ind]).
 % Just use h1 and add a qeq to the local top. This does not have any effect in Utool.
 % gtop_path(implicit).
@@ -95,10 +101,22 @@ ind_path([synsem,loc,cont,ind]).
 gtop_path(none).
 
 ltop_path([synsem,loc,cont,ltop]).
-
 cont_path([synsem,loc,cont]).
 liszt_path([rels]).
 hcons_path([hcons]).
+
+% Generator: Die Verbspur bezieht Valenz und Semantik von einem ausgewaehlten
+% Verb (auch einer Wortkoordination). Sie verbraucht dessen Relationen nicht
+% ein zweites Mal. Die Quellbeschreibung entspricht der Tochter der V1-Regel.
+generator_empty_anchor([synsem,loc,cat,head,dsl],[synsem,loc],
+                       (synsem:(loc:cat:head:(verb,initial:minus),
+                                phrase:minus,trace:minus))).
+
+% Extraktionsspuren erhalten ihren LOC-Wert vom ausgewaehlten Filler.
+% Das gilt auch fuer eine PP innerhalb einer NP (z.B. "von dessen Kind").
+generator_empty_anchor([synsem,loc],[synsem,loc],
+                       (synsem:(loc:cat:(spr:[],comps:[]),
+                                nonloc:(slash:[],rel:ne_list),trace:minus))).
 
 outscoped_feat(larg).
 sc_arg_feat(harg).

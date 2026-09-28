@@ -417,6 +417,7 @@ bot
   qeq harg:handle larg:handle
   pform
     an_pform
+    von_pform
   per
     second_or_third
       third

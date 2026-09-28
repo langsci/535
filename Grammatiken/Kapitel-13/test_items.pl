@@ -23,8 +23,8 @@ t(20,"Jeder Affe glaubt, dass ein Einhorn schläft.",@decl,1,'Kapitel 5: Semanit
 t(21,"Aicke schläft.",@decl,1,'Kapitel 5: Semanitk, Skopus').
 t(22,"Er schläft.",@decl,1,'Kapitel 5: Semanitk, Skopus').
 t(23,"der Tofu der Speisekammer in",@root,0,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-t(24,"dass das Kind dem Affen den Stock gibt",@root,1,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-t(25,"dass das Kind den Stock dem Affen gibt",@root,1,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+t(24,"dass das Kind dem Affen den Stock gibt",@cp_root,1,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+t(25,"dass das Kind den Stock dem Affen gibt",@cp_root,1,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 t(26,"Schläft er?",@interrog,1,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 t(27,"Lacht das Kind oft?",@interrog,1,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 t(28,"Lacht das Kind oft nicht?",@interrog,1,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
@@ -46,10 +46,10 @@ t(38,"Gibt der Affe lacht und dem Kind den Stock?",@interrog,0,'Kapitel 8: Argum
 % Spielt das Kind [spielt und lacht]. mit [spielt und lacht] statt Spur.
 t(39,"Spielt das Kind spielt und lacht?",@interrog,0,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 
-t(40,"dass das Kind dem Affen den Stock morgen gibt",@root,1,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-t(41,"dass das Kind dem Affen morgen den Stock gibt",@root,1,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-t(42,"dass das Kind morgen dem Affen den Stock gibt",@root,1,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-t(43,"dass morgen das Kind dem Affen den Stock gibt",@root,1,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+t(40,"dass das Kind dem Affen den Stock morgen gibt",@cp_root,1,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+t(41,"dass das Kind dem Affen morgen den Stock gibt",@cp_root,1,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+t(42,"dass das Kind morgen dem Affen den Stock gibt",@cp_root,1,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+t(43,"dass morgen das Kind dem Affen den Stock gibt",@cp_root,1,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 t(44,"Mann der",@root,0,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 t(45,"der Speisekammer in",@root,0,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 t(46,"das Kind kluge",@root,0,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
@@ -84,6 +84,9 @@ t(64,"Der Affe, der Affe schläft, lacht",@root,0,'Kapitel 10: Relativsätze').
 t(65,"Der Affe, der den Stock, lacht",@root,0,'Kapitel 10: Relativsätze').
 t(66,"Der Affe, dessen Stock und dessen Roman ich kenne, schläft.",@decl,1,'Kapitel 10: Relativsätze').
 t(67,"Der Affe, von dessen Kind er ein Bild kennt, lacht.",@decl,1,'Kapitel 10: Relativsätze').
+t(68,"Der Affe, ein Bild von dessen Kind er kennt lacht.",@root,0,'Kapitel 10: Relativsätze').
+t(69,"Der Affe, ein Bild dessen Kindes er kennt lacht.",@root,0,'Kapitel 10: Relativsätze').
+t(70,"Der Affe, dessen Kind er ein Bild von kennt lacht.",@root,0,'Kapitel 10: Relativsätze').
 
 
 t(68,"Ich schlafe.",@decl,1,'Kapitel 12: Kongruenz').

@@ -372,7 +372,7 @@ preposition_word *>
  %non_scopal_le
  loc:cat:(head:(prep,
                 initial:plus),
-%          spr:[],
+          spr:[], % otherwise the NP may map to the SPR
           arg_st:[ @np ] )).
 
 comp_preposition *>
@@ -417,7 +417,7 @@ attr_adj(Relation) :=
 attr_np_adj *>
  (%intersective_adj
   loc:cat:arg_st:[@np(Ind2)],
-  rels:hd:arg2:Ind2).
+  rels:[arg2:Ind2]).
 
 attr_adj_np(Relation,Case) :=
  (attr_np_adj,

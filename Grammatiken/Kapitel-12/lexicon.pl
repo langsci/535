@@ -11,7 +11,7 @@
 
 :- multifile '--->'/2.
 
-das ---> @det(nom_or_acc,sg,mas_or_neu,strong,def_q).
+das ---> @det(nom_or_acc,sg,neu,strong,def_q).
 
 
 der ---> @det(nom,sg,mas,strong,def_q).

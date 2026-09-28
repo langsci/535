@@ -15,7 +15,7 @@
     abort).
 
 % für [incr TSDB()]
-grammar_version('Lehrbuchgrammatik Kapitel 4').
+grammar_version('Lehrbuchgrammatik Kapitel 5').
 
 
 % Load phonology and tree output
@@ -55,6 +55,17 @@ signature(signature).
 % load a sequence that is executed after the grammar is loaded
 :- ['../Gemeinsames/common.pl'].
 
+% load the generator, see setup.pl for configuration
+% SICStus 3.0
+%:- ['../Gemeinsames/generator'].
+
+% SICStus 4.0
+:- ['../Gemeinsames/generator4'].
+
+
+% p_and_g("Der Affe schläft.",@decl).
+
+
 
 examples(['  Der Affe schläft.',
           '  Der angeblich kleine Affe schläft.',
@@ -63,6 +74,7 @@ examples(['  Der Affe schläft.',
           '  der Affe das Kind kennt',
           '  der Affe an das Kind denkt',
           '  Jede Tochter eines Mitarbeiters schläft.']).
+
 
 
 

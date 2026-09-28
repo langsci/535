@@ -64,6 +64,15 @@ signature(signature).
 % load a sequence that is executed after the grammar is loaded
 :- ['../Gemeinsames/common.pl'].
 
+% load the generator, see setup.pl for configuration
+% SICStus 3.0
+%:- ['../Gemeinsames/generator'].
+
+% SICStus 4.0
+:- ['../Gemeinsames/generator4'].
+
+% p_and_g("Schläft der Affe?",@interrog).
+
 
 examples(['  Der Affe schläft.',
           '  Der angeblich kleine Affe schläft.',

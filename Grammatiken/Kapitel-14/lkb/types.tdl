@@ -392,7 +392,7 @@ string := bot.
 pform := bot.
 
 an_pform  := pform.
-
+von_pform := pform.
 
 vform   := bot.
 fin     := vform.

@@ -67,6 +67,11 @@ graphviz_option(svg,'sleep 0.1; open').
 % send MRSes to utool for scoping
 :- scope_mrs.
 
+% If a description that should be used for generation is produced from a chart edge,
+% which pathes of the input sign shall be considered?
+gen_pathes([[loc,cat,head],[loc,cat,spr],[loc,cat,comps],[loc,cont]]).
+
+syntactic_object(sign).
 
 ind_path([loc,cont,ind]).
 % Just use h1 and add a qeq to the local top. This does not have any effect in Utool.
@@ -85,3 +90,11 @@ sc_arg_feat(harg).
 scopable_description([@decl,@interrog,@ass_or_imp]).
 
 quantifiers([udef_q,def_q,some_q,demonstrative_q,proper_q]).
+
+
+% Generator: Die Verbspur bezieht Valenz und Semantik von einem ausgewaehlten
+% Verb (auch einer Wortkoordination). Sie verbraucht dessen Relationen nicht
+% ein zweites Mal. Die Quellbeschreibung entspricht der Tochter der V1-Regel.
+generator_empty_anchor([loc,cat,head,dsl],[loc],
+                       (phrase:minus,trace:minus,
+                        loc:cat:head:(verb,initial:minus))).

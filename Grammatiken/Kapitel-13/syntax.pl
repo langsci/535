@@ -347,13 +347,14 @@ rc *>
 
 /*
 cp_to_np *>
- (synsem:loc:(cat:(head:(noun,
-                         mod:none),
-                   spr:[],
-                   comps:[]),
-              cont:(ind:(Ind,
-                         index),
-                    ltop:LTop)),
+ (synsem:(loc:(cat:(head:(noun,
+                          mod:none),
+                    spr:[],
+                    comps:[]),
+               cont:(ind:(Ind,
+                          index),
+                     ltop:LTop)),
+          nonloc:Nonloc),
 %     rels:[(udef_q,
      %        arg0:Ind,
      %        rstr:Restr),(lbl:LTop,
@@ -366,26 +367,35 @@ cp_to_np *>
                            spr:[],
                            comps:[]),
                       cont:ltop:LTop)),
-%                 nonloc:(rel:[],
+%                 nonloc:(Nonloc,
+%                         rel:[],
 %                         slash:[])),
          rels:Rels,
          hcons:HCons)]).
 
 */
 
+
 cp_to_np *>
- (synsem:loc:(cat:(head:(noun,
-                         mod:none),
-                   spr:[],
-                   comps:[]),
-              cont:(ind:(Ind,
-                         index),
-                    ltop:LTop)),
+ (synsem:(loc:(cat:(head:(noun,
+                          mod:none),
+                    spr:[],
+                    comps:[]),
+               cont:(ind:(Ind,
+                          index,
+                          per:third,
+                          num:sg,
+                          gen:neu),
+                     ltop:LTop)),
+          nonloc:Nonloc),
   dtrs:[(phon:ne_list,
          synsem:(loc:(cat:(head:(comp,
                                  cform:dass),
                            spr:[],
-                           comps:[]))))]).
+                           comps:[])),
+                 nonloc:(Nonloc,
+                         rel:[],
+                         slash:[])))]).
 
 
 % Kasusprinzip
@@ -419,6 +429,10 @@ root :=
                   spr:[],
                   comps:[]),
          nonloc:slash:[]).
+
+cp_root :=
+ (@root,
+  synsem:loc:cat:head:comp).
 
 initial_fin_verb :=
  (@root,

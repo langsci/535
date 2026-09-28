@@ -11,8 +11,7 @@
 
 :- multifile '--->'/2.
 
-das ---> @det(nom_or_acc,sg,mas_or_neu,strong,def_q).
-
+das ---> @det(nom_or_acc,sg,neu,strong,def_q).
 
 der ---> @det(nom,sg,mas,strong,def_q).
 
@@ -525,7 +524,7 @@ haben ---> @perfect_aux_verb(bse).
 
 
 an  ---> @comp_prep(an_pform,acc).
-von ---> @comp_prep(an_pform,dat).
+von ---> @comp_prep(von_pform,dat).
 
 
 in ---> @location_noun_mod_prep(in_rel).

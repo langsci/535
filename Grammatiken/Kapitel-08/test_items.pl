@@ -56,3 +56,9 @@ t(46,"das Kind kluge",@root,0,'Kapitel 8: Argument- und Adjunktstellung im Mitte
 t(47,"die in der Speisekammer Wurst",@root,0,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 t(48,"dass Aicke den Stock gibt ihm",@root,0,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 t(49,"dass das Kind den Roman",@root,0,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+
+
+
+
+tg(1,"Lacht der Affe?",@interrog).
+tg(2,"Kennt jede Frau und jeder Mann ein Buch?",@interrog).

@@ -189,7 +189,7 @@ glaubt ---> @glauben_denken_verb(glauben_rel).
 
 
 an  ---> @comp_prep(an_pform,acc).
-von ---> @comp_prep(an_pform,dat).
+von ---> @comp_prep(von_pform,dat).
 
 
 in ---> @location_noun_mod_prep(in_rel).
