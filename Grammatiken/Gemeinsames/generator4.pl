@@ -90,6 +90,7 @@
 
 :- use_module(library(system), [datime/1]).
 :- use_module(library(file_systems), [file_exists/1]).
+:- [generator_grale].
 :- dynamic agenda/1.
 :- dynamic debug/1.
 :- dynamic dbi/2.
@@ -396,7 +397,7 @@ addToChartCopy(edge(A,B,C,D,E,F)) :-
 %--------------------------------------------------------------------------------
 addToAgenda(edge(A,B,C,D,E,F)) :-
             (
-             ( F == [] -> gen_set_phon(D,C) ; true ),
+             ( F == [] -> gen_set_phon(D,C), gen_complete_node(D,C,E) ; true ),
              gen_save(a_edge,edge(A,B,C,D,E,F)),
                 (   F=[]
 -> (dotMovementCheck(edge(A,B,C,D,E,F));true)
@@ -502,7 +503,7 @@ udListReOrder([FS1|L],L2) :-
 %--------------------------------------------------------------------------------
 isAWordSRels(Word,Tag-SVs,Word_Bag,TagOut2-Vert) :-
 lex(Word,Tag),
-   SVs=bot,
+   SVs=gen_node(lexicon,[Word],[]),
    check_syntactic_object(Tag-SVs),
    gen_set_phon(Tag-SVs,[Word]),
    liszt_path(L),
@@ -598,7 +599,7 @@ rebuild_chart2:-
 %--------------------------------------------------------------------------------
 %To retrieve grammar rules from the grammar
 %--------------------------------------------------------------------------------
-grRule(Name,TagMoth-bot,DtrsList) :-
+grRule(Name,TagMoth-gen_node(Name,_,_),DtrsList) :-
  clause(alec_rule(Name,DtrsDesc,_,Moth,Residue,_,_,_,_),true),
    call(Residue),
    satisfy_dtrs(DtrsDesc,_DtrCats,[],NativeDtrs,gdone),
@@ -934,7 +935,7 @@ slgGenEdgeProc(edge(_,W_Bag,Words,Tag-SVs,_,[]),AllBits,Words,_Ref,_SVs2) :-
    startSymbol(Tag-SVs),
    add_words(Words),
    residuate_term(Tag,Frozen),
-   (gen_portray_fs(Words,Tag,Frozen) -> true
+   (gen_portray_result(Tag-SVs,Frozen) -> true
     ; nl, ttyflush,
       gen_pp_fs_res(Tag,SVs,Frozen), nl
    ),
@@ -1400,12 +1401,12 @@ parse_count_incr:-
         assert(parse_count(M)).
 
 
-% SP4 interface.  Chart categories retain the historical FS-bot pair layout;
-% the first component is now a native TRALE feature structure, not an SP3 tag.
+% SP4 interface.  Categories pair a native FS with generator derivation metadata.
+% Description placeholders and semantic vertices use bot in the second slot.
 % No compatibility predicates are installed in TRALE's own namespace.
 gen_add_to(Desc,FS,bot) :- add_to(Desc,FS).
 gen_deref(FS,_SVs,FS,bot).
-gen_fully_deref(FS,_SVs,FS,bot).
+gen_fully_deref(FS,Node,FS,Node).
 gen_ud(FS1-_,FS2-_) :- FS1=FS2.
 gen_ud(FS1,_,FS2,_) :- FS1=FS2.
 gen_pathval(Path,FS,_SVs,Value,bot) :-
@@ -1437,8 +1438,8 @@ cc_edge(A,B,C,D,E,F) :- gen_load(cc_edge,edge(A,B,C,D,E,F)).
 mod_grRule(Name,Moth,Dtrs) :- gen_load(mod_grRule,rule(Name,Moth,Dtrs)).
 non_mod_grRule(Name,Moth,Dtrs) :- gen_load(non_mod_grRule,rule(Name,Moth,Dtrs)).
 
-% Generated structures have no parser-chart edge ID.  Display the structure
-% directly instead of passing a fictitious ID to SP4's portray_cat/5.
+% The initial specification has no derivation.  Display its AVM directly;
+% completed results use gen_portray_result/2 and their recorded derivation.
 gen_portray_fs(Title,FS,Residue) :-
    current_predicate(grale_flag,grale_flag),
    grale_flag,
@@ -1446,9 +1447,10 @@ gen_portray_fs(Title,FS,Residue) :-
    grisu_pp_fs_res(FS,Residue,_,0),
    clear_title.
 
-% The chart's word list is extralogical.  Put it on every lexical or completed
-% phrasal FS before storage so both AVMs and DTRS-based tree labels have PHON.
-% Respect the grammar's feature name and leave grammars without it supported.
+% Populate PHON only when the existing signature makes it list-valued on
+% this FS's type.  A declaration on an unrelated type (e.g. affix) is not
+% sufficient.  Never extend the signature or promote the FS to introduce PHON.
+% Respect phon_feat/1 when the grammar uses a different feature name.
 gen_set_phon(FS-_,Words) :-
    phon_feat_(Feat),
    deref(FS,_,Type,_),
@@ -1461,3 +1463,33 @@ gen_set_phon(FS-_,Words) :-
 gen_phon_description([],[]).
 gen_phon_description([Word|Words],[(a_ Word)|Phon]) :-
    gen_phon_description(Words,Phon).
+
+% Derivation metadata belongs to generator edges, never to the grammar's FS.
+% Retain it together with the FS through chart storage, copying and dot movement.
+gen_complete_node(_FS-gen_node(_Rule,Words,Daughters),Words,Daughters).
+
+gen_portray_result(Category,Residue) :-
+   current_predicate(grale_flag,grale_flag),
+   grale_flag,
+   !,
+   % Never fall back to pp_fs_res while Grale is active: its graphical hooks
+   % would send bare AVM fragments, without !newdata framing or a tree.
+   ( gen_display_tree(Category,Tree,TreeFSs,[]),
+     Category=FS-_,
+     gen_grale_derivation(Tree,TreeFSs,FS,Residue)
+   -> true
+   ; throw(error(generator_graphical_output_failed,gen_portray_result/2))
+   ).
+
+gen_display_tree(FS-gen_node(Rule,Words,Daughters),
+                 tree(Label,Words,FS,_Reentrant,SubTrees),[FS|FSs],Rest) :-
+   % Use the same rule:substring labels as the parser, even without PHON.
+   name(Rule,RuleChars),
+   list_to_double_quoted_string(Words,[34|WordChars]),
+   append([34|RuleChars],[58|WordChars],Label),
+   gen_display_daughters(Daughters,SubTrees,FSs,Rest).
+
+gen_display_daughters([],[],FSs,FSs).
+gen_display_daughters([Daughter|Daughters],[Tree|Trees],FSs,Rest) :-
+   gen_display_tree(Daughter,Tree,FSs,Mid),
+   gen_display_daughters(Daughters,Trees,Mid,Rest).
