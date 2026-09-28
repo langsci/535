@@ -513,7 +513,9 @@ lex(Word,Tag),
    -> fail
    ;  (
        gen_pathval(L,Tag,SVs,TagOut1,SVsOut1),
-       getListFromFS(TagOut1,SVsOut1,Word_Bag),
+       catch(getListFromFS(TagOut1,SVsOut1,Word_Bag),
+             error(generator_list(Problem),getListFromFS/3),
+             throw(error(generator_list(Problem),lexical_rels(Word,L)))),
        ind_path(M),
        gen_pathval(M,Tag,SVs,TagOut2,Vert))).
 
@@ -567,14 +569,29 @@ getRelsFromRef(Tag,SVs,Ref2,SVs2) :-
 %--------------------------------------------------------------------------------
 %List is the prolog list corresponding to the ale-list Tag-SVs
 %--------------------------------------------------------------------------------
-getListFromFS(FS,_SVs,[]) :-
-   deref(FS,_,e_list,_), !.
+getListFromFS(FS,SVs,List) :-
+   gen_read_closed_list(FS,SVs,List,[]).
 
-getListFromFS(Tag,SVs,[X-SVs1|L]) :-
-   gen_pathval([hd],TagOut,SVsOut,X,SVs1),
-   gen_pathval([tl],TagOut,SVsOut,Tag2,SVs2),
-   gen_deref(Tag,SVs,TagOut,SVsOut),
-   getListFromFS(Tag2,SVs2,L).
+% Read an existing finite list, rather than creating its spine with pathval.
+% On an open tail, looking up HD/TL would force another ne_list indefinitely.
+% Test the actual FS first, and preserve all its element sharing/constraints.
+gen_read_closed_list(FS,SVs,List,Seen) :-
+   deref(FS,_,Type,_),
+   ( gen_list_seen(FS,Seen)
+   -> throw(error(generator_list(cyclic),getListFromFS/3))
+   ; Type \== 0, sub_type(e_list,Type)
+   -> List=[]
+   ; Type \== 0, sub_type(ne_list,Type)
+   -> List=[Head-HeadSVs|Rest],
+      gen_pathval([hd],FS,SVs,Head,HeadSVs),
+      gen_pathval([tl],FS,SVs,Tail,TailSVs),
+      gen_read_closed_list(Tail,TailSVs,Rest,[FS|Seen])
+   ; length(Seen,Position),
+     throw(error(generator_list(open_tail(Position,Type)),getListFromFS/3))
+   ).
+
+gen_list_seen(FS,[Seen|_]) :- FS == Seen, !.
+gen_list_seen(FS,[_|Seen]) :- gen_list_seen(FS,Seen).
 
 %--------------------------------------------------------------------------------
 %to rebuild the chart from the chart copy
