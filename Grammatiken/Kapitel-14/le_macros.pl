@@ -717,7 +717,8 @@ preposition_word *>
  synsem:loc:cat:(head:(prep,
                        initial:plus),
                  spr:[], % otherwise the NP[lex] may map to the SPR
-                 arg_st:[ @np_lex ] )).
+                 arg_st:[ (@np_lex,
+                           nonloc:slash:[]) ] )).
 
 comp_preposition *>
  (%preposition_word,
