@@ -103,6 +103,7 @@
 :- dynamic u_modRules/1.
 :- dynamic u_modCats/1.
 :- dynamic gen_words/1.
+:- dynamic gen_test_quiet/0.
 
 :- dynamic u_syntactic_object/1, seta/1, toggleModification/1.
 :- dynamic u_gen_root/1, output_query/1, parsed_words/1, parse_count/1.
@@ -1367,10 +1368,12 @@ ruleInvocation(edge(V,W_B,Words,Cat,_Found,[])) :-
 %(more than one Cat left:
 %in this case, the new vertex comes from the next Cat needed)
 %--------------------------------------------------------------------------------
+% An overt constituent may contribute no EPs (e.g. a personal pronoun).
+% It must still be allowed to combine with an anchored empty daughter.
 dotMovement(edge(V,W_B,Words,Cat,Found,[Kind>FS1,Kind2>FS2|Cats])) :-
    (  gen_disjoint_edge(c_edge,W_B,FS1,edge(V1,W_B1,Words1,Ref1-SVs1,_Found1,[]))
    ;  gen_disjoint_edge(a_edge,W_B,FS1,edge(V1,W_B1,Words1,Ref1-SVs1,_Found1,[]))
-   ;  W_B > 0, gen_empty_edge_for(FS1,V1,W_B1,Words1,Ref1-SVs1,_Found1,[])),
+   ;  Words=[_|_], gen_empty_edge_for(FS1,V1,W_B1,Words1,Ref1-SVs1,_Found1,[])),
 gen_ud(V,V1),
    ((Kind=cats) -> copyFS(FS1,CopyFS1) ; true),
    gen_ud(Ref1-SVs1,FS1),
@@ -1399,7 +1402,7 @@ instanciate_dtrs(N,Cat,Ref1-SVs1),
 dotMovement(edge(V,W_B,Words,Cat,Found,[Kind>FS1])) :-
    (  gen_disjoint_edge(c_edge,W_B,FS1,edge(V1,W_B1,Words1,Ref1-SVs1,_Found1,[]))
    ;  gen_disjoint_edge(a_edge,W_B,FS1,edge(V1,W_B1,Words1,Ref1-SVs1,_Found1,[]))
-   ;  W_B > 0, gen_empty_edge_for(FS1,V1,W_B1,Words1,Ref1-SVs1,_Found1,[])),
+   ;  Words=[_|_], gen_empty_edge_for(FS1,V1,W_B1,Words1,Ref1-SVs1,_Found1,[])),
    gen_ud(V,V1),
    ((Kind=cats) -> copyFS(FS1,CopyFS1) ; true),
    gen_ud(Ref1-SVs1,FS1),
@@ -1591,7 +1594,7 @@ testga(N,File):-
 testg2(N,File,Mode):-
         call(
         (
-         tg(N,Ws,R),
+         gen_legacy_test_item(N,Ws,R),
          set_parsed_words(Ws),
          p_and_g_no_query(Ws,N,R),
          gen_words(L),
@@ -1851,6 +1854,7 @@ gen_phon_description([Word|Words],[(a_ Word)|Phon]) :-
 % Retain it together with the FS through chart storage, copying and dot movement.
 gen_complete_node(_FS-gen_node(_Rule,Words,Daughters),Words,Daughters).
 
+gen_portray_result(_,_) :- gen_test_quiet, !.
 gen_portray_result(Category,Residue) :-
    current_predicate(grale_flag,grale_flag),
    grale_flag,
@@ -1876,3 +1880,50 @@ gen_display_daughters([],[],FSs,FSs).
 gen_display_daughters([Daughter|Daughters],[Tree|Trees],FSs,Rest) :-
    gen_display_tree(Daughter,Tree,FSs,Mid),
    gen_display_daughters(Daughters,Trees,Mid,Rest).
+
+
+% Batch-test adapter: retain every generated derivation, including repeated
+% word sequences, and collect results from every parse (gen_words is reset
+% by each generation). No FS displays or interactive questions in this mode.
+generator_test_results(Input,Root,Words,ParseCount) :-
+   ale_flag(another,OldLimit),
+   findall(R,u_gen_root(R),OldRoots),
+   findall(Q,output_query(Q),OldQueries),
+   (gen_test_quiet -> OldQuiet=yes ; OldQuiet=no),
+   current_output(OldOutput),open_null_stream(QuietOutput),
+   call_cleanup(
+     once(( ale_flag(another,_,0),
+       (OldQuiet=yes -> true ; assert(gen_test_quiet)),
+       set_output(QuietOutput),
+       gen_test_tokenize(Input,Tokens),
+       findall(Generated,
+         (rec(Tokens,Parsed,Root,_Residue),
+          gen_project_semantics(Parsed,Semantics),
+          once(slgGen(Semantics,bot,Generated,Root,no_query))),PerParse),
+       length(PerParse,ParseCount),gen_test_append(PerParse,Words)
+     )),
+     ( set_output(OldOutput),close(QuietOutput),
+       (OldQuiet=no -> retractall(gen_test_quiet) ; true),
+       ale_flag(another,_,OldLimit),
+       retractall(u_gen_root(_)),gen_test_restore_roots(OldRoots),
+       retractall(output_query(_)),gen_test_restore_queries(OldQueries)
+     )).
+
+gen_test_tokenize(Input,Tokens) :-
+   (atom(Input) -> atom_codes(Input,Codes),
+                  general_tokenize_sentence_string(Codes,Tokens,_)
+   ; Input=[First|_],integer(First)
+   -> general_tokenize_sentence_string(Input,Tokens,_)
+   ; Tokens=Input).
+gen_test_append([],[]).
+gen_test_append([First|Rest],All) :-
+   append(First,Tail,All),gen_test_append(Rest,Tail).
+gen_test_restore_roots([]).
+gen_test_restore_roots([R|Rs]) :- assert(u_gen_root(R)),gen_test_restore_roots(Rs).
+gen_test_restore_queries([]).
+gen_test_restore_queries([Q|Qs]) :- assert(output_query(Q)),gen_test_restore_queries(Qs).
+
+% Keep the older, verbose testg/testgw interface working with counted items.
+gen_legacy_test_item(N,Words,Root) :- fail_if_undefined(tg(N,Words,Root)).
+gen_legacy_test_item(N,Words,Root) :- fail_if_undefined(tg(N,Words,Root,_)).
+gen_legacy_test_item(N,Words,Root) :- fail_if_undefined(tg(N,Words,Root,_,_)).
