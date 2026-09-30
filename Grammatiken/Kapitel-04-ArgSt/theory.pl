@@ -31,7 +31,7 @@ que_symbol(@interrog).
 :- ['../Gemeinsames/tokenization'].
 
 % specify signature file
-:- ['signature.pl'].
+signature('signature.tdl').
 
 % ale-type signature
 % :- ale_flag(msl,_,off). % Adds glb types in SP3. 14.03.2025

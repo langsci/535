@@ -1,5 +1,5 @@
-% ALE signature declarations; TRALE supplies missing least upper bounds.
-:- ale_flag(subintro,_,grammar).
+% TDL signature input; TRALE supplies missing least upper bounds.
+:- ale_flag(subintro,_,file).
 :- ale_flag(msl,_,off).
 
 

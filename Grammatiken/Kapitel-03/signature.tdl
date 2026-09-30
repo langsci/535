@@ -1,0 +1,31 @@
+;; -*- coding: utf-8 -*-
+;; Converted from the existing TRALE signature.
+
+acc := case.
+adj := p_o_s.
+an_pform := pform.
+case := bot.
+dat := case.
+det := p_o_s.
+e_list := list.
+fin := vform.
+gen := case.
+head_adjunct_phrase := headed_phrase.
+head_complement_phrase := headed_phrase.
+head_specifier_phrase := headed_phrase.
+headed_phrase := phrase & [ HEAD_DTR sign ].
+list := bot.
+ne_list := list & [ HD bot, TL list ].
+nom := case.
+non_headed_phrase := phrase.
+none := none_or_sign.
+none_or_sign := bot.
+noun := p_o_s.
+p_o_s := bot.
+pform := bot.
+phrase := sign & [ NON_HEAD_DTRS list, DTRS list ].
+prep := p_o_s.
+sign := none_or_sign & [ PHON list, P_O_S p_o_s, MOD none_or_sign, SPR list, COMPS list ].
+verb := p_o_s.
+vform := bot.
+word := sign.

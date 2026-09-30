@@ -31,7 +31,7 @@ que_symbol(@interrog).
 :- ['../Gemeinsames/tokenization'].
 
 % specify signature file
-:- ['signature.pl'].
+signature('signature.tdl').
 
 % load lexicon
 :- [lexicon].

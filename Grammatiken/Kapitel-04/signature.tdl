@@ -1,0 +1,39 @@
+;; -*- coding: utf-8 -*-
+;; Converted from the existing TRALE signature.
+
+acc := case.
+adj := head.
+an_pform := pform.
+attr_adj := adj & intro_case_head.
+case := bot.
+comp_prep := glb_det_noun_comp_prep & prep & [ PFORM pform ].
+dat := case.
+det := glb_det_noun_comp_prep.
+e_list := list.
+fin := vform.
+gen := case.
+glb_det_noun_comp_prep := intro_case_head & non_modifier.
+head := bot & [ MOD none_or_sign ].
+head_adjunct_phrase := head_non_complement_phrase & head_non_specifier_phrase.
+head_complement_phrase := head_non_specifier_phrase.
+head_non_complement_phrase := headed_phrase.
+head_non_specifier_phrase := headed_phrase.
+head_specifier_phrase := head_non_complement_phrase.
+headed_phrase := phrase & [ HEAD_DTR sign ].
+intro_case_head := head & [ CASE case ].
+list := bot.
+mod_prep := prep.
+ne_list := list & [ HD bot, TL list ].
+nom := case.
+non_headed_phrase := phrase.
+non_modifier := head & [ MOD none ].
+none := none_or_sign.
+none_or_sign := bot.
+noun := glb_det_noun_comp_prep.
+pform := bot.
+phrase := sign & [ NON_HEAD_DTRS list, DTRS list ].
+prep := head.
+sign := none_or_sign & [ PHON list, HEAD head, SPR list, COMPS list ].
+verb := non_modifier & [ VFORM vform ].
+vform := bot.
+word := sign.
