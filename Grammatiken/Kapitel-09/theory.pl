@@ -32,7 +32,7 @@ imp_symbol(@imp).
 :- ['../Gemeinsames/tokenization'].
 
 % specify signature file
-signature(signature).
+:- ['signature.pl'].
 
 % macros for the lexicon
 :- [le_macros].

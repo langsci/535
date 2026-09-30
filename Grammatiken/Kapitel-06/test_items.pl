@@ -22,3 +22,9 @@ t(19,"der Affe wahrscheinlich schläft.",@decl,1,'Kapitel 5: Semanitk, Skopus').
 t(20,"Jeder Affe glaubt, dass ein Einhorn schläft.",@decl,1,'Kapitel 5: Semanitk, Skopus').
 t(21,"Aicke schläft.",@decl,1,'Kapitel 5: Semanitk, Skopus').
 t(22,"Er schläft.",@decl,1,'Kapitel 5: Semanitk, Skopus').
+
+
+% Generierungstests: tg(Nummer,Eingabe,Startsymbol,AnzahlAbleitungen,Kommentar).
+% testgt(all). / testgt(Nummer). / testgt([Von,Bis]).
+% Gleiche Wortfolgen werden je Ableitung gezaehlt, ueber alle Eingabeanalysen.
+tg(1,"Der Affe schläft.",@decl,2,'Grundfall').

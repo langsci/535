@@ -149,7 +149,22 @@ t(126,"Die kleine Kinder schlafen.",@decl,0,'Kapitel 12: Kongruenz').
 t(127,"Kleinen Kinder schlafen.",@decl,0,'Kapitel 12: Kongruenz').
 
 
-tg(1,"Lacht der Affe?",@interrog).
-tg(2,"Kennt jede Frau und jeder Mann ein Buch?",@interrog).
-tg(3,"Jede Frau und jeder Mann kennt ein Buch.",@decl).
-tg(4,"Der Affe, von dessen Kind er ein Bild kennt, lacht.",@decl).
+tg(1,"Lacht der Affe?",@interrog,2,'Generierung').
+tg(2,"Kennen jede Frau und jeder Mann ein Buch?",@interrog,16,'Generierung').
+tg(3,"Jede Frau und jeder Mann kennen ein Buch.",@decl,8,'Generierung').
+tg(4,"Der Affe, von dessen Kind er ein Bild kennt, lacht.",@decl,2,'Generierung').
+
+
+% Generierungstests: tg(Nummer,Eingabe,Startsymbol,AnzahlAbleitungen,Kommentar).
+% testgt(all). / testgt(Nummer). / testgt([Von,Bis]).
+% Gleiche Wortfolgen werden je Ableitung gezaehlt, ueber alle Eingabeanalysen.
+
+
+
+% Generierungstests aus den vorherigen Kapiteln (unveraendert).
+tg(5,"Der Affe schläft.",@decl,1,'Aus Kapitel-09: Grundfall').
+tg(6,"Kennt jede Frau und jeder Mann ein Buch?",@interrog,16,'Aus Kapitel-11: Generierung').
+tg(7,"Schläft der Affe und das Kind?",@root,3,'Aus Kapitel-08: Nominale Koordination mit delayed constraints').
+tg(8,"Kennt und liebt das Kind den Roman?",@interrog,2,'Aus Kapitel-08: Verbale Koordination').
+tg(9,"Jede Frau und jeder Mann kennt ein Buch.",@decl,8,'Aus Kapitel-11: Generierung').
+tg(10,"Den Roman kennt er.",@decl,2,'Aus Kapitel-09: RELS/HCONS-Pfade').

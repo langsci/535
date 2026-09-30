@@ -1,3 +1,7 @@
+% ALE signature declarations; TRALE supplies missing least upper bounds.
+:- ale_flag(subintro,_,grammar).
+:- ale_flag(msl,_,off).
+
 % -*-trale-prolog-*-
 
 % feature hiding and ordering
@@ -119,9 +123,19 @@ generator_empty_anchor([synsem,loc],[synsem,loc],
                        (synsem:(loc:cat:(spr:[],comps:[]),
                                 nonloc:(slash:[],rel:ne_list),trace:minus))).
 
+% Argument attraction: anchor verbal extraction traces before projecting
+% empty clusters with an otherwise open COMPS list.
+generator_empty_anchor([synsem,loc],[synsem,loc],
+                       (synsem:(loc:cat:head:verb,
+                                nonloc:slash:[],trace:minus))).
+
+generator_valence_path([synsem,loc,cat,comps]).
+
+
 outscoped_feat(larg).
 sc_arg_feat(harg).
 scopable_description([@decl,@interrog,@ass_or_imp]).
 
 quantifiers([udef_q,def_q,some_q,demonstrative_q,proper_q]).
+
 

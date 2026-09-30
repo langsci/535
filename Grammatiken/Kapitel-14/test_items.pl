@@ -182,3 +182,28 @@ t(142,"dass Aicke den Roman wird haben lesen dürfen",@root,1,'Kapitel 14: Verba
 % t(144,"Der Frau den Aufsatz will er geben.",@decl,1,'Kapitel 14: Merhfache Vorfeldbesetzung').
 % t(145,"Der Frau der Aufsatz gibt er.",@root,0,'Kapitel 14: Merhfache Vorfeldbesetzung').
 % t(146,"Der Frau der Aufsatz will er geben.",@root,0,'Kapitel 14: Merhfache Vorfeldbesetzung').
+
+
+% Generierungstests: tg(Nummer,Eingabe,Startsymbol,AnzahlAbleitungen,Kommentar).
+% testgt(all). / testgt(Nummer). / testgt([Von,Bis]).
+% Gleiche Wortfolgen werden je Ableitung gezaehlt, ueber alle Eingabeanalysen.
+tg(1,"Er denkt an das Kind.",@decl,2,'PP-Komplement').
+tg(2,"Er muss lachen.",@decl,2,'Verbalkomplex').
+tg(3,"Er muss an das Kind denken.",@decl,6,'Verbalkomplex mit PP').
+tg(4,"Er wird lachen wollen.",@decl,2,'Mehrere Verben').
+tg(5,"Lachen muss er.",@decl,2,'PVP: Pronomen ohne eigene Relation').
+tg(6,"Lesen muss er das Buch.",@decl,5,'PVP mit Objekt').
+tg(7,"Der Affe, von dessen Kind er ein Bild kennt, lacht.",@decl,2,'Relativsatz').
+
+
+% Generierungstests aus den vorherigen Kapiteln (unveraendert).
+tg(8,"Der Affe schläft.",@decl,1,'Aus Kapitel-09: Grundfall').
+tg(9,"Lacht der Affe?",@interrog,2,'Aus Kapitel-12: Generierung').
+tg(10,"Kennt jede Frau und jeder Mann ein Buch?",@interrog,16,'Aus Kapitel-11: Generierung').
+tg(11,"Schläft der Affe und das Kind?",@root,3,'Aus Kapitel-08: Nominale Koordination mit delayed constraints').
+tg(12,"Kennt und liebt das Kind den Roman?",@interrog,2,'Aus Kapitel-08: Verbale Koordination').
+tg(13,"Jede Frau und jeder Mann kennt ein Buch.",@decl,8,'Aus Kapitel-11: Generierung').
+tg(14,"Den Roman kennt er.",@decl,2,'Aus Kapitel-09: RELS/HCONS-Pfade').
+tg(15,"Kennen jede Frau und jeder Mann ein Buch?",@interrog,16,'Aus Kapitel-12: Generierung').
+tg(16,"Jede Frau und jeder Mann kennen ein Buch.",@decl,8,'Aus Kapitel-12: Generierung').
+tg(17,"Dass Aicke lacht, freut mich.",@decl,2,'Aus Kapitel-13: Nominalisierter Satz').

@@ -72,7 +72,18 @@ t(57,"Ein Affe nimmt einen Stock und das Kind lacht.",@decl,1,'Kapitel 9: Vorfel
 
 
 
-tg(1,"Lacht der Affe?",@interrog).
-tg(2,"Kennt jede Frau und jeder Mann ein Buch?",@interrog).
+tg(1,"Lacht der Affe?",@interrog,2,'Generierung').
+tg(2,"Kennt jede Frau und jeder Mann ein Buch?",@interrog,4,'Generierung').
 
-tg(3,"Jede Frau und jeder Mann kennt ein Buch.",@decl).
+tg(3,"Jede Frau und jeder Mann kennt ein Buch.",@decl,2,'Generierung').
+
+% Generierungstests: tg(Nummer,Eingabe,Startsymbol,AnzahlAbleitungen,Kommentar).
+% testgt(all). / testgt(Nummer). / testgt([Von,Bis]).
+% Gleiche Wortfolgen werden je Ableitung gezaehlt, ueber alle Eingabeanalysen.
+tg(4,"Den Roman kennt er.",@decl,2,'RELS/HCONS-Pfade').
+tg(5,"Der Affe schläft.",@decl,1,'Zusammengesetzte leere Tochter').
+
+
+% Generierungstests aus den vorherigen Kapiteln (unveraendert).
+tg(6,"Schläft der Affe und das Kind?",@root,3,'Aus Kapitel-08: Nominale Koordination mit delayed constraints').
+tg(7,"Kennt und liebt das Kind den Roman?",@interrog,2,'Aus Kapitel-08: Verbale Koordination').

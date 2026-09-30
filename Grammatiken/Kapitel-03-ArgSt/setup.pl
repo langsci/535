@@ -1,3 +1,7 @@
+% ALE signature declarations; TRALE supplies missing least upper bounds.
+:- ale_flag(subintro,_,grammar).
+:- ale_flag(msl,_,off).
+
 % -*-  coding:utf-8; mode:trale-prolog   -*-
 
 

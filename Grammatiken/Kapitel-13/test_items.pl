@@ -153,3 +153,22 @@ t(125,"Kleinen Kinder schlafen.",@decl,0,'Kapitel 12: Kongruenz').
 
 t(126,"Dass Aicke lacht, freut mich.",@decl,1,'Kapitel 13: Kasus').
 t(127,"Dass Aicke lacht, freut er.",  @decl,0,'Kapitel 13: Kasus').
+
+
+% Generierungstests: tg(Nummer,Eingabe,Startsymbol,AnzahlAbleitungen,Kommentar).
+% testgt(all). / testgt(Nummer). / testgt([Von,Bis]).
+% Gleiche Wortfolgen werden je Ableitung gezaehlt, ueber alle Eingabeanalysen.
+tg(1,"Der Affe, von dessen Kind er ein Bild kennt, lacht.",@decl,2,'Relativsatz mit cp_to_np').
+tg(2,"Dass Aicke lacht, freut mich.",@decl,2,'Nominalisierter Satz').
+
+
+% Generierungstests aus den vorherigen Kapiteln (unveraendert).
+tg(3,"Der Affe schläft.",@decl,1,'Aus Kapitel-09: Grundfall').
+tg(4,"Lacht der Affe?",@interrog,2,'Aus Kapitel-12: Generierung').
+tg(5,"Kennt jede Frau und jeder Mann ein Buch?",@interrog,16,'Aus Kapitel-11: Generierung').
+tg(6,"Schläft der Affe und das Kind?",@root,3,'Aus Kapitel-08: Nominale Koordination mit delayed constraints').
+tg(7,"Kennt und liebt das Kind den Roman?",@interrog,2,'Aus Kapitel-08: Verbale Koordination').
+tg(8,"Jede Frau und jeder Mann kennt ein Buch.",@decl,8,'Aus Kapitel-11: Generierung').
+tg(9,"Den Roman kennt er.",@decl,2,'Aus Kapitel-09: RELS/HCONS-Pfade').
+tg(10,"Kennen jede Frau und jeder Mann ein Buch?",@interrog,16,'Aus Kapitel-12: Generierung').
+tg(11,"Jede Frau und jeder Mann kennen ein Buch.",@decl,8,'Aus Kapitel-12: Generierung').

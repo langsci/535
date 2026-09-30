@@ -29,7 +29,7 @@ que_symbol(@interrog).
 imp_symbol(@imp).
 
 % specify signature file
-signature(signature).
+:- ['signature.pl'].
 
 % macros for the lexicon
 :- [le_macros].
@@ -84,6 +84,13 @@ signature(signature).
 
 % p_and_g("Der Affe, von dessen Kind er ein Bild kennt, lacht.",@decl).
 
+% p_and_g("Lesen muss er das Buch.",@decl).
+
+
+% testgt(all).
+% testgt(5).
+% testgt([2,5]).
+% testgt(all, summary(Bestanden, Fehlgeschlagen)).
 
 examples(['  dass Aicke lachen muss',
           '  Lachen muss Aicke.',

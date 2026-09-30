@@ -29,7 +29,7 @@ que_symbol(@interrog).
 imp_symbol(@imp).
 
 % specify signature file
-signature(signature).
+:- ['signature.pl'].
 
 % macros for the lexicon
 :- [le_macros].

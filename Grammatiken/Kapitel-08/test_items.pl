@@ -60,5 +60,15 @@ t(49,"dass das Kind den Roman",@root,0,'Kapitel 8: Argument- und Adjunktstellung
 
 
 
-tg(1,"Lacht der Affe?",@interrog).
-tg(2,"Kennt jede Frau und jeder Mann ein Buch?",@interrog).
+tg(1,"Lacht der Affe?",@interrog,1,'Generierung').
+tg(2,"Kennt jede Frau und jeder Mann ein Buch?",@interrog,2,'Generierung').
+
+% Generierungstests: tg(Nummer,Eingabe,Startsymbol,AnzahlAbleitungen,Kommentar).
+% testgt(all). / testgt(Nummer). / testgt([Von,Bis]).
+% Gleiche Wortfolgen werden je Ableitung gezaehlt, ueber alle Eingabeanalysen.
+tg(3,"Schläft der Affe und das Kind?",@root,3,'Nominale Koordination mit delayed constraints').
+tg(4,"Kennt und liebt das Kind den Roman?",@interrog,2,'Verbale Koordination').
+
+
+% Generierungstests aus den vorherigen Kapiteln (unveraendert).
+tg(5,"Der Affe schläft.",@decl,2,'Aus Kapitel-06: Grundfall').

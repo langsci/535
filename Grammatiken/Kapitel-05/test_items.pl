@@ -60,3 +60,8 @@ t(31,"Eine Tochter eines Mitarbeiters kennt einen Affen.",1).
 ts(34,"Eine Tochter eines Mitarbeiters kennt einen Affen.",@decl,1,[1]).
 
 */
+
+% Generierungstests: tg(Nummer,Eingabe,Startsymbol,AnzahlAbleitungen,Kommentar).
+% testgt(all). / testgt(Nummer). / testgt([Von,Bis]).
+% Gleiche Wortfolgen werden je Ableitung gezaehlt, ueber alle Eingabeanalysen.
+tg(1,"Der Affe schläft.",@decl,6,'Grundfall').

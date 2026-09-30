@@ -89,7 +89,20 @@ t(69,"Der Affe, ein Bild dessen Kindes er kennt, lacht.",@root,0,'Kapitel 10: Re
 t(70,"Der Affe, dessen Kind er ein Bild von kennt, lacht.",@root,0,'Kapitel 10: Relativsätze').
 
 
-tg(1,"Lacht der Affe?",@interrog).
-tg(2,"Kennt jede Frau und jeder Mann ein Buch?",@interrog).
-tg(3,"Jede Frau und jeder Mann kennt ein Buch.",@decl).
-tg(4,"Der Affe, von dessen Kind er ein Bild kennt, lacht.",@decl).
+tg(1,"Lacht der Affe?",@interrog,2,'Generierung').
+tg(2,"Kennt jede Frau und jeder Mann ein Buch?",@interrog,16,'Generierung').
+tg(3,"Jede Frau und jeder Mann kennt ein Buch.",@decl,8,'Generierung').
+tg(4,"Der Affe, von dessen Kind er ein Bild kennt, lacht.",@decl,4,'Generierung').
+
+
+% Generierungstests: tg(Nummer,Eingabe,Startsymbol,AnzahlAbleitungen,Kommentar).
+% testgt(all). / testgt(Nummer). / testgt([Von,Bis]).
+% Gleiche Wortfolgen werden je Ableitung gezaehlt, ueber alle Eingabeanalysen.
+
+
+
+% Generierungstests aus den vorherigen Kapiteln (unveraendert).
+tg(5,"Der Affe schläft.",@decl,1,'Aus Kapitel-09: Grundfall').
+tg(6,"Schläft der Affe und das Kind?",@root,3,'Aus Kapitel-08: Nominale Koordination mit delayed constraints').
+tg(7,"Kennt und liebt das Kind den Roman?",@interrog,2,'Aus Kapitel-08: Verbale Koordination').
+tg(8,"Den Roman kennt er.",@decl,2,'Aus Kapitel-09: RELS/HCONS-Pfade').

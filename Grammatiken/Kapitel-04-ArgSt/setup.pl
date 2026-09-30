@@ -1,3 +1,7 @@
+% ALE signature declarations; TRALE supplies missing least upper bounds.
+:- ale_flag(subintro,_,grammar).
+:- ale_flag(msl,_,off).
+
 
 % feature hiding and ordering
 hidden_feat(dtrs).          % hide the dtrs attribute (shown by tree)
