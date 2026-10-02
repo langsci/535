@@ -446,9 +446,8 @@ initAgenda2(EPsBits,Nodes):-
    gen_lexical_rels(Word,Ref-SVs,Rels,Vert),
    Vert=_-gen_context(EPsBits,Nodes),
    gen_resolve_lexical_types(Ref,Rels),
-   retrieveEPsBitString(EPsBits,W_Bag,W_BitStr),
-   W_Bag=[_|_],
-   gen_match_lexical_rels(Rels,W_Bag),
+   gen_lexical_coverage(Rels,EPsBits,W_BitStr),
+   W_BitStr > 0,
    gen_fully_deref(Ref,SVs,RefOut,SVsOut),
    gen_save(a_edge,edge(Vert,W_BitStr,[Word],RefOut-SVsOut,[],[])),
    fail.
@@ -684,6 +683,24 @@ gen_finite_types([],_).
 gen_finite_types([Type|Types],Seen) :-
    gen_finite_type(Type,Seen),
    gen_finite_types(Types,Seen).
+
+% Match lexical relations directly against unused input occurrences. Enumerating
+% every input subset first is exponential even for a one-relation word.
+% Each selection consumes one occurrence, so delayed/open lexical lists remain
+% bounded by the input. Unification can wake constraints before the next step.
+gen_lexical_coverage(Rels,_Available,0) :-
+   add_to(e_list,Empty),
+   Rels=Empty.
+gen_lexical_coverage(Rels,Available,Bits) :-
+   Available=[_|_],
+   add_to(ne_list,Nonempty),
+   Rels=Nonempty,
+   gen_pathval([hd],Rels,bot,Head,bot),
+   select(bitPos(EP,Bit),Available,Rest),
+   gen_ud(Head-bot,EP),
+   gen_pathval([tl],Rels,bot,Tail,bot),
+   gen_lexical_coverage(Tail,Rest,TailBits),
+   bs_union(Bit,TailBits,Bits).
 
 % The input bag bounds traversal. Unifying each relation immediately can
 % wake lexical constraints (coord_sem) that determine the remaining list.
@@ -1290,9 +1307,11 @@ getVertex(Tag-SVs,Tag2-gen_context(_,_)):-
 %it unifies the Nth daughter of MRef-MSVs with Cat
 %--------------------------------------------------------------------------------
 instanciate_dtrs(N,MRef,MSVs,Cat) :-
-   dtrs_feat_(Feat),
-   gen_pathval([Feat],MRef,MSVs,DRef,DSVs),
-   gen_daughter_at(N,DRef,DSVs,Cat).
+   ( gen_dtrs_feature(MRef,Feat) ->
+     gen_pathval([Feat],MRef,MSVs,DRef,DSVs),
+     gen_daughter_at(N,DRef,DSVs,Cat)
+   ; true
+   ).
 
 instanciate_dtrs(N,MRef-MSVs,Cat) :-
    instanciate_dtrs(N,MRef,MSVs,Cat).
@@ -1307,9 +1326,19 @@ gen_daughter_at(N,FS,SVs,Cat) :-
    gen_daughter_at(M,Tail,TailSVs,Cat).
 
 instanciate_dtrs_end(N,MRef,MSVs) :-
+   ( gen_dtrs_feature(MRef,Feat) ->
+     gen_pathval([Feat],MRef,MSVs,DRef,DSVs),
+     gen_finish_dtrs(N,DRef,DSVs)
+   ; true
+   ).
+
+% Rule descriptions can share values with daughters without introducing DTRS
+% on the mother (e.g. inf_zu with a complex_word mother). The generator's
+% gen_node metadata still records all children; do not force an AVM feature
+% that the signature does not license. Existing DTRS constraints remain active.
+gen_dtrs_feature(FS,Feat) :-
    dtrs_feat_(Feat),
-   gen_pathval([Feat],MRef,MSVs,DRef,DSVs),
-   gen_finish_dtrs(N,DRef,DSVs).
+   get_type(FS,Type),approps(Type,Features,_),memberchk(Feat:_,Features).
 
 instanciate_dtrs_end(N,MRef-MSVs) :-
    instanciate_dtrs_end(N,MRef,MSVs).
@@ -1754,7 +1783,7 @@ gen_save(Kind,Term) :-
 gen_store_shape(edge(_,Bits,_,Cat,_,Rest),edge(Bits,State,QC)) :-
    !, (Rest==[] -> State=complete,Category=Cat
        ; State=active,Rest=[_>Category|_]),
-   Category=FS-_,gen_quick_check(FS,4,QC).
+   Category=FS-_,gen_quick_check(FS,6,QC).
 gen_store_shape(_,other).
 
 gen_query_shape(Term,_) :- var(Term), !.
@@ -1771,7 +1800,7 @@ gen_load(Kind,Term) :-
 % Scan small index records, not entire derivations. Reject overlapping
 % coverage before copying any candidate FS or waking its delayed constraints.
 gen_disjoint_edge(Kind,Used,Expected-_,Edge) :-
-   gen_quick_check(Expected,4,ExpectedQC),
+   gen_quick_check(Expected,6,ExpectedQC),
    gen_query_shape(Edge,edge(Bits,State,_)),
    gen_store_index(Kind,edge(Bits,State,QC),Ref),
    bs_disjoint(Used,Bits),
@@ -1781,6 +1810,8 @@ gen_disjoint_edge(Kind,Used,Expected-_,Edge) :-
 
 % A read-only necessary-condition check. Unknown values stay wildcards;
 % lists retain only their type, and the fixed depth bounds cyclic structures.
+% Six levels reach head features below SYNSEM.LOC.CAT and nested CASE values.
+% Skip both morphological DTR and syntactic daughter trees in this precheck.
 gen_quick_check(FS,Depth,q(Type,Features)) :-
    deref(FS,_TFS,Type,_),
    (Type==0 -> Features=[]
@@ -1791,7 +1822,7 @@ gen_quick_check(FS,Depth,q(Type,Features)) :-
       ; Features=[])).
 gen_quick_features([],_,_,[]).
 gen_quick_features([Feature:_|Rest],FS,Depth,Qs) :-
-   memberchk(Feature,[dtrs,head_dtr,non_head_dtrs]), !,
+   memberchk(Feature,[dtr,dtrs,head_dtr,non_head_dtrs]), !,
    gen_quick_features(Rest,FS,Depth,Qs).
 gen_quick_features([Feature:_|Rest],FS,Depth,[Feature-Q|Qs]) :-
    clause(fcolour(Feature,Position,_),true),
