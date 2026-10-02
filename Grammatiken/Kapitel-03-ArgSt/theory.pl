@@ -12,6 +12,8 @@
 
 % für [incr TSDB()]
 grammar_version('Lehrbuchgrammatik Kapitel 3').
+% Short label for app names in the task switcher and for Grale output titles.
+grammar_name('Kapitel 3 (ArgSt)').
 
 :- [setup].
 

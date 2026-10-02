@@ -16,6 +16,8 @@
 
 % für [incr TSDB()]
 grammar_version('Lehrbuchgrammatik Kapitel 5').
+% Short label for app names in the task switcher and for Grale output titles.
+grammar_name('Kapitel 5').
 
 
 % Load phonology and tree output
