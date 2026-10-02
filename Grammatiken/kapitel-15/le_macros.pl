@@ -22,31 +22,82 @@
 :- discontiguous fun/1.
 
 % stems and words
-overt_sign *>
+overt_le *>
  (%sign,
   synsem:(nonloc:slash:[],
           trace:minus)).
 
-overt_word *>
- (%overt_sign,
-  %word,
+overt_le *>
+ (%sign,
   phon:ne_list).
+
+
+% normale Wörter selegieren nie DSL:local-Elemente.
+% Nur über LR abgeleitete Wörter tun dies.
+% Beschränkung wird gebraucht, um die Einbettung einer
+% Verbspur unter ein Hilfs- oder Modalverb auszuschließen.
+%
+% * Der Frau den Aufsatz _v will er.
+
+overt_le *>
+  synsem:loc:cat:arg_st:list_of_non_dsl_synsems.
+
+fun list_of_non_dsl_synsems(-).
+list_of_non_dsl_synsems(L) if
+   when( (L=(e_list;ne_list)),
+         undelayed_list_of_non_dsl_synsems(L) ).
+
+undelayed_list_of_non_dsl_synsems([]) if true.
+undelayed_list_of_non_dsl_synsems([loc:cat:head:dsl:none|T]) if
+   list_of_non_dsl_synsems(T).
+
 
 % Nur Verben und adjektivische Partizipien können mit zu kombiniert
 % werden. Unflektierte Wörter sind immer ZU-.
 % ZU ist nur ein technisches Hilfsmerkmal.
-simple_word *> zu:minus.
+% alle sichtbaren Lexikonelemente außer Lexikonregeln
+overt_le *> zu:minus.
 
 non_overt_word *>
   (%empty_rel_word,
    phon:[],
    zu:minus).
 
+trace *>
+  synsem:trace:extraction_or_vm.
+
+e_trace *>
+ (%trace,
+  synsem:(loc:Loc,
+          nonloc:slash:[Loc],
+          trace:extraction)).
+
+v_trace *>
+ (%trace,
+  %non_slashed_le,
+  %spr_saturated_le
+  synsem:(loc:(cat:(head:(verb,
+                          initial:minus,
+                          subj:Subj,
+                          dsl:(cat:(head:subj:Subj,
+                                    spr:Spr,
+                                    comps:Comps,
+                                    arg_st:ArgSt),
+                               cont:Cont)),
+                    spr:Spr,
+                    comps:Comps,
+                    arg_st:ArgSt),
+                 cont:Cont),
+            trace:vm)).
+
+empty_determiner *>
+  synsem:trace:minus.
+
 empty_rel_sign *>
  (%sign,
   synsem:nonloc:rel:[]).
 
-empty_slash_sign *>
+empty_slash_le *>
  (%sign,
   synsem:nonloc:slash:[]).
 
@@ -59,7 +110,7 @@ rel_pronoun *>
 
 % complementizer_like_sign erbt hiervon.
 % V1-Regel und Komplementierer.
-spr_saturated_sign *>
+spr_saturated_le *>
   synsem:loc:cat:spr:[].
 
 saturated_word *>
@@ -545,12 +596,38 @@ undelayed_list_of_non_complex_forming_synsems([(@non_complex_forming_synsem)|T])
    list_of_non_complex_forming_synsems(T).
 
 % Anhebungsverben aber auch die Verbbewegungsregel
+% optional kohärente Verben zeihen alle Elemente von COMPS an.
+% Es können weitere Argumente hinzukommen. Das Subjekt bei Hilfsverben und dann zusätzlich noch das Subjekt bei ACI-Verben.
 optionally_coherent_le *>
-  (synsem:loc:cat:arg_st:[loc:cat:(head:(verb,
-                                         subj:Subj),
-                                   comps:Comps)|(list_of_non_complex_forming_synsems,
-                                                 append(Comps,Subj))]).
+  synsem:loc:cat:arg_st:[loc:cat:comps:Comps|(list_of_non_complex_forming_synsems,
+                                              append_known_prefix(Comps,_))].
 
+% alle Anhebungsverben, also auch die, die optional kohärent konstruieren,
+% Phasenverben (beginnen), sehen, lassn und die, die obligatorisch kohärent konstruieren,
+% Modalverben, Futur-Hilfsverb, Perfekt-Hilfsverb
+
+% HCONS oder direkte Einbettung?
+raising_verb *>
+ (%optionally_coherent_verb,
+  synsem:loc:cat:arg_st:hd:loc:(cat:head:dsl:none, % the embedded verb is a real verb not a verb trace. 
+                                cont:ltop:VCont),
+  rels:[arg3:VCont],
+  hcons:[]).
+
+
+% scheinen, not AcI
+% Außerdem auch die beiden Verbbewegungsregeln
+subj_raising_verb *> 
+ (%raising_verb,
+  synsem:loc:cat:arg_st:[loc:cat:(head:(verb,
+                                        subj:Subj),
+                                  comps:Comps)
+                        |append_known_prefix(Comps,Subj)]).
+
+
+coherent_le *>
+  (%optionally_coherent_le
+  synsem:loc:cat:arg_st:hd:lex:plus).
 
 
 % normale Wörter selegieren nie DSL:local-Elemente.
@@ -566,23 +643,17 @@ optionally_coherent_le *>
 % Aber eigentlich reicht es, das für die Anhebungsverben festzuhalten. 
 
 
-% HCONS oder direkte Einbettung?
-argument_raising_verb *>
- (%optionally_coherent_verb,
-  synsem:loc:cat:arg_st:hd:(loc:(cat:head:dsl:none, % the embedded verb is a real verb not a verb trace. 
-                                 cont:ltop:VCont),
-                            lex:plus),
-  rels:[arg3:VCont],
-  hcons:[]).
+/*
+not used
 
-argument_raising_verb(Relation) :=
- (argument_raising_verb,
+subj_raising_verb(Relation) :=
+ (subj_raising_verb,
   rels:hd:Relation).
 
-argument_raising_verb(GovVForm,Relation) :=
- (@argument_raising_verb(Relation),
+subj_raising_verb(GovVForm,Relation) :=
+ (@subj_raising_verb(Relation),
   synsem:loc:cat:arg_st:hd:loc:cat:head:vform:GovVForm).
-
+*/
 
 modal_verb *>
  (%argument_raising_verb

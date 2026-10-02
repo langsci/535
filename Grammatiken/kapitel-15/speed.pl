@@ -88,11 +88,11 @@ fun not_type(+,-).
         type(Type).
 
 
-
-% Folgendes schließt finite Verben als Argumente (der Verbspur) aus, da
+% Folgendes schließt finite Verben als Argumente (der Verbspur) ganz aus, da
 % sie in diesem Fragment nicht vorkommen.
 (head_complement_phrase,
- synsem:loc:cat:head:initial:minus) *> non_head_dtrs:[synsem:loc:cat:head: @not(verb)].
+ synsem:loc:cat:head:initial:minus,
+ non_head_dtrs:[synsem:loc:cat:head:verb]) *> non_head_dtrs:[synsem:loc:cat:head:vform:inf].
 
 
 

@@ -16,6 +16,8 @@
 
 % für [incr TSDB()]
 grammar_version('Lehrbuchgrammatik Kapitel 4').
+% Short label for app names in the task switcher and for Grale output titles.
+grammar_name('Kapitel 15').
 
 
 % Load phonology and tree output
@@ -80,6 +82,29 @@ signature('signature.tdl').
 
 % load a sequence that is executed after the grammar is loaded
 :- ['../Gemeinsames/common.pl'].
+
+% load the generator, see setup.pl for configuration
+% SICStus 3.0
+%:- ['../Gemeinsames/generator'].
+
+% SICStus 4.0
+% Compile the generator's frequently called chart and matching predicates.
+:- compile('../Gemeinsames/generator4').
+
+% p_and_g("Der Affe schläft.",@decl).
+% p_and_g("Jede Frau und jeder Mann kennt ein Buch.",@decl).
+
+% p_and_g("Der Affe, von dessen Kind er ein Bild kennt, lacht.",@decl).
+
+% p_and_g("Lesen muss er das Buch.",@decl).
+
+gtest :- p_and_g("Der Affe, von dessen Kind er ein Bild kennt, lacht.",@decl).
+
+
+% testgt(all).
+% testgt(5).
+% testgt([2,5]).
+% testgt(all, summary(Bestanden, Fehlgeschlagen)).
 
 
 examples(['  dass Aicke lachen muss',

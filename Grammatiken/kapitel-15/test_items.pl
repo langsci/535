@@ -167,6 +167,8 @@ t(136,"Müssen wird er ihm ein Märchen erzählen.",@decl,0,'Kapitel 14: Verbalk
 t(137,"dass Aicke den Roman wird lesen dürfen",@root,1,'Kapitel 14: Verbalkomplex + Oberfeldumstellung').
 t(138,"dass Aicke den Roman hat lesen dürfen",@root,1,'Kapitel 14: Verbalkomplex + Oberfeldumstellung').
 t(139,"dass Aicke den Roman wird haben lesen dürfen",@root,1,'Kapitel 14: Verbalkomplex + Oberfeldumstellung').
+t(140,"Aicke wird haben schlafen wollen.",@decl,1,'Kapitel 14: Verbalkomplex + Oberfeldumstellung').
+
 
 % scheinbar mehrfache Vorfeldbesetzung uncomment loding :- ['mehrfache-vorfeldbesetzung']. in theory.pl
 % t(140,"Der Frau das Buch gibt er nicht.",@decl,1,'Kapitel 14: Merhfache Vorfeldbesetzung').
@@ -175,13 +177,17 @@ t(139,"dass Aicke den Roman wird haben lesen dürfen",@root,1,'Kapitel 14: Verba
 % t(143,"Der Frau der Aufsatz will er geben.",@root,0,'Kapitel 14: Merhfache Vorfeldbesetzung').
 
 t(144,"dass er ihn zu lesen scheint",@root,1,'Kapitel 15: Anhebung und Kontrolle').
-t(145,"dass den Aufsatz zu lesen der Mann beginnt",@root,1,'Kapitel 15: Anhebung und Kontrolle').
-t(146,"dass der Mann den Aufsatz zu lesen morgen beginnt",@root,1,'Kapitel 15: Anhebung und Kontrolle').
-t(147,"Er sieht es schlafen.",@decl,1,'Kapitel 15: Anhebung und Kontrolle').
-t(148,"Er versucht, das Lied zu singen.",@decl,2,'Kapitel 15: Anhebung und Kontrolle').
-t(149,"Er verspricht ihm, das Lied zu singen.",@decl,2,'Kapitel 15: Anhebung und Kontrolle').
-t(150,"Er zwingt ihn, das Lied zu singen.",@decl,3,'Kapitel 15: Anhebung und Kontrolle').
-t(151,"dass ihn der Mann zu lesen versucht",@root,1,'Kapitel 15: Anhebung und Kontrolle').
-t(152,"dass ihn zu lesen der Mann versucht",@root,1,'Kapitel 15: Anhebung und Kontrolle').
-t(153,"dass er ihn den Aufsatz lesen sah",@root,2,'Kapitel 15: Anhebung und Kontrolle').
+t(145,"dass ihm zu grauen scheint",@root,1,'Kapitel 15: Anhebung und Kontrolle').
+t(146,"dass den Aufsatz zu lesen der Mann beginnt",@root,1,'Kapitel 15: Anhebung und Kontrolle').
+t(147,"dass der Mann den Aufsatz zu lesen morgen beginnt",@root,1,'Kapitel 15: Anhebung und Kontrolle').
+t(148,"Er sieht es schlafen.",@decl,1,'Kapitel 15: Anhebung und Kontrolle').
+t(149,"Er versucht, das Lied zu singen.",@decl,2,'Kapitel 15: Anhebung und Kontrolle').
+t(150,"Er verspricht ihm, das Lied zu singen.",@decl,2,'Kapitel 15: Anhebung und Kontrolle').
+t(151,"Er zwingt ihn, das Lied zu singen.",@decl,3,'Kapitel 15: Anhebung und Kontrolle').
+t(152,"dass ihn der Mann zu lesen versucht",@root,1,'Kapitel 15: Anhebung und Kontrolle').
+t(153,"dass ihn zu lesen der Mann versucht",@root,1,'Kapitel 15: Anhebung und Kontrolle').
+t(154,"dass er ihn den Aufsatz lesen sah",@root,2,'Kapitel 15: Anhebung und Kontrolle').
 
+
+% Langer Satz
+% der mann, der den affen, der lacht, kennt, gibt der tochter eines mitarbeiters ein Buch, das jeder mitarbeiter einer frau, die den roman lesen wird, geben wird.

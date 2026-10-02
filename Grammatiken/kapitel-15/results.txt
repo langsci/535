@@ -1,0 +1,10 @@
+2026-10-02: 9:00 Parsing tests: 152 items; 2 min 1.091 sec CPU time total; 9081 passive edges total.
+
+% head_movement_filter aus
+Parsing tests: 11:58: 153 items; 2 min 2.746 sec CPU time total; 9296 passive edges total.
+
+% head_movement_filter an
+2026-10-02: 11:58 Parsing tests: 153 items; 1 min 0.579 sec CPU time total; 6042 passive edges total.
+
+% neues append für Argumentanziehung, das nur auslöst, wenn Information vom Filler bekannt ist.
+2026-10-02: 14:55 Parsing tests: 154 items; 49.137 sec CPU time total; 5812 passive edges total.

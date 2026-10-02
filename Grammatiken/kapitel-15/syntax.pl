@@ -75,10 +75,22 @@ head_adjunct_phrase *>
 
 
 % Argumentrealisierungsprinzip
-word *> synsem:loc:cat:(head:subj:Subj,
-                        spr:Spr,
-                        comps:Comps,
-                        arg_st:append(Comps,append(Spr,Subj))).
+(word,
+ synsem:trace:minus) *> synsem:loc:cat:(head:subj:Subj, %is_subj_list(Subj),
+                              spr:Spr,
+                              comps:Comps,
+                              arg_st:append(Comps,append(Spr,Subj))).
+
+
+
+% Entweder es gibt kein Subjekt, oder es ist eine NP mit strukturellem Kasus.
+is_subj_list(List) if
+       when( List=(e_list;ne_list)
+           , undelayed_is_subj_list(List)
+           ).
+
+undelayed_is_subj_list([])  if true.
+undelayed_is_subj_list([@np_str])  if true.
 
 
 % Semantik
@@ -130,6 +142,13 @@ head_adjunct_phrase *>
 
 % die Verbbewegungsanalyse
 
+% Der zu-Wert wird geteilt. Für finite Verben ist das irrelevant, aber bei der scheinbar mehrfachen
+% Vorfeldbesetzung können auch infinite Verben beteiligt sein:
+% Zum zweiten Mal die Weltmeisterschaft hat Clark 1965 errungen.
+% Theoretisch können auch zu-Infinitive involviert sein.
+% Zum zweiten Mal die Weltmeisterschaft schien Calrk 1965 zu erringen.
+% Hier würde die Lexikonregel auf "zu erringen" angewendet. Bei Koordinationen muss der zu-Wert übertragen werden:
+% Zum zweiten Mal die Weltmeisterschaft schien Calrk 1965 zu erringen und verteidigen.
 
 verb_movement_rule *>
 ( %complex_word
@@ -144,7 +163,7 @@ verb_movement_rule *>
           lex:Lex),
   rels:Rels,
   hcons:HCons,
-  zu:Zu,
+  zu:minus,
   dtrs:[( %word,
           phon:Phon,
           synsem:(loc:(Loc,
@@ -157,8 +176,7 @@ verb_movement_rule *>
                                 % nur koordinierte Wörter dürfen zu V1-Verben umkategorisiert werden.
                   phrase:minus),
           rels:Rels,
-          hcons:HCons,
-          zu:Zu)]).
+          hcons:HCons)]).
 
 
 verb_initial_rule *>
@@ -334,12 +352,48 @@ head_non_filler_phrase *>
        head_dtr:synsem:nonloc:slash:Slash1,
        non_head_dtrs:[synsem:nonloc:slash:Slash2]).
 
+% In Argumentpositionen dürfen nur phrasale Einheiten
+% stehen. Das wird gebraucht, da ausgeschlossen werden muß,
+% daß "lachen wird" mit dem Kopf-Argument-Schema kombiniert
+% wird. `wird' verlangt von seinem Argument, daß es LEX+ ist,
+% und das Kopf-Argument-Schema spezifiziert LEX aber als -.
+% Somit kann nur das Verbalkomplexschema angewendet werden.
+% Bei adjazentem eingebetteten Verb würden unechte Mehrdeutigkeiten
+% entstehen und bei nicht-adjazentem eingebetteten Verb ungrammatische
+% Sätze zugelassen:
+%
+% * daß lesen er den Aufsatz wird
+% * daß er lesen den Aufsatz wird
+%
+head_complement_phrase *> non_head_dtrs:[synsem:lex:minus].
+
+
+% Diese Beschränkung schließt die Kombination von teilweise gesättigten
+% VPen mit optional kohärent konstruierenden Verben aus.
+% Da Determinatoren über SPR selegiert werden, sind Fälle wie
+% "vom Buch", in denen eine Präposition mit einer N' kombiniert wird,
+% nicht betroffen.
+% Bei Koordinationen kann die COMPS-Liste allerdings gefüllt sein:
+% "und liebt": "und" wird mit einem nicht gesättigten "liebt" kombiniert.
+
+% not geht nicht im Antecendce:
+% (head_complement_phrase,
+%  head_dtr:synsem:loc:cat:head: @not(coord)) *>
+%   non_head_dtrs:[synsem:loc:cat:comps:[]].
+
+head_complement_phrase *>
+  ( head_dtr:synsem:loc:cat:head:coord
+  ; head_dtr:synsem:loc:cat:head: @not(coord),
+    non_head_dtrs:[synsem:loc:cat:comps:[]]
+  ).
+
+
 %% Der Kopf kann nicht extrahiert werden.
 %% Ein Problem stellt hierbei das Verb in PVP-Konstellationen
 %% dar (siehe Müller, 1999)
 %% "Helfen wird er ihm morgen."
 headed_phrase *>
-   (head_dtr:synsem:trace:minus_or_vm).
+   head_dtr:synsem:trace:minus_or_vm.
 
 
 % Adjunkte sind Extraktionsinseln
@@ -493,66 +547,81 @@ subj_verb_agreement2(L,Per,Num) if
 
 
 
-% Kasusprinzip (vorläufige Version, zur endgültigen Version siehe Kapitel 17)
-(word,
- synsem:loc:cat:head:verb) *> (synsem:loc:cat:arg_st:Comps) goal assign_case_verb(Comps).
+% Dieses Kasusprinzip ist nicht die endgültige Variante!
+% Da diese einige Änderungen in der Merkmalsgeometrie erfordert, kommt
+% die endgültige Variante erst in der Grammatik zu Kapitel 17.
 
-% Kasus wird zugewiesen, wenn wir am Ende der Liste sind. Damit [np_str] funktioniert,
-% muss das erste Element klar sein: np_str und es muss klar sein, dass der Rest der List instantiitert ist.
-% d.h. [np_str] darf nicht unter Umständen [np_str,_] sein.
+(word,
+ synsem:loc:cat:head:(verb,
+                      vform:fin)) *> synsem:loc:cat:arg_st:ArgSt goal assign_case_verb(ArgSt).
+
+
+(head_complement_phrase,  
+ synsem:loc:cat:head:vform:non_fin,
+ non_head_dtrs:hd:synsem:loc:cat:head:case:case_type:str) *>  non_head_dtrs:hd:synsem:loc:cat:head:case:morph_case:acc.
+
 
 fun assign_case_verb(-).
+% Da Spuren auch Kasus zuweisen, muß man warten, bis die ARGST-Liste überhaupt instantiiert
+% ist. Ansonsten, wäre klar, daß es immer ein Argument gibt und man könnte gleich mit
+% assign_case_verb2 beginnen.
 assign_case_verb(List) if
        when( List=(e_list;ne_list)
            , assign_case_verb2(List)
            ).
 
+
+% Do not choose a case class while reconstructing a verb trace's ARG-ST.
+% Wait for the complete list and for information supplied by the lexical head.
 assign_case_verb2([H|T]) if
-       when( T=(e_list;ne_list)
-           , undelayed_assign_case_verb([H|T])
-           ).
+  assign_case_verb_wait([H|T],[H|T]).
+
+assign_case_verb_wait(List,ArgSt) if
+  when(List=(e_list;ne_list),assign_case_verb_wait_list(List,ArgSt)).
+
+assign_case_verb_wait_list([],ArgSt) if
+  undelayed_assign_case_verb(ArgSt).
+
+% The second condition lists the non-nominal head classes of this signature.
+% A negated-type macro cannot be used as a when/2 condition.
+assign_case_verb_wait_list([H|T],ArgSt) if
+  when((H=loc:cat:head:(noun,case:case_type:(str;lex));
+        H=loc:cat:head:(det;adj_or_verb;prep;comp;coord;relativizer;adv)),
+       assign_case_verb_wait(T,ArgSt)).
+
+
+% Wenn die Argumente lokal realisiert wurden, weise NPen mit strukturellem
+% Kasus ja nach Position Nominativ oder Akkusativ zu.
 
 % Die letzte NP mit strukturellem Kasus bekommt Nominativ.
 undelayed_assign_case_verb([(@np_str,
                              loc:cat:head:case:morph_case:nom)])  if true.
 
-undelayed_assign_case_verb([@np_lex])                             if true.
-undelayed_assign_case_verb([loc:cat:head: @not(noun)])            if true.
+% Ein Aufsatz wurde ihm zu lesen erlaubt.
+undelayed_assign_case_verb([(@np_str,
+                             loc:cat:head:case:morph_case:nom),@np_lex])  if true.
+
+
+
+undelayed_assign_case_verb([@np_lex])                                 if true.
+undelayed_assign_case_verb([@no_noun])                                if true.
 
 % Alle anderen NPen mit strukturellem Kasus bekommen Akkusativ.
-% Die Unterteilung des Listenrests in First und Rest stellt sicher,
-% daß es noch mindestens ein Element in der Valenzliste gibt.
+% Es muß noch mindestens ein Element in der Valenzliste geben.
 % Für dieses werden die obigen Klauseln angewendet.
 undelayed_assign_case_verb([(@np_str,
-                             loc:cat:head:case:morph_case:acc)|Rest])  if assign_case_verb(Rest).
-undelayed_assign_case_verb([@np_lex|Rest])                             if assign_case_verb(Rest).
-undelayed_assign_case_verb([loc:cat:head: @not(noun)|Rest])            if assign_case_verb(Rest).
+                             loc:cat:head:case:morph_case:acc),(Nom,
+                                                                @np_str)|Rest])  if assign_case_verb([Nom|Rest]).
 
+% Er verspricht ihm das lied zu singen.
+undelayed_assign_case_verb([(@np_str,
+                             loc:cat:head:case:morph_case:acc),(Lex,
+                                                                @np_lex),
+                                                               (Nom,
+                                                                @np_str)|Rest])  if assign_case_verb([Lex,Nom|Rest]).
+undelayed_assign_case_verb([@np_lex|Rest])                                       if assign_case_verb(Rest).
+undelayed_assign_case_verb([@no_noun|Rest])                                      if assign_case_verb(Rest).
 
-/*
-(word,
- synsem:loc:cat:(head:verb,
-                 arg_st:hd:loc:cat:head:case:case_type:str)) *> (synsem:loc:cat:arg_st:hd:loc:cat:head:case:morph_case:nom).
-
-
-Rest^(word,
- synsem:loc:cat:(head:verb,
-                 arg_st:tl:Rest)) *> (bot) goal (assign_accusative(Rest)).
-
-
-assign_accusative(List) if
-       when(
-            List=(e_list;ne_list)
-           , undelayed_assign_accusative(List)
-           ).
-
-undelayed_assign_accusative([]) if true.
-undelayed_assign_accusative([(@np_str,
-                              loc:cat:head:case:morph_case:acc)|Rest])  if assign_accusative(Rest).
-undelayed_assign_accusative([@np_lex|Rest])                             if assign_accusative(Rest).
-undelayed_assign_accusative([@no_noun|Rest])                            if assign_accusative(Rest).
-
-*/
 
 
 root :=

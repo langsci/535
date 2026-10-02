@@ -973,26 +973,11 @@ empty
 */
 
 empty
-   (trace,
-    synsem:(loc:(cat:(head:(verb,
-                            initial:minus,
-                            subj:Subj,
-                            dsl:(cat:(head:subj:Subj,
-                                      spr:Spr,
-                                      comps:Comps),
-                                 cont:Cont)),
-                      spr:Spr,
-                      comps:Comps),
-                 cont:Cont),
-            nonloc:slash:[],
-            trace:vm)).
+   v_trace.
 
 
 empty 
-   (trace,
-    synsem:(loc:Loc,
-            nonloc:slash:[Loc],
-            trace:extraction)).
+   e_trace.
 
 
 empty 

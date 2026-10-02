@@ -40,6 +40,17 @@ undelayed_append([],L,L) if true.
 undelayed_append([H|T1],L,[H|T2]) if append(T1,L,T2).
 
 
+% Argument raising must not enumerate splits of a known result list while
+% the extracted verb's COMPS prefix is still unknown. The filler supplies it.
+fun append_known_prefix(+,+,-).
+append_known_prefix(X,Y,Z) if
+  when(X=(e_list;ne_list),undelayed_append_known_prefix(X,Y,Z)).
+
+undelayed_append_known_prefix([],L,L) if true.
+undelayed_append_known_prefix([H|T1],L,[H|T2]) if
+  append_known_prefix(T1,L,T2).
+
+
 % Beschränkung, die alle RELS-Elemente sammelt.
 fun collect_rels(+,-).
 %collect_rels(Dtrs,Rels)
