@@ -87,6 +87,7 @@ t(67,"Der Affe, von dessen Kind er ein Bild kennt, lacht.",@decl,1,'Kapitel 10: 
 t(68,"Der Affe, ein Bild von dessen Kind er kennt lacht.",@root,0,'Kapitel 10: Relativsätze').
 t(69,"Der Affe, ein Bild dessen Kindes er kennt lacht.",@root,0,'Kapitel 10: Relativsätze').
 t(70,"Der Affe, dessen Kind er ein Bild von kennt lacht.",@root,0,'Kapitel 10: Relativsätze').
+t(71,"Der Affe, dessen Kindes er ein Bild kennt, lacht.",@root,0,'Kapitel 10: Relativsätze').
 
 
 t(70,"Ich schlafe.",@decl,1,'Kapitel 12: Kongruenz').

@@ -40,6 +40,7 @@ undelayed_append([],L,L) if true.
 undelayed_append([H|T1],L,[H|T2]) if append(T1,L,T2).
 
 
+
 % Beschränkung, die alle RELS-Elemente sammelt.
 fun collect_rels(+,-).
 %collect_rels(Dtrs,Rels)

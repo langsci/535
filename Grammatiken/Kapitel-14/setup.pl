@@ -13,7 +13,6 @@
 
 %:- ale_flag(head_movement_filter,_,off).
 
-
 % feature hiding and ordering
 hidden_feat(dtrs).          % hide the dtrs attribute (shown by tree)
 hidden_feat(head_dtr).      % hide the dtrs attribute (shown by tree)

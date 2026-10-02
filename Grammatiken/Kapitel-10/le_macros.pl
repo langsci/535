@@ -157,6 +157,10 @@ pp(PForm,Case) :=
    loc:cat:head:(pform:PForm,
                  case:Case)).
 
+pp(PForm,Case,Ind) :=
+  (@pp(PForm,Case),
+   loc:cont:ind:Ind).
+
 cp :=
   (@xp,
    loc:cat:head:(comp,
@@ -235,17 +239,10 @@ noun(Case,Genus,Numerus,Relation) :=
 % * von dem ich eine Bild gemalt habe
 relational_noun *>
  (%det_noun_word
-  loc:cat:arg_st:tl:[((loc:(cat:(head:(noun,
-                                       case:gen),
-                                 spr:[],
-                                 comps:[]),
-                            cont:ind:Ind2),
+  loc:cat:arg_st:tl:[((@np(Ind2),
+                       loc:cat:head:case:gen,
                        nonloc:slash:[])
-                     ;(loc:(cat:(head:(prep,
-                                       case:dat),
-                                 spr:[],
-                                 comps:[]),
-                            cont:ind:Ind2)))],
+                     ;@pp(von_pform,dat,Ind2))],
   rels:hd:arg2:Ind2).
 
 % * Der Affe, ein Bild von dessen Kind er kennt lacht.
@@ -447,7 +444,8 @@ preposition_word *>
  loc:cat:(head:(prep,
                 initial:plus),
           spr:[], % otherwise the NP may map to the SPR
-          arg_st:[ @np ] )).
+          arg_st:[ (@np,
+                    nonloc:slash:[]) ] )).
 
 comp_preposition *>
  (%preposition_word,

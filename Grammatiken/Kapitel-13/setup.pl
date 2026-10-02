@@ -1,8 +1,17 @@
+% -*-trale-prolog-*-
+
 % TDL signature input; TRALE supplies missing least upper bounds.
 :- ale_flag(subintro,_,file).
 :- ale_flag(msl,_,off).
 
-% -*-trale-prolog-*-
+% This reduces the number of pre-computed rules. It rules out rules that would be inconsistent anyway.
+:- ale_flag(efdcheck,_,on).
+%:- ale_flag(efdcheck,_,off).
+
+% This checks for verb traces whether there is a plausible filler before adding an item to the chart.
+:- ale_flag(head_movement_filter,_,on).
+
+%:- ale_flag(head_movement_filter,_,off).
 
 % feature hiding and ordering
 hidden_feat(dtrs).          % hide the dtrs attribute (shown by tree)

@@ -42,6 +42,14 @@ undelayed_append([H|T1],L,[H|T2]) if append(T1,L,T2).
 
 % Argument raising must not enumerate splits of a known result list while
 % the extracted verb's COMPS prefix is still unknown. The filler supplies it.
+
+% „Dem Kind erzählen muss er das Märchen“ entstehen 21 h_comp-Kanten mit denselben Tochterkanten.
+% Dadurch, dass „muss“ eine gesättigte VP haben will, ist die Stelligkeit der COMPS+SUBJ-Liste
+% bekannt, denn sie darf nur „er“ und „das Märchen“ enthalten. Wenn auch wie oben auf das Ergebnis
+% (Z) ein delay ist, löst das delay aus und wir bekommen alle möglichen Zerlegungen der Liste.
+% append_known_prefix muss die zu verknüpfenden Argumente kennen: COMPS und SUBJ und die sind erst
+% bekannt, wenn der Füller im Vorfeld bekannt ist. 02.10.2026
+
 fun append_known_prefix(+,+,-).
 append_known_prefix(X,Y,Z) if
   when(X=(e_list;ne_list),undelayed_append_known_prefix(X,Y,Z)).
