@@ -175,6 +175,7 @@ t(139,"Müssen wird er ihm ein Märchen erzählen.",@decl,0,'Kapitel 14: Verbalk
 t(140,"dass Aicke den Roman wird lesen dürfen",@root,1,'Kapitel 14: Verbalkomplex + PVP').
 t(141,"dass Aicke den Roman hat lesen dürfen",@root,1,'Kapitel 14: Verbalkomplex + PVP').
 t(142,"dass Aicke den Roman wird haben lesen dürfen",@root,1,'Kapitel 14: Verbalkomplex + PVP').
+t(143,"Aicke wird haben schlafen wollen.",@decl,1,'Kapitel 14: Verbalkomplex + Oberfeldumstellung').
 
 
 % scheinbar mehrfache Vorfeldbesetzung uncomment loding :- ['mehrfache-vorfeldbesetzung']. in theory.pl

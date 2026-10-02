@@ -91,6 +91,7 @@ fun not_type(+,-).
 
 % Folgendes schließt finite Verben als Argumente (der Verbspur) aus, da
 % sie in diesem Fragment nicht vorkommen.
+% schließt alle Verben aus. Muss später wieder revidiert werden für inkohärente Konstruktionen.
 (head_complement_phrase,
  synsem:loc:cat:head:initial:minus) *> non_head_dtrs:[synsem:loc:cat:head: @not(verb)].
 
