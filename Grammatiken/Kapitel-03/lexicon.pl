@@ -37,7 +37,6 @@ den ---> (word,
   spr:[],
   comps:[] ).
 
-
 des ---> (word,
   p_o_s:det,
   mod:none,
@@ -45,6 +44,18 @@ des ---> (word,
   comps:[] ).
 
 die ---> (word,
+  p_o_s:det,
+  mod:none,
+  spr:[],
+  comps:[] ).
+
+eine ---> (word,
+  p_o_s:det,
+  mod:none,
+  spr:[],
+  comps:[] ).
+
+einen ---> (word,
   p_o_s:det,
   mod:none,
   spr:[],

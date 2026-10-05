@@ -21,7 +21,7 @@ ts(16,"das Eis in schmilzt",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmer
 % eigentlich keine Deklarativsätze, aber V2 kommt erst im nächsten Kapitel
 ts(17,"Schläft jede Tochter eines Mitarbeiters.",@interrog,1,[2],'Kapitel 5: Semantik, Skopus').
 ts(18,"der mutmaßliche Affe",@root,1,[],'Kapitel 5: Semantik, Skopus').
-ts(19,"Schläft ihr Affe?",@root,1,[1],'Kapitel 5: Semantik, Skopus').
+ts(19,"Schläft ihr Affe?",@interrog,1,[1],'Kapitel 5: Semantik, Skopus').
 ts(20,"Schläft der angeblich kleine Affe?",@interrog,1,[1],'Kapitel 5: Semantik, Skopus').
 ts(21,"Schläft der Affe wahrscheinlich?",@interrog,1,[1],'Kapitel 5: Semantik, Skopus').
 ts(22,"Glaubt jeder Affe, dass ein Einhorn schläft?",@interrog,1,[3],'Kapitel 5: Semantik, Skopus').
@@ -48,7 +48,7 @@ ts(41,"Aicke schläft schläft.",@decl,0,[],'Kapitel 8: Argument- und Adjunktste
 ts(42,"Den Roman kennt und schläft er",@root,0,[],'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 ts(43,"Kennt und liebt das Kind den Roman?",@interrog,1,[1],'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 ts(44,"Kennt und liebt den Roman das Kind?",@interrog,1,[1],'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(45,"Kennt sie den Film und den Roman?",@interrog,1,[4],'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(45,"Kennt sie den Film und den Roman?",@interrog,1,[1],'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 % Grammatiken mit zyklischer Spur lassen Folgendes zu:
 % Koordination eines Verbletztverbs als Verbspur mit [den Stock _]
 % Valenz der beiden Konjunkte muss gleich sein. Verb muss lexikalisch sein, weil sonst DSL zu none werden würde.

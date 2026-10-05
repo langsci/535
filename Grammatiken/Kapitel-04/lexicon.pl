@@ -68,6 +68,18 @@ die ---> (word,
   spr:[],
   comps:[] ).
 
+eine ---> (word,
+  head:(det,
+        case:(nom;acc)),
+  spr:[],
+  comps:[] ).
+
+einen ---> (word,
+  head:(det,
+        case:acc),
+  spr:[],
+  comps:[] ).
+
 die ---> (word,
   head:(det,
         case:acc),
@@ -306,6 +318,12 @@ speisekammer ---> (word,
 er ---> (word,
   head:(noun,
         case:nom),
+  spr:[],
+  comps:[]).
+
+conny ---> (word,
+  head:(noun,
+        case:(nom;dat;acc)),
   spr:[],
   comps:[]).
 

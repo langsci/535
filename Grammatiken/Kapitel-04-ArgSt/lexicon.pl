@@ -49,7 +49,6 @@ den ---> (word,
         case:acc),
   arg_st:[] ).
 
-
 des ---> (word,
   head:(det,
         case:gen),
@@ -58,6 +57,16 @@ des ---> (word,
 die ---> (word,
   head:(det,
         case:nom),
+  arg_st:[] ).
+
+eine ---> (word,
+  head:(det,
+        case:(nom;acc)),
+  arg_st:[] ).
+
+einen ---> (word,
+  head:(det,
+        case:acc),
   arg_st:[] ).
 
 die ---> (word,
@@ -281,6 +290,11 @@ speisekammer ---> (word,
 er ---> (word,
   head:(noun,
         case:nom),
+  arg_st:[]).
+
+conny ---> (word,
+  head:(noun,
+        case:(nom;dat;acc)),
   arg_st:[]).
 
 ihm ---> (word,

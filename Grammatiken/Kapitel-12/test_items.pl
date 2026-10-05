@@ -17,7 +17,7 @@ ts(14,"kleine Affe der",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmal
 ts(15,"Das Eis in der Speisekammer schmilzt.",@decl,1,[1],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
 ts(16,"das Eis in schmilzt",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
 
-ts(17,"Jede Tochter eines Mitarbeiters schläft.",@root,1,[2],'Kapitel 5: Semantik, Skopus').
+ts(17,"Jede Tochter eines Mitarbeiters schläft.",@decl,1,[2],'Kapitel 5: Semantik, Skopus').
 ts(18,"der mutmaßliche Affe",@root,1,[],'Kapitel 5: Semantik, Skopus').
 ts(19,"Sein Affe schläft.",@root,1,[1],'Kapitel 5: Semantik, Skopus').
 ts(20,"Der angeblich kleine Affe schläft.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
@@ -47,7 +47,7 @@ ts(41,"Aicke schläft schläft.",@decl,0,[],'Kapitel 8: Argument- und Adjunktste
 ts(42,"Den Roman kennt und schläft er",@root,0,[],'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 ts(43,"Kennt und liebt das Kind den Roman?",@interrog,1,[1],'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 ts(44,"Kennt und liebt den Roman das Kind?",@interrog,1,[1],'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(45,"Kennt sie den Film und den Roman?",@interrog,1,[4],'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(45,"Kennt sie den Film und den Roman?",@interrog,1,[1],'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 % Grammatiken mit zyklischer Spur lassen Folgendes zu:
 % Koordination eines Verbletztverbs als Verbspur mit [den Stock _]
 % Valenz der beiden Konjunkte muss gleich sein. Verb muss lexikalisch sein, weil sonst DSL zu none werden würde.

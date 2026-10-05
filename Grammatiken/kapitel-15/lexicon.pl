@@ -313,6 +313,8 @@ seines ---> @possessive(gen,       third, sg,mas_or_neu,sg,mas_or_neu,strong).
 
 aicke ---> @proper_noun(fem_or_mas,'Aicke').
 
+conny ---> @proper_noun(fem_or_mas,'Conny').
+
 % Verben
 
 arbeit  ---> @intrans_verb(arbeiten_rel),

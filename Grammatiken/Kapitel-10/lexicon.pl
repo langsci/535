@@ -157,6 +157,8 @@ sie ---> @pers_pronoun(nom_or_acc,third,sg,fem).
 
 aicke ---> @proper_noun(fem_or_mas,'Aicke').
 
+conny ---> @proper_noun(fem_or_mas,'Conny').
+
 
 bellt   ---> @np_verb(bellen_rel).
 

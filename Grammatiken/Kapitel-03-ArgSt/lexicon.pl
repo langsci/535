@@ -33,7 +33,6 @@ den ---> (word,
   mod:none,
   arg_st:[]).
 
-
 des ---> (word,
   p_o_s:det,
   mod:none,
@@ -43,6 +42,17 @@ die ---> (word,
   p_o_s:det,
   mod:none,
   arg_st:[]).
+
+eine ---> (word,
+  p_o_s:det,
+  mod:none,
+  arg_st:[]).
+
+einen ---> (word,
+  p_o_s:det,
+  mod:none,
+  arg_st:[]).
+
 
 kleine ---> (word,
   p_o_s:adj,
