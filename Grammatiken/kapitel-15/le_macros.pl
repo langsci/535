@@ -56,12 +56,12 @@ undelayed_list_of_non_dsl_synsems([loc:cat:head:dsl:none|T]) if
 % werden. Unflektierte Wörter sind immer ZU-.
 % ZU ist nur ein technisches Hilfsmerkmal.
 % alle sichtbaren Lexikonelemente außer Lexikonregeln
-overt_le *> zu:minus.
+overt_le *> inf_marking:minus.
 
 non_overt_word *>
   (%empty_rel_word,
    phon:[],
-   zu:minus).
+   inf_marking:minus).
 
 trace *>
   synsem:trace:extraction_or_vm.
@@ -71,6 +71,18 @@ e_trace *>
   synsem:(loc:Loc,
           nonloc:slash:[Loc],
           trace:extraction)).
+
+/*
+% Die alte zyklische Verbspur. Im Prinzip bräuchte man nicht mal die Information darüber, dass es ein Verb und final ist.
+empty
+   (trace,
+    loc:(Loc,
+         cat:head:(verb,
+                   initial:minus,
+                   dsl:Loc)),
+    nonloc:slash:[],
+    trace:vm).
+*/
 
 v_trace *>
  (%trace,
@@ -483,9 +495,9 @@ intrans_verb *>
 % Liste in anderer Reihenfolge. Subjekt ist das letzte Element von ARG_ST.
 intrans_verb *>
  (%verb_word,
-  synsem:loc:cat:arg_st:Comps,
+  synsem:loc:cat:arg_st:ArgSt,
   rels:[arg1:Ind])
-       goal last(Comps,@np_str(Ind)).
+       goal last(ArgSt,@np_str(Ind)).
 
 
 strict_intrans_verb *>
@@ -701,16 +713,15 @@ irregular_verb(VForm) :=
 irregular_verb(Per,Num,TeMo) :=
  (irreg_fin_verb_infl_lr,
   synsem:loc:cat:arg_st:subj_verb_agreement(Per,Num),
-  rels:hd:TeMo,
-  dtr:futur_aux_verb).
+  rels:hd:TeMo).
 
 
 perfect_aux_verb *>
- (rels:hd:perfect_rel).
+  rels:hd:perfect_rel.
 
 haben_perfect *>
- synsem:loc:cat:(head:flip:Flip,
-                 arg_st:hd:loc:cat:head:flip:Flip).
+  synsem:loc:cat:(head:flip:Flip,
+                  arg_st:hd:loc:cat:head:flip:Flip).
 
 
 zu_inf_verb_le *>
