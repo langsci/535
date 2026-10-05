@@ -4,8 +4,8 @@ t(1,"Der Affe schläft.",@decl,1,'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsp
 t(2,"der Affe das Kind kennt",@root,1,'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').
 t(3,"der Affe an das Kind denkt",@root,1,'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').
 t(4,"Ihm graut.",@decl,1,'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen').
-t(5,"Der Affe graut.",@decl,0,'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen').
-t(6,"Affe schläft.",@decl,0,'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen').
+t(5,"Der Affe graut",@root,0,'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen').
+t(6,"Affe schläft",@root,0,'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen').
 t(7,"der Affe kennt",@root,0,'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').
 t(8,"an das Kind schläft",@root,0,'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').
 t(9,"an das Kind den Affe kennt",@root,0,'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').

@@ -51,7 +51,7 @@ eines ---> @det(gen,       sg,mas_or_neu,strong,exists_q).
 jede  ---> @det(nom_or_acc,sg,fem,strong,every_q).
 jeder ---> @det(gen_or_dat,sg,fem,strong,every_q).
 jeder ---> @det(nom,       sg,mas,strong,every_q).
-
+jedes ---> @det(nom_or_acc,sg,neu,strong,every_q).
 
 
 die    ---> @rel_pronoun(nom_or_acc,third,sg,fem).

@@ -35,11 +35,13 @@ jeder ---> @det(gen_or_dat,sg,fem,every_q).
 
 jeder ---> @det(nom,sg,mas,every_q).
 
+jedes ---> @det(nom_or_acc,sg,neu,every_q).
 
-ein ---> @det(nom,sg,mas_or_neu,exists_q).
 
-ein ---> @det(acc,sg,neu,exists_q).
-
+ein   ---> @det(nom,sg,mas_or_neu,exists_q).
+ein   ---> @det(acc,sg,neu,exists_q).
+eine  ---> @det(nom_or_acc,sg,fem,exists_q).
+einen ---> @det(acc,sg,mas,exists_q).
 eines ---> @det(gen,sg,mas_or_neu,exists_q).
 
 % Syntaktische Eigenschaften erst, dann semantische sein = mas, ihr = fem
@@ -123,6 +125,8 @@ ihn ---> @pers_pronoun(acc,third,sg,mas).
 sie ---> @pers_pronoun(nom_or_acc,third,sg,fem).
 
 aicke ---> @proper_noun(fem_or_mas,'Aicke').
+
+conny ---> @proper_noun(fem_or_mas,'Conny').
 
 
 bellt   ---> @np_verb(bellen_rel).

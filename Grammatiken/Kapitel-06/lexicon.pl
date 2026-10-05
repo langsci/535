@@ -33,6 +33,8 @@ jeder ---> @det(gen_or_dat,sg,fem,every_q).
 
 jeder ---> @det(nom,sg,mas,every_q).
 
+jedes ---> @det(nom_or_acc,sg,neu,every_q).
+
 
 ein ---> @det(nom,sg,mas_or_neu,exists_q).
 
