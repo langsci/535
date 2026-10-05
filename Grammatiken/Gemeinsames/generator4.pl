@@ -531,12 +531,27 @@ gen_anchored_empty(EmptyPath,SourcePath,Source,SourceVertex,Vertex,Category) :-
 % Argument attraction can leave an extracted verbal daughter's valence open
 % inside an EFD-closed empty phrase. Anchor that daughter before constructing
 % overt projections of the empty phrase. The path is grammar-specific.
+% Some grammars retain realized arguments in nominal valence lists. Those
+% lists can remain open until the filler is known. The grammar may restrict
+% early anchoring to categories whose open valence would permit unbounded
+% generation (typically verbs). Unknown categories still require anchoring
+% if they can satisfy the description. Without the hook, preserve the old
+% behaviour. The compatibility probe must not specialize the actual edge.
+gen_requires_valence_anchor(FS) :-
+   (current_predicate(generator_valence_anchor_required,
+                      generator_valence_anchor_required(_))
+   -> generator_valence_anchor_required(Description),
+      \+ \+ (add_to(Description,Restriction), FS=Restriction)
+   ; true).
+
 gen_resolve_empty_valence(FS,Refs,Vertex) :-
    (current_predicate(generator_valence_path,generator_valence_path(_))
    -> generator_valence_path(Path),
       gen_resolve_empty_valence(FS,Refs,Vertex,Path)
    ; true).
 
+gen_resolve_empty_valence(FS,[],_Vertex,_Path) :-
+   \+ gen_requires_valence_anchor(FS), !.
 gen_resolve_empty_valence(FS,[],Vertex,Path) :-
    (gen_closed_valence(FS,Path) -> true
    ; generator_empty_anchor(EmptyPath,SourcePath,Description),
