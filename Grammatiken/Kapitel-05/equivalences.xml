@@ -14,7 +14,6 @@ specification: -->
 		<quantifier label="def_q"  hole="1"/>
 		<quantifier label="udef_q" hole="1"/>
 
-
 		<!-- demonstrative_q_rel -->
 		<quantifier label="demonstrative_q" hole="1"/>
 		<quantifier label="demonstrative_q" hole="1"/>
@@ -28,6 +27,14 @@ specification: -->
 		<!-- exists_q_rel -->
 		<quantifier label="exists_q" hole="0" />
 		<quantifier label="exists_q" hole="1" />
+	</equivalencegroup>
+
+	<equivalencegroup>
+		<!-- implicit_q_rel -->
+		<quantifier label="def_q"  hole="1"/>
+		<quantifier label="def_q"  hole="0"/>
+		<quantifier label="udef_q" hole="1"/>
+		<quantifier label="udef_q" hole="0"/>
 	</equivalencegroup>
 
 

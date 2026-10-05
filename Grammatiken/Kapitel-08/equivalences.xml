@@ -2,11 +2,17 @@
 
 <equivalences style="Core-B-Gram">   
 <!-- Version 2006-09-10 -->
+
+<!-- This element specifies a set of label-hole pairs that can all
+be permuted with each other. For instance, if you want to specify that existen-
+tial quantifier in first-order logic can be permuted with each other, regardless of
+whether they are in each other’s scopes or restrictions, you can use the following
+specification: -->
+
 	<equivalencegroup>
 		<!-- implicit_q_rel -->
 		<quantifier label="def_q"  hole="1"/>
 		<quantifier label="udef_q" hole="1"/>
-
 
 		<!-- demonstrative_q_rel -->
 		<quantifier label="demonstrative_q" hole="1"/>
@@ -23,12 +29,26 @@
 		<quantifier label="exists_q" hole="1" />
 	</equivalencegroup>
 
+	<equivalencegroup>
+		<!-- implicit_q_rel -->
+		<quantifier label="def_q"  hole="1"/>
+		<quantifier label="def_q"  hole="0"/>
+		<quantifier label="udef_q" hole="1"/>
+		<quantifier label="udef_q" hole="0"/>
+	</equivalencegroup>
+
+
+<!-- By contrast, universal quantifiers only permute with each other if they are plugged
+     into each other’s scope: -->
 
 	<equivalencegroup>
 	        <quantifier label="every_q" hole="1" />
 		<quantifier label="each_q"  hole="1" />
 	</equivalencegroup>
 
+<!-- This element expresses that a certain quantifier per-
+mutes with every other quantifier. For instance, you can state that a proper name
+as analysed by the ERG permutes with every other quantifier as follows: -->
 	
 	<permutesWithEverything label="proper_q"  hole="1" />
 	<permutesWithEverything label="pronoun_q" hole="1" />

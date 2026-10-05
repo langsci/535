@@ -103,6 +103,22 @@ exists_q#1(A,one_q#2(Y0,Y1)) = one_q#2(exists_q#1(A,Y0),Y1)
 exists_q#1(A,one_q#2(Y0,Y1)) = one_q#2(Y0,exists_q#1(A,Y1))
 exists_q#1(A,exists_q#2(Y0,Y1)) = exists_q#2(Y0,exists_q#1(A,Y1))
 
+// equivalencegroup: def_q#1, def_q#0, udef_q#1, udef_q#0
+def_q#1(A,def_q#2(Y0,Y1)) = def_q#2(Y0,def_q#1(A,Y1))
+def_q#1(A,def_q#2(Y0,Y1)) = def_q#2(def_q#1(A,Y0),Y1)
+def_q#1(A,udef_q#2(Y0,Y1)) = udef_q#2(Y0,def_q#1(A,Y1))
+def_q#1(A,udef_q#2(Y0,Y1)) = udef_q#2(def_q#1(A,Y0),Y1)
+def_q#1(def_q#2(Y0,Y1),A) = def_q#2(def_q#1(Y0,A),Y1)
+def_q#1(udef_q#2(Y0,Y1),A) = udef_q#2(Y0,def_q#1(Y1,A))
+def_q#1(udef_q#2(Y0,Y1),A) = udef_q#2(def_q#1(Y0,A),Y1)
+udef_q#1(A,def_q#2(Y0,Y1)) = def_q#2(Y0,udef_q#1(A,Y1))
+udef_q#1(A,def_q#2(Y0,Y1)) = def_q#2(udef_q#1(A,Y0),Y1)
+udef_q#1(A,udef_q#2(Y0,Y1)) = udef_q#2(Y0,udef_q#1(A,Y1))
+udef_q#1(A,udef_q#2(Y0,Y1)) = udef_q#2(udef_q#1(A,Y0),Y1)
+udef_q#1(def_q#2(Y0,Y1),A) = def_q#2(Y0,udef_q#1(Y1,A))
+udef_q#1(def_q#2(Y0,Y1),A) = def_q#2(udef_q#1(Y0,A),Y1)
+udef_q#1(udef_q#2(Y0,Y1),A) = udef_q#2(udef_q#1(Y0,A),Y1)
+
 // equivalencegroup: every_q#1, each_q#1
 every_q#1(A,every_q#2(Y0,Y1)) = every_q#2(Y0,every_q#1(A,Y1))
 every_q#1(A,each_q#2(Y0,Y1)) = each_q#2(Y0,every_q#1(A,Y1))
