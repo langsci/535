@@ -1,0 +1,7 @@
+
+Kapitel 16
+
+2026-10-04 20:45 Parsing tests: 158 items; 1 min 8.489 sec CPU time total; 6274 passive edges total.
+
+mit inf_marking:minus für alle Töchter
+2026-10-04 20:54 Parsing tests: 158 items; 1 min 6.499 sec CPU time total; 6084 passive edges total.

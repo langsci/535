@@ -1,0 +1,1058 @@
+% -*-  coding:utf-8; mode:trale-prolog   -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%   $RCSfile: lexicon.pl,v $
+%%  $Revision: 1.7 $
+%%      $Date: 2006/02/26 18:08:12 $
+%%     Author: Stefan Mueller (Stefan.Mueller@cl.uni-bremen.de)
+%%    Purpose: Eine kleine Spielzeuggrammatik für die Lehre
+%%   Language: Trale
+%      System: TRALE 2.7.5 (release ) under Sicstus 3.12.0
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+:- multifile '--->'/2.
+
+das ---> @det(nom_or_acc,sg,neu,strong,def_q).
+
+der ---> @det(nom,sg,mas,strong,def_q).
+
+% wir gedenken der Frau
+% wir helfen der Frau
+der ---> @det(gen_or_dat,sg,fem,strong,def_q).
+
+
+% dem Mann/Buch
+dem --->  @det(dat,sg,mas_or_neu,strong,def_q).
+
+% den Mann
+den ---> @det(acc,sg,mas,strong,def_q).
+
+
+des ---> @det(gen,sg,mas_or_neu,strong,def_q).
+
+die ---> @det(nom_or_acc,sg,fem,strong,def_q).
+
+
+die ---> @det(nom_or_acc,pl,strong,def_q).
+den ---> @det(dat,       pl,strong,def_q).
+der ---> @det(gen,       pl,strong,def_q).
+
+
+ein   ---> @det(nom,       sg,mas,       weak,  exists_q).
+ein   ---> @det(nom_or_acc,sg,neu,       weak,  exists_q).
+eine  ---> @det(nom_or_acc,sg,fem,       strong,exists_q).
+einen ---> @det(acc,       sg,mas,       strong,exists_q).
+einem ---> @det(dat,       sg,mas_or_neu,strong,exists_q).
+
+einer ---> @det(gen_or_dat,sg,fem,       strong,exists_q).
+eines ---> @det(gen,       sg,mas_or_neu,strong,exists_q).
+
+
+jede  ---> @det(nom_or_acc,sg,fem,strong,every_q).
+jeder ---> @det(gen_or_dat,sg,fem,strong,every_q).
+jeder ---> @det(nom,       sg,mas,strong,every_q).
+
+
+
+die    ---> @rel_pronoun(nom_or_acc,third,sg,fem).
+der    ---> @rel_pronoun(gen_or_dat,third,sg,fem).
+
+der    ---> @rel_pronoun(nom,third,sg,mas).
+
+dessen ---> @rel_pronoun(gen,third,sg,mas_or_neu).
+dem    ---> @rel_pronoun(dat,third,sg,mas_or_neu).
+
+den    ---> @rel_pronoun(acc,third,sg,mas).
+
+das    ---> @rel_pronoun(nom_or_acc,third,sg,neu).
+
+
+dessen ---> @possessive_rel_pronoun(mas_or_neu,sg).
+deren  ---> @possessive_rel_pronoun(fem,sg).
+
+
+% Nomina neutr
+
+buch    ---> @noun(nom_or_dat_or_acc,neu,sg,buch_rel).
+buches  ---> @noun(gen,              neu,sg,buch_rel).
+bücher  ---> @noun(nom_or_gen_or_acc,neu,pl,buch_rel).
+büchern ---> @noun(dat,              neu,pl,buch_rel).
+
+kind   ---> @noun(nom_or_dat_or_acc,neu,sg,kind_rel).
+kindes ---> @noun(gen,              neu,sg,kind_rel).
+kinder ---> @noun(nom_or_gen_or_acc,neu,pl,kind_rel).
+kindern ---> @noun(dat,             neu,pl,kind_rel).
+
+
+beispiel ---> @noun(nom_or_dat_or_acc,neu,sg,beispiel_rel).
+
+bild   ---> @relational_noun(nom_or_dat_or_acc,neu,sg,bild_rel).
+
+einhorn ---> @noun(nom_or_dat_or_acc,neu,sg,einhorn_rel).
+einhorns ---> @noun(gen,neu,sg,einhorn_rel).
+
+fahrrad  ---> @noun(nom_or_dat_or_acc,neu,sg,fahrrad_rel).
+fahrrads ---> @noun(gen,              neu,sg,fahrrad_rel).
+
+lied   ---> @noun(nom_or_dat_or_acc,neu,sg,lied_rel).
+liedes ---> @noun(gen,              neu,sg,lied_rel).
+lieder  ---> @noun(nom_or_gen_or_acc,neu,pl,lied_rel).
+liedern ---> @noun(dat,              neu,pl,lied_rel).
+
+
+märchen  ---> @noun(nom_or_dat_or_acc,neu,sg,märchen_rel).
+märchens ---> @noun(gen,              neu,sg,märchen_rel).
+märchen   ---> @noun(case,             neu,pl,märchen_rel).
+
+% Achtung! Mädchen hat das Genus Neutrum, für Pronomenbindung
+% ist allerdings feminin oder neutrum möglich.
+% Das Mädchen ... Sie/es ...
+
+mädchen  ---> @noun(nom_or_dat_or_acc,neu,  fem_or_neu,sg,mädchen_rel).
+mädchens ---> @noun(gen,              neu,  fem_or_neu,sg,mädchen_rel).
+mädchen  ---> @noun(case,             genus,fem_or_neu,pl,mädchen_rel).
+
+
+% Nomina mask
+
+affe   ---> @noun(nom_or_acc,mas,sg,affe_rel).
+affens ---> @noun(gen,       mas,sg,affe_rel).
+affen  ---> @noun(dat_or_acc,mas,sg,affe_rel).
+affen  ---> @noun(case,      mas,pl,affe_rel).
+
+aufsatz   ---> @noun(nom_or_dat_or_acc,mas,sg,aufsatz_rel).
+aufsatzes ---> @noun(gen,              mas,sg,aufsatz_rel).
+aufsätze  ---> @noun(nom_or_gen_or_acc,mas,pl,aufsatz_rel).
+aufsätzen ---> @noun(dat,              mas,pl,aufsatz_rel).
+
+ball   ---> @noun(nom_or_dat_or_acc,mas,sg,ball_rel).
+balls  ---> @noun(gen,              mas,sg,ball_rel).
+bälle  ---> @noun(nom_or_gen_or_acc,mas,pl,ball_rel).
+bällen ---> @noun(dat,              mas,pl,ball_rel).
+
+film   ---> @noun(nom_or_dat_or_acc,mas,sg,film_rel).
+films  ---> @noun(gen,              mas,sg,film_rel).
+filme  ---> @noun(nom_or_gen_or_acc,mas,pl,film_rel).
+filmen ---> @noun(dat,              mas,pl,film_rel).
+
+kran    ---> @noun(nom_or_dat_or_acc,mas,sg,kran_rel).
+kranes  ---> @noun(gen,              mas,sg,kran_rel).
+kräne   ---> @noun(nom_or_gen_or_acc,mas,pl,kran_rel).
+kränen  ---> @noun(dat,              neu,pl,kran_rel).
+
+lügner  ---> @noun(nom_or_dat_or_acc,mas,sg,lügner_rel).
+lügners ---> @noun(gen,              mas,sg,lügner_rel).
+lügner  ---> @noun(nom_or_gen_or_acc,mas,pl,lügner_rel).
+lügnern ---> @noun(dat,              neu,pl,lügner_rel).
+
+
+mann    ---> @noun(nom_or_dat_or_acc,mas,sg,mann_rel).
+mannes  ---> @noun(gen,              mas,sg,mann_rel).
+männer  ---> @noun(nom_or_gen_or_acc,mas,pl,mann_rel).
+männern ---> @noun(dat,              mas,pl,mann_rel).
+
+mitarbeiter  ---> @noun(nom_or_dat_or_acc,mas,sg,mitarbeiter_rel).
+mitarbeiters ---> @noun(gen,              mas,sg,mitarbeiter_rel).
+mitarbeiter  ---> @noun(nom_or_gen_or_acc,mas,pl,mitarbeiter_rel).
+mitarbeitern ---> @noun(dat,              mas,pl,mitarbeiter_rel).
+
+mörder  ---> @noun(nom_or_dat_or_acc,mas,sg,mörder_rel).
+mörders ---> @noun(gen,              mas,sg,mörder_rel).
+mörder  ---> @noun(nom_or_gen_or_acc,mas,pl,mörder_rel).
+mördern ---> @noun(dat,              neu,pl,mörder_rel).
+
+roman   ---> @noun(nom_or_dat_or_acc,mas,sg,roman_rel).
+romans  ---> @noun(gen,              mas,sg,roman_rel).
+romane  ---> @noun(nom_or_gen_or_acc,mas,pl,roman_rel).
+romanen ---> @noun(dat,              mas,pl,roman_rel).
+
+sohn    ---> @noun(nom_or_dat_or_acc,mas,sg,sohn_rel).
+sohnes  ---> @noun(gen,              mas,sg,sohn_rel).
+söhne   ---> @noun(nom_or_gen_or_acc,mas,pl,sohn_rel).
+söhnen  ---> @noun(dat,              neu,pl,sohn_rel).
+
+stock    ---> @noun(nom_or_dat_or_acc,mas,sg,stock_rel).
+stockes  ---> @noun(gen,              mas,sg,stock_rel).
+stöcker  ---> @noun(nom_or_gen_or_acc,mas,pl,stock_rel).
+stöckern ---> @noun(dat,              mas,pl,stock_rel).
+
+tofu  ---> @noun(nom_or_dat_or_acc,mas,sg,tofu_rel).
+tofus ---> @noun(gen,              mas,sg,tofu_rel).
+
+wagen   ---> @noun(nom_or_dat_or_acc,mas,sg,wagen_rel).
+wagens  ---> @noun(gen,              mas,sg,wagen_rel).
+wagen   ---> @noun(case,             mas,pl,wagen_rel).
+
+
+% Nomina fem
+
+frau   ---> @noun(case,fem,sg,frau_rel).
+frauen ---> @noun(case,fem,pl,frau_rel).
+
+speisekammer  ---> @noun(case,fem,sg,speisekammer_rel).
+speisekammern ---> @noun(case,fem,pl,speisekammer_rel).
+
+tochter  ---> @relational_noun(case,             fem,sg,tochter_rel).
+töchter  ---> @relational_noun(nom_or_gen_or_acc,fem,pl,tochter_rel).
+töchtern ---> @relational_noun(dat,              fem,pl,tochter_rel).
+
+überraschung   ---> @noun(case,fem,sg,überraschung_rel).
+überraschungen ---> @noun(case,fem,pl,überraschung_rel).
+
+wurst   ---> @noun(case,fem,sg,wurst_rel).
+würste  ---> @noun(nom_or_gen_or_acc,fem,pl,wurst_rel).
+würsten ---> @noun(dat,              fem,pl,wurst_rel).
+
+
+% adjektivisch flektierte Nomina
+% Die Flexionsinformation ist identisch mit der der Adjektive,
+% außer daß das Genus nie neutrum ist, da Beamte immer mas
+% oder fem sind.
+%
+% Auskommentierte Formen werden nicht gebraucht. Bei Adjektiven sind
+% sie notwendig, da der Artikel wegfallen kann:
+%
+% Er rechnet mit frischer Milch.
+%
+% Für den Nominativ & Akkusativ braucht man die Formen aber, da in Kopulakonstruktionen
+% der Artikel wegfallen kann zulässig ist.
+% 
+% Er ist Beamter.
+% Er ließ ihn Beamten werden.
+
+
+beamte ---> @adj_noun(nom_or_acc,fem,        sg,dtype, beamter_rel).
+beamte ---> @adj_noun(nom,       mas,        sg,strong,beamter_rel).
+beamte ---> @adj_noun(nom_or_acc,fem_or_mas, pl,weak,  beamter_rel).
+
+beamten ---> @adj_noun(gen_or_dat,fem_or_mas,sg,strong,beamter_rel).
+%beamten ---> @adj_noun(gen,       mas,       sg,weak,  beamter_rel).  % nicht gebraucht
+beamten ---> @adj_noun(case,      fem_or_mas,pl,strong,beamter_rel).
+beamten ---> @adj_noun(acc,       mas,       sg,dtype, beamter_rel).
+beamten ---> @adj_noun(gen,       mas,       pl,weak,  beamter_rel).
+beamten ---> @adj_noun(dat,       fem_or_mas,pl,weak,  beamter_rel).
+
+%beamtem ---> @adj_noun(dat,       mas,       sg,weak,  beamter_rel).  % nicht gebraucht
+
+
+%
+%beamter ---> @noun(gen_or_dat,fem,       sg,weak,  beamter_rel).      % nicht gebraucht
+
+beamter ---> @adj_noun(nom,       mas,       sg,weak,  beamter_rel).
+beamter ---> @adj_noun(gen,       fem_or_mas,pl,weak,  beamter_rel).
+
+
+
+
+% Personalpronomina
+
+ich    ---> @pers_pronoun(nom,first,sg).
+meiner ---> @pers_pronoun(gen,first,sg).
+mir    ---> @pers_pronoun(dat,first,sg).
+mich   ---> @pers_pronoun(acc,first,sg).
+
+
+du     ---> @pers_pronoun(nom,second,sg).
+deiner ---> @pers_pronoun(gen,second,sg).
+dir    ---> @pers_pronoun(dat,second,sg).
+dich   ---> @pers_pronoun(acc,second,sg).
+
+
+er     ---> @pers_pronoun(nom,third,sg,mas).
+seiner ---> @pers_pronoun(gen,third,sg,mas_or_neu).
+ihm    ---> @pers_pronoun(dat,third,sg,mas_or_neu).
+ihn    ---> @pers_pronoun(acc,third,sg,mas).
+
+sie   ---> @pers_pronoun(nom_or_acc,third,sg,fem).
+ihrer ---> @pers_pronoun(gen,       third,sg,fem).
+ihr   ---> @pers_pronoun(dat,       third,sg,fem).
+
+es    ---> @pers_pronoun(nom_or_acc,third,sg,neu).
+
+
+wir     ---> @pers_pronoun(nom,       first,pl).
+unserer ---> @pers_pronoun(gen,       first,pl).
+uns     ---> @pers_pronoun(dat_or_acc,first,pl).
+
+
+ihr   ---> @pers_pronoun(nom,       second,pl).
+eurer ---> @pers_pronoun(gen,       second,pl).
+euch  ---> @pers_pronoun(dat_or_acc,second,pl).
+
+
+sie   ---> @pers_pronoun(nom_or_acc,third,pl).
+ihrer ---> @pers_pronoun(gen,       third,pl).
+ihnen ---> @pers_pronoun(dat,       third,pl).
+
+% Expletivum
+
+es    ---> expl_pronoun.
+
+% Possessivpronomina
+
+% Syntaktische Eigenschaften erst, dann semantische sein = mas, ihr = fem
+
+mein   ---> @possessive(nom,       first, sg,genus,     sg,mas,       weak).
+mein   ---> @possessive(nom_or_acc,first, sg,genus,     sg,neu,       weak).
+meine  ---> @possessive(nom_or_acc,first, sg,genus,     sg,fem,       strong).
+meine  ---> @possessive(nom_or_acc,first, sg,genus,     pl,genus,     strong).
+
+meinen ---> @possessive(acc,       first, sg,genus,     sg,mas,       strong).
+meinen ---> @possessive(dat,       first, sg,genus,     pl,genus,     strong).
+
+meinem ---> @possessive(dat,       first, sg,genus,     sg,mas_or_neu,strong).
+
+meiner ---> @possessive(gen_or_dat,first, sg,genus,     sg,fem,       strong).
+meiner ---> @possessive(gen,       first, sg,genus,     pl,genus,     strong).
+
+meines ---> @possessive(gen,       first, sg,genus,     sg,mas_or_neu,strong).
+
+dein   ---> @possessive(nom,       second,sg,genus,     sg,mas,       weak).
+dein   ---> @possessive(nom_or_acc,second,sg,genus,     sg,neu,       weak).
+deine  ---> @possessive(nom_or_acc,second,sg,genus,     sg,fem,       strong).
+deine  ---> @possessive(nom_or_acc,second,sg,genus,     pl,genus,     strong).
+
+deinen ---> @possessive(acc,       second,sg,genus,     sg,mas,       strong).
+deinen ---> @possessive(dat,       second,sg,genus,     pl,genus,     strong).
+
+deinem ---> @possessive(dat,       second,sg,genus,     sg,mas_or_neu,strong).
+
+deiner ---> @possessive(gen_or_dat,second,sg,genus,     sg,fem,       strong).
+deiner ---> @possessive(gen,       second,sg,genus,     pl,genus,     strong).
+
+deines ---> @possessive(gen,       second, sg,genus,    sg,mas_or_neu,strong).
+
+sein   ---> @possessive(nom,       third, sg,mas_or_neu,sg,mas,       weak).
+sein   ---> @possessive(nom_or_acc,third, sg,mas_or_neu,sg,neu,       weak).
+seine  ---> @possessive(nom_or_acc,third, sg,mas_or_neu,sg,fem,       strong).
+seine  ---> @possessive(nom_or_acc,third, sg,mas_or_neu,pl,genus,     strong).
+
+seinen ---> @possessive(acc,       third, sg,mas_or_neu,sg,mas,       strong).
+seinen ---> @possessive(dat,       third, sg,mas_or_neu,pl,genus,     strong).
+
+seinem ---> @possessive(dat,       third, sg,mas_or_neu,sg,mas_or_neu,strong).
+
+seiner ---> @possessive(gen_or_dat,third, sg,mas_or_neu,sg,fem,       strong).
+seiner ---> @possessive(gen,       third, sg,mas_or_neu,pl,genus,     strong).
+
+seines ---> @possessive(gen,       third, sg,mas_or_neu,sg,mas_or_neu,strong).
+
+
+
+aicke ---> @proper_noun(fem_or_mas,'Aicke').
+
+% Verben
+
+arbeit  ---> @intrans_verb(arbeiten_rel),
+            @vflex_fk(v_weak),
+
+            @vflex_ep(plus),
+            @vflex_sm(minus),
+            @vflex_pl_n(minus),
+            @vflex_em(minus),
+            @vflex_bet1(plus).
+
+
+bell    ---> @intrans_verb(bellen_rel),
+            @vflex_fk(v_weak),
+ 
+            @vflex_ep(minus),
+            @vflex_sm(minus),
+            @vflex_pl_n(minus),
+            @vflex_em(minus),
+            @vflex_bet1(plus).
+
+lach    ---> @intrans_verb(lachen_rel),
+            @vflex_fk(v_weak),
+ 
+            @vflex_ep(minus),
+            @vflex_sm(minus),
+            @vflex_pl_n(minus),
+            @vflex_em(minus),
+            @vflex_bet1(plus).
+
+
+schlaf ---> @intrans_verb(schlafen_rel),
+           @pres2_stem(a_ schläf),
+           @past_stem(a_ schlief),
+            
+           @vflex_fk(v_strong),
+           @vflex_ep(minus),
+           @vflex_evp(minus),
+           @vflex_epp(plus),
+           @vflex_sm(minus),
+           @vflex_pl_n(minus),
+           @vflex_spe(minus),
+           @vflex_tm(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+tanz   ---> @intrans_verb(tanzen_rel),
+           @vflex_fk(v_weak),
+ 
+           @vflex_ep(minus),
+           @vflex_sm(plus),
+           @vflex_pl_n(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+
+sterb  ---> @intrans_unacc_verb(sterben_rel),
+           @pres2_stem(a_ stirb),
+           @past_stem(a_ starb),
+           @part_stem(a_ storb),
+           
+           @conj_stem(a_ stürb),
+           @imp2_stem,
+           @vflex_fk(v_strong),
+              
+           @vflex_ep(minus),
+           @vflex_evp(minus),
+           @vflex_epp(plus),
+           @vflex_sm(minus),
+           @vflex_pl_n(minus),
+           @vflex_spe(minus),
+           @vflex_tm(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+regn  --->  @expl_np_verb(regnen_rel),
+           @vflex_fk(v_weak),
+ 
+           @vflex_ep(plus),
+           @vflex_sm(minus),
+           @vflex_pl_n(minus),
+           @vflex_spe(minus),
+           @vflex_tm(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+% eigentlich würde man hier `auffallen' nehmen, aber das ist leider ein Partikelverb.
+geling ---> @np_np_unacc_verb(dat,gelingen_rel),
+           @past_stem(a_ gelang),
+           @part_stem(a_ gelung),
+              
+           @conj_stem(a_ geläng),
+              
+           @vflex_fk(v_strong),
+              
+           @vflex_ep(minus),
+           @vflex_epp(plus),
+           @vflex_sm(minus),
+           @vflex_pl_n(minus),
+%          @vflex_spe(minus),
+           @vflex_tm(minus),
+           @vflex_em(minus),
+           @vflex_bet1(minus).
+
+
+
+spiel  ---> @intrans_verb(spielen_rel),
+            @vflex_fk(v_weak),
+
+            @vflex_ep(minus),
+            @vflex_sm(minus),
+            @vflex_pl_n(minus),
+            @vflex_em(minus),
+            @vflex_bet1(plus).
+
+
+grau   ---> @subjlos_verb(dat,grauen_rel),
+           @vflex_fk(v_weak),
+ 
+           @vflex_ep(minus),
+           @vflex_sm(minus),
+           @vflex_pl_n(minus),
+           @vflex_spe(minus),
+           @vflex_tm(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+helf   ---> @np_np_dat_verb(helfen_rel),
+
+           @pres2_stem(a_ hilf),
+           @past_stem(a_ half),
+           @part_stem(a_ holf),
+           @conj_stem(a_ hülf),
+           @imp2_stem,
+           
+           @vflex_fk(v_strong),
+           
+           @vflex_ep(minus),
+           @vflex_evp(minus),
+           @vflex_epp(plus),
+           @vflex_sm(minus),
+           @vflex_pl_n(minus),
+           @vflex_spe(minus),
+           @vflex_tm(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+
+jag    ---> @trans_verb(jagen_rel),
+           @vflex_fk(v_weak),
+ 
+           @vflex_ep(minus),
+           @vflex_sm(minus),
+           @vflex_pl_n(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+
+kenn  --->  @trans_verb(kennen_rel),
+           @past_stem(a_ kann),
+           @part_stem(a_ kann),
+            
+           @vflex_fk(mixed),
+           
+           @vflex_ep(minus),
+           @vflex_sm(minus),
+           @vflex_pl_n(minus),
+           @vflex_spe(minus),
+           @vflex_tm(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+les  ---> @trans_verb(lesen_rel),
+         @pres2_stem(a_ lies),
+
+         @past_stem(a_ las),
+         @part_stem(a_ les),
+         @conj_stem(a_ läs),
+         @imp2_stem,
+         @vflex_fk(v_strong),
+           
+         @vflex_ep(minus),
+         @vflex_evp(minus),
+         @vflex_epp(plus),
+         @vflex_sm(plus),
+         @vflex_pl_n(minus),
+         @vflex_spe(plus),
+         @vflex_tm(minus),
+         @vflex_em(minus),
+         @vflex_bet1(plus).
+
+lieb  ---> @trans_verb(lieben_rel),
+           @vflex_fk(v_weak),
+            
+           @vflex_ep(minus),
+           @vflex_sm(minus),
+           @vflex_pl_n(minus),
+           @vflex_spe(minus),
+           @vflex_tm(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+nehm  ---> @trans_verb(nehmen_rel),
+           @pres2_stem(a_ nimm),
+
+           @past_stem(a_ nahm),
+           @part_stem(a_ nomm),
+           @conj_stem(a_ nähm),
+           @imp2_stem,
+           @vflex_fk(v_strong),
+            
+           @vflex_ep(minus),
+           @vflex_sm(minus),
+           @vflex_pl_n(minus),
+           @vflex_spe(minus),
+           @vflex_tm(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+
+reparier  ---> @trans_verb(reparieren_rel),
+              @vflex_fk(v_weak),
+ 
+              @vflex_ep(minus),
+              @vflex_sm(minus),
+              @vflex_pl_n(minus),
+              @vflex_em(minus),
+              @vflex_bet1(minus).
+
+schlag ---> @trans_verb(schlagen_rel),
+           @pres2_stem(a_ schläg),
+           @past_stem(a_ schlug),
+           @part_stem(a_ schlag),
+           
+           @vflex_fk(v_strong),
+           
+           @vflex_ep(minus),
+           @vflex_evp(minus),
+           @vflex_epp(plus),
+           @vflex_sm(minus),
+           @vflex_pl_n(minus),
+           @vflex_spe(minus),
+           @vflex_tm(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+sing  ---> @trans_verb(singen_rel),
+           @past_stem(a_ sang),
+           @part_stem(a_ sung),
+              
+           @conj_stem(a_ säng),
+              
+           @vflex_fk(v_strong),
+              
+           @vflex_ep(minus),
+           @vflex_epp(plus),
+           @vflex_sm(minus),
+           @vflex_pl_n(minus),
+%          @vflex_spe(minus),
+           @vflex_tm(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+
+widersprech  ---> @np_np_dat_verb(widersprechen_rel),
+            @pres2_stem(a_ widersprich),
+            @past_stem(a_ widersprach),
+            @part_stem(a_ widersproch),
+            @conj_stem(a_ widerspräch),
+            @imp2_stem,
+            @vflex_fk(v_strong),
+            
+            @vflex_ep(minus),
+            @vflex_evp(minus),
+            @vflex_epp(plus),
+            @vflex_sm(minus),
+            @vflex_pl_n(minus),
+%            @vflex_spe(minus),
+            @vflex_tm(minus),
+            @vflex_em(minus),
+            @vflex_bet1(minus).
+
+
+% Ditransitive Verben
+geb  ---> @ditrans_verb(geben_rel),
+         @pres2_stem(a_ gib),
+         @past_stem(a_ gab),
+         @part_stem(a_ geb),
+         @conj_stem(a_ gäb),
+         @imp2_stem,
+            
+         @vflex_fk(v_strong),
+            
+         @vflex_ep(minus),
+         @vflex_evp(minus),
+         @vflex_epp(plus),
+         @vflex_sm(minus),
+         @vflex_pl_n(minus),
+         @vflex_spe(minus),
+         @vflex_tm(minus),
+         @vflex_em(minus),
+         @vflex_bet1(plus).
+
+
+
+erzähl  ---> @ditrans_verb(erzählen_rel),
+            @vflex_fk(v_weak),
+            
+            @vflex_ep(minus),
+            @vflex_sm(minus),
+            @vflex_pl_n(minus),
+            @vflex_spe(minus),
+            @vflex_tm(minus),
+            @vflex_em(minus),
+            @vflex_bet1(minus).
+
+
+
+denk  ---> @np_pp_verb(an_pform,acc,denken_an_rel),
+          @past_stem(a_ dach),
+          @part_stem(a_ dach),
+          
+          @vflex_fk(v_weak),
+          @vflex_ep(minus),
+          @vflex_sm(minus),
+          @vflex_pl_n(minus),
+          @vflex_spe(minus),
+          @vflex_tm(minus),
+          @vflex_em(minus),
+          @vflex_bet1(plus).
+
+
+
+glaub ---> @glauben_denken_verb(glauben_rel),
+          @vflex_fk(v_weak),
+          @vflex_ep(minus),
+          @vflex_sm(minus),
+          @vflex_pl_n(minus),
+          @vflex_spe(minus),
+          @vflex_tm(minus),
+          @vflex_em(minus),
+          @vflex_bet1(plus).
+
+% Modalverben
+
+
+dürf   ---> @modal_verb(dürfen_rel),
+           @pres2_stem(a_ darf),
+ 
+           @past_stem(a_ durf),
+           @part_stem(a_ durf),
+           @conj_stem(a_ dürf),
+
+           @vflex_fk(modal),
+           
+           @vflex_ep(minus),
+           @vflex_sm(minus),
+           @vflex_pl_n(minus),
+           @vflex_spe(minus),
+           @vflex_tm(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+könn   ---> @modal_verb(können_rel),
+           @pres2_stem(a_ kann),
+ 
+           @past_stem(a_ konn),
+           @part_stem(a_ konn),
+           @conj_stem(a_ könn),
+           
+           @vflex_fk(modal),
+           
+           @vflex_ep(minus),
+           @vflex_sm(minus),
+           @vflex_pl_n(minus),
+           @vflex_spe(minus),
+           @vflex_tm(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+müss   ---> @modal_verb(müssen_rel),
+           @pres2_stem(a_ muss),
+ 
+           @past_stem(a_ muss),
+           @part_stem(a_ muss),
+           
+           @conj_stem(a_ müss),
+
+           @vflex_fk(modal),
+            
+           @vflex_ep(minus),
+           @vflex_sm(plus),
+           @vflex_pl_n(minus),
+           @vflex_spe(minus),
+           @vflex_tm(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+woll   ---> @modal_verb(wollen_rel),
+           @pres2_stem(a_ will),
+ 
+           @vflex_fk(modal),
+            
+           @vflex_ep(minus),
+           @vflex_sm(minus),
+           @vflex_pl_n(minus),
+           @vflex_spe(minus),
+           @vflex_tm(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+
+versprech --->  ( @np_v_subj_control_verb(versprechen_rel)
+               ; @np_np_v_subj_control_verb(dat,versprechen_rel)
+               ),
+              @pres2_stem(a_ versprich),
+
+              @past_stem(a_ versprach),
+              @part_stem(a_ versproch),
+              
+              @conj_stem(a_ verspräch),
+              @imp2_stem,
+              @vflex_fk(v_strong),
+              
+              @vflex_ep(minus),
+              @vflex_evp(minus),
+              @vflex_epp(plus),
+              @vflex_sm(minus),
+              @vflex_pl_n(minus),
+              @vflex_spe(minus),
+              @vflex_tm(minus),
+              @vflex_em(minus),
+              @vflex_bet1(minus).
+
+versuch   ---> @np_v_subj_control_verb(versuchen_rel),
+              @vflex_fk(v_weak),
+ 
+              @vflex_ep(minus),
+              @vflex_sm(minus),
+              @vflex_pl_n(minus),
+              @vflex_spe(minus),
+              @vflex_tm(minus),
+              @vflex_em(minus),
+              @vflex_bet1(minus).
+
+
+% Objektkontrollverben
+erlaub    ---> @np_np_v_obj_control_verb(dat,erlauben_rel),
+              @vflex_fk(v_weak),
+              
+              @vflex_ep(minus),
+              @vflex_sm(minus),
+              @vflex_pl_n(minus),
+              @vflex_em(minus),
+              @vflex_bet1(minus).
+
+zwing     ---> @np_np_v_obj_control_verb(zwingen_rel),
+              @past_stem(a_ zwang),
+              @part_stem(a_ zwung),
+              
+              @conj_stem(a_ zwäng),
+ 
+              @vflex_fk(v_strong),
+              
+              @vflex_ep(minus),
+              @vflex_evp(minus),
+              @vflex_epp(plus),
+              @vflex_sm(minus),
+              @vflex_pl_n(minus),
+              @vflex_spe(minus),
+              @vflex_tm(minus),
+              @vflex_em(minus),
+              @vflex_bet1(plus).
+
+
+% Subjektanhebungsverben
+
+% obligatorisch kohärent
+schein --->   @coherent_subject_raising_verb(scheinen_rel),
+              synsem:loc:cat:head:vform:fin,        % *Karl wird zu schlafen scheinen.
+                                                    % *Karl hat zu schlafen geschienen.
+              @past_stem(a_ schien),
+ 
+              @vflex_fk(v_strong),
+                
+              @vflex_ep(minus),
+              @vflex_evp(minus),
+              @vflex_epp(plus),
+              @vflex_sm(minus),
+              @vflex_pl_n(minus),
+              @vflex_spe(minus),
+              @vflex_tm(minus),
+              @vflex_em(minus),
+              @vflex_bet1(plus).
+
+% optional kohärent
+beginn --->    @phase_verb(beginnen_rel),
+              @past_stem(a_ begann),
+              @part_stem(a_ begonnen),
+              @conj_stem(a_ begänn),
+              
+              @vflex_fk(v_strong),
+              
+              @vflex_ep(minus),
+              @vflex_evp(minus),
+              @vflex_epp(plus),
+              @vflex_sm(minus),
+              @vflex_pl_n(minus),
+              @vflex_spe(minus),
+              @vflex_tm(minus),
+              @vflex_em(minus),
+              @vflex_bet1(minus).
+
+
+
+% AcI-Verben
+
+seh       ---> @aci_verb(sehen_rel),
+              @pres2_stem(a_ sieh),
+
+              @past_stem(a_ sah),
+              @part_stem(a_ seh),
+              
+              @conj_stem(a_ säh),
+              @imp2_stem,
+              @vflex_fk(v_strong),
+              
+              @vflex_ep(minus),
+              @vflex_evp(minus),
+              @vflex_epp(plus),
+              @vflex_sm(minus),
+              @vflex_pl_n(minus),
+              @vflex_spe(minus),
+              @vflex_tm(minus),
+              @vflex_em(minus),
+              @vflex_bet1(plus).
+
+
+lass    ---> ( @aci_verb(lassen_rel)
+            ;
+              lassen_passive
+            ),
+            @pres2_stem(a_ läß),
+
+            @past_stem(a_ ließ),
+            @part_stem(a_ lass),
+            
+            @vflex_fk(v_strong),
+            
+            @vflex_ep(minus),
+            @vflex_evp(minus),
+            @vflex_epp(plus),
+            @vflex_sm(plus),
+            @vflex_pl_n(minus),
+            @vflex_spe(minus),
+            @vflex_tm(minus),
+            @vflex_em(minus),
+            @vflex_bet1(plus).
+
+
+
+% Hilfsverben
+% Einträge für Futur-Hilfsverb und Passiv (kommt im nächsten Kapitel)
+
+werde    ---> @werden(first,  sg, pres_ind_conj).
+wirst    ---> @werden(second, sg, pres_ind).
+wird     ---> @werden(third,  sg, pres_ind).
+
+werden   ---> @werden(first_or_third, pl, pres_ind_conj).
+werdet   ---> @werden(second,         pl, pres_ind_conj).
+
+werde    ---> @werden(third,          sg, pres_conj).  % first person listed above, reduces ambiguity
+werdest  ---> @werden(second,         sg, pres_conj).
+
+wurde    ---> @werden(first_or_third, sg, past_ind).
+wurdest  ---> @werden(second,         sg, past_ind).
+wurden   ---> @werden(first_or_third, pl, past_ind).
+wurdet   ---> @werden(second,         pl, past_ind).
+
+
+würde    ---> @werden(first_or_third, sg, past_conj).
+würdest  ---> @werden(second,         sg, past_conj).
+
+
+% Es gibt keine infiniten Formen für das Futur-Hilfsverb.
+% Die folgenden sind nur fürs Passiv:
+%
+werden   ---> @werden(bse).
+worden   ---> @werden_pas(ppp).
+
+/*
+bin   ---> @sein(first, sg, pres_ind).
+bist  ---> @sein(second,sg, pres_ind).
+ist   ---> @sein(third, sg, pres_ind).
+
+sind  ---> @sein(first_or_third, pl, pres_ind).
+seid  ---> @sein(second,         pl, pres_ind).
+
+sei   ---> @sein(first_or_third, sg, pres_conj).
+seist ---> @sein(second,         sg, pres_conj).
+
+seien ---> @sein(first_or_third, pl, pres_conj).
+seiet ---> @sein(second,         pl, pres_conj).
+
+war   ---> @sein(first_or_third, sg, past_ind).
+warst ---> @sein(second,         sg, past_ind).
+
+waren ---> @sein(first_or_third, pl, past_ind).
+wart  ---> @sein(second,         pl, past_ind).
+
+wäre   ---> @sein(first_or_third, sg, past_conj).
+wärest ---> @sein(second,         sg, past_conj).
+
+wären ---> @sein(first_or_third, pl, past_conj).
+wärt  ---> @sein(second,         pl, past_conj).
+
+
+gewesen  ---> @sein(ppp).
+
+sein     ---> @sein(bse_or_inf).
+*/
+
+
+% Dativpassiv-Hilfsverb
+
+
+bekomm  ---> dative_passive_aux_verb,
+            @past_stem(a_ bekam),
+            @part_stem(a_ bekomm),
+            @conj_stem(a_ bekäm),
+            
+            @vflex_fk(v_strong),
+            
+            @vflex_ep(minus),
+            @vflex_evp(minus),
+            @vflex_epp(plus),
+            @vflex_sm(minus),
+            @vflex_pl_n(minus),
+            @vflex_spe(minus),
+            @vflex_tm(minus),
+            @vflex_em(minus),
+            @vflex_bet1(minus).
+
+
+
+% Perfekt-Hilfsverb
+
+hab     ---> haben_perfect,
+            @pres2_stem(a_ ha),
+            @past_stem(a_ hat),
+            @part_stem(a_ hab),
+            @conj_stem(a_ hät),
+            
+            @vflex_fk(mixed),
+            
+            @vflex_ep(minus),
+            @vflex_sm(minus),
+            @vflex_pl_n(minus),
+            @vflex_spe(minus),
+            @vflex_tm(minus),
+            @vflex_em(minus),
+            @vflex_bet1(plus).
+
+
+an  ---> @comp_prep(an_pform).
+auf ---> @comp_prep(auf_pform).
+für ---> @comp_prep(für_pform).
+von ---> @comp_prep(von_pform).
+zu  ---> @comp_prep(zu_pform).
+
+
+in ---> @location_noun_mod_prep(in_rel).
+in ---> @location_verb_mod_prep(in_rel).
+
+
+
+interessant ---> @np_adj(interessant_rel).
+klug        ---> @np_adj(klug_rel).
+klein       ---> @np_adj(klein_rel).
+schön       ---> @np_adj(schön_rel).
+
+treu        ---> @np_np_adj(dat,treu_rel).
+
+schwierig   ---> @np_adj(schwierig_rel).
+stolz       ---> @np_pp_adj(auf_pform,acc,stolz_auf_rel).
+
+mutmaßlich  ---> @scopal_adj(mutmaßlich_rel).
+
+
+
+angeblich ---> @scopal_adv(angeblich_rel).
+
+nicht ---> @scopal_adv(nicht_rel).
+
+wahrscheinlich ---> @scopal_adv(wahrscheinlich_rel).
+
+morgen ---> @isect_adv(morgen_rel).
+
+oft ---> @isect_adv(oft_rel).
+
+
+dass ---> @complementizer(dass).
+
+
+
+empty
+   v_trace.
+
+
+empty 
+   e_trace.
+
+
+empty 
+    (empty_determiner,
+     @det(pl,weak,udef_q)).
