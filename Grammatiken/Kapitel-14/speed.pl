@@ -227,7 +227,7 @@ head_cluster_phrase *> (synsem:loc:cat:comps:(list_of_argument_synsems,
 % Ansonsten würde `er lachen' als Verbalkomplexbestandteil mit einer
 % Verbspur kombinierbar sein.
 (head_cluster_phrase,
- synsem:loc:cat:head:initial:minus) *> non_head_dtrs:[synsem:lex:plus].
+ synsem:loc:cat:head:initial:minus) *> non_head_dtrs:hd:synsem:lex:plus.
 
 
 
