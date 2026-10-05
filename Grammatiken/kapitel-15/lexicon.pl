@@ -960,18 +960,6 @@ oft ---> @isect_adv(oft_rel).
 dass ---> @complementizer(dass).
 
 
-/*
-% Die alte zyklische Verbspur. Im Prinzip bräuchte man nicht mal die Information darüber, dass es ein Verb und final ist.
-empty
-   (trace,
-    loc:(Loc,
-         cat:head:(verb,
-                   initial:minus,
-                   dsl:Loc)),
-    nonloc:slash:[],
-    trace:vm).
-*/
-
 empty
    v_trace.
 
