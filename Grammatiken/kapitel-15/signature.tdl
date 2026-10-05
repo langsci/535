@@ -63,7 +63,7 @@ intro_complex_sign_dtr := sign &
 ; unflektierten Stämme.
 syntactic_sign := sign.
 lexical_sign   := sign &
-  [ zu bool ].
+  [ inf_marking bool ].
 
 phrase := intro_complex_sign.
 
@@ -287,7 +287,7 @@ phase_verb := subj_raising_verb & zu_inf_verb_le.
 
 haben_perfect := perfect_aux_verb.
 
-control_verb := non_flip_verb_le & non_scopal_verb_stem.
+control_verb := non_flip_verb_le & non_scopal_verb_stem & optionally_coherent_le.
 
 zu_inf_verb_le := non_flip_verb_le.
 

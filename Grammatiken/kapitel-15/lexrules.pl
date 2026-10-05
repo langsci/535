@@ -34,7 +34,7 @@ verb_movement_lr *>
           nonloc:Nonloc,
           trace:Trace,
           lex:Lex),
-  zu:Zu,
+  inf_marking:Zu,
   dtrs:[( word,
           synsem:(loc:(Loc,
                        cat:head:(verb,
@@ -43,7 +43,7 @@ verb_movement_lr *>
                   nonloc:Nonloc,
                   trace:Trace,
                   lex:Lex),
-          zu:Zu)]).
+          inf_marking:Zu)]).
 
 
 verb_initial_lr *>
@@ -135,7 +135,7 @@ fin_verb_infl_lr *>
          arg0:Event,
          arg3:LTop)|Rels],
   hcons:HCons,
-  zu:minus,
+  inf_marking:minus,
   dtr:( stem,
           synsem:(loc:(cat:Cat,
                        cont:(ltop:LTop,
@@ -234,7 +234,7 @@ reg_bse_or_inf_verb_infl_lr *>
 bse_verb_infl_lr *>
  (%bse_or_inf_verb_infl_lr
   synsem:loc:cat:head:vform:bse,
-  zu:minus).
+  inf_marking:minus).
 
 % Infinitive sind fast identisch. Das Ergebniszeichen ist aber vom
 % Type zu_word. Dieser kann in keiner Grammatikregel vorkommen, außer
@@ -242,7 +242,7 @@ bse_verb_infl_lr *>
 inf_verb_infl_lr *>
  (%bse_or_inf_verb_infl_lr
   synsem:loc:cat:head:vform:inf,
-  zu:plus).
+  inf_marking:plus).
 
 
 

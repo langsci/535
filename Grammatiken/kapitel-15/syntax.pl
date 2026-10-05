@@ -163,7 +163,7 @@ verb_movement_rule *>
           lex:Lex),
   rels:Rels,
   hcons:HCons,
-  zu:minus,
+  inf_marking:minus,
   dtrs:[( %word,
           phon:Phon,
           synsem:(loc:(Loc,
@@ -622,6 +622,31 @@ undelayed_assign_case_verb([(@np_str,
 undelayed_assign_case_verb([@np_lex|Rest])                                       if assign_case_verb(Rest).
 undelayed_assign_case_verb([@no_noun|Rest])                                      if assign_case_verb(Rest).
 
+
+fun list_of_zu_minus(-).
+list_of_zu_minus(L) if
+   when( (L=(e_list;ne_list)),
+         list_of_zu_minus2(L) ).
+
+
+list_of_zu_minus2([]) if true.
+list_of_zu_minus2([H|T]) if
+   when( (H=(word;phrase)),
+         undelayed_list_of_zu_minus([H|T]) ).
+
+undelayed_list_of_zu_minus([]) if true.
+undelayed_list_of_zu_minus([(word,
+                             inf_marking:minus)|T]) if
+   list_of_zu_minus(T).
+undelayed_list_of_zu_minus([phrase|T]) if
+   list_of_zu_minus(T).
+
+% Sorgt dafür, daß Objekte, die noch ein `zu' benötigen,
+% nicht in der Syntax als Töchter auftreten können.
+% Das kann nicht ausschließlich an Typen festgemacht werden,
+% da `zu lesende' eine Form mit Adjektivflexion ist. Flektierte
+% Objekte sind aber normalerweise syntaktische Objekte (z.B. `kluge') 
+phrase *> dtrs:list_of_zu_minus.
 
 
 root :=

@@ -108,7 +108,7 @@ inf_zu rule
   synsem:Synsem,
   rels:Rels,
   hcons:HCons,
-  zu:minus)
+  inf_marking:minus)
   ===>
   % Als erste Tochter nehmen wir irgendein `zu', das in der Grammatik vorhanden ist.
   % Es muß eindeutig sein!
@@ -120,5 +120,5 @@ cat> (word,
       synsem:Synsem,
       rels:Rels,
       hcons:HCons,
-      zu:plus).
+      inf_marking:plus).
 
