@@ -284,7 +284,7 @@ tochter ---> (word,
           spr:[],
           comps:[]) ] ).
 
-tofu ---> (word,
+eis ---> (word,
   head:(noun,
         case:nom),
   spr:[(head:(det,
@@ -316,6 +316,15 @@ ihm ---> (word,
   comps:[]).
 
 schläft ---> (word,
+  head:(verb,
+        vform:fin),
+  spr:[],
+  comps:[(head:(noun,
+                case:nom),
+          spr:[],
+          comps:[]) ] ).
+
+schmilzt ---> (word,
   head:(verb,
         vform:fin),
   spr:[],

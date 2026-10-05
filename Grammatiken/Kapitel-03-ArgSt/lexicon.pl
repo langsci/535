@@ -68,6 +68,13 @@ affe ---> (word,
            spr:[],
            comps:[])]).
 
+kind ---> (word,
+  p_o_s:noun,
+  mod:none,
+  spr:[(p_o_s:det,
+          spr:[],
+          comps:[])],
+  comps:[] ).
 
 mann ---> (word,
   p_o_s:noun,
@@ -101,6 +108,13 @@ tochter ---> (word,
                       comps:[]) ] ).
 
 buch ---> (word,
+  p_o_s:noun,
+  mod:none,
+  arg_st:[(p_o_s:det,
+           spr:[],
+           comps:[])] ).
+
+eis ---> (word,
   p_o_s:noun,
   mod:none,
   arg_st:[(p_o_s:det,
@@ -158,7 +172,7 @@ schläft ---> (word,
            spr:[],
            comps:[]) ] ).
 
-stinkt ---> (word,
+schmilzt ---> (word,
   p_o_s:verb,
   mod:none,
   arg_st:[(p_o_s:noun,

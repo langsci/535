@@ -109,9 +109,9 @@ stockes ---> @noun(gen,mas,sg,stock_rel).
 
 tochter ---> @relational_noun(case,fem,sg,tochter_rel).
 
-tofu   ---> @noun(nom_or_dat_or_acc,mas,sg,tofu_rel).
+eis   ---> @noun(nom_or_dat_or_acc,neu,sg,eis_rel).
 
-tofus ---> @noun(gen,mas,sg,tofu_rel).
+eises ---> @noun(gen,neu,sg,eis_rel).
 
 wurst ---> @noun(case,fem,sg,wurst_rel).
 
@@ -134,6 +134,8 @@ bellt   ---> @np_verb(bellen_rel).
 lacht   ---> @np_verb(lachen_rel).
 
 schläft ---> @np_verb(schlafen_rel).
+
+schmilzt ---> @np_verb(schmelzen_rel).
 
 graut   ---> @subjlos_np_verb(dat,grauen_rel).
 

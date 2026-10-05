@@ -1,3 +1,5 @@
+% -*-trale-prolog-*-
+
 % TDL signature input; TRALE supplies missing least upper bounds.
 :- ale_flag(subintro,_,file).
 :- ale_flag(msl,_,off).
@@ -65,7 +67,8 @@ gen_pathes([[cat,head],[cat,spr],[cat,comps],[cont]]).
 
 syntactic_object(sign).
 ind_path([cont,ind]).
-%gtop_path([cont,gtop]).
+% Just print h1 and do not do anything else.
+gtop_path(none).
 cont_path([cont]).
 liszt_path([cont,rels]).
 hcons_path([cont,hcons]).

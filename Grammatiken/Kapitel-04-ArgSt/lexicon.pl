@@ -260,7 +260,7 @@ tochter ---> (word,
            spr:[],
            comps:[]) ] ).
 
-tofu ---> (word,
+eis ---> (word,
   head:(noun,
         case:nom),
   arg_st:[(head:(det,
@@ -296,7 +296,7 @@ schläft ---> (word,
            spr:[],
            comps:[]) ] ).
 
-stinkt ---> (word,
+schmilzt ---> (word,
   head:(verb,
         vform:fin),
   arg_st:[(head:(noun,

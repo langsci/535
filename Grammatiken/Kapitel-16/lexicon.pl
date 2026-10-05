@@ -175,8 +175,8 @@ stockes  ---> @noun(gen,              mas,sg,stock_rel).
 stöcker  ---> @noun(nom_or_gen_or_acc,mas,pl,stock_rel).
 stöckern ---> @noun(dat,              mas,pl,stock_rel).
 
-tofu  ---> @noun(nom_or_dat_or_acc,mas,sg,tofu_rel).
-tofus ---> @noun(gen,              mas,sg,tofu_rel).
+eis  ---> @noun(nom_or_dat_or_acc,neu,sg,eis_rel).
+eises ---> @noun(gen,              neu,sg,eis_rel).
 
 wagen   ---> @noun(nom_or_dat_or_acc,mas,sg,wagen_rel).
 wagens  ---> @noun(gen,              mas,sg,wagen_rel).
@@ -518,6 +518,25 @@ les  ---> @trans_verb(lesen_rel),
          @past_stem(a_ las),
          @part_stem(a_ les),
          @conj_stem(a_ läs),
+         @imp2_stem,
+         @vflex_fk(v_strong),
+           
+         @vflex_ep(minus),
+         @vflex_evp(minus),
+         @vflex_epp(plus),
+         @vflex_sm(plus),
+         @vflex_pl_n(minus),
+         @vflex_spe(plus),
+         @vflex_tm(minus),
+         @vflex_em(minus),
+         @vflex_bet1(plus).
+
+schmelz ---> @intrans_unacc_verb(schmelzen_rel),
+         @pres2_stem(a_ schmilz),
+
+         @past_stem(a_ schmolz),
+         @part_stem(a_ schmolz),
+         @conj_stem(a_ schmölz),
          @imp2_stem,
          @vflex_fk(v_strong),
            

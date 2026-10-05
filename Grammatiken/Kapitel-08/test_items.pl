@@ -14,8 +14,8 @@ ts(11,"die Tochter Mannes",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerk
 ts(12,"der kleine Affe",@root,1,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
 ts(13,"kleine der Affe",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
 ts(14,"kleine Affe der",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
-ts(15,"Der Tofu in der Speisekammer stinkt.",@decl,1,[1],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
-ts(16,"der Tofu in stinkt",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
+ts(15,"Schmilzt das Eis in der Speisekammer?",@interrog,1,[1],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
+ts(16,"das Eis in schmilzt",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
 
 
 % eigentlich keine Deklarativsätze, aber V2 kommt erst im nächsten Kapitel
@@ -35,7 +35,7 @@ ts(29,"Kennt ein Kind einen Mann?",@interrog,1,[1],'Kapitel 5: Semantik, Skopus'
 ts(30,"Kennt jeder Affe ein Kind?",@interrog,1,[2],'Kapitel 5: Semantik, Skopus').
 ts(31,"Kennt eine Tochter eines Mitarbeiters einen Affen?",@interrog,1,[1],'Kapitel 5: Semantik, Skopus').
 
-ts(32,"der Tofu der Speisekammer in",@root,0,[],'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(32,"das Eis der Speisekammer in",@root,0,[],'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 ts(33,"dass das Kind dem Affen den Stock gibt",@root,1,[],'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 ts(34,"dass das Kind den Stock dem Affen gibt",@root,1,[],'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 ts(35,"Schläft er?",@interrog,1,[1],'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').

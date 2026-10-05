@@ -16,8 +16,8 @@ ts(11,"die Tochter Mannes",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerk
 ts(12,"der kleine Affe",@root,1,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
 ts(13,"kleine der Affe",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
 ts(14,"kleine Affe der",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
-ts(15,"Der Tofu in der Speisekammer stinkt.",@decl,1,[1],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
-ts(16,"der Tofu in stinkt",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
+ts(15,"Das Eis in der Speisekammer schmilzt.",@decl,1,[1],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
+ts(16,"das Eis in schmilzt",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
 
 
 ts(17,"Jede Tochter eines Mitarbeiters schläft.",@root,1,[2],'Kapitel 5: Semantik, Skopus').

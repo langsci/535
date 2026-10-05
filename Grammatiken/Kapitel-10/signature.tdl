@@ -364,7 +364,7 @@ mörder_rel       := arg0_relation.
 roman_rel        := arg0_relation.
 speisekammer_rel := arg0_relation.
 stock_rel        := arg0_relation.
-tofu_rel         := arg0_relation.
+eis_rel         := arg0_relation.
 wurst_rel        := arg0_relation.
 
 pronoun_rel      := arg0_relation.
@@ -426,6 +426,7 @@ wahrscheinlich_rel := arg1_relation.
 bellen_rel   := arg01_relation.
 lachen_rel   := arg01_relation.
 schlafen_rel := arg01_relation.
+schmelzen_rel := arg01_relation.
 spielen_rel  := arg01_relation.
 
 

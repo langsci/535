@@ -158,8 +158,8 @@ stockes  ---> @noun(gen,              mas,sg,stock_rel).
 stöcker  ---> @noun(nom_or_gen_or_acc,mas,pl,stock_rel).
 stöckern ---> @noun(dat,              mas,pl,stock_rel).
 
-tofu  ---> @noun(nom_or_dat_or_acc,mas,sg,tofu_rel).
-tofus ---> @noun(gen,              mas,sg,tofu_rel).
+eis  ---> @noun(nom_or_dat_or_acc,neu,sg,eis_rel).
+eises ---> @noun(gen,              neu,sg,eis_rel).
 
 
 
@@ -337,6 +337,8 @@ lachen   ---> @np_verb(bse, lachen_rel).
 schlafe  ---> @np_verb(first, sg, schlafen_rel).
 schläfst ---> @np_verb(second,sg, schlafen_rel).
 schläft  ---> @np_verb(third, sg, schlafen_rel).
+
+schmilzt  ---> @np_verb(third, sg, schmelzen_rel).
 
 schlafen ---> @np_verb(first_or_third, pl, schlafen_rel).
 schlaft  ---> @np_verb(second,         pl, schlafen_rel).
