@@ -1,0 +1,53 @@
+Parsing/scoping: 138 items; 24.981 sec CPU time total; 4810 passive edges total.
+Generation: 99 items; 37.690 sec CPU time total; 24114 chart edges (15133 active, 8981 inactive).
+Generation preparation (including reparsing): 16.599 sec CPU time total.
+Timeout runs contribute elapsed time and available partial generation charts.
+
+Combined tests: 137 passed, 1 failed, 0 timed out; generation skipped for 39 tests.
+
+
+ nicht parallel ohne unbekannte Wörter -> Flexion geht auch nicht
+Parsing/scoping: 138 items; 26.703 sec CPU time total; 4810 passive edges total.
+Generation: 99 items; 39.297 sec CPU time total; 24114 chart edges (15133 active, 8981 inactive).
+Generation preparation: 0.178 sec CPU time total.
+Timeout runs contribute elapsed time and available partial generation charts.
+
+Combined tests: 137 passed, 1 failed, 0 timed out; generation skipped for 39 tests.
+
+nicht parallel mit unbekannten Wörtern
+Parsing/scoping: 138 items; 26.445 sec CPU time total; 4810 passive edges total.
+Generation: 99 items; 6 min 2.704 sec CPU time total; 106015 chart edges (75356 active, 30659 inactive).
+Generation preparation: 0.435 sec CPU time total.
+Timeout runs contribute elapsed time and available partial generation charts.
+
+Combined tests: 135 passed, 1 failed, 2 timed out; generation skipped for 39 tests.
+
+
+Parallel tests: 4 workers; 193.682 sec elapsed wall time (including worker startup).
+
+Parsing/scoping: 138 items; 32.581 sec CPU time total; 4810 passive edges total.
+Generation: 99 items; 7 min 31.866 sec CPU time total; 101137 chart edges (72440 active, 28697 inactive).
+Generation preparation: 0.574 sec CPU time total.
+Timeout runs contribute elapsed time and available partial generation charts.
+
+Combined tests: 135 passed, 1 failed, 2 timed out; generation skipped for 39 tests.
+
+
+Parallel tests: 4 workers; 109.242 sec elapsed wall time (including worker startup).
+
+Parsing/scoping: 138 items; 33.242 sec CPU time total; 4810 passive edges total.
+Generation: 99 items; 2 min 8.002 sec CPU time total; 55021 chart edges (35348 active, 19673 inactive).
+Generation preparation: 0.463 sec CPU time total.
+Timeout runs contribute elapsed time and available partial generation charts.
+
+Combined tests: 138 passed, 0 failed, 0 timed out; generation skipped for 39 tests.
+
+
+Parallel tests: 8 workers; 111.379 sec elapsed wall time (including worker startup).
+
+Parsing/scoping: 138 items; 41.282 sec CPU time total; 4810 passive edges total.
+Generation: 99 items; 2 min 20.168 sec CPU time total; 55021 chart edges (35348 active, 19673 inactive).
+Generation preparation: 0.535 sec CPU time total.
+Timeout runs contribute elapsed time and available partial generation charts.
+
+Combined tests: 138 passed, 0 failed, 0 timed out; generation skipped for 39 tests.

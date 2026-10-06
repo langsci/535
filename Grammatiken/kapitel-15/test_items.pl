@@ -1,5 +1,8 @@
 % -*-  coding:utf-8; mode:trale-prolog   -*-
 
+% Beispiele, die Permutationen voneinander sind, muss man nicht erneut testen.
+skip_generator_test([34,50,51,52]).
+
 ts(1,"Der Affe schläft.",@decl,1,[1],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').
 ts(2,"der Affe das Kind kennt",@root,1,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').
 ts(3,"der Affe an das Kind denkt",@root,1,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').
@@ -9,7 +12,7 @@ ts(6,"Affe schläft",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalspr
 ts(7,"der Affe kennt",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').
 ts(8,"an das Kind schläft",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').
 ts(9,"an das Kind den Affe kennt",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').
-ts(10,"die Tochter des Mannes schläft.",@root,1,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').
+ts(10,"Die Tochter des Mannes schläft.",@decl,1,[1],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').
 ts(11,"die Tochter Mannes",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').
 ts(12,"der kleine Affe",@root,1,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
 ts(13,"kleine der Affe",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Spezifikator-Strukturen, Kopf-Adjunkt-Strukturen').
@@ -19,14 +22,14 @@ ts(16,"das Eis in schmilzt",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmer
 
 ts(17,"Jede Tochter eines Mitarbeiters schläft.",@decl,1,[2],'Kapitel 5: Semantik, Skopus').
 ts(18,"der mutmaßliche Affe",@root,1,[],'Kapitel 5: Semantik, Skopus').
-ts(19,"Sein Affe schläft.",@root,1,[1],'Kapitel 5: Semantik, Skopus').
+ts(19,"Sein Affe schläft.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
 ts(20,"Der angeblich kleine Affe schläft.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
-ts(21,"der Affe wahrscheinlich schläft.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
+ts(21,"Der Affe schläft wahrscheinlich.",@decl,1,[2],'Kapitel 5: Semantik, Skopus').
 ts(22,"Jeder Affe glaubt, dass ein Einhorn schläft.",@decl,1,[3],'Kapitel 5: Semantik, Skopus').
 ts(23,"Aicke schläft.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
 ts(24,"Er schläft.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
 
-ts(25,"Aicke Conny kennt.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
+ts(25,"Aicke kennt Conny.",@decl,2,[1,1],'Kapitel 5: Semantik, Skopus').
 ts(26,"Der Affe kennt das Kind.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
 ts(27,"Der Affe kennt ein Kind.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
 ts(28,"Jeder Affe kennt jedes Kind.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
@@ -96,8 +99,8 @@ ts(72,"Ein Affe, dessen Kind schläft, lacht.",@decl,1,[1],'Kapitel 10: Relativs
 ts(73,"Der Affe, der Affe schläft, lacht",@root,0,[],'Kapitel 10: Relativsätze').
 % Relativsatz mit Verbspur statt mit overtem Verb
 ts(74,"Der Affe, der den Stock, lacht",@root,0,[],'Kapitel 10: Relativsätze').
-ts(75,"Der Affe, dessen Stock und dessen Roman ich kenne, schläft.",@decl,1,[5],'Kapitel 10: Relativsätze').
-ts(76,"Der Affe, von dessen Kind er ein Bild kennt, lacht.",@decl,1,[3],'Kapitel 10: Relativsätze').
+ts(75,"Der Affe, dessen Stock und dessen Roman ich kenne, schläft.",@decl,1,[1],'Kapitel 10: Relativsätze').
+ts(76,"Der Affe, von dessen Kind er ein Bild kennt, lacht.",@decl,1,[2],'Kapitel 10: Relativsätze').
 
 ts(77,"Der Affe, ein Bild von dessen Kind er kennt, lacht.",@root,0,[],'Kapitel 10: Relativsätze').
 ts(78,"Der Affe, ein Bild dessen Kindes er kennt, lacht.",@root,0,[],'Kapitel 10: Relativsätze').

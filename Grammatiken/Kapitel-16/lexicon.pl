@@ -547,7 +547,7 @@ schmelz ---> @intrans_unacc_verb(schmelzen_rel),
          @vflex_epp(plus),
          @vflex_sm(plus),
          @vflex_pl_n(minus),
-         @vflex_spe(plus),
+         @vflex_spe(minus),
          @vflex_tm(minus),
          @vflex_em(minus),
          @vflex_bet1(plus).

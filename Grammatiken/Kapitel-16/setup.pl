@@ -18,6 +18,27 @@
 % inform user about word forms generated
 :- ale_flag(morphoutput,_,on).
 
+% Nur Wörter, die im Input vorkommen, und leere Elemente verwenden
+%:- ale_flag(generator_input_lexicon,_,on).
+%:- ale_flag(generator_input_lexicon,_,off). % Default
+
+% Wörter, die nicht im Input sind und leere Semantik haben, ignorieren.
+:- ale_flag(generator_input_lexicon,_,empty_only). 
+
+
+
+% Anzahl der paralleln Prozesse für Testsuites.
+use_cpus_parallel(10).
+
+% Keine Fortschrittsmeldungen zeigen
+:- ale_flag(test_progress,_,off).
+
+% Der Wert ist in Millisekunden, der Standard ist 120000 (2 Minuten).  Das gilt für die
+% Generierungstests und testall.  Bei testall verwendet auch das Parsing mit Skopusberechnung diesen
+% Wert. Der interaktive Aufruf p_and_g(...) wird dadurch nicht begrenzt.
+
+% generator_test_timeout(300000). % 5 Minuten
+
 
 
 % feature hiding and ordering
@@ -149,7 +170,7 @@ generator_empty_anchor([synsem,loc],[synsem,loc],
 % Argument attraction: anchor verbal extraction traces before projecting
 % empty clusters with an otherwise open COMPS list.
 generator_empty_anchor([synsem,loc],[synsem,loc],
-                       (synsem:(loc:cat:head:verb,
+                       (synsem:(loc:cat:head:(verb,dsl:none),
                                 nonloc:slash:[],trace:minus))).
 
 generator_valence_path([synsem,loc,cat,comps]).
@@ -267,3 +288,16 @@ grale_abbreviation(
 
     
 strike_out_pattern(realized:plus).
+
+
+
+morphology_info((synsem:loc:cat:(head:(verb,
+                                       vform:fin),
+                                 arg_st:last(arg:loc:cont:ind:(per:Per,
+                                                               num:Num))),
+                 rels:hd:Relation),
+                [Per,Num,type(Relation)]).
+
+morphology_info(synsem:loc:cat:head:(verb,
+                                     vform:VForm),
+                [VForm]).

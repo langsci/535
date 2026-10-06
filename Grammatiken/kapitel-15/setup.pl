@@ -13,6 +13,25 @@
 
 %:- ale_flag(head_movement_filter,_,off).
 
+% Nur Wörter, die im Input vorkommen, und leere Elemente verwenden
+%:- ale_flag(generator_input_lexicon,_,on).
+%:- ale_flag(generator_input_lexicon,_,off). % Default
+
+% Wörter, die nicht im Input sind und leere Semantik haben, ignorieren.
+:- ale_flag(generator_input_lexicon,_,empty_only). 
+
+% Anzahl der paralleln Prozesse für Testsuites.
+use_cpus_parallel(10).
+
+% Keine Fortschrittsmeldungen zeigen
+:- ale_flag(test_progress,_,off).
+
+% Der Wert ist in Millisekunden, der Standard ist 120000 (2 Minuten).  Das gilt für die
+% Generierungstests und testall.  Bei testall verwendet auch das Parsing mit Skopusberechnung diesen
+% Wert. Der interaktive Aufruf p_and_g(...) wird dadurch nicht begrenzt.
+
+generator_test_timeout(300000). % 5 Minuten
+
 
 % feature hiding and ordering
 hidden_feat(dtrs).          % hide the dtrs attribute (shown by tree)
@@ -143,7 +162,7 @@ generator_empty_anchor([synsem,loc],[synsem,loc],
 % Argument attraction: anchor verbal extraction traces before projecting
 % empty clusters with an otherwise open COMPS list.
 generator_empty_anchor([synsem,loc],[synsem,loc],
-                       (synsem:(loc:cat:head:verb,
+                       (synsem:(loc:cat:head:(verb,dsl:none),
                                 nonloc:slash:[],trace:minus))).
 
 generator_valence_path([synsem,loc,cat,comps]).

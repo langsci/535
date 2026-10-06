@@ -23,8 +23,8 @@ h_comp rule (head_complement_phrase,
              dtrs:[HeadDtr,NonHeadDtr],
              head_dtr:loc:cat:head:initial:plus)
   ===>
-cat> HeadDtr,
-cat> NonHeadDtr.
+sem_head> HeadDtr,
+cat>      NonHeadDtr.
 
 comp_h rule (head_complement_phrase,
              dtrs:[NonHeadDtr,HeadDtr],
@@ -33,8 +33,8 @@ comp_h rule (head_complement_phrase,
                              @argument_sign   % speed + Regelberechnung
                             )])
   ===>
-cat> NonHeadDtr,
-cat> HeadDtr.
+cat>      NonHeadDtr,
+sem_head> HeadDtr.
 
 
 spr_h rule (head_specifier_phrase,
@@ -49,14 +49,14 @@ adj_h rule (head_adjunct_phrase,
              non_head_dtrs:[loc:cat:head:pre_modifier:plus])
   ===>
 cat> NonHeadDtr,
-cat> HeadDtr.
+sem_head> HeadDtr.
 
 h_adj rule (head_adjunct_phrase,
              dtrs:[HeadDtr,NonHeadDtr],
              non_head_dtrs:[loc:cat:head:pre_modifier:minus])
   ===>
-cat> HeadDtr,
-cat> NonHeadDtr.
+sem_head> HeadDtr,
+cat>      NonHeadDtr.
 
 
 
@@ -65,4 +65,4 @@ cat> NonHeadDtr.
 v1 rule (verb_initial_rule,
          dtrs:[Dtr])
   ===>
-cat>     Dtr.
+sem_head>     Dtr.

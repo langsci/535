@@ -10,9 +10,21 @@
 
 % This checks for verb traces whether there is a plausible filler before adding an item to the chart.
 :- ale_flag(head_movement_filter,_,on).
-
 %:- ale_flag(head_movement_filter,_,off).
 
+% Nur Wörter, die im Input vorkommen, und leere Elemente verwenden
+%:- ale_flag(generator_input_lexicon,_,on).
+%:- ale_flag(generator_input_lexicon,_,off). % Default
+
+% Wörter, die nicht im Input sind und leere Semantik haben, ignorieren.
+:- ale_flag(generator_input_lexicon,_,empty_only). 
+
+
+% Anzahl der paralleln Prozesse für Testsuites.
+use_cpus_parallel(10).
+
+% Keine Fortschrittsmeldungen zeigen
+:- ale_flag(test_progress,_,off).
 
 % feature hiding and ordering
 hidden_feat(dtrs).          % hide the dtrs attribute (shown by tree)
