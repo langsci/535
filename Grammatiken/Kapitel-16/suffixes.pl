@@ -154,6 +154,9 @@ fin_verb_i_suffix *>
  
   @fin_v_infl_affix([a_ t], v_weak,        pres_ind,     ep:minus,            second,pl);
 
+  % added 05.10.2026 schmelzen -> ihr schmelzt
+  @fin_v_infl_affix([a_ t], v_strong,      pres_ind,     ep:minus,            second,pl);
+
   @fin_v_infl_affix([a_ te],v_weak,        past_ind,     ep:minus,            first_or_third,sg);
 
  
