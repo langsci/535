@@ -3,6 +3,9 @@
 % Beispiele, die Permutationen voneinander sind, muss man nicht erneut testen.
 skip_generator_test([34,50,51,52]).
 
+% Diese Wortform darf auch durch Lexikonregeln nicht erzeugt werden.
+unknown_words([geschlafene,geholfene,gegraute,geregnete]).
+
 ts(1,"Der Affe schläft.",@decl,1,[1],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').
 ts(2,"der Affe das Kind kennt",@root,1,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').
 ts(3,"der Affe an das Kind denkt",@root,1,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmerkmalsprinzip, Kopf-Komplement-Strukturen, Kopf-Spezifikator-Strukturen').
