@@ -16,6 +16,7 @@ sign := intro_phon & [
  synsem synsem,
  v2     bool,
  rels  list,
+ generator_rels list,
  hcons list ].
 
 list := bot.
@@ -98,7 +99,7 @@ head_specifier_phrase  := headed_flexible_order_phrase & head_non_adjunct_phrase
 
 coord_phrase := phrase.
 
-verb_movement_rule := optionally_coherent_le & complex_word_dtrs.
+verb_movement_rule := optionally_coherent_le & cannonical_complex_word_dtrs.
 verb_initial_rule  := verb_movement_rule & complementizer_like_sign.
 mvf_rule           := verb_movement_rule.
 
@@ -114,17 +115,17 @@ n_v_infl_lr := infl_lr.
 
 prd_adj_infl_lr  :< infl_lr.
 
-attr_adj_infl_lr := infl_lr & non_relational_lr.
+attr_adj_infl_lr := infl_lr & non_relational_lr & spr_saturated_le & cannonical_complex_word.
 
 ;isect_attr_adj_infl_lr  := attr_adj_infl_lr & isect_n_modifier.
 ;scopal_attr_adj_infl_lr :< attr_adj_infl_lr.
 
-part_derivation_lr     :< derived_stem.
+part_derivation_lr     :< derived_stem & isect_modifier & non_relational_lr.
 ppp_part_derivation_lr :< part_derivation_lr.
 inf_part_derivation_lr :< part_derivation_lr.
 
 
-fin_verb_infl_lr := complex_word.
+fin_verb_infl_lr := cannonical_complex_word.
 
 reg_fin_verb_infl_lr   := fin_verb_infl_lr & n_v_infl_lr.
 irreg_fin_verb_infl_lr := fin_verb_infl_lr & n_v_infl_lr & irreg_infl_lr.
@@ -133,7 +134,9 @@ irreg_infl_lr := infl_lr.
 
 irreg_bse_or_inf_verb_infl_lr := bse_or_inf_verb_infl_lr & irreg_infl_lr.
 
-bse_or_inf_verb_infl_lr := complex_word & non_relational_lr.
+non_fin_verb_infl_lr := non_relational_lr.
+
+bse_or_inf_verb_infl_lr := cannonical_complex_word & non_fin_verb_infl_lr.
 
 bse_verb_infl_lr := bse_or_inf_verb_infl_lr.
 inf_verb_infl_lr := bse_or_inf_verb_infl_lr.
@@ -143,7 +146,7 @@ reg_bse_or_inf_verb_infl_lr := bse_or_inf_verb_infl_lr & n_v_infl_lr.
 reg_bse_verb_infl_lr := reg_bse_or_inf_verb_infl_lr & bse_verb_infl_lr.
 reg_inf_verb_infl_lr := reg_bse_or_inf_verb_infl_lr & inf_verb_infl_lr.
 
-ppp_verb_infl_lr     := non_cannonical_complex_word & non_relational_lr.
+ppp_verb_infl_lr     := noncannonical_complex_word & non_fin_verb_infl_lr.
 reg_ppp_verb_infl_lr := ppp_verb_infl_lr & n_v_infl_lr.
 
 
@@ -151,9 +154,22 @@ reg_ppp_verb_infl_lr := ppp_verb_infl_lr & n_v_infl_lr.
 
 word :=
   syntactic_sign &
-  lexical_sign.
+  lexical_sign & [
+  cannonical bool].
 
-simple_word := word.
+simple_word := word & [
+  cannonical plus].
+
+
+cannonical_complex_word := complex_word & [
+  cannonical plus].
+
+cannonical_complex_word_dtrs := complex_word_dtrs & [
+  cannonical plus].
+
+noncannonical_complex_word := complex_word & [
+  cannonical minus].
+
 
 stem := overt_le & 
  [ infl infl ].
@@ -176,6 +192,7 @@ rc := filler_phrase & isect_n_modifier.
 non_scopal_le := lexical_sign.
 
 ; empty RELS
+; if there are no RELS, there should not be any HCONS, or should there?
 non_relational_le := lexical_sign.
 
 non_scopal_non_relational_le := non_scopal_le & non_relational_le.
@@ -204,10 +221,6 @@ complex_word_dtrs :=
   intro_complex_sign &
   word.
 
-; Das ist kein Untertyp von word und somit wird das Argumentrealisierungsprinzip nicht angewendet.
-non_cannonical_complex_word :< intro_complex_sign_dtr.
-
-
 empty_rel_le := sign.
 empty_rel_word := empty_rel_le & word.
 
@@ -225,10 +238,10 @@ non_overt_le := empty_rel_le.
 ; ungünstig. Denn die Füller können vom Typ word oder phrase sein. Das muss also alles dort
 ; entscheiden werden. Spuren sollten also weder noch sein. Einfach lexical_sign.
 ; Problem: head_cluster_phrase möchte eine Kopftochter vom Typ word. Die Verbspur kann dort auch Kopftochter sein.
-trace      := non_overt_le & empty_rel_le & non_scopal_non_relational_le.
+trace      := non_overt_le & non_scopal_non_relational_le.
 
 ; leere Determinatoren und Nomina
-empty      := non_overt_le & empty_slash_word.
+empty      := non_overt_le & simple_word & empty_slash_word.
 
 e_trace :< trace.
 v_trace := trace & empty_slash_le & spr_saturated_le.
@@ -245,7 +258,7 @@ relational_le  := ltop_lbl_le.
 
 relational_arg0_le := relational_le & arg0_ltop_lbl_le.
 
-determiner_word := saturated_word.
+determiner_word := saturated_word & simple_word.
 
 determiner := determiner_word & empty_rel_word.
 possessive := determiner_word & overt_le.
@@ -256,7 +269,7 @@ empty_determiner := determiner & empty.
 simple_possessive      := possessive & empty_rel_word.
 possessive_rel_pronoun := possessive & rel_pronoun.
 
-noun_word := overt_le.
+noun_word := overt_le & simple_word.
 
 pronoun := saturated_word & overt_le.
 
@@ -309,9 +322,11 @@ np_np_adj :< isect_adj.
 np_pp_adj :< isect_adj.
 
 
-
+; passives do not contribute a relation
 verb_stem    := spr_saturated_le & underived_stem & 
-                relational_arg0_le & empty_rel_le.
+                empty_rel_le.
+
+relational_verb_stem := relational_arg0_le & verb_stem.
 
 aux_verb := coherent_le & verb_stem.
 
@@ -319,17 +334,17 @@ perfect_aux_verb := ppp_inf_verb_le & aux_verb & subj_raising_verb.  ; subject_r
 haben_perfect    :< perfect_aux_verb.
 sein_perfect     := non_flip_verb_stem & perfect_aux_verb.
 
-passive_aux_verb := aux_verb & raising_verb.
+passive_aux_verb := aux_verb & non_flip_raising_verb.
 
 ;; Alle Passivhilfsverben außre lassen
-simple_passive_aux_verb := passive_aux_verb & non_flip_verb_stem.
+simple_passive_aux_verb := passive_aux_verb & non_scopal_non_relational_le.
 
 ppp_passive_aux_verb := ppp_inf_verb_le & passive_aux_verb.
 
 simple_ppp_passive_aux_verb := simple_passive_aux_verb & ppp_passive_aux_verb.
 
-agentive_passive_aux_verb :< simple_ppp_passive_aux_verb.
-stative_passive_aux_verb  :< simple_ppp_passive_aux_verb.
+;agentive_passive_aux_verb :< simple_ppp_passive_aux_verb.
+;stative_passive_aux_verb  :< simple_ppp_passive_aux_verb.
 
 
 modal_zu_inf := zu_inf_verb_le & raising_verb.
@@ -342,15 +357,17 @@ optionally_coherent_le := spr_saturated_le.
 
 raising_verb := optionally_coherent_le & verb_stem.
 
-dative_passive_aux_verb   := ppp_passive_aux_verb & non_flip_verb_stem.
+relational_raising_verb := raising_verb & relational_verb_stem.
+
+dative_passive_aux_verb   := ppp_passive_aux_verb & non_scopal_non_relational_le.
 
 modal_verb := bse_inf_verb_le & subj_raising_verb.
 
-bse_inf_verb_le := raising_verb & coherent_le.
+bse_inf_verb_le := relational_raising_verb & coherent_le.
 
 ppp_inf_verb_le := raising_verb & coherent_le.
 
-subj_raising_verb := raising_verb.
+subj_raising_verb := relational_raising_verb.
 
 aci_verb := bse_inf_verb_le.
 
@@ -388,7 +405,7 @@ non_flip_verb_stem := verb_stem.
 subjlos_verb := non_flip_verb_stem & non_scopal_verb_stem.
 expl_np_verb := non_flip_verb_stem & non_scopal_verb_stem & nerg_verb.
 
-non_scopal_verb_stem := verb_stem & non_scopal_le.
+non_scopal_verb_stem := relational_verb_stem & non_scopal_le.
 
 intrans_verb := non_flip_verb_stem.
 
@@ -396,7 +413,7 @@ non_scopal_intrans_verb := intrans_verb & non_scopal_verb_stem.
 
 strict_intrans_verb := non_scopal_intrans_verb.
 
-nerg_verb          :< verb_stem.
+nerg_verb          :< relational_verb_stem.
 
 intrans_nerg_verb  := intrans_verb & nerg_verb.
 intrans_unacc_verb :< intrans_verb.
@@ -417,22 +434,25 @@ np_np_unacc_verb    := np_np_verb & intrans_unacc_verb.
 bi_or_more_val_verb := non_scopal_verb_stem.
 
 ; kennen, geben
-trans_verb := bi_or_more_val_verb.
+trans_verb := bi_or_more_val_verb & nerg_verb.
 
 strict_trans_verb := trans_verb.
 ditrans_verb      := trans_verb.
 
 glauben_denken_verb := intrans_nerg_verb.
 
-preposition_word := overt_le & non_scopal_le & empty_rel_word.
+preposition_word := overt_le & non_scopal_le & empty_rel_word & simple_word.
 comp_preposition := preposition_word & transparent_non_scopal_non_relational_le.
-mod_preposition  := preposition_word & relational_le.
+relational_mod_preposition  := preposition_word & relational_le.
 
-noun_mod_preposition := mod_preposition & isect_n_modifier_le.
-verb_mod_preposition := mod_preposition & isect_v_modifier_le.
+
+noun_mod_preposition := relational_mod_preposition & isect_n_modifier_le.
+verb_mod_preposition := relational_mod_preposition & isect_v_modifier_le.
 
 location_noun_mod_prep := noun_mod_preposition.
 location_verb_mod_prep := verb_mod_preposition.
+
+passive_preposition := v_modifier_word & preposition_word & non_relational_le.
 
 
 n_modifier_word := n_modifier & relational_le & overt_le & empty_rel_word.
@@ -461,14 +481,15 @@ isect_v_modifier_le := isect_modifier_le & v_modifier.
 ; Adverbien, Präpositionen
 v_modifier := sign.
 
-v_modifier_word := v_modifier & relational_le & overt_le & empty_rel_word.
+; may be not relational because of the passive preposition
+v_modifier_word := v_modifier & overt_le & empty_rel_word.
 
 
 scopal_modifier_le := ltop_lbl_le.
 
 scopal_v_modifier_le := scopal_modifier_le & v_modifier_word.
 
-adv_word := saturated_word & v_modifier_word.
+adv_word := saturated_word & ltop_lbl_le & v_modifier_word & simple_word.
 scopal_adv_word := scopal_v_modifier_le & adv_word.
 
 isect_adv_word := isect_v_modifier_le & adv_word.
@@ -477,7 +498,7 @@ complementizer_like_sign := spr_saturated_le & empty_rel_le.
 
 complementizer_word := complementizer_like_sign & transparent_non_scopal_non_relational_le & overt_le & simple_word.
 
-conj_word := relational_arg0_le & empty_rel_word & overt_le.
+conj_word := relational_arg0_le & empty_rel_word & simple_word & overt_le.
 
 head := bot & [
    mod     none_or_synsem,
@@ -511,9 +532,10 @@ post_modifier_head := modifier_head & [
 
 
 ; prep steht für Prä- und Postpositionen, der initial-Wert wird in le_macros.pl festgelegt
-prep := non_spec_head & non_dsl_head & non_subj_head.
+; prädikative Präpositionen können ein Subjekt-Merkmal haben.
+prep := non_spec_head & non_dsl_head.
 
-comp_prep := prep & intro_case_head & non_modifier_head &
+comp_prep := prep & intro_case_head & non_modifier_head & non_subj_head &
  [ pform pform ].
 
 ; kann nach Nomina und vor Verben stehen, siehe le_macros.pl
@@ -700,8 +722,12 @@ named_rel := arg0_relation & [
 
 regnen_rel := arg0_relation.
 
-morgen_rel := arg1_relation.
-oft_rel    := arg1_relation.
+gestern_rel := arg1_relation.
+heute_rel   := arg1_relation.
+immer_rel   := arg1_relation.
+jetzt_rel   := arg1_relation.
+morgen_rel  := arg1_relation.
+oft_rel     := arg1_relation.
 
 quant_rel := arg0_relation & [
   rstr handle,
@@ -745,6 +771,7 @@ arg12_relation := arg1_relation & arg2_relation.
 
 
 lassen_rel := arg013_relation.
+lassen_passive_rel := arg013_relation. ; nur zum Testen
 sehen_rel  := arg013_relation.
 
 versuchen_rel := arg013_relation.
@@ -1105,3 +1132,8 @@ minus_or_vm         := minus_or_extraction_or_vm.
 extraction := extraction_or_minus & extraction_or_vm.
 minus      := extraction_or_minus & minus_or_vm          & bool.
 vm         := extraction_or_vm    & minus_or_vm.
+
+; Only for generator coverage; never part of the MRS RELS list.
+generator_pronoun_rel :< arg0_relation.
+generator_pers_pronoun_rel := generator_pronoun_rel & [arg0 index].
+generator_relative_pronoun_rel :< generator_pronoun_rel.

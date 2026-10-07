@@ -191,6 +191,11 @@ non_relational_lr *>
         rels:Rels,
         hcons:HCons)).
 
+
+non_fin_verb_infl_lr *>
+ (synsem:loc:cat:head:da:DA,
+     dtr:synsem:loc:cat:head:da:DA).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Flexionsregel für Infinitive
 % Das Subjekt wird aus der SUBCAT-Liste genommen
@@ -282,7 +287,7 @@ morphs
 
 
 ppp_verb_infl_lr *>
-( % non_cannonical_complex_word, ARP wird nicht angewendet. SUBJ ist nicht auf der ARG-ST-Liste.
+( % complex_word, ARP wird nicht angewendet. SUBJ ist nicht auf der ARG-ST-Liste.
   % non_relational_lr
   synsem:(loc:(cat:(head:(verb,
                           vform:ppp,
@@ -296,6 +301,7 @@ ppp_verb_infl_lr *>
                                 minus), % except modal verbs, not covered yet 
                           auxf:Auxf,
                           prd:Prd),
+                    spr:Spr,
                     comps:Comps,
                     arg_st:(Comps,
                             block_da(DA,ArgSt))),
@@ -308,18 +314,19 @@ ppp_verb_infl_lr *>
        synsem:(loc:(cat:(head:(verb,
                                initial:Initial,
                                vform:VForm,
-                               da:DA,
+%                               da:DA, inherited für alle nicht finiten Verbflexionsregeln
                                mod:Mod,
                                flip:Flip,
                                auxf:Auxf,
                                prd:Prd),
+                         spr:Spr,
                          arg_st:ArgSt),
                     cont:Cont),
                nonloc:Nonloc,
                lex:Lex,
                trace:Trace))).
 
-/*
+
 ppp_verb_infl_lr lex_rule
   (infl:(v_stems:part:(a_ IStem),
          bet1:Bet),
@@ -328,14 +335,14 @@ ppp_verb_infl_lr lex_rule
 ( ppp_verb_infl_lr,
   affix:(ppp_verb_i_suffix,
          phon:[(a_ Suff)]),
-  dtrs:[Dtr])
+  dtr:Dtr)
 if
    (get_prefix(Bet,Ge),
     Ge=(a_ GeP))
 morphs
   X becomes (GeP,X,Suff) when IStem = none,
   X becomes (GeP,IStem,Suff).
-*/
+
 
 fun list_of_blocked_arguments(-).
 list_of_blocked_arguments(L) if
@@ -346,7 +353,6 @@ undelayed_list_of_blocked_arguments([]) if true.
 undelayed_list_of_blocked_arguments([@blocked_np_ref|T]) if
    list_of_blocked_arguments(T).
 
-/*
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -358,24 +364,24 @@ part_derivation_lr *>
  (%stem,
   synsem:(loc:cat:(head:(attr_participle,         % kann nicht prädikativ genutzt werden,
                                                   % dafür sollte es eine prinzipiellere Erklärung geben.
-                         subj:raise([Subj]),
+                         subj:[@pro_np_str],      % ist str: * der gegraute Mann
                          da:(DA,
                              list_of_blocked_arguments)),
-                   subcat:raise(Subcat)),
+                   arg_st:ArgSt),
           nonloc:Nonloc,
           lex:Lex,
           trace:Trace),
   inf_marking:Zu,
-  dtrs:[(word,
-         synsem:(loc:cat:(head:(verb,
-                                da:DA,
-                                flip:minus      % schließt Ersatzinfinitive aus * `wollene' statt `gewollte'
-                               ),    
-                          subcat:append(Subcat,[(Subj,@np_str)])),
-                 nonloc:Nonloc,
-                 lex:Lex,
-                 trace:Trace),
-         inf_marking:Zu)]).
+  dtr:(word,
+       synsem:(loc:cat:(head:(verb,
+                              da:DA,
+                              flip:minus % schließt Ersatzinfinitive aus * `wollene' statt `gewollte'
+                             ),    
+                        arg_st:ArgSt),
+               nonloc:Nonloc,
+               lex:Lex,
+               trace:Trace),
+       inf_marking:Zu)).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -389,18 +395,20 @@ part_derivation_lr *>
 ppp_part_derivation_lr *>
  (synsem:loc:cont:Cont,
   inf_marking:Zu,
-  dtrs:[ (synsem:loc:(cat:head:vform:ppp,
-                      cont:Cont),
-          inf_marking:Zu)]).
+  dtr: (synsem:loc:(cat:head:vform:ppp,
+                    cont:Cont),
+           inf_marking:Zu)).
 
 ppp_part_derivation_lr lex_rule
   Dtr
  **>
 ( ppp_part_derivation_lr,
-  dtrs:[Dtr]
+  dtr:Dtr
   )
 morphs
   X becomes X.
+
+/*
 
 % * der zu gelingende Aufsatz
 % der zu lesende Aufsatz

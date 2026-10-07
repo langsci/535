@@ -108,7 +108,10 @@ inf_zu rule
   synsem:Synsem,
   rels:Rels,
   hcons:HCons,
-  inf_marking:minus)
+  inf_marking:minus,
+  cannonical:minus) % ARG-ST wird in der zweiten Tochter shcon berechent.  Es würde nichts schaden,
+                    % wenn wir das hier noch einmal berechneten, aber es würde dasselbe herauskommen
+                    % und nur Zeit benötigen.
   ===>
   % Als erste Tochter nehmen wir irgendein `zu', das in der Grammatik vorhanden ist.
   % Es muß eindeutig sein!

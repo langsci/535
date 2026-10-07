@@ -26,18 +26,15 @@
 :- ale_flag(generator_input_lexicon,_,empty_only). 
 
 
-
 % Anzahl der paralleln Prozesse für Testsuites.
 use_cpus_parallel(10).
 
-% Keine Fortschrittsmeldungen zeigen
-:- ale_flag(test_progress,_,off).
 
 % Der Wert ist in Millisekunden, der Standard ist 120000 (2 Minuten).  Das gilt für die
 % Generierungstests und testall.  Bei testall verwendet auch das Parsing mit Skopusberechnung diesen
 % Wert. Der interaktive Aufruf p_and_g(...) wird dadurch nicht begrenzt.
 
-% generator_test_timeout(300000). % 5 Minuten
+generator_test_timeout(300000). % 5 Minuten
 
 
 
@@ -48,6 +45,7 @@ hidden_feat(non_head_dtrs). % hide the dtrs attribute (shown by tree)
 hidden_feat(dtr).           % hide the dtrs attribute (shown by tree)
 hidden_feat(affix).         % hide the affix attribute 
 hidden_feat(infl).          % hide the affix attribute 
+hidden_feat(inf_marking).   % hide technical feature
 
 
 % Binäres Merkmal, das aus Effizenzgründen verwendet wird.
@@ -82,6 +80,7 @@ hcons  <<< dtrs.
 hcons  <<< dtr.
 dtr <<< affix.
 
+v2 <<< cannonical.
 
 arg0   <<< lindex.
 lindex <<< rindex.
@@ -290,7 +289,7 @@ grale_abbreviation(
 strike_out_pattern(realized:plus).
 
 
-
+/*
 morphology_info((synsem:loc:cat:(head:(verb,
                                        vform:fin),
                                  arg_st:last(arg:loc:cont:ind:(per:Per,
@@ -301,3 +300,22 @@ morphology_info((synsem:loc:cat:(head:(verb,
 morphology_info(synsem:loc:cat:head:(verb,
                                      vform:VForm),
                 [VForm]).
+
+morphology_info(synsem:loc:cat:head:(attr_participle,
+                                     mod:loc:cat:spr:hd:arg:loc:cat:head:(case:morph_case:Case,
+                                                                          dtype:DType,
+                                                                          gen:Gen,
+                                                                          num:Num)),
+                [adj,Gen,Num,Case,DType]).
+
+*/
+% Additional coverage records, separate from the linguistic MRS.
+generator_rels_path([generator_rels]).
+generator_extra_rels(FS,Extra) :-
+   get_type(FS,Type),
+   (Type \== 0,
+    (sub_type(pers_pronoun,Type) -> Kind=generator_pers_pronoun_rel
+     ; sub_type(rel_pronoun,Type) -> Kind=generator_relative_pronoun_rel)
+    -> add_to(Kind,EP),ind_path(Path),gen_pathval(Path,FS,bot,Index,bot),
+       gen_pathval([arg0],EP,bot,Argument,bot),Argument=Index,Extra=[EP]
+    ; Extra=[]).

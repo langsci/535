@@ -336,6 +336,20 @@ seiner ---> @possessive(gen,       third, sg,mas_or_neu,pl,genus,     strong).
 
 seines ---> @possessive(gen,       third, sg,mas_or_neu,sg,mas_or_neu,strong).
 
+ihr   ---> @possessive(nom,       third, sg,fem,sg,mas,       weak).
+ihr   ---> @possessive(nom_or_acc,third, sg,fem,sg,neu,       weak).
+ihre  ---> @possessive(nom_or_acc,third, sg,fem,sg,fem,       strong).
+ihre  ---> @possessive(nom_or_acc,third, sg,fem,pl,genus,     strong).
+
+ihren ---> @possessive(acc,       third, sg,fem,sg,mas,       strong).
+ihren ---> @possessive(dat,       third, sg,fem,pl,genus,     strong).
+
+ihrem ---> @possessive(dat,       third, sg,fem,sg,mas_or_neu,strong).
+
+ihrer ---> @possessive(gen_or_dat,third, sg,fem,sg,fem,       strong).
+ihrer ---> @possessive(gen,       third, sg,fem,pl,genus,     strong).
+
+ihres ---> @possessive(gen,       third, sg,fem,sg,mas_or_neu,strong).
 
 
 aicke ---> @proper_noun(fem_or_mas,'Aicke').
@@ -573,6 +587,7 @@ nehm  ---> @trans_verb(nehmen_rel),
            @vflex_fk(v_strong),
             
            @vflex_ep(minus),
+           @vflex_epp(plus),
            @vflex_sm(minus),
            @vflex_pl_n(minus),
            @vflex_spe(minus),
@@ -645,6 +660,17 @@ widersprech  ---> @np_np_dat_verb(widersprechen_rel),
 
 
 % Ditransitive Verben
+erzähl  ---> @ditrans_verb(erzählen_rel),
+            @vflex_fk(v_weak),
+            
+            @vflex_ep(minus),
+            @vflex_sm(minus),
+            @vflex_pl_n(minus),
+            @vflex_spe(minus),
+            @vflex_tm(minus),
+            @vflex_em(minus),
+            @vflex_bet1(minus).
+
 geb  ---> @ditrans_verb(geben_rel),
          @pres2_stem(a_ gib),
          @past_stem(a_ gab),
@@ -664,19 +690,16 @@ geb  ---> @ditrans_verb(geben_rel),
          @vflex_em(minus),
          @vflex_bet1(plus).
 
-
-
-erzähl  ---> @ditrans_verb(erzählen_rel),
+schenk  ---> @ditrans_verb(schenken_rel),
             @vflex_fk(v_weak),
-            
+
             @vflex_ep(minus),
             @vflex_sm(minus),
             @vflex_pl_n(minus),
             @vflex_spe(minus),
             @vflex_tm(minus),
             @vflex_em(minus),
-            @vflex_bet1(minus).
-
+            @vflex_bet1(plus).
 
 
 denk  ---> @np_pp_verb(an_pform,acc,denken_an_rel),
@@ -903,7 +926,7 @@ lass    ---> ( @aci_verb(lassen_rel)
             ;
               lassen_passive
             ),
-            @pres2_stem(a_ läß),
+            @pres2_stem(a_ läss),
 
             @past_stem(a_ ließ),
             @part_stem(a_ lass),
@@ -1031,6 +1054,8 @@ für ---> @comp_prep(für_pform).
 von ---> @comp_prep(von_pform).
 zu  ---> @comp_prep(zu_pform).
 
+von ---> passive_preposition.
+
 
 in ---> @location_noun_mod_prep(in_rel).
 in ---> @location_verb_mod_prep(in_rel).
@@ -1057,9 +1082,15 @@ nicht ---> @scopal_adv(nicht_rel).
 
 wahrscheinlich ---> @scopal_adv(wahrscheinlich_rel).
 
-morgen ---> @isect_adv(morgen_rel).
-
 oft ---> @isect_adv(oft_rel).
+
+gestern ---> @temp_adv(gestern_rel).
+jetzt   ---> @temp_adv(jetzt_rel).
+heute   ---> @temp_adv(heute_rel).
+morgen  ---> @temp_adv(morgen_rel).
+
+immer   ---> @temp_adv(immer_rel).
+
 
 
 dass ---> @complementizer(dass).

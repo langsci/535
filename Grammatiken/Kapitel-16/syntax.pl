@@ -90,13 +90,12 @@ head_adjunct_phrase *>
 %   dtrs:[HD|NHDtrs].
 
 
-% Argumentrealisierungsprinzip
+% Argumentrealisierungsprinzip ARP
 (word,
- synsem:trace:minus) *> synsem:loc:cat:(head:subj:Subj, %is_subj_list(Subj),
-                                        spr:Spr,
-                                        comps:Comps,
-                                        arg_st:append(Comps,append(Spr,Subj))).
-
+ cannonical:plus) *> synsem:loc:cat:(head:subj:Subj, %is_subj_list(Subj),
+                                     spr:Spr,
+                                     comps:Comps,
+                                     arg_st:append(Comps,append(Spr,Subj))).
 
 
 % Entweder es gibt kein Subjekt, oder es ist eine NP mit strukturellem Kasus.

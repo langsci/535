@@ -221,25 +221,26 @@ ts(167,"dass er ihn den Aufsatz lesen sah",@root,2,[],'Kapitel 15: Anhebung und 
 % Langer Satz
 % der mann, der den affen, der lacht, kennt, gibt der tochter eines mitarbeiters ein Buch, das jeder mitarbeiter einer frau, die den roman lesen wird, geben wird.
 
-ts(168,"Der Mann wurde geschlagen.",@decl,1,[],'Kapitel 17: Passiv').
-ts(169,"Der Mann wurde von der Frau geschlagen.",@decl,1,[],'Kapitel 17: Passiv').
-ts(170,"Mir wird geholfen.",@decl,1,[],'Kapitel 17: Passiv').
-ts(171,"Mir wird von der Frau geholfen.",@decl,1,[],'Kapitel 17: Passiv').
-ts(172,"Der Aufsatz wird mir geschenkt.",@decl,1,[],'Kapitel 17: Passiv').
-ts(173,"Der Aufsatz wird mir von ihm geschenkt.",@decl,1,[],'Kapitel 17: Passiv').
-ts(174,"Er wird geschlafen.",@decl,0,[],'Kapitel 17: Passiv').
-ts(175,"Mich wird geholfen.",@decl,0,[],'Kapitel 17: Passiv').
-ts(176,"Dir wirst geholfen.",@decl,0,[],'Kapitel 17: Passiv').
-ts(177,"Heute wurde geregnet.",@decl,0,[],'Kapitel 17: Passiv').
-ts(178,"Wird gearbeitet?",@interrog,1,[],'Kapitel 17: Passiv').
-ts(179,"Wird geregnet?",@interrog,0,[],'Kapitel 17: Passiv').
-ts(180,"Er wurde schlafen.",@decl,0,[],'Kapitel 17: Passiv').
+ts(168,"Der Mann wurde geschlagen.",@decl,1,[1],'Kapitel 17: Passiv').
+ts(169,"Der Mann wurde von der Frau geschlagen.",@decl,1,[1],'Kapitel 17: Passiv').
+ts(170,"Mir wird geholfen.",@decl,1,[1],'Kapitel 17: Passiv').
+ts(171,"Mir wird von der Frau geholfen.",@decl,1,[1],'Kapitel 17: Passiv').
+ts(172,"Der Aufsatz wird mir geschenkt.",@decl,1,[1],'Kapitel 17: Passiv').
+ts(173,"Der Aufsatz wird mir von ihm geschenkt.",@decl,1,[1],'Kapitel 17: Passiv').
+ts(174,"Er wird geschlafen.",@root,0,[],'Kapitel 17: Passiv').
+ts(175,"Mich wird geholfen.",@root,0,[],'Kapitel 17: Passiv').
+ts(176,"Dir wirst geholfen.",@root,0,[],'Kapitel 17: Passiv').
+ts(177,"Heute wurde geregnet.",@root,0,[],'Kapitel 17: Passiv').
+ts(178,"Wird gearbeitet?",@interrog,1,[1],'Kapitel 17: Passiv').
+ts(179,"Wird geregnet?",@interrog,0,[1],'Kapitel 17: Passiv').
+ts(180,"Er wurde schlafen.",@decl,0,[1],'Kapitel 17: Passiv').
 ts(181,"Wird gestorben gewesen?",@interrog,0,[],'Kapitel 17: Passiv').
-ts(182,"daß der Aufsatz zu lesen gezwungen worden wird.",@decl,0,[],'Kapitel 17: Passiv').
+ts(182,"dass der Aufsatz zu lesen gezwungen worden wird.",@decl,0,[],'Kapitel 17: Passiv').
 ts(183,"Mir wird geschlagen.",@decl,0,[],'Kapitel 17: Passiv + Kasus').
 ts(184,"Mir werde geschlagen.",@decl,0,[],'Kapitel 17: Passiv + Kasus').
 ts(185,"Der Frau wird gegraut.",@decl,0,[],'Kapitel 17: Passiv + subjektloses Prädikat').
 ts(186,"Heute wird gegraut.",@decl,0,[],'Kapitel 17: Passiv + subjektloses Prädikat').
+
 ts(187,"der geliebte Mann",@root,1,[],'Partizip + Passiv + attributiv').
 ts(188,"die von ihrem Mann geliebte Frau",@root,1,[],'Partizip + Passiv + attributiv').
 ts(189,"der geschlafene Mann",@root,0,[],'Partizip + Passiv + attributiv').
@@ -247,30 +248,33 @@ ts(190,"der geschlafene Mann",@root,0,[],'Partizip + Passiv + attributiv').
 ts(191,"der geholfene Mann",@root,0,[],'Partizip + Passiv + attributiv').
 ts(192,"der gegraute Mann",@root,0,[],'Partizip + Passiv + attributiv + subjektloses Prädikat').
 ts(193,"der gestorbene Mann",@root,1,[],'Partizip + Passiv + attributiv + unakkusativ').
-ts(194,"der ihm gelungene Aufsatz",@root,1,[],'Partizip + Passiv + attributiv + unakkusativ').
-ts(195,"der von ihm gestorbene Mann",@root,0,[],'Partizip + Passiv + attributiv + unakkusativ').
-ts(196,"der von ihm ihm gelungene Aufsatz",@root,0,[],'Partizip + Passiv + attributiv + unakkusativ').
-ts(197,"daß er dem Mann haben wird",@root,0,[],'Partizip + Passiv + attributiv + unakkusativ').
-ts(198,"Er läßt den Mann den Kran reparieren.",@decl,2,[1,1,1,1],'Kapitel 17: Passiv + lassen-Passiv').
-ts(199,"Er läßt den Kran reparieren.",@decl,1,[],'Kapitel 17: Passiv + lassen-Passiv').
-ts(200,"Er läßt den Kran von einem Mann reparieren.",@decl,1,[],'Kapitel 17: Passiv + lassen-Passiv').
-ts(201,"Er läßt dem Mann helfen.",@decl,1,[],'Kapitel 17: Passiv + lassen-Passiv').
-ts(202,"Er läßt arbeiten.",@decl,1,[],'Kapitel 17: Passiv + lassen-Passiv').
-ts(203,"Er läßt von ihm dem Mann gelingen.",@decl,0,[],'Kapitel 17: Passiv + lassen-Passiv').
-ts(204,"Er läßt sterben.",@decl,0,[],'Kapitel 17: Passiv + lassen-Passiv').
-ts(205,"Er läßt von ihm sterben.",@decl,0,[],'Kapitel 17: Passiv + lassen-Passiv').
-ts(206,"Du bekommst den Aufsatz geschenkt.",@decl,1,[],'Kapitel 17: Passiv + bekommen-Passiv').
-ts(207,"Du bekommst von mir den Aufsatz geschenkt.",@decl,1,[],'Kapitel 17: Passiv + bekommen-Passiv').
-ts(208,"Du hast den Aufsatz geschenkt bekommen.",@decl,1,[],'Kapitel 17: Passiv + bekommen-Passiv').
-ts(209,"Du wirst den Aufsatz geschenkt bekommen haben.",@decl,1,[],'Kapitel 17: Passiv + bekommen-Passiv').
-ts(210,"Das Buch ist ihm geschenkt bekommen worden.",@decl,0,[],'Kapitel 17: Passiv + bekommen-Passiv').
-ts(211,"Das Buch ist er geschenkt bekommen worden.",@decl,0,[],'Kapitel 17: Passiv + bekommen-Passiv').
-ts(212,"Das Buch wird geschenkt bekommen.",@decl,0,[],'Kapitel 17: Passiv + bekommen-Passiv').
-ts(213,"Er ist das Buch geschenkt bekommen.",@decl,0,[],'Kapitel 17: Passiv + bekommen-Passiv').
-ts(214,"Du bekommst gelungen.",@decl,0,[],'Kapitel 17: Passiv + bekommen-Passiv').
-ts(215,"Du bekommst von ihm gelungen.",@decl,0,[],'Kapitel 17: Passiv + bekommen-Passiv').
-ts(216,"Er bekommt ein Buch geschenkt bekommen.",@decl,0,[],'Kapitel 17: Passiv + bekommen-Passiv').
-ts(217,"daß widersprochen bekam.",@decl,0,[],'Kapitel 17: Passiv + bekommen-Passiv').
+ts(194,"der geregnete Mann",@root,0,[],'Partizip + Passiv + attributiv + Wetterverb').
+ts(195,"der ihm gelungene Aufsatz",@root,1,[],'Partizip + Passiv + attributiv + unakkusativ').
+ts(196,"der von ihm gestorbene Mann",@root,0,[],'Partizip + Passiv + attributiv + unakkusativ').
+ts(197,"der von ihm ihm gelungene Aufsatz",@root,0,[],'Partizip + Passiv + attributiv + unakkusativ').
+
+ts(198,"dass er dem Mann haben wird",@root,0,[],'Partizip + Passiv + attributiv + unakkusativ').
+ts(199,"Der Affe lässt den Mann den Kran reparieren.",@decl,2,[1,1],'Kapitel 17: Passiv + lassen-Passiv').
+ts(200,"Der Affe lässt den Kran reparieren.",@decl,1,[1],'Kapitel 17: Passiv + lassen-Passiv').
+ts(201,"Der Affe lässt den Kran von einem Mann reparieren.",@decl,1,[1],'Kapitel 17: Passiv + lassen-Passiv').
+ts(202,"Der Affe lässt dem Mann helfen.",@decl,1,[1],'Kapitel 17: Passiv + lassen-Passiv').
+ts(203,"Der Affe lässt arbeiten.",@decl,1,[1],'Kapitel 17: Passiv + lassen-Passiv').
+ts(204,"Er lässt von ihm dem Mann gelingen.",@decl,0,[],'Kapitel 17: Passiv + lassen-Passiv').
+ts(205,"Er lässt sterben.",@decl,0,[],'Kapitel 17: Passiv + lassen-Passiv').
+ts(206,"Er lässt von ihm sterben.",@decl,0,[],'Kapitel 17: Passiv + lassen-Passiv').
+ts(207,"Der Affe bekommt den Aufsatz geschenkt.",@decl,1,[],'Kapitel 17: Passiv + bekommen-Passiv').
+ts(208,"Der Affe bekommt von mir den Aufsatz geschenkt.",@decl,1,[],'Kapitel 17: Passiv + bekommen-Passiv').
+ts(209,"Der Affe hat den Aufsatz geschenkt bekommen.",@decl,1,[],'Kapitel 17: Passiv + bekommen-Passiv').
+ts(210,"Der Affe wirt den Aufsatz geschenkt bekommen haben.",@decl,1,[],'Kapitel 17: Passiv + bekommen-Passiv').
+ts(211,"Das Buch ist ihm geschenkt bekommen worden.",@decl,0,[],'Kapitel 17: Passiv + bekommen-Passiv').
+ts(212,"Das Buch ist er geschenkt bekommen worden.",@decl,0,[],'Kapitel 17: Passiv + bekommen-Passiv').
+ts(213,"Das Buch wird geschenkt bekommen.",@decl,0,[],'Kapitel 17: Passiv + bekommen-Passiv').
+ts(214,"Er ist das Buch geschenkt bekommen.",@decl,0,[],'Kapitel 17: Passiv + bekommen-Passiv').
+ts(215,"Du bekommst gelungen.",@decl,0,[],'Kapitel 17: Passiv + bekommen-Passiv').
+ts(216,"Du bekommst von ihm gelungen.",@decl,0,[],'Kapitel 17: Passiv + bekommen-Passiv').
+ts(217,"Er bekommt ein Buch geschenkt bekommen.",@decl,0,[],'Kapitel 17: Passiv + bekommen-Passiv').
+ts(218,"dass widersprochen bekam.",@decl,0,[],'Kapitel 17: Passiv + bekommen-Passiv').
+/*
 ts(218,"Er ist geschlagen.",@decl,1,[],'Kapitel 17: Passiv + Zustandspassiv').
 ts(219,"Ist genug gearbeitet?",@interrog,1,[],'Kapitel 17: Passiv + Zustandspassiv').
 ts(220,"Dem Mann ist geholfen.",@decl,1,[],'Kapitel 17: Passiv + Zustandspassiv').
@@ -279,10 +283,10 @@ ts(222,"Der Kran ist repariert gewesen.",@decl,1,[],'Kapitel 17: Passiv + Zustan
 ts(223,"Ist heute geregnet?",@interrog,0,[],'Kapitel 17: Passiv + Zustandspassiv').
 ts(224,"Ich bin geholfen.",@decl,0,[],'Kapitel 17: Passiv + Zustandspassiv').
 ts(225,"Der Kran hat repariert zu sein.",@decl,1,[],'Kapitel 17: Passiv + Zustandspassiv + modaler Infinitiv').
-ts(226,"daß der Kran zu reparieren versucht wurde",@root,1,[],'Kapitel 17: Passiv + Fernpassiv + Kohärenz + Kasus').
+ts(226,"dass der Kran zu reparieren versucht wurde",@root,1,[],'Kapitel 17: Passiv + Fernpassiv + Kohärenz + Kasus').
 ts(227,"Zu reparieren versucht wurde der Kran.",@decl,1,[],'Kapitel 17: Passiv + Fernpassiv + Kohärenz + Kasus').
 ts(228,"Den Kran zu reparieren wurde versucht.",@decl,1,[],'Kapitel 17: Passiv + Fernpassiv + Kohärenz + Kasus').
-ts(229,"daß den Kran zu reparieren versucht wurde",@root,1,[],'Kapitel 17: Passiv + Fernpassiv + Kohärenz + Kasus').
+ts(229,"dass den Kran zu reparieren versucht wurde",@root,1,[],'Kapitel 17: Passiv + Fernpassiv + Kohärenz + Kasus').
 ts(230,"Der Kran wurde zu reparieren versucht.",@decl,1,[],'Kapitel 17: Passiv + Fernpassiv + Kohärenz + Kasus').
 ts(231,"Den Kran wurde zu reparieren versucht.",@decl,1,[],'Kapitel 17: Passiv + Fernpassiv + Kohärenz + Kasus').
 ts(232,"Ist der Kran zu reparieren versucht worden?",@interrog,1,[],'Kapitel 17: Passiv + Fernpassiv + Kohärenz + Kasus').
@@ -311,8 +315,10 @@ ts(254,"Dem Mann hat zu grauen.",@decl,1,[],'Kapitel 17: modaler Infinitiv + hab
 ts(255,"Der Aufsatz hat gelesen zu werden.",@decl,1,[],'Kapitel 17: modaler Infinitiv + haben + Passiv').
 ts(256,"Das Buch wird zu lesen gehabt.",@decl,0,[],'Kapitel 17: modaler Infinitiv + haben + Passiv').
 ts(257,"Ihm hat geholfen zu werden.",@decl,1,[],'Kapitel 17: modaler Infinitiv + haben + Passiv + subjektloses Prädikat').
-ts(258,"daß ihm nicht geholfen zu werden ist",@root,0,[],'Kapitel 17: modaler Infinitiv + haben + Passiv + subjektloses Prädikat').
+ts(258,"dass ihm nicht geholfen zu werden ist",@root,0,[],'Kapitel 17: modaler Infinitiv + haben + Passiv + subjektloses Prädikat').
 ts(259,"Dem Mann gelungen wurde nicht.",@decl,0,[],'Kapitel 17: Passiv + Voranstellung + PVP').
+
+*/
 
 tg(1,"Der Affe schläft.",@decl,1,'Aus Kapitel-09: Grundfall').
 
