@@ -452,7 +452,7 @@ headed_phrase *>
  non_head_dtrs:[synsem:trace:extraction]) *> synsem:max_:plus.
 
 % Maximale Phrasen können keine Köpfe in Kopf-Argumentstrukturen sein, da sie ja maximal sind.
-% Durch die beiden Beschränkungen wird Maximalität erneut und ohne Bezug auf SUBCAT definiert.
+% Durch die beiden Beschränkungen wird Maximalität erneut und ohne Bezug auf COMPS definiert.
 % Wie gesagt, nur ein technischer Trick.
 head_complement_phrase *> head_dtr:synsem:max_:minus.
 
@@ -514,6 +514,12 @@ head_specifier_phrase  *> synsem:lex:minus.
 
 head_cluster_phrase *> head_dtr:synsem:trace:minus_or_vm.
 
+% Wenn eine vorangestellte Phrase über das Cluster-Schema kombiniert wird,
+% darf sie nicht vollständig sein, denn diese Phrasen sollen über das head_complement_schema abgebunden werden.
+% Das erste Element in der COMPS-Liste ist der Spirit des eingebetteten Verbs und dann muss aber noch was kommen.
+(head_cluster_phrase,
+ non_head_dtrs:hd:e_trace) *> synsem:loc:cat:comps:tl:ne_list.
+
 
 % Geht durch eine Liste und gibt dem letzten Element die
 % Person und Numerus-Merkmale, wenn die Liste mit einer NP_str
@@ -567,35 +573,18 @@ subj_verb_agreement2(L,Per,Num) if
 
 
 
-% Dieses Kasusprinzip ist nicht die endgültige Variante!
-% Da diese einige Änderungen in der Merkmalsgeometrie erfordert, kommt
-% die endgültige Variante erst in der Grammatik zu Kapitel 17.
+% Kasusprinzip 
 
 (word,
- synsem:loc:cat:head:(verb,
-                      vform:fin)) *> synsem:loc:cat:arg_st:ArgSt goal assign_case_verb(ArgSt).
-
-
-(head_complement_phrase,  
- synsem:loc:cat:head:vform:non_fin,
- non_head_dtrs:hd:synsem:loc:cat:head:case:case_type:str) *>  non_head_dtrs:hd:synsem:loc:cat:head:case:morph_case:acc.
-
+ synsem:loc:cat:head:adj_or_participle_or_verb) *> synsem:loc:cat:arg_st:ArgSt goal assign_case_verb(ArgSt).
 
 fun assign_case_verb(-).
-% Da Spuren auch Kasus zuweisen, muß man warten, bis die ARGST-Liste überhaupt instantiiert
-% ist. Ansonsten, wäre klar, daß es immer ein Argument gibt und man könnte gleich mit
-% assign_case_verb2 beginnen.
 assign_case_verb(List) if
-       when( List=(e_list;ne_list)
-           , assign_case_verb2(List)
-           ).
+  assign_case_verb_wait(List,List).
 
-
-% Do not choose a case class while reconstructing a verb trace's ARG-ST.
-% Wait for the complete list and for information supplied by the lexical head.
-assign_case_verb2([H|T]) if
-  assign_case_verb_wait([H|T],[H|T]).
-
+% Warten, bis die Listenstruktur bekannt ist. Das erste Argument wird
+% schrittweise abgearbeitet; das zweite bewahrt die gesamte ARG-ST-Liste
+% für die anschließende Kasuszuweisung.
 assign_case_verb_wait(List,ArgSt) if
   when(List=(e_list;ne_list),assign_case_verb_wait_list(List,ArgSt)).
 
@@ -615,7 +604,8 @@ assign_case_verb_wait_list([H|T],ArgSt) if
 
 
 % Wenn die Argumente nicht lokal realisiert wurden, passiert nichts.
-undelayed_assign_case_verb([raised:plus])      if true.
+undelayed_assign_case_verb([]) if true.
+
 undelayed_assign_case_verb([raised:plus|Rest]) if assign_case_verb(Rest).
 
 % Wenn die Argumente lokal realisiert wurden, weise NPen mit strukturellem
@@ -633,10 +623,8 @@ undelayed_assign_case_verb([(raised:minus,
 
 
 
-undelayed_assign_case_verb([(raised:minus,
-                             @np_lex)])                                 if true.
-undelayed_assign_case_verb([(raised:minus,
-                             @no_noun)])                                if true.
+
+
 
 % Alle anderen NPen mit strukturellem Kasus bekommen Akkusativ.
 % Es muß noch mindestens ein Element in der Valenzliste geben, daß
@@ -761,6 +749,20 @@ list_of_spirits(List) if
 
 undelayed_list_of_spirits([]) if true.
 undelayed_list_of_spirits([realized:plus|Rest]) if list_of_spirits(Rest).
+
+fun list_of_syntactic_signs(-).
+list_of_syntactic_signs(L) if
+   when( (L=(e_list;ne_list)),
+         undelayed_list_of_syntactic_signs(L) ).
+
+undelayed_list_of_syntactic_signs([]) if true.
+undelayed_list_of_syntactic_signs([syntactic_sign|T]) if
+   list_of_syntactic_signs(T).
+
+% Schließt Stämme in der Syntax aus.
+% Stämme als Kopftochter sind bereits in der Signatur ausgeschlossen
+phrase *>
+   dtrs:list_of_syntactic_signs.
 
 
 fun list_of_zu_minus(-).

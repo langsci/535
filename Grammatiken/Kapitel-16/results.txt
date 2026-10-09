@@ -5,3 +5,28 @@ Kapitel 16
 
 mit inf_marking:minus für alle Töchter
 2026-10-04 20:54 Parsing tests: 158 items; 1 min 6.499 sec CPU time total; 6084 passive edges total.
+
+
+
+2026-10-07 12:37
+Parallel tests: limit 10 workers; 12 processes started (peak 10); 655.796 sec elapsed wall time (including worker startup).
+
+Parsing/scoping: 218 items; 3 min 22.699 sec CPU time total; 9677 passive edges total; 0 open residues total.
+Chart totals unavailable for 7 items; those charts are not included.
+Generation: 141 items; 33 min 26.405 sec CPU time total; 245766 chart edges (151208 active, 94558 inactive).
+Generation preparation: 19.905 sec CPU time total.
+Timeout runs contribute elapsed time and available partial generation charts.
+
+Combined tests: 199 passed, 15 failed, 4 timed out; generation skipped for 77 tests.
+yes
+
+
+Parallel tests: limit 10 workers; 13 processes started (peak 10); 743.059 sec elapsed wall time (including worker startup).
+
+Parsing/scoping: 218 items; 3 min 17.835 sec CPU time total; 9677 passive edges total; 0 open residues total.
+Chart totals unavailable for 7 items; those charts are not included.
+Generation: 141 items; 38 min 38.241 sec CPU time total; 301247 chart edges (189698 active, 111549 inactive).
+Generation preparation: 20.504 sec CPU time total.
+Timeout runs contribute elapsed time and available partial generation charts.
+
+Combined tests: 201 passed, 13 failed, 4 timed out; generation skipped for 77 tests.

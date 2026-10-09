@@ -50,7 +50,8 @@ cat := bot & [
 
 hook := bot & [
   ltop handle,
-  ind  event_or_index ].
+  ind  event_or_index,
+  key  relation ].
 
 intro_complex_sign := sign &
  [ dtrs list ].
@@ -66,7 +67,7 @@ syntactic_sign := sign.
 lexical_sign   := sign &
   [ inf_marking bool ].
 
-phrase := intro_complex_sign.
+phrase := intro_complex_sign & syntactic_sign.
 
 headed_phrase := phrase & [
   head_dtr sign ].
@@ -110,6 +111,9 @@ infl_lr := complex_word & [
 
 non_relational_lr :< intro_complex_sign_dtr.
 
+relational_lr := intro_complex_sign_dtr & arg0_ltop_lbl_le.
+
+
 ; Teilt auch morphophonologische Merkmale.
 n_v_infl_lr := infl_lr.
 
@@ -120,12 +124,13 @@ attr_adj_infl_lr := infl_lr & non_relational_lr & spr_saturated_le & cannonical_
 ;isect_attr_adj_infl_lr  := attr_adj_infl_lr & isect_n_modifier.
 ;scopal_attr_adj_infl_lr :< attr_adj_infl_lr.
 
-part_derivation_lr     :< derived_stem & isect_modifier & non_relational_lr.
-ppp_part_derivation_lr :< part_derivation_lr.
-inf_part_derivation_lr :< part_derivation_lr.
+part_derivation_lr     := derived_stem & isect_modifier.
+ppp_part_derivation_lr := part_derivation_lr & non_relational_lr.
+inf_part_derivation_lr := part_derivation_lr & relational_lr.      ; das zu lesende Buch
+bse_part_derivation_lr := part_derivation_lr & non_relational_lr.  ; das das Buch lesende Kind
 
 
-fin_verb_infl_lr := cannonical_complex_word.
+fin_verb_infl_lr := relational_lr & cannonical_complex_word.
 
 reg_fin_verb_infl_lr   := fin_verb_infl_lr & n_v_infl_lr.
 irreg_fin_verb_infl_lr := fin_verb_infl_lr & n_v_infl_lr & irreg_infl_lr.
@@ -134,19 +139,20 @@ irreg_infl_lr := infl_lr.
 
 irreg_bse_or_inf_verb_infl_lr := bse_or_inf_verb_infl_lr & irreg_infl_lr.
 
-non_fin_verb_infl_lr := non_relational_lr.
+non_fin_verb_infl_lr :< non_relational_lr.
 
-bse_or_inf_verb_infl_lr := cannonical_complex_word & non_fin_verb_infl_lr.
+bse_or_inf_verb_infl_lr :=  cannonical_complex_word & non_fin_verb_infl_lr.
 
 bse_verb_infl_lr := bse_or_inf_verb_infl_lr.
 inf_verb_infl_lr := bse_or_inf_verb_infl_lr.
+ppp_verb_infl_lr := non_fin_verb_infl_lr & noncannonical_complex_word.
 
+; constraints on morphology
 reg_bse_or_inf_verb_infl_lr := bse_or_inf_verb_infl_lr & n_v_infl_lr.
 
 reg_bse_verb_infl_lr := reg_bse_or_inf_verb_infl_lr & bse_verb_infl_lr.
 reg_inf_verb_infl_lr := reg_bse_or_inf_verb_infl_lr & inf_verb_infl_lr.
 
-ppp_verb_infl_lr     := noncannonical_complex_word & non_fin_verb_infl_lr.
 reg_ppp_verb_infl_lr := ppp_verb_infl_lr & n_v_infl_lr.
 
 
@@ -171,14 +177,16 @@ noncannonical_complex_word := complex_word & [
   cannonical minus].
 
 
-stem := overt_le & 
+stem := lexical_sign & 
  [ infl infl ].
 
 intro_morphophon := bot & [
   morphophon morphophon ].
 
+; lexical rules can be infmarking:plus
+; overt_le is inf_marking:minus
 derived_stem   := stem & intro_complex_sign_dtr.
-underived_stem := stem.
+underived_stem := stem & overt_le.
 
 
 
@@ -232,7 +240,7 @@ overt_le := lexical_sign.
 
 ;overt_word := overt_le & word.
 
-non_overt_le := empty_rel_le.
+non_overt_le := empty_rel_le & syntactic_sign.
 
 ; Wenn Spuren vom Typ word sind, wird das Argumentstrukturprinzip angewendet. Das ist aber
 ; ungünstig. Denn die Füller können vom Typ word oder phrase sein. Das muss also alles dort
@@ -336,18 +344,23 @@ sein_perfect     := non_flip_verb_stem & perfect_aux_verb.
 
 passive_aux_verb := aux_verb & non_flip_raising_verb.
 
-;; Alle Passivhilfsverben außre lassen
-simple_passive_aux_verb := passive_aux_verb & non_scopal_non_relational_le.
+;; Alle Passivhilfsverben außer lassen und die modalen Infinitive.
+;; Diese führen eigene Relationen ein.
+simple_passive_aux_verb := passive_aux_verb & non_scopal_le.
+
+simple_non_relational_passive_aux_verb :< simple_passive_aux_verb & non_scopal_non_relational_le.
 
 ppp_passive_aux_verb := ppp_inf_verb_le & passive_aux_verb.
 
-simple_ppp_passive_aux_verb := simple_passive_aux_verb & ppp_passive_aux_verb.
+simple_ppp_passive_aux_verb := simple_non_relational_passive_aux_verb & ppp_passive_aux_verb.
 
-;agentive_passive_aux_verb :< simple_ppp_passive_aux_verb.
-;stative_passive_aux_verb  :< simple_ppp_passive_aux_verb.
+agentive_passive_aux_verb :< simple_ppp_passive_aux_verb.
+
+; this mentions the result state.
+stative_passive_aux_verb  := simple_passive_aux_verb & ppp_inf_verb_le & relational_raising_verb.
 
 
-modal_zu_inf := zu_inf_verb_le & raising_verb.
+modal_zu_inf := zu_inf_verb_le & relational_raising_verb.
 
 modal_sein  := simple_passive_aux_verb  & modal_zu_inf. 
 modal_haben := subj_raising_verb & coherent_le & modal_zu_inf. 
@@ -434,7 +447,7 @@ np_np_unacc_verb    := np_np_verb & intrans_unacc_verb.
 bi_or_more_val_verb := non_scopal_verb_stem.
 
 ; kennen, geben
-trans_verb := bi_or_more_val_verb & nerg_verb.
+trans_verb := bi_or_more_val_verb & nerg_verb & non_flip_verb_stem.
 
 strict_trans_verb := trans_verb.
 ditrans_verb      := trans_verb.
@@ -452,7 +465,7 @@ verb_mod_preposition := relational_mod_preposition & isect_v_modifier_le.
 location_noun_mod_prep := noun_mod_preposition.
 location_verb_mod_prep := verb_mod_preposition.
 
-passive_preposition := v_modifier_word & preposition_word & non_relational_le.
+passive_preposition := v_modifier_word & isect_modifier & preposition_word & non_relational_le.
 
 
 n_modifier_word := n_modifier & relational_le & overt_le & empty_rel_word.
@@ -479,7 +492,9 @@ isect_n_modifier_le := isect_modifier_le & n_modifier.
 isect_v_modifier_le := isect_modifier_le & v_modifier.
 
 ; Adverbien, Präpositionen
-v_modifier := sign.
+adj_v_modifier :< sign.
+v_modifier     :< adj_v_modifier.
+
 
 ; may be not relational because of the passive preposition
 v_modifier_word := v_modifier & overt_le & empty_rel_word.
@@ -487,10 +502,10 @@ v_modifier_word := v_modifier & overt_le & empty_rel_word.
 
 scopal_modifier_le := ltop_lbl_le.
 
-scopal_v_modifier_le := scopal_modifier_le & v_modifier_word.
+scopal_v_modifier_word := scopal_modifier_le & v_modifier_word.
 
-adv_word := saturated_word & ltop_lbl_le & v_modifier_word & simple_word.
-scopal_adv_word := scopal_v_modifier_le & adv_word.
+adv_word := saturated_word & ltop_lbl_le & adj_v_modifier & simple_word & overt_le.
+scopal_adv_word := scopal_modifier_le & adv_word.
 
 isect_adv_word := isect_v_modifier_le & adv_word.
 
@@ -573,11 +588,13 @@ adj_participle := adj_or_participle & participle_or_verb.
 
 attr_adj_or_attr_participle := adj_or_participle & 
  intro_case_head & 
- pre_modifier_head.
+ pre_modifier_head & [
+ subj ne_list]. ; damit werden die Subjekte von ARG-ST auf SUBJ gemappt
 
 attr_participle := adj_participle & attr_adj_or_attr_participle.
 
-adj :< adj_or_participle.
+adj := adj_or_participle & [
+ da e_list].
 
 attr_adj := adj & attr_adj_or_attr_participle.
 
@@ -729,6 +746,10 @@ jetzt_rel   := arg1_relation.
 morgen_rel  := arg1_relation.
 oft_rel     := arg1_relation.
 
+genug_rel   := arg1_relation.
+leicht_rel  := arg1_relation.
+
+
 quant_rel := arg0_relation & [
   rstr handle,
   body handle ].
@@ -799,55 +820,168 @@ nicht_rel          := arg1_relation.
 wahrscheinlich_rel := arg1_relation.
 
 
-arbeiten_rel := arg01_relation.
-bellen_rel   := arg01_relation.
-lachen_rel   := arg01_relation.
-schlafen_rel := arg01_relation.
-schmelzen_rel := arg02_relation.
-spielen_rel  := arg01_relation.
-tanzen_rel   := arg01_relation.
+verbal_relation := arg0_relation & [
+  aktionsart aktionsart ].
 
-helfen_rel        := arg012_relation.
-jagen_rel         := arg012_relation.
-kennen_rel        := arg012_relation.
-lesen_rel         := arg012_relation.
-lieben_rel        := arg012_relation.
-nehmen_rel        := arg012_relation.
-reparieren_rel    :< arg012_relation.
-schlagen_rel      :< arg012_relation.
-singen_rel        := arg012_relation.
-widersprechen_rel :< arg012_relation.
+verbal_arg01_relation   := verbal_relation & arg01_relation.
+verbal_arg02_relation   := verbal_relation & arg02_relation.
+verbal_arg012_relation  := verbal_relation & arg012_relation.
+verbal_arg0123_relation := verbal_relation & arg0123_relation.
+
+; Am-Progressiv / Dynamizität: Er ist am Lachen. ✓ (Aktivität), ?Es ist am Stinken. ✗ (Zustand)
+
+; Imperativ / Agentivität: Lach! ✓, Schlaf! ✓, *Stink! ✗
+
+; Zeitadverbial: stundenlang geht bei Zuständen und Aktivitäten (stundenlang lachen), in einer
+; Stunde nur bei telischen Verben (in einer Stunde das Haus bauen).
+
+; Verträglichkeit mit „aufhören": Er hörte auf zu lachen ⇒ er hat gelacht (Aktivität, atelisch). Er
+; hörte auf, das Haus zu bauen ⇒ nicht notwendig ein fertiges Haus (Accomplishment).
+
+aktionsart :< bot.
+
+; wissen, lieben, stinken, besitzen
+state          :< aktionsart.
+
+accomplishment_or_achievement_or_activity_or_semelfactive :< aktionsart.
+
+accomplishment_or_achievement_or_activity :< accomplishment_or_achievement_or_activity_or_semelfactive.
+
+; lesen und singen sind lexikalisch Activities. Mit einem begrenzten Objekt (das Buch lesen, ein
+; Lied singen) werden sie zu Accomplishments, was sich auf Satzebene (Komposition) ergibt, nicht im
+; Lexikoneintrag.
+activity_or_accomplishment :< accomplishment_or_achievement_or_activity.
+
+;schlagen ist semelfaktiv (einzelner Schlag, iterierbar), mit Plural- oder Mehrfachlesart auch Activity.
+activity_or_semelfactive :< accomplishment_or_achievement_or_activity_or_semelfactive.
+
+accomplishment_or_achievement :< accomplishment_or_achievement_or_activity.
+
+; lachen, schlafen, laufen, schieben
+activity       := activity_or_accomplishment & activity_or_semelfactive.
+
+; ein Haus bauen, einen Brief schreiben, das Fenster öffnen
+accomplishment := activity_or_accomplishment & accomplishment_or_achievement.
+
+; ankommen, finden, erkennen, sterben
+achievement    :< accomplishment_or_achievement.
+
+; Semelfaktiv (punktuell, ohne Resultat, iterierbar): klopfen, hüsteln, blinzeln, auflachen.
+semelfactive :< activity_or_semelfactive.
 
 
-denken_an_rel := arg012_relation.
-glauben_rel   := arg012_relation.
 
 
-in_rel        := arg12_relation.
 
-erlauben_rel    := arg0123_relation.
-erzählen_rel    := arg0123_relation.
+arbeiten_rel  := verbal_arg01_relation & [
+  aktionsart activity].
 
-geben_rel       :=  arg0123_relation.
-schenken_rel    :=  arg0123_relation.
+;bellen ist iterativ, aber als Dauerverhalten atelisch, daher Activity. Ein einzelnes Bellen wäre semelfaktiv.
+bellen_rel    := verbal_arg01_relation & [
+  aktionsart activity].
 
-versprechen_rel := arg0123_relation.
-zwingen_rel     := arg0123_relation.
+lachen_rel    := verbal_arg01_relation & [
+  aktionsart activity].
+
+; schlafen ist ein Grenzfall zwischen Activity und stage-level State. Ich habe Activity gewählt (Imperativ und Progressiv gehen).
+schlafen_rel  := verbal_arg01_relation  & [
+  aktionsart activity].
+
+; schmelzen ist graduell und hat einen Endpunkt (in einer Stunde schmelzen), daher Accomplishment. Mit arg02 ist das Subjekt vermutlich das Thema (unakkusativ).
+schmelzen_rel := verbal_arg02_relation  & [
+  aktionsart accomplishment].
+
+spielen_rel   := verbal_arg01_relation  & [
+  aktionsart activity].
+
+tanzen_rel    := verbal_arg01_relation  & [
+  aktionsart activity].
+
+;helfen und jagen sind atelisch und dynamisch, also Activity. Bei jagen ist das Ziel offen, es gibt keinen inhärenten Endpunkt.
+;Sie half ihm stundenlang. ist eine Aktivität, atelisch, ohne Resultat. Das ist die Lesart, die ich für helfen_rel angesetzt hatte.
+;Sie half ihm (und damit war sein Problem gelöst). ist erfolgsimplizierend und hat einen Resultatszustand: Ihm ist geholfen = sein Problem ist behoben, er ist nicht mehr in Not.
+helfen_rel        := verbal_arg012_relation  & [
+  aktionsart accomplishment_or_achievement_or_activity].
+
+jagen_rel         := verbal_arg012_relation  & [
+  aktionsart activity].
+
+kennen_rel        := verbal_arg012_relation  & [
+  aktionsart state].
+
+lesen_rel         := verbal_arg012_relation  & [
+  aktionsart activity_or_accomplishment].
+
+lieben_rel        := verbal_arg012_relation  & [
+  aktionsart state].
+;nehmen und widersprechen habe ich als punktuell (Achievement) eingestuft. Widersprechen könnte man auch als Activity lesen, wenn man es als Sprechhandlung mit Dauer versteht.
+nehmen_rel        := verbal_arg012_relation  & [
+  aktionsart achievement].
+
+reparieren_rel    := verbal_arg012_relation  & [
+  aktionsart accomplishment].
+
+; schlagen ist semelfaktiv (einzelner Schlag, iterierbar), mit Plural- oder Mehrfachlesart auch Activity.
+; Er schlug ihn. (einmal): semelfaktiv, kein Resultat
+; Er schlug den Gegner. (besiegen): Achievement bzw. Accomplishment, mit Resultat „besiegt"
+schlagen_rel      := verbal_arg012_relation & [
+  aktionsart accomplishment_or_achievement_or_activity_or_semelfactive].
 
 
-grauen_rel  := arg02_relation.
-sterben_rel := arg02_relation.
+singen_rel        := verbal_arg012_relation & [
+  aktionsart activity_or_accomplishment].
 
-poss_rel := arg012_relation.
+widersprechen_rel := verbal_arg012_relation  & [
+  aktionsart achievement].
 
-bild_rel := arg02_relation.
+denken_an_rel := verbal_arg012_relation & [
+  aktionsart activity].
 
+glauben_rel   := verbal_arg012_relation  & [
+  aktionsart state].
+
+erlauben_rel    := verbal_arg0123_relation  & [
+  aktionsart achievement].
+
+erzählen_rel    := verbal_arg0123_relation  & [
+  aktionsart accomplishment].
+
+geben_rel       :=  verbal_arg0123_relation  & [
+  aktionsart achievement].
+
+schenken_rel    :=  verbal_arg0123_relation  & [
+  aktionsart achievement].
+
+versprechen_rel := verbal_arg0123_relation  & [
+  aktionsart achievement].
+
+zwingen_rel     := verbal_arg0123_relation  & [
+  aktionsart accomplishment].
+
+
+grauen_rel  := verbal_arg02_relation  & [
+  aktionsart state].
+
+sterben_rel := verbal_arg02_relation  & [
+  aktionsart achievement].
+
+poss_rel := verbal_arg012_relation  & [
+  aktionsart state].
+
+
+besitzen_rel  := verbal_arg012_relation  & [
+  aktionsart state].
+
+gelingen_rel  := verbal_arg012_relation  & [
+  aktionsart achievement].
+
+
+in_rel      := arg12_relation.
+
+bild_rel    := arg02_relation.
 tochter_rel := arg02_relation.
-
 sohn_rel    := arg02_relation.
 
-besitzen_rel  :< arg012_relation.
-gelingen_rel  :< arg012_relation.
 
 conjunction_rel := arg0_relation & [
   lindex event_or_index,
@@ -877,12 +1011,8 @@ wollen_rel := modal_rel.
 futur_rel   := arg03_relation.
 perfect_rel := arg03_relation.
 
-; what is this????
-passive_rel :< arg03_relation.
-
-agentive_passive_rel :< arg03_relation.
-stative_passive_rel  :< arg03_relation.
-
+; placeholder for decompositional analysis
+stative_passive_rel := arg03_relation.
 
 
 event_or_index := bot.
@@ -1134,6 +1264,6 @@ minus      := extraction_or_minus & minus_or_vm          & bool.
 vm         := extraction_or_vm    & minus_or_vm.
 
 ; Only for generator coverage; never part of the MRS RELS list.
-generator_pronoun_rel :< arg0_relation.
-generator_pers_pronoun_rel := generator_pronoun_rel & [arg0 index].
-generator_relative_pronoun_rel :< generator_pronoun_rel.
+generator_relation := bot & [generator_index event_or_index].
+generator_pers_pronoun_rel := generator_relation & [generator_index index].
+generator_relative_pronoun_rel :< generator_relation.

@@ -727,8 +727,8 @@ glaub ---> @glauben_denken_verb(glauben_rel),
           @vflex_em(minus),
           @vflex_bet1(plus).
 
-% Modalverben
 
+% Modalverben
 
 dürf   ---> @modal_verb(dürfen_rel),
            @pres2_stem(a_ darf),
@@ -971,10 +971,10 @@ würdest  ---> @werden(second,         sg, past_conj).
 % Es gibt keine infiniten Formen für das Futur-Hilfsverb.
 % Die folgenden sind nur fürs Passiv:
 %
-werden   ---> @werden(bse).
+werden   ---> @werden(bse_or_inf).
 worden   ---> @werden_pas(ppp).
 
-/*
+
 bin   ---> @sein(first, sg, pres_ind).
 bist  ---> @sein(second,sg, pres_ind).
 ist   ---> @sein(third, sg, pres_ind).
@@ -1004,7 +1004,7 @@ wärt  ---> @sein(second,         pl, past_conj).
 gewesen  ---> @sein(ppp).
 
 sein     ---> @sein(bse_or_inf).
-*/
+
 
 
 % Dativpassiv-Hilfsverb
@@ -1031,7 +1031,8 @@ bekomm  ---> dative_passive_aux_verb,
 
 % Perfekt-Hilfsverb
 
-hab     ---> haben_perfect,
+hab     ---> (haben_perfect;
+             modal_haben),
             @pres2_stem(a_ ha),
             @past_stem(a_ hat),
             @part_stem(a_ hab),
@@ -1048,11 +1049,11 @@ hab     ---> haben_perfect,
             @vflex_bet1(plus).
 
 
-an  ---> @comp_prep(an_pform).
-auf ---> @comp_prep(auf_pform).
-für ---> @comp_prep(für_pform).
-von ---> @comp_prep(von_pform).
-zu  ---> @comp_prep(zu_pform).
+an  ---> @comp_prep(an_pform,acc).
+auf ---> @comp_prep(auf_pform,acc).
+für ---> @comp_prep(für_pform,acc).
+von ---> @comp_prep(von_pform,dat).
+zu  ---> @comp_prep(zu_pform,dat).
 
 von ---> passive_preposition.
 
@@ -1091,6 +1092,8 @@ morgen  ---> @temp_adv(morgen_rel).
 
 immer   ---> @temp_adv(immer_rel).
 
+genug  ---> @isect_adv(genug_rel).
+leicht ---> @isect_adv(leicht_rel). % sollte über Lexikonregel lizenziert werden
 
 
 dass ---> @complementizer(dass).

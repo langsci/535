@@ -74,8 +74,8 @@ argument_synsem :=
 % mit einer weiteren Verbspur kombiniert werden:
 % [ [ er _ ] _ ]
 (head_complement_phrase,
- loc:cat:head:initial:minus) *>
-  (non_head_dtrs:[loc:cat:head:dsl:none]).
+ synsem:loc:cat:head:initial:minus) *>
+  (non_head_dtrs:[synsem:loc:cat:head:dsl:none]).
 
 */
 
@@ -105,7 +105,7 @@ fun not_type(+,-).
 % als Adjunkt auftreten.
 
 head_adjunct_phrase *>
-  non_head_dtrs:[synsem:loc:cat:head:dsl:none].
+  non_head_dtrs:hd:synsem:loc:cat:head:dsl:none.
 
 % allgemeiner
 %head_non_complement_phrase *>
@@ -146,7 +146,7 @@ head_adjunct_phrase *>
 % Das ist wichtig für die Regelberechnung.
 
 (head_adjunct_phrase,
- head_dtr:synsem:loc:cat:head:verb) *> non_head_dtrs:[synsem:loc:cat:head:pre_modifier:plus].
+ head_dtr:synsem:loc:cat:head:verb) *> non_head_dtrs:hd:synsem:loc:cat:head:pre_modifier:plus.
 
 % Adjunkte werden immer als direkte Töchter des Verbs eingeführt,
 % da sonst unechte Mehrdeutigkeiten entstünden.
@@ -163,7 +163,7 @@ head_adjunct_phrase *>
 %   [ _   [ oft _ ]]
 
 (head_adjunct_phrase,
- head_dtr:head_complement_phrase) *> head_dtr:non_head_dtrs:[synsem:trace:minus].
+ head_dtr:head_complement_phrase) *> head_dtr:non_head_dtrs:hd:synsem:trace:minus.
 
 
 
@@ -188,7 +188,7 @@ head_specifier_phrase *>
 % Die Relativphrase kann aber nur aus dem Relativpronomen selbst oder aus einer PP bestehen.
 
 head_adjunct_phrase *>
-  non_head_dtrs:[synsem:nonloc:rel:[]].
+  non_head_dtrs:hd:synsem:nonloc:rel:[].
 
 % Das stimmt nicht für zu-Infinitive wie in
 % das Buch, das zu lesen ich ihm empfohlen habe
@@ -220,7 +220,10 @@ undelayed_list_of_arguments([(realized:minus,
                                    ))|T]) if
    list_of_arguments(T).
 
+% Da der V-Kopf noch als Geist da ist, wird nur etwas über den Rest der
+% Liste gesagt.
 head_cluster_phrase *> synsem:loc:cat:comps:list_of_arguments. % Extraktionsspur + Verbspur -> danach weitere Cluster
+
 
 % er ihm müssen mit verbleibendem Verb-Komplement auf der Valenzliste
 (head_complement_phrase,
@@ -251,14 +254,14 @@ head_cluster_phrase *> synsem:loc:cat:comps:list_of_arguments. % Extraktionsspur
 
 (head_cluster_phrase,
  synsem:loc:cat:head:dsl:local,
- non_head_dtrs:[synsem:loc:cat:head:flip:plus]) *> non_head_dtrs:[phon:hd: (a_ haben)].
+ non_head_dtrs:[synsem:loc:cat:head:flip:plus]) *> non_head_dtrs:hd:phon:hd: (a_ haben).
 
 
 % Terminierung: Der Regelberechnung.
 % Die Nicht-Kopftochter in Kopf-Cluster-Strukturen kann nur einen
 % gefüllten DSL-Wert haben, wenn die Verbspur auch extrahiert wird.
 (head_cluster_phrase,
- non_head_dtrs:[ synsem:loc:cat:head:dsl:local]) *> non_head_dtrs:[synsem:trace:extraction].
+ non_head_dtrs:[ synsem:loc:cat:head:dsl:local]) *> non_head_dtrs:hd:synsem:trace:extraction.
 
 
 % Das schließt das finite Verb als cluster daughter aus.
@@ -267,4 +270,4 @@ head_cluster_phrase *> synsem:loc:cat:comps:list_of_arguments. % Extraktionsspur
 (head_cluster_phrase
 % ,phon:ne_list  % funktioniert nicht. TRALE-Bug??
 , non_head_dtrs:[synsem:loc:cat:head:dsl:none] 
-)         *> non_head_dtrs:[synsem:loc:cat:head:vform:non_fin].
+)         *> non_head_dtrs:hd:synsem:loc:cat:head:vform:non_fin.

@@ -21,6 +21,7 @@
 :- multifile fun/1.
 :- discontiguous fun/1.
 
+
 % stems and words
 overt_le *>
  (%sign,
@@ -393,6 +394,10 @@ ltop_lbl_le *>
   (synsem:loc:cont:ltop:Lbl,
    rels:hd:lbl:Lbl).
 
+ltop_lbl_le *>
+  (synsem:loc:cont:key:Key,
+   rels:hd:Key).
+
 % alle Nomina
 noun_word *>
  (%word
@@ -577,10 +582,11 @@ intrans_unacc_verb *>
 
 
 % Das designierte Argument Nicht-Unakkusativischer Verben ist das letzte
-% Element in der SUBCAT-Liste. Das kann eintweder eine NP mit strukturellem
+% Element in der ARG-ST-Liste. Das kann eintweder eine NP mit strukturellem
 % Kasus oder ein Satzargument sein.
 nerg_verb *>
-  (synsem:loc:cat:(head:da:[last_of(ArgSt)],
+  (synsem:loc:cat:(head:(auxf:haben,
+                         da:[last_of(ArgSt)]),
                    arg_st:ArgSt)).
 
 intrans_nerg_verb *>
@@ -601,9 +607,10 @@ intrans_verb(Relation) :=
 
 intrans_unacc_verb *>
  (%non_flip_verb_le,
-  synsem:loc:cat:arg_st:ArgSt,
+  synsem:loc:cat:(head:auxf:sein,
+                  arg_st:ArgSt),
   rels:[arg2:Ind])
-       goal last(ArgSt,@np_str(Ind)).
+ goal last(ArgSt,@np_str(Ind)).
 
 intrans_unacc_verb(Relation) :=
  (strict_intrans_unacc_verb,
@@ -657,6 +664,7 @@ strict_trans_verb *>
 trans_verb(Relation) :=
  (strict_trans_verb,
   rels:hd:Relation).
+
 
 % helfen
 np_np_dat_nerg_verb *>
@@ -756,9 +764,9 @@ optionally_coherent_le *>
 % Modalverben, Futur-Hilfsverb, Perfekt-Hilfsverb
 
 % HCONS oder direkte Einbettung?
-% Alle Anhebungsverben außer Passiv-Hilfsverben
+% Alle Anhebungsverben außer Passiv-Hilfsverben, Zustandspassiv auch.
 relational_raising_verb *>
- (%optionally_coherent_verb,
+ (%raising_verb & relational_verb_stem
   synsem:loc:cat:arg_st:hd:arg:loc:(cat:head:dsl:none, % the embedded verb is a real verb not a verb trace. 
                                     cont:ltop:VCont),
   rels:[arg3:VCont],
@@ -775,7 +783,7 @@ raising_verb *>
 subj_raising_verb *>
  (%raising_verb,
   synsem:loc:cat:arg_st:[arg:loc:cat:(head:subj:(Subj,
-                                                 list_of_raised_arguments),
+                                                 list_of_raised_arguments), % löschen?
                                       comps:Comps)
                         |raise(append_known_prefix(Comps,Subj))]).
 
@@ -784,6 +792,20 @@ coherent_le *>
   (%optionally_coherent_le
   synsem:loc:cat:arg_st:hd:arg:lex:plus).
 
+/*
+Wodurch waren kohärente Konstruktionen sonst ausgeschlossen?
+control_verb *>
+  synsem:loc:cat:arg_st:hd:arg:
+    (loc:cat:comps:Comps,
+     lex:Lex)
+  goal control_no_empty_attraction(
+         attract_unrealized(Comps),Lex).
+
+fun control_no_empty_attraction(+,-).
+
+control_no_empty_attraction(Attracted,Lex) if
+  when(Attracted=e_list,Lex=minus).
+*/
 
 % normale Wörter selegieren nie DSL:local-Elemente.
 % Nur über LR abgeleitete Wörter tun dies.
@@ -864,9 +886,14 @@ passive_aux_verb *>
 % alle Passivhilfsverben außer lassen und bekommen
 simple_passive_aux_verb *>
  (%coherent_non_flip_raising_verb
-  synsem:loc:(cat:arg_st:[arg:loc:(cat:comps:Comps,
-                                   cont:Cont)|raise(Comps)],
+  synsem:loc:cat:arg_st:[arg:loc:cat:comps:Comps|raise(Comps)]).
+
+% werden führt keine relation ein.
+simple_non_relational_passive_aux_verb *>
+ (%
+  synsem:loc:(cat:arg_st:hd:arg:loc:cont:Cont,
               cont:Cont)).
+
 
 %agentive_passive_aux_verb *>
 % (%simple_ppp_passive_aux_verb
@@ -876,7 +903,7 @@ simple_passive_aux_verb *>
 % werden Vorgangspassiv
 werden_pas(Per,Num,TeMo) :=
  (@irregular_verb(Per,Num,TeMo),
-  dtr:simple_ppp_passive_aux_verb).
+  dtr:agentive_passive_aux_verb).
 
 
 werden(Per,Num,TeMo) :=
@@ -886,7 +913,7 @@ werden(Per,Num,TeMo) :=
 
 werden_pas(VForm) :=
   (@irregular_verb(VForm),
-   dtr:simple_ppp_passive_aux_verb).
+   dtr:agentive_passive_aux_verb).
 
 werden(VForm) :=
   @werden_pas(VForm).
@@ -896,16 +923,19 @@ werden(VForm) :=
 % (%simple_ppp_passive_aux_verb
 %  rels:hd:stative_passive_rel).
 
+stative_passive_aux_verb *>
+  synsem:loc:cat:comps:hd:arg:loc:cont:key:aktionsart:accomplishment_or_achievement,
+  rels:[stative_passive_rel].
 
 % sein Zustandspassiv
 sein_pas(Per-per,Num-num,TeMo-temo) :=
   (@irregular_verb(Per,Num,TeMo),
-  dtr:simple_ppp_passive_aux_verb).
+  dtr:stative_passive_aux_verb).
 
 
 sein_pas(VForm) :=
   (@irregular_verb(VForm),
-   dtr:simple_passive_aux_verb).
+   dtr:stative_passive_aux_verb).
 
 
 perfect_aux_verb *>
@@ -913,7 +943,11 @@ perfect_aux_verb *>
 
 haben_perfect *>
   synsem:loc:cat:(head:flip:Flip,
-                  arg_st:hd:arg:loc:cat:head:flip:Flip).
+                  arg_st:hd:arg:loc:cat:head:(auxf:haben,
+                                              flip:Flip)).
+
+sein_perfect *>
+  synsem:loc:cat:arg_st:hd:arg:loc:cat:head:auxf:sein.
 
 
 % sein 
@@ -947,14 +981,15 @@ fun promote_dat(+,-).
 promote_dat(List,Promoted) if
   del((@np(dat,Ind),
        @pro_np_ref),List,Rest),
-  append(Rest,[@np_str(Ind)],Promoted).
+  append(raise(Rest),[@np_str(Ind)],Promoted).
 
 dative_passive_aux_verb *>
   (%non_flip_verb_stem
-   synsem:loc:(cat:arg_st:[(@argument,
-                            arg:loc:(cat:comps:Comps,
-                                     cont:Cont))
-                         |promote_dat(Comps)],
+   synsem:loc:(cat:(head:auxf:haben,
+                    arg_st:[(@argument,
+                             arg:loc:(cat:comps:Comps,
+                                      cont:Cont))
+                           |promote_dat(Comps)]),
                cont:Cont)).
 
 
@@ -962,7 +997,7 @@ dative_passive_aux_verb *>
 
 
 modal_zu_inf *>
- rels:hd:modal_rel.
+ rels:[modal_rel].
 
 
 
@@ -1093,9 +1128,10 @@ comp_preposition *>
   synsem:loc:cat:(head:case:Case,
                   arg_st:[arg:loc:cat:head:case:Case])).
 
-comp_prep(PForm) :=
+comp_prep(PForm,Case) :=
  (comp_preposition,
-  synsem:loc:cat:head:pform:PForm).
+  synsem:loc:cat:head:(pform:PForm,
+                       case:morph_case:Case)).
 
 /* falsch, denn modifizierende Adjektive haben eine Ereignisvariable:
 der mit dem Stock spielende Affe
@@ -1179,7 +1215,7 @@ scopal_modifier_le *>
 scopal_adj *>
  (%adj_stem & scopal_modifier_le
   synsem:loc:(cat:(head:mod:loc:cont:ind:Ind,
-                   arg_st:[@np(Ind)]),
+                   arg_st:[@np_str(Ind)]),
               cont:ind:event)).
 
 scopal_adj(Relation) :=
@@ -1191,9 +1227,15 @@ scopal_attr_adj(Case,Num,DType,Relation) :=
   @general_attr_adj(Case,genus,Num,DType),
   rels:[Relation]).
 
+% angeblich
+adj_v_modifier *>
+ synsem:loc:cat:head:(mod:loc:cat:head:(adj_or_participle_or_verb,
+                                        initial:minus),
+                      pre_modifier:plus).
+
 v_modifier *>
- synsem:loc:cat:head:mod:loc:cat:head:(adj_or_participle_or_verb,
-                                       initial:minus).
+ synsem:loc:cat:head:mod:loc:cat:head:participle_or_verb.
+
 
 adv_word *>
  synsem:loc:cat:head:adv.
@@ -1243,10 +1285,9 @@ location_verb_mod_prep(Relation) :=
 % Nur Partizipien haben ein Element in DA. Echte Adjektive haben eine
 % leere DA-Liste.
 passive_preposition *>
-  (%mod_preposition
-   synsem:loc:cat:(head:(scopal:minus, % könnte man auch von isect_modifier erben, aber das wäre irreführend.
-                                       % so ist es nur ein bisschen irreführend.
-                         mod:loc:cat:head:da:[ @blocked_np_ref(Ind) ]),
+  (%verb_mod_preposition
+   % scopal:minus
+   synsem:loc:cat:(head:mod:loc:cat:head:da:[ @blocked_np_ref(Ind) ],
                    arg_st:[ @np(dat,Ind) ])).
 
 complementizer_like_sign *>

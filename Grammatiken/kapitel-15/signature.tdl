@@ -426,9 +426,9 @@ post_modifier_head := modifier_head & [
 
 
 ; prep steht für Prä- und Postpositionen, der initial-Wert wird in le_macros.pl festgelegt
-prep := non_spec_head & non_dsl_head & non_subj_head.
+prep := non_spec_head & non_dsl_head.
 
-comp_prep := prep & intro_case_head & non_modifier_head &
+comp_prep := prep & intro_case_head & non_modifier_head  & non_subj_head &
  [ pform pform ].
 
 ; kann nach Nomina und vor Verben stehen, siehe le_macros.pl

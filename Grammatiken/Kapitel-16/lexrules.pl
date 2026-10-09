@@ -117,9 +117,16 @@ n_v_infl_lr *>
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Flexionsregel für finite Verben
 
+relational_lr *>
+( %relational_lr & cannonical_complex_word.
+  rels:tl:Rels,
+  hcons:HCons,
+  dtr:(rels:Rels,
+       hcons:HCons)).
+
 
 fin_verb_infl_lr *>
-( %complex_word,
+( %relational_lr & cannonical_complex_word.
   synsem:(loc:(cat:(Cat,
                     head:(verb,
                           initial:minus,
@@ -192,45 +199,49 @@ non_relational_lr *>
         hcons:HCons)).
 
 
-non_fin_verb_infl_lr *>
- (synsem:loc:cat:head:da:DA,
-     dtr:synsem:loc:cat:head:da:DA).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Flexionsregel für Infinitive
-% Das Subjekt wird aus der SUBCAT-Liste genommen
-% und unter SUBJ repräsentiert.
-
-bse_or_inf_verb_infl_lr *> 
- (%complex_word,
-  %non_relational_lr
-  synsem:(loc:(cat:(head:(verb,
-                          initial:(Initial,
-                                   minus),
-                          vform:VForm,
-                          subj:Subj,
-                          mod:Mod,
-                          flip:Flip),
-                    spr:Spr,
-                    comps:block_subject(ArgSt,Subj),
-                    arg_st:ArgSt),
-               cont:Cont),
+non_fin_verb_infl_lr *> 
+ (%non_relational_lr
+  synsem:(loc:cat:(head:(verb,
+                         da:DA,
+                         initial:(Initial,
+                                  minus),
+                         vform:VForm,
+                         auxf:AuxF,
+                         mod:Mod,
+                         flip:Flip),
+                   spr:Spr),
           nonloc:Nonloc,
           lex:Lex,
           trace:Trace),
   dtr:(stem,
-         synsem:(loc:(cat:(head:(verb,
-                                 initial:Initial,
-                                 vform:VForm,
-                                 mod:Mod,
-                                 flip:Flip),
-                           spr:Spr,
-                           comps:_Comps,
-                           arg_st:ArgSt),
-                      cont:Cont),
-                 nonloc:Nonloc,
-                 lex:Lex,
-                 trace:Trace)) ).
+       synsem:(loc:cat:(head:(verb,
+                              da:DA,
+                              initial:Initial,
+                              vform:VForm,
+                              auxf:AuxF,
+                              mod:Mod,
+                              flip:Flip),
+                        spr:Spr),
+               nonloc:Nonloc,
+               lex:Lex,
+               trace:Trace)) ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Flexionsregel für Infinitive und Partizipien.
+% Das Subjekt wird unter SUBJ repräsentiert.
+% COMPS ist mit de rverkürzten ARG-ST identisch.
+% Infinitive blocken das Subjekt, Partizipien das DA.
+
+% ARG-ST is copied over, the ARP applies.
+% Könnte im ARP gemacht werden, wenn da richtig geguckt wird, was das Subjekt ist.
+bse_or_inf_verb_infl_lr *> 
+ (%cannonical_complex_word & non_fin_verb_infl_lr
+  synsem:loc:cat:(head:subj:Subj,
+                  comps:block_subject(ArgSt,Subj),
+                  arg_st:ArgSt),
+  dtr:synsem:loc:cat:arg_st:ArgSt).
+
 
 reg_bse_or_inf_verb_infl_lr *>
  (%bse_or_inf_verb_infl_lr,
@@ -245,6 +256,7 @@ bse_verb_infl_lr *>
   synsem:loc:cat:head:vform:bse,
   inf_marking:minus).
 
+
 % Infinitive sind fast identisch. Das Ergebniszeichen ist aber vom
 % Type zu_word. Dieser kann in keiner Grammatikregel vorkommen, außer
 % in einer Regel, die `zu' mit dem Wort kombiniert.
@@ -254,7 +266,7 @@ inf_verb_infl_lr *>
   inf_marking:plus).
 
 ppp_verb_infl_lr *>
- (%complex_word
+ (%non_fin_verb_infl_lr & noncannonical_complex_word.
   synsem:loc:cat:head:vform:ppp,
   inf_marking:minus).
 
@@ -287,44 +299,14 @@ morphs
 
 
 ppp_verb_infl_lr *>
-( % complex_word, ARP wird nicht angewendet. SUBJ ist nicht auf der ARG-ST-Liste.
-  % non_relational_lr
-  synsem:(loc:(cat:(head:(verb,
-                          vform:ppp,
-                          initial:(Initial,
-                                   minus),
-                          vform:VForm,
-                          subj:DA,
-                          da:DA,
-                          mod:Mod,
-                          flip:(Flip,
-                                minus), % except modal verbs, not covered yet 
-                          auxf:Auxf,
-                          prd:Prd),
-                    spr:Spr,
-                    comps:Comps,
-                    arg_st:(Comps,
-                            block_da(DA,ArgSt))),
-              cont:Cont),
-          nonloc:Nonloc,
-          lex:Lex,
-          trace:Trace),
-  inf_marking:minus,
-  dtr:(stem,
-       synsem:(loc:(cat:(head:(verb,
-                               initial:Initial,
-                               vform:VForm,
-%                               da:DA, inherited für alle nicht finiten Verbflexionsregeln
-                               mod:Mod,
-                               flip:Flip,
-                               auxf:Auxf,
-                               prd:Prd),
-                         spr:Spr,
-                         arg_st:ArgSt),
-                    cont:Cont),
-               nonloc:Nonloc,
-               lex:Lex,
-               trace:Trace))).
+( % non_fin_verb_infl_lr & noncannonical_complex_word
+  % ARP wird nicht angewendet. SUBJ ist nicht auf der ARG-ST-Liste.
+  synsem:loc:cat:(head:(subj:DA,
+                        da:DA),
+                  comps:Comps,
+                  arg_st:(Comps,
+                          block_da(DA,ArgSt))),
+  dtr:synsem:loc:cat:arg_st:ArgSt).
 
 
 ppp_verb_infl_lr lex_rule
@@ -332,7 +314,7 @@ ppp_verb_infl_lr lex_rule
          bet1:Bet),
    Dtr)
   **>
-( ppp_verb_infl_lr,
+( reg_ppp_verb_infl_lr,
   affix:(ppp_verb_i_suffix,
          phon:[(a_ Suff)]),
   dtr:Dtr)
@@ -361,23 +343,21 @@ undelayed_list_of_blocked_arguments([@blocked_np_ref|T]) if
 %
 %
 part_derivation_lr *>
- (%stem,
+ (%derived_stem & isect_modifier
   synsem:(loc:cat:(head:(attr_participle,         % kann nicht prädikativ genutzt werden,
                                                   % dafür sollte es eine prinzipiellere Erklärung geben.
                          subj:[@pro_np_str],      % ist str: * der gegraute Mann
-                         da:(DA,
-                             list_of_blocked_arguments)),
-                   arg_st:ArgSt),
+                         da:(raise(DA),
+                             list_of_blocked_arguments))),
           nonloc:Nonloc,
           lex:Lex,
           trace:Trace),
   inf_marking:Zu,
   dtr:(word,
-       synsem:(loc:cat:(head:(verb,
-                              da:DA,
-                              flip:minus % schließt Ersatzinfinitive aus * `wollene' statt `gewollte'
-                             ),    
-                        arg_st:ArgSt),
+       synsem:(loc:cat:head:(verb,
+                             da:DA,
+                             flip:minus % schließt Ersatzinfinitive aus * `wollene' statt `gewollte'
+                            ),    
                nonloc:Nonloc,
                lex:Lex,
                trace:Trace),
@@ -393,11 +373,18 @@ part_derivation_lr *>
 % Flexionsregel erzeugt dann: geliebt (A) -> geliebte
 %
 ppp_part_derivation_lr *>
- (synsem:loc:cont:Cont,
+ (%part_derivation_lr & non_relational_lr
+  synsem:loc:cont:Cont,
   inf_marking:Zu,
   dtr: (synsem:loc:(cat:head:vform:ppp,
                     cont:Cont),
            inf_marking:Zu)).
+
+ppp_part_derivation_lr *>
+  (%part_derivation_lr & non_relational_lr
+   synsem:loc:cat:arg_st:ArgSt,   % unveränderte ARG-ST muss nicht angehoben werden.
+   dtr:synsem:loc:cat:arg_st:ArgSt).
+
 
 ppp_part_derivation_lr lex_rule
   Dtr
@@ -408,29 +395,56 @@ ppp_part_derivation_lr lex_rule
 morphs
   X becomes X.
 
-/*
+
 
 % * der zu gelingende Aufsatz
 % der zu lesende Aufsatz
 inf_part_derivation_lr *>
- (synsem:loc:cont:(qstore:QStore,
-                   nucleus:(modal_rel,
-                            arg3:VCont)),
-  dtrs:[synsem:loc:(cat:head:vform:inf,
-                    cont:(qstore:QStore,
-                          nucleus:VCont))]).
+ (%part_derivation_lr & relational_lr
+  rels:hd:(modal_rel,
+           arg3:VLTop),
+  dtr:synsem:loc:(cat:head:vform:inf,
+                  cont:ltop:VLTop)).
 
+% der zu lesende Aufsatz
+inf_part_derivation_lr *>
+  (%part_derivation_lr & relational_lr
+   synsem:loc:cat:arg_st:raise(ArgSt), % Die Elemente auf COMPS gehören ja zu einem (zu)
+                                                % Infinitiv. Wenn wir die einfach übernehmen
+                                                % würden, wären sie teil einer größeren ARG-ST und würden dort anderen Kasus bekommen.
+   dtr:synsem:loc:cat:comps:ArgSt).
+
+% der den Aufsatz lesende Affe
+bse_part_derivation_lr *>
+  (%part_derivation_lr & non_relational_lr
+   synsem:loc:cat:arg_st:raise(ArgSt), % Die Elemente auf COMPS gehören ja zu einem (zu)
+                                                % Infinitiv. Wenn wir die einfach übernehmen
+                                                % würden, wären sie teil einer größeren ARG-ST und würden dort anderen Kasus bekommen.
+   dtr:synsem:loc:cat:arg_st:ArgSt).
 
 inf_part_derivation_lr lex_rule
   Dtr
  **>
 ( inf_part_derivation_lr,
-  dtrs:[Dtr]
+  dtr:Dtr
   )
 morphs
   X becomes (X,d).
-*/
 
+
+% der das Buch lesende Mann
+bse_part_derivation_lr *>
+ (%part_derivation_lr & non_relational_lr
+  dtr:synsem:loc:cat:head:vform:bse).
+
+bse_part_derivation_lr lex_rule
+  Dtr
+ **>
+( bse_part_derivation_lr,
+  dtr:Dtr
+  )
+morphs
+  X becomes (X,d).
 
 % for islands 
 non_move_synsem :=
@@ -452,7 +466,8 @@ undelayed_list_of_non_move_arguments([arg: @non_move_synsem|T]) if
 % weil es laut ist
 % weil mir schlecht ist
 attr_adj_infl_lr *>
-(synsem:(loc:cat:(head:(Head,
+(%infl_lr & non_relational_lr & spr_saturated_le & cannonical_complex_word
+ synsem:(loc:cat:(head:(Head,
                         mod:(@nbar(Ind),
                              loc:cat:spr:[arg:loc:cat:head:(case:morph_case:Case,
                                                             gen:Genus,
@@ -479,17 +494,6 @@ attr_adj_infl_lr *>
               trace:Trace),
       inf_marking:Zu)).
 
-/*
-attr_adj_infl_lr *>
- synsem:loc:cat:head:(subj:[ @pro_np(Ind) ],
-                      mod:loc:cont:nucleus:ind:Ind).
-
-
-isect_attr_adj_infl_lr *>
-  (synsem:loc:cont:nucleus:restr:hd:Cont,
-   dtrs:[synsem:loc:cont:nucleus:(@not(psoa_rel),
-                                  Cont)]).
-*/      
 
 attr_adj_infl_lr lex_rule
  Dtr
@@ -502,19 +506,17 @@ morphs
 
 
 /*
+
+isect_attr_adj_infl_lr *>
+  (synsem:loc:cont:nucleus:restr:hd:Cont,
+   dtrs:[synsem:loc:cont:nucleus:(@not(psoa_rel),
+                                  Cont)]).
+
 scopal_attr_adj_infl_lr *>
   (synsem:loc:cont:nucleus:restr:[Cont],
    dtrs:[synsem:loc:cont:nucleus:(psoa_rel,
                                   Cont)]).
 
-scopal_attr_adj_infl_lr lex_rule
- Dtr
-**>
-(scopal_attr_adj_infl_lr,
- affix:phon:[(a_ Suffix)],
- dtrs:[Dtr])
-morphs
-  X becomes (X,Suffix).
 */
 
 /*
