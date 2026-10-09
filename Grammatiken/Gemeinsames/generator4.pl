@@ -109,6 +109,7 @@
 :- dynamic u_gen_root/1, output_query/1, parsed_words/1, parse_count/1.
 :- dynamic gen_store/3.
 :- dynamic gen_store_index/3.
+:- dynamic gen_derivation_index/3.
 
 
 %================================================================================
@@ -218,6 +219,7 @@ initGenWords:-
 %To add a sentence to the list of generated sentences
 %--------------------------------------------------------------------------------
 add_words(L):-
+   gen_check_memory,
    gen_words(L1),
    retractall(gen_words(_)),
    append(L1,[L],L2),
@@ -400,12 +402,13 @@ addToChartCopy(edge(A,B,C,D,E,F)) :-
 addToAgenda(edge(A,B,C,D,E,F)) :-
             (
              ( F == [] -> gen_set_phon(D,C), gen_complete_node(D,C,E) ; true ),
-             gen_save(a_edge,edge(A,B,C,D,E,F)),
+             gen_save(a_edge,edge(A,B,C,D,E,F),Added),
+             (Added==no -> true ;
                 (   F=[]
 -> ( (dotMovementCheck(edge(A,B,C,D,E,F));true),
      (gen_empty_from_source(edge(A,B,C,D,E,F),Empty),
       dotMovementCheck(Empty);true))
-                ;   true) )
+                ;   true) ))
         .
 
 %--------------------------------------------------------------------------------
@@ -414,7 +417,7 @@ addToAgenda(edge(A,B,C,D,E,F)) :-
 %Chart Initialisation
 %--------------------------------------------------------------------------------
 initChart :-
-   clearChart.
+   clearChart,gen_clear_quick_cache.
 
 %--------------------------------------------------------------------------------
 %Chart deletion
@@ -446,6 +449,7 @@ initAgenda2(EPsBits,Nodes):-
    gen_lexical_rels(Word,Ref-SVs,Rels,Vert),
    Vert=_-gen_context(EPsBits,Nodes),
    gen_resolve_lexical_types(Ref,Rels),
+   gen_ensure_shadow(Ref-SVs),
    gen_lexical_coverage(Rels,EPsBits,W_BitStr),
    W_BitStr > 0,
    gen_fully_deref(Ref,SVs,RefOut,SVsOut),
@@ -475,9 +479,11 @@ specialEdgesToAgenda2(Context,Nodes))
    ;  true).
 
 specialEdgesToAgenda2(Context,Nodes):-
-gen_lexical_rels(Word,Ref-SVs,Rels,Vert),
+   gen_input_empty_lexeme(Word),
+   gen_lexical_rels(Word,Ref-SVs,Rels,Vert),
    Vert=_-gen_context(Context,Nodes),
    gen_match_lexical_rels(Rels,[]),
+   gen_ensure_shadow(Ref-SVs),
    gen_fully_deref(Ref,SVs,RefOut,SVsOut),
    gen_save(a_edge,edge(Vert,0,[Word],RefOut-SVsOut,[],[])),
    fail.
@@ -495,36 +501,40 @@ gen_empty_edge_for(Expected,Vertex,0,[],Category,[],[]) :-
    current_predicate(generator_empty_anchor,generator_empty_anchor(_,_,_)),
    generator_empty_anchor(EmptyPath,SourcePath,Description),
    empty_cat(_Number,0,FS,EmptyDtrs,Rule),
-   gen_ud(FS-bot,Expected),
+   gen_empty_derivation(FS,EmptyDtrs,Rule,Category),
+   gen_ensure_shadow(Category),gen_shadow_category(Category,Shadow),
+   gen_ud(Category,Expected),
    add_to(Description,Restriction),
    gen_pathval(EmptyPath,FS,bot,Anchor,bot),
    gen_pathval(SourcePath,Restriction,bot,Anchor,bot),
-   (gen_disjoint_edge(c_edge,0,Restriction-bot,edge(SourceVertex,Bits,[_|_],Source-_,_,[]))
-   ;gen_disjoint_edge(a_edge,0,Restriction-bot,edge(SourceVertex,Bits,[_|_],Source-_,_,[]))),
+   (gen_disjoint_edge(c_edge,0,Restriction-bot,edge(SourceVertex,Bits,[_|_],Source-SourceMeta,_,[]))
+   ;gen_disjoint_edge(a_edge,0,Restriction-bot,edge(SourceVertex,Bits,[_|_],Source-SourceMeta,_,[]))),
    Bits>0, Source=Restriction,
-   gen_resolve_empty_valence(FS,EmptyDtrs,SourceVertex),
+   gen_shadow_anchor(EmptyPath,SourcePath,Shadow,SourceMeta),
+   gen_resolve_empty_valence_shadow(FS,Shadow,EmptyDtrs,SourceVertex),
    getEPsFromRef(FS,bot,_),
-   gen_empty_derivation(FS,EmptyDtrs,Rule,Category),
    getVertex(FS-bot,Vertex),
    gen_share_context(SourceVertex,Vertex).
 
 % A newly completed filler also enables empty daughters of older active edges.
 % This is the converse of looking up an anchor when processing an active edge.
-gen_empty_from_source(edge(SourceVertex,Bits,[_|_],Source-_,_,[]),
+gen_empty_from_source(edge(SourceVertex,Bits,[_|_],Source-SourceMeta,_,[]),
                       edge(Vertex,0,[],Category,[],[])) :-
    Bits>0,
    current_predicate(generator_empty_anchor,generator_empty_anchor(_,_,_)),
    generator_empty_anchor(EmptyPath,SourcePath,Description),
    add_to(Description,Restriction), Source=Restriction,
-   gen_anchored_empty(EmptyPath,SourcePath,Source,SourceVertex,Vertex,Category).
+   gen_anchored_empty(EmptyPath,SourcePath,Source,SourceMeta,SourceVertex,Vertex,Category).
 
-gen_anchored_empty(EmptyPath,SourcePath,Source,SourceVertex,Vertex,Category) :-
+gen_anchored_empty(EmptyPath,SourcePath,Source,SourceMeta,SourceVertex,Vertex,Category) :-
    empty_cat(_Number,0,FS,EmptyDtrs,Rule),
+   gen_empty_derivation(FS,EmptyDtrs,Rule,Category),
+   gen_ensure_shadow(Category),gen_shadow_category(Category,Shadow),
    gen_pathval(SourcePath,Source,bot,Anchor,bot),
    gen_pathval(EmptyPath,FS,bot,Anchor,bot),
-   gen_resolve_empty_valence(FS,EmptyDtrs,SourceVertex),
+   gen_shadow_anchor(EmptyPath,SourcePath,Shadow,SourceMeta),
+   gen_resolve_empty_valence_shadow(FS,Shadow,EmptyDtrs,SourceVertex),
    getEPsFromRef(FS,bot,_),
-   gen_empty_derivation(FS,EmptyDtrs,Rule,Category),
    getVertex(FS-bot,Vertex),
    gen_share_context(SourceVertex,Vertex).
 
@@ -545,37 +555,42 @@ gen_requires_valence_anchor(FS) :-
    ; true).
 
 gen_resolve_empty_valence(FS,Refs,Vertex) :-
+   gen_resolve_empty_valence_shadow(FS,_,Refs,Vertex).
+gen_resolve_empty_valence_shadow(FS,Shadow,Refs,Vertex) :-
    (current_predicate(generator_valence_path,generator_valence_path(_))
    -> generator_valence_path(Path),
-      gen_resolve_empty_valence(FS,Refs,Vertex,Path)
+      gen_resolve_empty_valence(FS,Shadow,Refs,Vertex,Path)
    ; true).
 
-gen_resolve_empty_valence(FS,[],_Vertex,_Path) :-
+gen_resolve_empty_valence(FS,_Shadow,[],_Vertex,_Path) :-
    \+ gen_requires_valence_anchor(FS), !.
-gen_resolve_empty_valence(FS,[],Vertex,Path) :-
+gen_resolve_empty_valence(FS,Shadow,[],Vertex,Path) :-
    (gen_closed_valence(FS,Path) -> true
    ; generator_empty_anchor(EmptyPath,SourcePath,Description),
      add_to(Description,Restriction),
      gen_pathval(EmptyPath,FS,bot,Anchor,bot),
      gen_pathval(SourcePath,Restriction,bot,Anchor,bot),
      (gen_disjoint_edge(c_edge,0,Restriction-bot,
-                       edge(SourceVertex,Bits,[_|_],Source-_,_,[]))
+                       edge(SourceVertex,Bits,[_|_],Source-SourceMeta,_,[]))
      ;gen_disjoint_edge(a_edge,0,Restriction-bot,
-                       edge(SourceVertex,Bits,[_|_],Source-_,_,[]))),
+                       edge(SourceVertex,Bits,[_|_],Source-SourceMeta,_,[]))),
      Bits>0,Source=Restriction,
+     (var(Shadow) -> true;gen_shadow_anchor(EmptyPath,SourcePath,Shadow,SourceMeta)),
      gen_share_context(Vertex,SourceVertex),
      gen_closed_valence(FS,Path)).
-gen_resolve_empty_valence(FS,[Ref|Refs],Vertex,Path) :-
+gen_resolve_empty_valence(FS,Shadow,[Ref|Refs],Vertex,Path) :-
    dtrs_feat_(Feature),gen_pathval([Feature],FS,bot,List,bot),
    getListFromFS(List,bot,Children),
-   gen_resolve_empty_children([Ref|Refs],Children,Vertex,Path),
+   (var(Shadow) -> ShadowChildren=Children
+    ;gen_pathval([Feature],Shadow,bot,SList,bot),getListFromFS(SList,bot,ShadowChildren)),
+   gen_resolve_empty_children([Ref|Refs],Children,ShadowChildren,Vertex,Path),
    gen_closed_valence(FS,Path).
 
-gen_resolve_empty_children([],[],_,_).
-gen_resolve_empty_children([empty(Number,Position)|Refs],[FS-_|Children],Vertex,Path) :-
+gen_resolve_empty_children([],[],[],_,_).
+gen_resolve_empty_children([empty(Number,Position)|Refs],[FS-_|Children],[Shadow-_|ShadowChildren],Vertex,Path) :-
    empty_cat(Number,Position,_,SubRefs,_),
-   gen_resolve_empty_valence(FS,SubRefs,Vertex,Path),
-   gen_resolve_empty_children(Refs,Children,Vertex,Path).
+   gen_resolve_empty_valence(FS,Shadow,SubRefs,Vertex,Path),
+   gen_resolve_empty_children(Refs,Children,ShadowChildren,Vertex,Path).
 
 % EFD closure also embeds empty daughters directly in compiled rules.
 % Resolve these after matching the overt daughter, so the governing verb has
@@ -586,8 +601,8 @@ gen_resolve_empty_prefix(Prefix,Vertex) :-
       gen_resolve_empty_nodes(Prefix,Vertex,Path)
    ; true).
 gen_resolve_empty_nodes([],_,_).
-gen_resolve_empty_nodes([FS-gen_node(_,_,Daughters)|Rest],Vertex,Path) :-
-   (Daughters=[] -> gen_resolve_empty_valence(FS,[],Vertex,Path)
+gen_resolve_empty_nodes([FS-gen_node(_,_,Daughters,Shadow)|Rest],Vertex,Path) :-
+   (Daughters=[] -> gen_resolve_empty_valence(FS,Shadow,[],Vertex,Path)
    ; gen_resolve_empty_nodes(Daughters,Vertex,Path),gen_closed_valence(FS,Path)),
    gen_resolve_empty_nodes(Rest,Vertex,Path).
 
@@ -635,12 +650,14 @@ isAWordSRels(Word,Tag-SVs,Word_Bag,Vertex) :-
          throw(error(generator_list(Problem),lexical_rels(Word,Path)))).
 
 gen_lexical_rels(Word,Tag-SVs,Rels,Index-gen_context(_,_)) :-
-   lex(Word,Tag),
-   SVs=gen_node(lexicon,[Word],[]),
+   gen_input_lexeme(Word),
+   lex(Word,Tag,LexIndex),
+   SVs=gen_node(lexicon(LexIndex),[Word],[],_),
    check_syntactic_object(Tag-SVs),
    gen_set_phon(Tag-SVs,[Word]),
    liszt_path(Path),
-   gen_pathval(Path,Tag,SVs,Rels,bot),
+   gen_pathval(Path,Tag,SVs,SemanticRels,bot),
+   gen_lexical_generator_rels(Tag,SemanticRels,Rels),
    ind_path(IndexPath),
    gen_pathval(IndexPath,Tag,SVs,Index,bot).
 
@@ -774,8 +791,8 @@ getEPsFromRef(Tag,SVs,Bag) :-
 %Ref2-SVs2 is the liszt part of the sign Tag-SVs
 %--------------------------------------------------------------------------------
 getRelsFromRef(Tag,SVs,Ref2,SVs2) :-
-   liszt_path(L),
-   gen_pathval(L,Tag,SVs,Ref2,SVs2).
+   (gen_stored_generator_rels(Tag,Ref2) -> SVs2=bot
+    ; liszt_path(L),gen_pathval(L,Tag,SVs,Ref2,SVs2)).
 
 %--------------------------------------------------------------------------------
 %getListFromRef(+Tag:<ref>,+SVs:<svs>,-List:<list>)
@@ -834,13 +851,15 @@ grRule(Name,Mother,DtrsList) :-
    gen_rule_candidate(Name,Mother,DtrsList),
    secret_adderrs_toggle(OldMode).
 
-gen_rule_candidate(Name,TagMoth-gen_node(Name,_,_),DtrsList) :-
+gen_rule_candidate(Name,TagMoth-gen_node(Name,_,_,ShadowMother),DtrsList) :-
  clause(alec_rule(Name,DtrsDesc,_,Moth,Residue,EmptyRefs,EmptyRefsRest,Store,StoreRest),true),
    call(Residue),
    satisfy_dtrs(DtrsDesc,_DtrCats,[],NativeDtrs,gdone),
    gen_wrap_dtrs(NativeDtrs,OvertDtrs),
-   gen_rule_empty_prefix(Store,StoreRest,EmptyRefs,EmptyRefsRest,DtrsList,OvertDtrs),
-   add_to(Moth,TagMoth).
+   gen_rule_empty_prefix(Store,StoreRest,EmptyRefs,EmptyRefsRest,RawDtrs,OvertDtrs),
+   add_to(Moth,TagMoth),
+   copyFS(rule_native(TagMoth,RawDtrs),rule_native(ShadowMother,ShadowDtrs)),
+   gen_install_shadow_dtrs(RawDtrs,ShadowDtrs,DtrsList).
 
 % EFD-closed rules retain their consumed empty daughters in a difference
 % list. Keep those daughters in the derivation and in its daughter numbering.
@@ -855,8 +874,8 @@ gen_rule_empty_prefix([FS|Store],Rest,[empty(Number,Position)|Refs],RefsRest,
 % Empty categories may themselves be derived phrases. Their reference tree
 % comes from TRALE's empty-category closure; use the actual daughter AVMs of
 % this instance so the displayed subtree retains all parent/child sharing.
-gen_empty_derivation(FS,[],Rule,FS-gen_node(Rule,[],[])).
-gen_empty_derivation(FS,[Ref|Refs],Rule,FS-gen_node(Rule,[],Children)) :-
+gen_empty_derivation(FS,[],Rule,FS-gen_node(Rule,[],[],_)).
+gen_empty_derivation(FS,[Ref|Refs],Rule,FS-gen_node(Rule,[],Children,_)) :-
    dtrs_feat_(Feature),
    gen_pathval([Feature],FS,bot,List,bot),
    getListFromFS(List,bot,NativeChildren),
@@ -1043,7 +1062,8 @@ toggleModification2 :-
 startSymbol(Tag-SVs):-
       u_gen_root(Root),
       gen_add_to(Root,TagRoot,bot),
-      gen_ud(TagRoot-bot,Tag-SVs).
+      gen_ud(TagRoot-bot,Tag-SVs),
+      (gen_shadow_metadata(SVs,Shadow) -> add_to(Root,ShadowRoot),Shadow=ShadowRoot;true).
 
 %--------------------------------------------------------------------------------
 %to enable the user to specify the categories of the generated FS
@@ -1145,6 +1165,16 @@ slgGen(Tag,SVs,Words) :-
 %This predicate is called by slgGen predicates (they do some initialisation before)
 %--------------------------------------------------------------------------------                
 slgGen1(Tag,SVs,Words) :-
+   (current_predicate(test_memory_generation_context/1)
+    -> test_memory_generation_context(slgGen1_memory_guarded(Tag,SVs,Words))
+    ; slgGen1_memory_guarded(Tag,SVs,Words)).
+
+slgGen1_memory_guarded(Tag,SVs,Words) :-
+   catch((gen_check_memory,slgGen1_run(Tag,SVs,Words)),Error,
+         ((gen_test_quiet -> true ; gen_release_run),throw(Error))).
+
+slgGen1_run(Tag,SVs,Words) :-
+   gen_check_input_lexicon,
    statistics(runtime,[StartTime,_]),
    retractall(stopg),
    initGenWords,
@@ -1175,7 +1205,9 @@ gen_report_statistics(StartTime) :-
    findall(State,gen_store_index(c_edge,edge(_,State,_),_),States),
    gen_count_chart(States,0,0,Active,Inactive),
    Total is Active+Inactive,
-   format('~nGeneration: ~3f s CPU time.~n',[Seconds]),
+   gen_words(Generated),length(Generated,Count),
+   format('~nGenerated phrases: ~d.~n',[Count]),
+   format('Generation: ~3f s CPU time.~n',[Seconds]),
    format('Chart: ~d edges (~d active, ~d inactive).~n',
           [Total,Active,Inactive]).
 
@@ -1226,6 +1258,7 @@ gen_valid_stored(_).
 %Processes one by one the edges in the agenda
 %--------------------------------------------------------------------------------
 slgGenProc(S,AllBits,EPsBits,Ref,SVs) :-
+   gen_check_memory,
 (stopg -> fail ; true),
    ( (getFromAgenda(Edge),
       Edge=edge(_,_W_B,_Words,_,_,_)
@@ -1254,10 +1287,12 @@ slgGenProc(S,AllBits,EPsBits,Ref,SVs)
 %- the edge spans the entire Bag
 %- its Cat is a start symbol
 %--------------------------------------------------------------------------------
-slgGenEdgeProc(edge(Vertex,W_Bag,Words,Tag-SVs,_,[]),AllBits,Words,_Ref,_SVs2) :-
+slgGenEdgeProc(edge(Vertex,W_Bag,Words,Tag-SVs,_,[]),AllBits,Words,InputRef,_SVs2) :-
    sameBags(W_Bag,AllBits),
    startSymbol(Tag-SVs),
    gen_valid_vertex(Vertex),
+   gen_shadow_metadata(SVs,Shadow),
+   gen_semantics_equivalent(InputRef,Shadow),
    add_words(Words),
    residuate_term(Tag,Frozen),
    (gen_portray_result(Tag-SVs,Frozen) -> true
@@ -1326,7 +1361,8 @@ instanciate_dtrs(N,MRef,MSVs,Cat) :-
      gen_pathval([Feat],MRef,MSVs,DRef,DSVs),
      gen_daughter_at(N,DRef,DSVs,Cat)
    ; true
-   ).
+   ),
+   gen_shadow_daughter(N,MSVs,Cat).
 
 instanciate_dtrs(N,MRef-MSVs,Cat) :-
    instanciate_dtrs(N,MRef,MSVs,Cat).
@@ -1345,7 +1381,8 @@ instanciate_dtrs_end(N,MRef,MSVs) :-
      gen_pathval([Feat],MRef,MSVs,DRef,DSVs),
      gen_finish_dtrs(N,DRef,DSVs)
    ; true
-   ).
+   ),
+   (gen_shadow_metadata(MSVs,Shadow) -> gen_close_shadow_dtrs(N,Shadow);true).
 
 % Rule descriptions can share values with daughters without introducing DTRS
 % on the mother (e.g. inf_zu with a complex_word mother). The generator's
@@ -1383,6 +1420,7 @@ ruleInvocation(edge(V,W_B,Words,Cat,_Found,[])) :-
    isARule(MRef-MSVs,Cats,_Name),
    removeGoal(Cats,AllCats),
    gen_split_empty_prefix(AllCats,Prefix,[Kind>Cat1|Rest]),
+   gen_prefix_relations(Prefix,EmptyRels),
    length(Prefix,Before), N is Before+1,
    append(Prefix,[Cat],Found),
    (  Rest=[]
@@ -1393,18 +1431,19 @@ ruleInvocation(edge(V,W_B,Words,Cat,_Found,[])) :-
    ((Kind=cats) -> copyFS(Cat1,CopyCat1) ; true),
    gen_ud(Cat,Cat1),
    gen_resolve_empty_prefix(Prefix,V),
+   gen_prefix_coverage(EmptyRels,V,W_B,WithEmptyBits),
    instanciate_dtrs(N,MRef-MSVs,Cat),
    gen_fully_deref(MRef,MSVs,MRefOut,MSVsOut),
    (   Kind=cats
    -> (
         copyFS(MRefOut-MSVsOut,MFS),
-        addToAgenda(edge(NewV,W_B,Words,MFS,Found,[cats>CopyCat1|Rest])))
+        addToAgenda(edge(NewV,WithEmptyBits,Words,MFS,Found,[cats>CopyCat1|Rest])))
    ;   true),
    (   Rest=[]
    -> (
        instanciate_dtrs_end(N,MRefOut-MSVsOut))
    ;   true),
-   addToAgenda(edge(NewV,W_B,Words,MRefOut-MSVsOut,Found,Rest)),
+   addToAgenda(edge(NewV,WithEmptyBits,Words,MRefOut-MSVsOut,Found,Rest)),
    fail.
 
 %--------------------------------------------------------------------------------
@@ -1689,7 +1728,7 @@ p_and_g_q(Query,Ws_or_Desc,N,R):-
                 gen_project_semantics(Tag,TagOut),
                 parse_count(M),
                 write('* generating from parse '),write(M),write('...'),nl,
-               slgGen(TagOut,bot,_Words,R,Query)
+               gen_with_input_words(WordList,slgGen(TagOut,bot,_Words,R,Query))
             ;  
                write('* generating from Desc=('),
                write(Ws_or_Desc),write(') ...'),nl,
@@ -1705,7 +1744,8 @@ p_and_g_q(Query,Ws_or_Desc,N,R):-
 gen_project_semantics(Source,Target) :-
    findall(Path,gen_semantic_path(Path),Paths0),
    sort(Paths0,Paths),
-   gen_project_paths(Paths,Source,Target).
+   gen_project_paths(Paths,Source,Target),
+   gen_project_generator_rels(Source,Target).
 
 gen_semantic_path(Path) :- cont_path(Path).
 gen_semantic_path(Path) :- liszt_path(Path).
@@ -1768,7 +1808,8 @@ gen_add_to(Desc,FS,bot) :- add_to(Desc,FS).
 gen_deref(FS,_SVs,FS,bot).
 gen_fully_deref(FS,Node,FS,Node).
 gen_ud(FS1-Meta1,FS2-Meta2) :-
-   gen_unify_context(Meta1,Meta2), FS1=FS2.
+   gen_unify_context(Meta1,Meta2), FS1=FS2,
+   (gen_shadow_metadata(Meta1,S1),gen_shadow_metadata(Meta2,S2) -> S1=S2;true).
 
 gen_share_context(_-Meta1,_-Meta2) :- gen_unify_context(Meta1,Meta2).
 gen_unify_context(gen_context(First,Nodes1),gen_context(Second,Nodes2)) :-
@@ -1788,17 +1829,55 @@ gen_wrap_dtrs([Kind>FS|Rest],[Kind>Wrapped|WrappedRest]) :-
 % SP4 assertion and retraction do not preserve variable attributes.  Store
 % the complete edge/rule together with its residue, including sharing between
 % mother, daughters, semantic vertex, and delayed grammar constraints.
-gen_save(Kind,Term) :-
+gen_save(Kind,Term) :- gen_save(Kind,Term,_).
+gen_save(Kind,Term,Added) :-
+   gen_check_memory,
    gen_valid_stored(Term),
    residuate_term(Term,Residue),
-   gen_store_shape(Term,Shape),
-   asserta(gen_store(Kind,Term,Residue),Ref),
-   asserta(gen_store_index(Kind,Shape,Ref)).
+   (Kind==a_edge,gen_agenda_redundant(Term,Residue)
+    -> Added=no
+    ; gen_store_shape(Term,Shape),
+      asserta(gen_store(Kind,Term,Residue),Ref),
+      asserta(gen_store_index(Kind,Shape,Ref)),
+      ((Kind==a_edge ; Kind==c_edge),gen_derivation_key(Term,Key)
+       -> asserta(gen_derivation_index(Kind,Key,Ref)) ; true),
+      Added=yes),
+   gen_check_memory.
+
+% Early packing only within one recorded derivation and input coverage.
+% Compare the full edge INCLUDING semantic context and residual constraints;
+% matching words alone must never collapse different linguistic analyses.
+% A previously stored more general edge already covers the new instance.
+gen_agenda_redundant(Edge) :-
+   residuate_term(Edge,Residue),gen_agenda_redundant(Edge,Residue).
+gen_agenda_redundant(Edge,Residue) :-
+   gen_derivation_key(Edge,Key),
+   gen_derivation_index(Kind,Key,Ref),
+   (Kind==a_edge ; Kind==c_edge),
+   instance(Ref,(gen_store(Kind,Previous,PreviousResidue):-true)),
+   Edge=edge(_,_,_,Category,_,[]),Previous=edge(_,_,_,PreviousCategory,_,[]),
+   gen_derivation_shape(Category,Tree),gen_derivation_shape(PreviousCategory,Tree),
+   subsumes_term(Previous-PreviousResidue,Edge-Residue),!.
+
+gen_derivation_key(edge(_,Bits,_Words,Category,_,[]),derivation(Bits,Hash)) :-
+   % Repeated valence anchors originate at derived empty daughters. Avoid indexing
+   % unrelated complete edges; their remaining rules inherit the packed edge.
+   Category=_-gen_node(_,_,Daughters,_),
+   member(_-gen_node(_,EmptyWords,EmptyChildren,_),Daughters),
+   EmptyWords==[],nonvar(EmptyChildren),EmptyChildren=[_|_],!,
+   gen_derivation_shape(Category,Tree),ground(Tree),term_hash(Tree,Hash).
+gen_derivation_shape(FS-gen_node(Rule,Words,[],_),leaf(Rule,Type,Words)) :-
+   !,get_type(FS,Type).
+gen_derivation_shape(_-gen_node(Rule,Words,Daughters,_),tree(Rule,Words,Trees)) :-
+   gen_derivation_shapes(Daughters,Trees).
+gen_derivation_shapes([],[]).
+gen_derivation_shapes([Daughter|Rest],[Tree|Trees]) :-
+   gen_derivation_shape(Daughter,Tree),gen_derivation_shapes(Rest,Trees).
 
 gen_store_shape(edge(_,Bits,_,Cat,_,Rest),edge(Bits,State,QC)) :-
    !, (Rest==[] -> State=complete,Category=Cat
        ; State=active,Rest=[_>Category|_]),
-   Category=FS-_,gen_quick_check(FS,6,QC).
+   Category=FS-_,gen_quick_check(FS,6,RawQC),gen_quick_key(RawQC,QC).
 gen_store_shape(_,other).
 
 gen_query_shape(Term,_) :- var(Term), !.
@@ -1815,11 +1894,11 @@ gen_load(Kind,Term) :-
 % Scan small index records, not entire derivations. Reject overlapping
 % coverage before copying any candidate FS or waking its delayed constraints.
 gen_disjoint_edge(Kind,Used,Expected-_,Edge) :-
-   gen_quick_check(Expected,6,ExpectedQC),
+   gen_quick_check(Expected,6,RawQC),gen_quick_key(RawQC,ExpectedQC),
    gen_query_shape(Edge,edge(Bits,State,_)),
    gen_store_index(Kind,edge(Bits,State,QC),Ref),
    bs_disjoint(Used,Bits),
-   gen_quick_compatible(ExpectedQC,QC),
+   gen_quick_keys_compatible(ExpectedQC,QC),
    instance(Ref,(gen_store(Kind,Edge,Residue):-true)),
    call(Residue).
 
@@ -1859,9 +1938,11 @@ gen_take(Kind,Term) :-
    gen_store_index(Kind,Shape,Ref),
    instance(Ref,(gen_store(Kind,Term,Residue):-true)),
    retract(gen_store_index(Kind,Shape,Ref)),
+   retractall(gen_derivation_index(Kind,_,Ref)),
    erase(Ref),
    call(Residue).
 gen_clear(Kind) :-
+   retractall(gen_derivation_index(Kind,_,_)),
    retractall(gen_store_index(Kind,_,_)),
    retractall(gen_store(Kind,_,_)).
 a_edge(A,B,C,D,E,F) :- gen_load(a_edge,edge(A,B,C,D,E,F)).
@@ -1898,7 +1979,7 @@ gen_phon_description([Word|Words],[(a_ Word)|Phon]) :-
 
 % Derivation metadata belongs to generator edges, never to the grammar's FS.
 % Retain it together with the FS through chart storage, copying and dot movement.
-gen_complete_node(_FS-gen_node(_Rule,Words,Daughters),Words,Daughters).
+gen_complete_node(_FS-gen_node(_Rule,Words,Daughters,_),Words,Daughters).
 
 gen_portray_result(_,_) :- gen_test_quiet, !.
 gen_portray_result(Category,Residue) :-
@@ -1914,7 +1995,18 @@ gen_portray_result(Category,Residue) :-
    ; throw(error(generator_graphical_output_failed,gen_portray_result/2))
    ).
 
-gen_display_tree(FS-gen_node(Rule,Words,Daughters),
+% Preserve the lexical derivation index so Grale can relink rule daughters
+% to the current generator FS, exactly as for a lexical parsing edge.
+gen_display_tree(FS-gen_node(lexicon(L),[Word],[],_),Tree,[FS|FSs],Rest) :-
+   !,
+   ( ale_flag(lrtrees,on),
+     current_predicate(relink_lr_tree_dtr,relink_lr_tree_dtr(_,_,_,_,_,_,_,_,_,_))
+   -> empty_avl(Assoc),
+      relink_lr_tree_dtr(L,Word,FS,[Tree],[FS|FSs],Rest,Assoc,_,0,_)
+   ; gen_display_tree(FS-gen_node(lexicon,[Word],[],_),Tree,[FS|FSs],Rest)
+   ).
+
+gen_display_tree(FS-gen_node(Rule,Words,Daughters,_),
                  tree(Label,Words,FS,_Reentrant,SubTrees),[FS|FSs],Rest) :-
    % Use the same rule:substring labels as the parser, even without PHON.
    name(Rule,RuleChars),
@@ -1932,6 +2024,30 @@ gen_display_daughters([Daughter|Daughters],[Tree|Trees],FSs,Rest) :-
 % word sequences, and collect results from every parse (gen_words is reset
 % by each generation). No FS displays or interactive questions in this mode.
 generator_test_results(Input,Root,Words,ParseCount) :-
+   gen_test_results(sentence(Input,Root),Input,Words,ParseCount).
+
+% Consume snapshots from testall without parsing the sentence again.
+% Residue goals and the root share the copied FS's variables.
+generator_test_results_from_parses(Input,Analyses,Words,ParseCount) :-
+   gen_test_results(analyses(Analyses),Input,Words,ParseCount).
+
+% Direct adapter for interleaved parser tests. The live FS stays on the
+% Prolog stack; only generated word lists cross the adapter's findall.
+generator_test_count_from_parse(Tokens,Parsed,Root,Count) :-
+   gen_test_results(live_parse(Parsed,Root),Tokens,Words,1),
+   length(Words,Count).
+gen_test_source_parse(live_parse(Parsed,Root),_,Parsed,Root).
+
+gen_test_source_parse(sentence(_,Root),Tokens,Parsed,Root) :-
+   rec(Tokens,Parsed,Root,_Residue).
+gen_test_source_parse(analyses(Analyses),_,Parsed,Root) :-
+   member(Saved,Analyses),
+   copy_term(Saved,saved_parse(Parsed,Root,Frozen)),
+   call(Frozen).
+
+gen_test_results(Source,Input,Words,ParseCount) :-
+   retractall(generator_test_statistics(_,_,_)),
+   assertz(generator_test_statistics(0,0,0)),
    ale_flag(another,OldLimit),
    findall(R,u_gen_root(R),OldRoots),
    findall(Q,output_query(Q),OldQueries),
@@ -1943,16 +2059,18 @@ generator_test_results(Input,Root,Words,ParseCount) :-
        set_output(QuietOutput),
        gen_test_tokenize(Input,Tokens),
        findall(Generated,
-         (rec(Tokens,Parsed,Root,_Residue),
+         (gen_test_source_parse(Source,Tokens,Parsed,Root),
           gen_project_semantics(Parsed,Semantics),
-          once(slgGen(Semantics,bot,Generated,Root,no_query))),PerParse),
+          gen_with_input_words(Tokens,
+            gen_test_measured_run(Semantics,Generated,Root))),PerParse),
        length(PerParse,ParseCount),gen_test_append(PerParse,Words)
      )),
      ( set_output(OldOutput),close(QuietOutput),
        (OldQuiet=no -> retractall(gen_test_quiet) ; true),
        ale_flag(another,_,OldLimit),
        retractall(u_gen_root(_)),gen_test_restore_roots(OldRoots),
-       retractall(output_query(_)),gen_test_restore_queries(OldQueries)
+       retractall(output_query(_)),gen_test_restore_queries(OldQueries),
+       gen_release_run
      )).
 
 gen_test_tokenize(Input,Tokens) :-
@@ -1973,3 +2091,299 @@ gen_test_restore_queries([Q|Qs]) :- assert(output_query(Q)),gen_test_restore_que
 gen_legacy_test_item(N,Words,Root) :- fail_if_undefined(tg(N,Words,Root)).
 gen_legacy_test_item(N,Words,Root) :- fail_if_undefined(tg(N,Words,Root,_)).
 gen_legacy_test_item(N,Words,Root) :- fail_if_undefined(tg(N,Words,Root,_,_)).
+
+% Intern ground quick-check descriptions and memoize their compatibility only
+% within one generation. Derivations with different words often share them.
+% Nonground descriptions retain the uncached check to avoid binding variables.
+:- dynamic gen_quick_intern/3,gen_quick_data/2,gen_quick_pair/2,gen_quick_next/1,gen_quick_pair_count/1.
+gen_clear_quick_cache :-
+   retractall(gen_quick_intern(_,_,_)),retractall(gen_quick_data(_,_)),
+   retractall(gen_quick_pair(_,_)),retractall(gen_quick_next(_)),
+   retractall(gen_quick_pair_count(_)),assertz(gen_quick_pair_count(0)),
+   assertz(gen_quick_next(0)).
+gen_quick_key(QC,Key) :-
+   (ground(QC)
+   -> term_hash(QC,Hash),
+      (gen_quick_intern(Hash,QC,Key) -> true
+      ; gen_quick_next(N),N<4096
+      -> retract(gen_quick_next(N)),Key is N+1,
+         assertz(gen_quick_next(Key)),assertz(gen_quick_intern(Hash,QC,Key)),
+         assertz(gen_quick_data(Key,QC))
+      ; Key=raw(QC))
+   ; Key=raw(QC)).
+gen_quick_keys_compatible(A,B) :-
+   (integer(A),integer(B)
+   -> (A=<B -> X=A,Y=B ; X=B,Y=A),
+      Sum is X+Y,Pair is (Sum*(Sum+1))//2+Y,
+      (gen_quick_pair(Pair,Result) -> Result=yes
+      ; gen_quick_data(A,QA),gen_quick_data(B,QB),
+        (gen_quick_compatible(QA,QB) -> Result=yes ; Result=no),
+        gen_quick_remember(Pair,Result),Result=yes)
+   ; gen_quick_value(A,QA),gen_quick_value(B,QB),gen_quick_compatible(QA,QB)).
+gen_quick_value(raw(Q),Q) :- !.
+gen_quick_value(Key,Q) :- gen_quick_data(Key,Q).
+
+% Bound auxiliary memory; a full cache falls back to the same original check.
+gen_quick_remember(Pair,Result) :-
+   (gen_quick_pair_count(N),N<32768
+   -> retract(gen_quick_pair_count(N)),Next is N+1,
+      assertz(gen_quick_pair_count(Next)),assertz(gen_quick_pair(Pair,Result))
+   ; true).
+
+% Retain per-request totals through backtracking and timeouts. Each parse starts
+% a new generation chart; record it before the next parse can replace it.
+:- dynamic generator_test_statistics/3.
+gen_test_measured_run(Semantics,Words,Root) :-
+   clearChart,
+   statistics(runtime,[Start,_]),
+   call_cleanup(once(slgGen(Semantics,bot,Words,Root,no_query)),
+                gen_test_record_statistics(Start)).
+gen_test_record_statistics(Start) :-
+   statistics(runtime,[End,_]),
+   findall(State,gen_store_index(c_edge,edge(_,State,_),_),States),
+   gen_count_chart(States,0,0,Active,Inactive),
+   retract(generator_test_statistics(T,A,I)),
+   T1 is T+End-Start,A1 is A+Active,I1 is I+Inactive,
+   assertz(generator_test_statistics(T1,A1,I1)).
+
+% Optional surface-vocabulary restriction. Keep every lexical ambiguity and
+% leave empty categories untouched. A set avoids multiplying entries when an
+% input word occurs several times; it does not constrain token multiplicity.
+:- dynamic gen_input_vocabulary/1.
+:- meta_predicate gen_with_input_words(+,0).
+gen_with_input_words(Words,Goal) :-
+   sort(Words,Vocabulary),
+   findall(V,gen_input_vocabulary(V),Previous),
+   call_cleanup(
+     (retractall(gen_input_vocabulary(_)),
+      assertz(gen_input_vocabulary(Vocabulary)),call(Goal)),
+     (retractall(gen_input_vocabulary(_)),gen_restore_input_vocabulary(Previous))).
+gen_restore_input_vocabulary([]).
+gen_restore_input_vocabulary([V|Vs]) :-
+   assertz(gen_input_vocabulary(V)),gen_restore_input_vocabulary(Vs).
+
+gen_input_lexeme(Word) :-
+   (ale_flag(generator_input_lexicon,on),gen_input_vocabulary(Vocabulary)
+    -> member(Word,Vocabulary)
+    ; true).
+
+% Transfer-only words stay restricted. Pronouns carrying generator markers
+% enter the positive-coverage branch instead of this zero-EP branch.
+gen_input_empty_lexeme(Word) :-
+   (ale_flag(generator_input_lexicon,empty_only),gen_input_vocabulary(Vocabulary)
+    -> gen_empty_input_vocabulary(Vocabulary,Allowed),member(Word,Allowed)
+    ; true).
+
+% Optional grammar exceptions for additional words without intrinsic EPs.
+% Sort the union so repeated exceptions cannot duplicate lexical edges.
+gen_empty_input_vocabulary(Vocabulary,Allowed) :-
+   (current_predicate(generator_input_lexicon_exceptions,
+                      generator_input_lexicon_exceptions(_))
+    -> findall(W,(generator_input_lexicon_exceptions(Words),
+                  member(W,Words),atom(W)),Extra)
+    ; Extra=[]),
+   append(Vocabulary,Extra,Combined),sort(Combined,Allowed).
+
+gen_check_input_lexicon :-
+   (ale_flag(generator_input_lexicon,Mode),Mode \== off,\+ gen_input_vocabulary(_)
+    -> format(user_error,'{TRALE: No input words supplied; generation uses the unrestricted lexicon.}~n',[])
+    ; true).
+
+% Identify intrinsic empty-daughter semantics before the overt daughter can
+% instantiate trace semantics. Transfer-only traces have open RELS here.
+gen_prefix_relations([],[]).
+gen_prefix_relations([FS-SVs|Rest],Lists) :-
+   (catch(getEPsFromRef(FS,SVs,_),
+          error(generator_list(open_tail(_,_)),getListFromFS/3),fail)
+    -> getRelsFromRef(FS,SVs,Rels,_),Lists=[Rels|Tail]
+    ; Lists=Tail),
+   gen_prefix_relations(Rest,Tail).
+
+% Intrinsic EPs consume unused input occurrences, just like overt lexemes.
+gen_prefix_coverage([],_,Bits,Bits).
+gen_prefix_coverage([Rels|Rest],V,Bits,Result) :-
+   V=_-gen_context(EPsBits,_),
+   gen_lexical_coverage(Rels,EPsBits,EmptyBits),
+   bs_disjoint(Bits,EmptyBits),bs_union(Bits,EmptyBits,Next),
+   gen_prefix_coverage(Rest,V,Next,Result).
+
+% Optional generation-only relations. Real RELS and the MRS are unchanged.
+% The grammar supplies generator_rels_path/1 and generator_extra_rels/2.
+% Extra relations use native FSs, so their indices remain shared with the MRS.
+:- multifile abolish_user_preds/1.
+abolish_user_preds(all) :-
+   static_abolish(generator_rels_path/1),static_abolish(generator_extra_rels/2),
+   static_abolish(generator_memory_limit/1),
+   static_abolish(generator_input_lexicon_exceptions/1).
+
+gen_generator_rels_path(Path) :-
+   current_predicate(generator_rels_path,generator_rels_path(_)),
+   generator_rels_path(Path).
+
+gen_lexical_generator_rels(FS,SemanticRels,GeneratorRels) :-
+   (gen_generator_rels_path(_),
+    current_predicate(generator_extra_rels,generator_extra_rels(_,_))
+    -> (once(generator_extra_rels(FS,Extra)) -> true ; Extra=[]),
+       gen_prepend_generator_rels(Extra,SemanticRels,GeneratorRels)
+    ; GeneratorRels=SemanticRels).
+
+gen_stored_generator_rels(FS,Rels) :-
+   gen_generator_rels_path(Path),
+   gen_pathval(Path,FS,bot,Rels,bot),
+   get_type(Rels,Type),Type \== 0,
+   (sub_type(e_list,Type);sub_type(ne_list,Type)),!.
+
+gen_project_generator_rels(Source,Target) :-
+   (gen_generator_rels_path(Path)
+    -> liszt_path(SemPath),gen_pathval(SemPath,Source,bot,SemanticRels,bot),
+       gen_source_extra_rels(Source,[],Extra,[]),
+       gen_prepend_generator_rels(Extra,SemanticRels,Combined),
+       gen_pathval(Path,Target,bot,Stored,bot),Stored=Combined
+    ; true).
+
+gen_prepend_generator_rels([],Rels,Rels).
+gen_prepend_generator_rels([EP|EPs],SemanticRels,Rels) :-
+   add_to(ne_list,Rels),gen_pathval([hd],Rels,bot,Head,bot),Head=EP,
+   gen_pathval([tl],Rels,bot,Tail,bot),
+   gen_prepend_generator_rels(EPs,SemanticRels,Tail).
+
+% Inspect only actual syntactic daughters. Do not invent list tails or walk
+% argument/DSL links, which can point back into the same derivation.
+gen_source_extra_rels(FS,Ancestors,Out,Tail) :-
+   (gen_list_seen(FS,Ancestors) -> Out=Tail
+    ; current_predicate(generator_extra_rels,generator_extra_rels(_,_)),
+      once(generator_extra_rels(FS,Own)),Own=[_|_]
+    -> append(Own,Tail,Out)
+    ; gen_dtrs_feature(FS,Feature)
+    -> gen_pathval([Feature],FS,bot,List,bot),getListFromFS(List,bot,Daughters),
+       gen_source_extra_daughters(Daughters,[FS|Ancestors],Out,Tail)
+    ; Out=Tail).
+gen_source_extra_daughters([],_,Tail,Tail).
+gen_source_extra_daughters([FS-_|Daughters],Ancestors,Out,Tail) :-
+   gen_source_extra_rels(FS,Ancestors,Out,Next),
+   gen_source_extra_daughters(Daughters,Ancestors,Next,Tail).
+
+
+% Guard chart growth in every generator entry point. SICStus memory statistics
+% include allocated stacks and the dynamic database, but are not OS RSS.
+% The default is an absolute per-process limit of 1024 MiB, not extra memory
+% beyond the grammar. Checks at chart insertion and agenda processing cannot
+% prevent a single large allocation from overshooting this threshold.
+gen_memory_limit_bytes(Bytes) :-
+   findall(M,fail_if_undefined(generator_memory_limit(M)),Settings),
+   (Settings=[]
+    -> (current_predicate(test_memory_individual_limit/1),test_memory_individual_limit(Shared)
+        -> Bytes=Shared ; Bytes is 1024*1048576)
+    ; Settings=[M],integer(M),M>0 -> Bytes is M*1048576
+    ; throw(error(domain_error(generator_memory_limit,Settings),slgGen/5))).
+
+gen_check_memory :-
+   statistics(memory,[Used,_]),
+   (current_predicate(test_memory_checkpoint/1) -> test_memory_checkpoint(Used) ; true),
+   gen_memory_limit_bytes(Limit),
+   (Used<Limit -> true
+    ; throw(error(generator_memory_limit_exceeded(Used,Limit),slgGen/5))).
+
+% Preserve the recorded per-test counts, but release charts, rules and words.
+% Called after statistics capture on success, timeout and exception in batch
+% mode. Interactive successful generation retains its chart for inspection.
+gen_release_run :-
+   gen_clear(a_edge),gen_clear(c_edge),gen_clear(cc_edge),
+   gen_clear(mod_grRule),gen_clear(non_mod_grRule),
+   gen_clear_quick_cache,retractall(gen_words(_)),trimcore.
+
+% Compare without adding bindings or restrictions to the grammatical copy.
+gen_semantics_equivalent(A,B) :-
+ liszt_path(Path),gen_pathval(Path,A,bot,LA,bot),gen_pathval(Path,B,bot,LB,bot),
+ getListFromFS(LA,bot,BagA),getListFromFS(LB,bot,BagB),
+ gen_semantic_bags(BagA,BagB,[],BeforeHCons),
+ gen_semantic_hcons(A,B,BeforeHCons,Map),
+ findall(P,gen_semantic_anchor(P),Ps),gen_semantic_anchors(Ps,A,B,Map,_).
+gen_semantic_anchor(P) :- ind_path(P).
+gen_semantic_anchor(P) :- current_predicate(ltop_path,ltop_path(_)),ltop_path(P),P=[_|_].
+gen_semantic_anchor(P) :- current_predicate(gtop_path,gtop_path(_)),gtop_path(P),P=[_|_].
+gen_semantic_anchors([],_,_,Map,Map).
+gen_semantic_anchors([P|Ps],A,B,Map,Result) :-
+ gen_pathval(P,A,bot,X,bot),gen_pathval(P,B,bot,Y,bot),
+ gen_semantic_fs(X,Y,Map,Next),gen_semantic_anchors(Ps,A,B,Next,Result).
+gen_semantic_bags([],[],Map,Map).
+gen_semantic_bags([A-_|As],Bs,Map,Result) :-
+ select(B-_,Bs,Rest),gen_semantic_fs(A,B,Map,Next),
+ gen_semantic_bags(As,Rest,Next,Result).
+gen_semantic_fs(A,B,Map,Result) :-
+ deref(A,_,Type,_),deref(B,_,NativeType,_),
+ gen_semantic_type_equivalent(Type,NativeType),
+ (gen_semantic_reference_type(Type)
+  -> (gen_semantic_known(A,B,Map) -> Result=Map
+     ;\+gen_semantic_used(A,B,Map),Next=[A-B|Map],
+      gen_semantic_features(Type,A,B,Next,Result))
+  ;gen_semantic_features(Type,A,B,Map,Result)).
+% Atom payloads can contain independent Prolog variables (e.g. name metadata).
+% Compare their variants without binding either grammatical or input values.
+gen_semantic_type_equivalent(0,_) :- !.
+gen_semantic_type_equivalent(a_(X),a_(Y)) :- !,variant(X,Y).
+gen_semantic_type_equivalent(Type,NativeType) :- Type==NativeType.
+
+gen_semantic_reference_type(Type) :-
+ (current_predicate(generator_identity_types,generator_identity_types(_))
+  -> generator_identity_types(Types);Types=[index,event,handle]),
+ gen_reference_type(Type,Types).
+
+gen_semantic_known(A,B,[X-Y|_]) :- A==X,!,B==Y.
+gen_semantic_known(A,B,[_|Map]) :- gen_semantic_known(A,B,Map).
+gen_semantic_used(A,B,[X-Y|_]) :- (A==X;B==Y),!.
+gen_semantic_used(A,B,[_|Map]) :- gen_semantic_used(A,B,Map).
+gen_semantic_features(0,_,_,Map,Map) :- !.
+gen_semantic_features(a_(_),_,_,Map,Map) :- !.
+gen_semantic_features(Type,A,B,Map,Result) :-
+ approps(Type,Features,_),gen_semantic_feature_list(Features,A,B,Map,Result).
+gen_semantic_feature_list([],_,_,Map,Map).
+gen_semantic_feature_list([aktionsart:_|Fs],A,B,Map,Result) :- !,
+ gen_semantic_feature_list(Fs,A,B,Map,Result).
+gen_semantic_feature_list([F:_|Fs],A,B,Map,Result) :-
+ gen_pathval([F],A,bot,X,bot),gen_pathval([F],B,bot,Y,bot),
+ gen_semantic_fs(X,Y,Map,Next),gen_semantic_feature_list(Fs,A,B,Next,Result).
+
+gen_semantic_hcons(A,B,Map,Result) :-
+ (current_predicate(hcons_path,hcons_path(_)),hcons_path(P),P=[_|_]
+ -> gen_pathval(P,A,bot,LA,bot),gen_pathval(P,B,bot,LB,bot),
+    getListFromFS(LA,bot,As),getListFromFS(LB,bot,Bs),gen_semantic_bags(As,Bs,Map,Result)
+ ; Result=Map).
+
+% A grammatical copy never receives the input EP unifications. It follows
+% the very same lexical reading, rule instances, daughters and trace anchors.
+% Storing it in the derivation retains all attributes and reference sharing.
+gen_shadow_metadata(Meta,Shadow) :-
+   nonvar(Meta),
+   (Meta=gen_node(_,_,_,Shadow);Meta=gen_shadow(Shadow)).
+gen_shadow_category(_-Meta,Shadow) :- gen_shadow_metadata(Meta,Shadow).
+gen_ensure_shadow(FS-gen_node(_,_,Children,Shadow)) :-
+   (var(Shadow) -> copyFS(FS-bot,Shadow-bot),gen_attach_shadow_children(Children,Shadow);true).
+gen_attach_shadow_children([],_).
+gen_attach_shadow_children(Children,Shadow) :-
+   Children=[_|_],dtrs_feat_(Feature),gen_pathval([Feature],Shadow,bot,List,bot),
+   getListFromFS(List,bot,ShadowChildren),gen_link_shadow_nodes(Children,ShadowChildren).
+gen_link_shadow_nodes([],[]).
+gen_link_shadow_nodes([_-gen_node(_,_,Children,S)|Nodes],[FS-_|FSs]) :-
+   S=FS,gen_attach_shadow_children(Children,FS),gen_link_shadow_nodes(Nodes,FSs).
+gen_install_shadow_dtrs([],[],[]).
+gen_install_shadow_dtrs([Kind>Category|Cats],[Kind>_ShadowCategory|ShadowCats],[Kind>Out|Outs]) :-
+   (Kind==goal;Kind==sem_goal),!,Out=Category,
+   gen_install_shadow_dtrs(Cats,ShadowCats,Outs).
+gen_install_shadow_dtrs([Kind>Category|Cats],[Kind>ShadowCategory|ShadowCats],[Kind>Out|Outs]) :-
+   Category=FS-Meta,ShadowCategory=ShadowFS-_,
+   (nonvar(Meta),Meta=gen_node(_,_,Children,S)
+    -> S=ShadowFS,gen_attach_shadow_children(Children,ShadowFS),Out=Category
+    ;Out=FS-gen_shadow(ShadowFS)),
+   gen_install_shadow_dtrs(Cats,ShadowCats,Outs).
+gen_shadow_daughter(N,MotherMeta,Category) :-
+   (gen_shadow_metadata(MotherMeta,Mother),gen_shadow_category(Category,Daughter),
+    gen_dtrs_feature(Mother,Feat)
+    -> gen_pathval([Feat],Mother,bot,List,bot),gen_daughter_at(N,List,bot,Daughter-bot)
+    ;true).
+gen_close_shadow_dtrs(N,Mother) :-
+   (gen_dtrs_feature(Mother,Feat) -> gen_pathval([Feat],Mother,bot,List,bot),gen_finish_dtrs(N,List,bot)
+    ;true).
+gen_shadow_anchor(EmptyPath,SourcePath,Shadow,SourceMeta) :-
+   gen_shadow_metadata(SourceMeta,Source),
+   gen_pathval(SourcePath,Source,bot,Value,bot),gen_pathval(EmptyPath,Shadow,bot,Value,bot).
