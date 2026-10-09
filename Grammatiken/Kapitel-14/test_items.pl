@@ -23,7 +23,7 @@ ts(16,"das Eis in schmilzt",@root,0,[],'Kapitel 4: Valenz, Kopfmerkmale, Kopfmer
 
 ts(17,"Jede Tochter eines Mitarbeiters schläft.",@decl,1,[2],'Kapitel 5: Semantik, Skopus').
 ts(18,"der mutmaßliche Affe",@root,1,[],'Kapitel 5: Semantik, Skopus').
-ts(19,"Sein Affe schläft.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
+ts(19,"Ihr Affe schläft.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
 ts(20,"Der angeblich kleine Affe schläft.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
 ts(21,"Der Affe schläft wahrscheinlich.",@decl,1,[2],'Kapitel 5: Semantik, Skopus').
 ts(22,"Jeder Affe glaubt, dass ein Einhorn schläft.",@decl,1,[3],'Kapitel 5: Semantik, Skopus').
@@ -171,8 +171,8 @@ ts(138,"Kleinen Kinder schlafen.",@decl,0,[],'Kapitel 12: Kongruenz').
 %t(125,"Er arbeitet der ganze Tag.", @decl,0,'Kapitel 13: Kasus').
 %t(126,"weil der ganze Tag gearbeitet wurde."@decl,0,'Kapitel 13: Kasus').
 
-ts(139,"Dass Aicke lacht, freut mich.",@decl,1,[1],'Kapitel 13: Kasus').
-ts(140,"Dass Aicke lacht, freut er.",  @decl,0,[],'Kapitel 13: Kasus').
+%ts(139,"Dass Aicke lacht, freut mich.",@decl,1,[1],'Kapitel 13: Kasus').
+%ts(140,"Dass Aicke lacht, freut er.",  @decl,0,[],'Kapitel 13: Kasus').
 
 
 

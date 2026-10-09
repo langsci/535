@@ -23,7 +23,7 @@ ts(17,"Schläft jede Tochter eines Mitarbeiters.",@interrog,1,[2],'Kapitel 5: Se
 ts(18,"der mutmaßliche Affe",@root,1,[],'Kapitel 5: Semantik, Skopus').
 ts(19,"Schläft ihr Affe?",@interrog,1,[1],'Kapitel 5: Semantik, Skopus').
 ts(20,"Schläft der angeblich kleine Affe?",@interrog,1,[1],'Kapitel 5: Semantik, Skopus').
-ts(21,"Schläft der Affe wahrscheinlich?",@interrog,1,[1],'Kapitel 5: Semantik, Skopus').
+ts(21,"Schläft der Affe wahrscheinlich?",@interrog,1,[2],'Kapitel 5: Semantik, Skopus').
 ts(22,"Glaubt jeder Affe, dass ein Einhorn schläft?",@interrog,1,[3],'Kapitel 5: Semantik, Skopus').
 ts(23,"Schläft Aicke?",@interrog,1,[1],'Kapitel 5: Semantik, Skopus').
 ts(24,"Schläft er?",@interrog,1,[1],'Kapitel 5: Semantik, Skopus').

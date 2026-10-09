@@ -56,6 +56,12 @@ seinen ---> @possessive(acc,       sg,mas,third,sg,mas_or_neu).
 seine  ---> @possessive(nom_or_acc,sg,fem,third,sg,mas_or_neu).
 seiner ---> @possessive(gen_or_dat,sg,fem,third,sg,mas_or_neu).
 
+ihr   ---> @possessive(nom_or_acc,sg,neu,third,sg,fem).
+ihr   ---> @possessive(nom,       sg,mas,third,sg,fem).
+ihren ---> @possessive(acc,       sg,mas,third,sg,fem).
+ihre  ---> @possessive(nom_or_acc,sg,fem,third,sg,fem).
+ihrer ---> @possessive(gen_or_dat,sg,fem,third,sg,fem).
+
 
 interessante ---> @attr_adj(interessant_rel).
 

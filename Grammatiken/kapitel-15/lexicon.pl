@@ -294,6 +294,21 @@ deiner ---> @possessive(gen,       second,sg,genus,     pl,genus,     strong).
 
 deines ---> @possessive(gen,       second, sg,genus,    sg,mas_or_neu,strong).
 
+ihr   ---> @possessive(nom,       third, sg,fem,sg,mas,       weak).
+ihr   ---> @possessive(nom_or_acc,third, sg,fem,sg,neu,       weak).
+ihre  ---> @possessive(nom_or_acc,third, sg,fem,sg,fem,       strong).
+ihre  ---> @possessive(nom_or_acc,third, sg,fem,pl,genus,     strong).
+
+ihren ---> @possessive(acc,       third, sg,fem,sg,mas,       strong).
+ihren ---> @possessive(dat,       third, sg,fem,pl,genus,     strong).
+
+ihrem ---> @possessive(dat,       third, sg,fem,sg,mas_or_neu,strong).
+
+ihrer ---> @possessive(gen_or_dat,third, sg,fem,sg,fem,       strong).
+ihrer ---> @possessive(gen,       third, sg,fem,pl,genus,     strong).
+
+ihres ---> @possessive(gen,       third, sg,fem,sg,mas_or_neu,strong).
+
 sein   ---> @possessive(nom,       third, sg,mas_or_neu,sg,mas,       weak).
 sein   ---> @possessive(nom_or_acc,third, sg,mas_or_neu,sg,neu,       weak).
 seine  ---> @possessive(nom_or_acc,third, sg,mas_or_neu,sg,fem,       strong).
