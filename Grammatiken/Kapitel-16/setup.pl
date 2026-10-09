@@ -1,42 +1,13 @@
 % -*-trale-prolog-*-
 
-% :- trale_make. % loads all trale files that have been changed since loading the system.
+:- ['../Gemeinsames/setup'].
+
+% Zusaetzliche Woerter ohne eigene Semantikrelation fuer Paraphrasen.
+% Die uebrigen semantisch leeren Woerter bleiben auf die Eingabe beschraenkt.
+generator_input_lexicon_exceptions([von,durch]).
 
 % TDL signature input; TRALE supplies missing least upper bounds.
 :- ale_flag(subintro,_,file).
-:- ale_flag(msl,_,off).
-
-% This reduces the number of pre-computed rules. It rules out rules that would be inconsistent anyway.
-:- ale_flag(efdcheck,_,on).
-%:- ale_flag(efdcheck,_,off).
-
-% This checks for verb traces whether there is a plausible filler before adding an item to the chart.
-:- ale_flag(head_movement_filter,_,on).
-
-%:- ale_flag(head_movement_filter,_,off).
-
-% inform user about word forms generated
-:- ale_flag(morphoutput,_,on).
-
-% Nur Wörter, die im Input vorkommen, und leere Elemente verwenden
-%:- ale_flag(generator_input_lexicon,_,on).
-%:- ale_flag(generator_input_lexicon,_,off). % Default
-
-% Wörter, die nicht im Input sind und leere Semantik haben, ignorieren.
-:- ale_flag(generator_input_lexicon,_,empty_only). 
-
-
-% Anzahl der paralleln Prozesse für Testsuites.
-use_cpus_parallel(10).
-
-
-% Der Wert ist in Millisekunden, der Standard ist 120000 (2 Minuten).  Das gilt für die
-% Generierungstests und testall.  Bei testall verwendet auch das Parsing mit Skopusberechnung diesen
-% Wert. Der interaktive Aufruf p_and_g(...) wird dadurch nicht begrenzt.
-
-generator_test_timeout(300000). % 5 Minuten
-
-
 
 % feature hiding and ordering
 hidden_feat(dtrs).          % hide the dtrs attribute (shown by tree)
@@ -47,7 +18,6 @@ hidden_feat(affix).         % hide the affix attribute
 hidden_feat(infl).          % hide the affix attribute 
 hidden_feat(inf_marking).   % hide technical feature
 
-
 % Binäres Merkmal, das aus Effizenzgründen verwendet wird.
 % Sieht nicht gut aus in Demos ... =;-)
 hidden_feat(trace).
@@ -56,7 +26,6 @@ hidden_feat(phrase).    % V1 ist eine unäre Projektion, keine Lexikonregel
                         % Da das Merkmal im Buch nicht eingeführt wurde, wird es nciht angezeigt.
 
 hidden_feat(max_).
-
 
 >>> phon.        % phon shall be shown first
 >>> lbl.
@@ -87,41 +56,6 @@ lindex <<< rindex.
 rindex <<< lhandle.
 lhandle <<< rhandle.
 
-
-% load tokenization rules for parsing ordinary strings and atoms
-:- ['../Gemeinsames/tokenization'].
-
-
-% use ghostview for drawing signatures
-% für Linux
-%graphviz_option(ps,gv).
-
-
-% für Mac
-%graphviz_option(svg,'batik-squiggle').
-
-% Install gapplin, so that it is the default app.
-%graphviz_option(svg,'sleep 0.1; open').
-
-% just use built-in preview for SVG
-% graphviz_option(svg,'qlmanage -p').
-
-% install SVGViewer from Appstore and use
-graphviz_option(svg,'sleep 0.5; open').
-
-
-:- trale_milca_version('2.7.12') -> true; ['../Gemeinsames/new-trale.pl'].
-
-
-:- chart_display.
-
-:- nochart_debug.  % this helps if somebody interrupted during chart debugging and the
-                   % flag is still set to 'on'.
-
-:- german.
-
-:- notcl_warnings.  % on = output of warnings in a TCL window, off = output to console
-
 %:- fs. print AVM after parsing
 %:- nofs. % do not print feature structures after parsing
 
@@ -133,7 +67,6 @@ graphviz_option(svg,'sleep 0.5; open').
 
 % send MRSes to utool for scoping
 :- scope_mrs.
-
 
 % If a description that should be used for generation is produced from a chart edge,
 % which pathes of the input sign shall be considered?
@@ -183,10 +116,8 @@ scopable_description([@decl,@interrog,@ass_or_imp]).
 
 quantifiers([udef_q,def_q,some_q,demonstrative_q,proper_q]).
 
-
 % Optional parsing experiment; leave the standard parser enabled by default.
 :- compile('../Gemeinsames/parser_head_movement_filter4').
-
 
 % Nodes in Trees
 grale_abbreviation(
@@ -221,7 +152,6 @@ grale_abbreviation(
     synsem:loc:cat:(head:(comp_prep,pform:PForm),
                     comps:[realized:plus]),
     'PP'(PForm)).
-
 
 % Elements in ARG-ST Lists
 grale_abbreviation(arg:loc:cat:head:det, 'Det').
@@ -288,7 +218,6 @@ grale_abbreviation(
     
 strike_out_pattern(realized:plus).
 
-
 /*
 morphology_info((synsem:loc:cat:(head:(verb,
                                        vform:fin),
@@ -317,5 +246,5 @@ generator_extra_rels(FS,Extra) :-
     (sub_type(pers_pronoun,Type) -> Kind=generator_pers_pronoun_rel
      ; sub_type(rel_pronoun,Type) -> Kind=generator_relative_pronoun_rel)
     -> add_to(Kind,EP),ind_path(Path),gen_pathval(Path,FS,bot,Index,bot),
-       gen_pathval([arg0],EP,bot,Argument,bot),Argument=Index,Extra=[EP]
+       gen_pathval([generator_index],EP,bot,Argument,bot),Argument=Index,Extra=[EP]
     ; Extra=[]).
