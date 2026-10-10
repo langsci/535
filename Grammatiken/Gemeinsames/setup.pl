@@ -8,8 +8,18 @@
 % Verbspuren nur bei einem plausiblen Filler in die Chart aufnehmen.
 :- ale_flag(head_movement_filter,_,on).
 :- ale_flag(morphoutput,_,on).
+
 % Zusätzliche Wörter ohne Eingaberelationen bei der Generierung ausschließen.
+% Kapitel 16 verwendet weiterhin generator_input_lexicon=empty_only. In setup.pl erlaubt
+% generator_input_lexicon_exceptions([von,durch]). diese zusaetzlichen Woerter ohne eigene
+% Semantikrelation. Die Liste kann erweitert werden; mehrfache Eintraege werden zusammengefasst. Die
+% Ausnahme gilt nur fuer empty_only, nicht fuer die strikte Einstellung „on“. Die vorhandenen
+% Pronomenrelationen sichern weiterhin deren Abdeckung. Test tg(18) erwartet für „Der Mann liest
+% den Roman.“ zwei Aktiv- und drei Passivstellungen.
 :- ale_flag(generator_input_lexicon,_,empty_only).
+
+% Berücksichtigt gen_pathes(X). Wenn dort Syntax-Pfade angegeben sind, werden für V1-Sätze keine dass-Sätze generiert.
+:- ale_flag(generator_gen_pathes, _, on).
 
 % Wenn Typ-Constraints inkonsistent sind, werden sie standardmäßig durch true ersetzt.
 % Das ist gefährlich, weil dann das Laden des Lexikons verrückt werden kann.
@@ -45,3 +55,8 @@ graphviz_option(svg,'sleep 0.5; open').
 :- nochart_debug.
 :- german.
 :- notcl_warnings.
+
+
+%gen_chart_on.     % Live-Anzeige beim Generieren
+%gen_chart.        % anschließend Chart untersuchen
+%gen_chart_off.    % Live-Anzeige ausschalten

@@ -41,7 +41,11 @@ rstr <<< body.
 
 % If a description that should be used for generation is produced from a chart edge,
 % which pathes of the input sign shall be considered?
-gen_pathes([[loc,cat,head],[loc,cat,spr],[loc,cat,comps],[loc,cont]]).
+gen_pathes([[loc,cat,head]]).
+% Preserve the category while allowing all grammatical cases.
+gen_pathes_exclude([[loc,cat,head,case]]).
+% Require complete results independently of the input valence.
+gen_root_condition(@root).
 
 syntactic_object(sign).
 

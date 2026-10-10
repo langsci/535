@@ -57,7 +57,11 @@ lhandle <<< rhandle.
 
 % If a description that should be used for generation is produced from a chart edge,
 % which pathes of the input sign shall be considered?
-gen_pathes([[synsem,loc,cat,head],[synsem,loc,cat,spr],[synsem,loc,cat,comps],[synsem,loc,cont],[rels],[hcons]]).
+gen_pathes([[synsem,loc,cat,head]]).
+% Preserve the category while allowing all grammatical cases.
+gen_pathes_exclude([[synsem,loc,cat,head,case]]).
+% Require complete results independently of the input valence.
+gen_root_condition(@root).
 
 syntactic_object(sign).
 

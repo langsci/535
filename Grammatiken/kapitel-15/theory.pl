@@ -83,13 +83,6 @@ signature('signature.tdl').
 % load a sequence that is executed after the grammar is loaded
 :- ['../Gemeinsames/common.pl'].
 
-% load the generator, see setup.pl for configuration
-% SICStus 3.0
-%:- ['../Gemeinsames/generator'].
-
-% SICStus 4.0
-% Compile the generator's frequently called chart and matching predicates.
-:- compile('../Gemeinsames/generator4').
 
 % p_and_g("Der Affe schläft.",@decl).
 % p_and_g("Jede Frau und jeder Mann kennt ein Buch.",@decl).
