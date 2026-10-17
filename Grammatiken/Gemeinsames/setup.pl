@@ -7,7 +7,11 @@
 :- ale_flag(efdcheck,_,on).
 % Verbspuren nur bei einem plausiblen Filler in die Chart aufnehmen.
 :- ale_flag(head_movement_filter,_,on).
-:- ale_flag(morphoutput,_,on).
+
+% Zeige alle morphologischen Formen, die über Lexikoneregeln erzeugt werden.
+% In Kapiteln kann Ausgabe von Flexionsmerkmalen konfiguriert werden.
+% Pro Kapitel einschalten.
+%:- ale_flag(morphoutput,_,on).
 
 % Zusätzliche Wörter ohne Eingaberelationen bei der Generierung ausschließen.
 % Kapitel 16 verwendet weiterhin generator_input_lexicon=empty_only. In setup.pl erlaubt
@@ -55,6 +59,10 @@ graphviz_option(svg,'sleep 0.5; open').
 :- nochart_debug.
 :- german.
 :- notcl_warnings.
+
+% Display AVMs after parsing/generation
+%:- avm.  % default
+%:- noavm.
 
 
 %gen_chart_on.     % Live-Anzeige beim Generieren

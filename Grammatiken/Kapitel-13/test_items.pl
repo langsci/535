@@ -128,55 +128,55 @@ ts(92,"den klugen Männern",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
 ts(93,"das kluge  Kind",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
 ts(94,"des klugen Kindes",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
 ts(95,"dem klugen Kind",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(96,"das kluge  Kind",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(97,"die klugen Kinder",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(98,"der klugen Kinder",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(99,"den klugen Kindern",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(100,"die kluge  Frau",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(101,"der klugen Frau",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(102,"die klugen Frauen",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(103,"der klugen Frauen",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(104,"den klugen Frauen",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(105,"ein   kluger Mann",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(106,"eines klugen Mannes",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(107,"einem klugen Mann",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(108,"einen klugen Mann",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(109,"ein   kluges Kind",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(110,"eines klugen Kindes",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(111,"einem klugen Kind",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(112,"eine  kluge  Frau",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(113,"einer klugen Frau",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(114,"seine kluge Frau",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(115,"sein kluger Mann",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(116,"sein kluges Kind",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(117,"seiner klugen Frau",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(118,"seines klugen Mannes",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(119,"seines klugen Kindes",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(120,"seinem klugen Mann",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(121,"seinem klugen Kind",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(122,"seinen klugen Mann",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(123,"ein kluger Beamter",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(124,"eines klugen Beamten",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(125,"einem klugen Beamten",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(126,"einen klugen Beamten",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(127,"eine kluge Beamte",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(128,"einer klugen Beamten",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(129,"der kluge Beamte",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(130,"des klugen Beamten",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(131,"dem klugen Beamten",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(132,"den klugen Beamten",@root,2,[],_Generated,'Kapitel 12: Kongruenz').
-ts(133,"die kluge Beamte",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
-ts(134,"der klugen Beamten",@root,2,[],_Generated,'Kapitel 12: Kongruenz').
-ts(135,"Die kleinen Kinder schlafen.",@decl,1,[1],_Generated,'Kapitel 12: Kongruenz').
-ts(136,"Kleine Kinder schlafen.",@decl,1,[1],_Generated,'Kapitel 12: Kongruenz').
-ts(137,"Die kleine Kinder schlafen.",@decl,0,[],_Generated,'Kapitel 12: Kongruenz').
-ts(138,"Kleinen Kinder schlafen.",@decl,0,[],_Generated,'Kapitel 12: Kongruenz').
 
-%ts(139,"Er arbeitet der ganze Tag.", @decl,0,_Scopes,_Generated,'Kapitel 13: Kasus').
+ts(96,"die klugen Kinder",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(97,"der klugen Kinder",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(98,"den klugen Kindern",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(99,"die kluge  Frau",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(100,"der klugen Frau",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(101,"die klugen Frauen",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(102,"der klugen Frauen",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(103,"den klugen Frauen",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(104,"ein   kluger Mann",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(105,"eines klugen Mannes",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(106,"einem klugen Mann",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(107,"einen klugen Mann",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(108,"ein   kluges Kind",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(109,"eines klugen Kindes",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(110,"einem klugen Kind",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(111,"eine  kluge  Frau",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(112,"einer klugen Frau",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(113,"seine kluge Frau",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(114,"sein kluger Mann",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(115,"sein kluges Kind",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(116,"seiner klugen Frau",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(117,"seines klugen Mannes",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(118,"seines klugen Kindes",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(119,"seinem klugen Mann",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(120,"seinem klugen Kind",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(121,"seinen klugen Mann",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(122,"ein kluger Beamter",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(123,"eines klugen Beamten",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(124,"einem klugen Beamten",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(125,"einen klugen Beamten",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(126,"eine kluge Beamte",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(127,"einer klugen Beamten",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(128,"der kluge Beamte",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(129,"des klugen Beamten",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(130,"dem klugen Beamten",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(131,"den klugen Beamten",@root,2,[],_Generated,'Kapitel 12: Kongruenz').
+ts(132,"die kluge Beamte",@root,1,[],_Generated,'Kapitel 12: Kongruenz').
+ts(133,"der klugen Beamten",@root,2,[],_Generated,'Kapitel 12: Kongruenz').
+ts(134,"Die kleinen Kinder schlafen.",@decl,1,[1],_Generated,'Kapitel 12: Kongruenz').
+ts(135,"Kleine Kinder schlafen.",@decl,1,[1],_Generated,'Kapitel 12: Kongruenz').
+ts(136,"Die kleine Kinder schlafen.",@decl,0,[],_Generated,'Kapitel 12: Kongruenz').
+ts(137,"Kleinen Kinder schlafen.",@decl,0,[],_Generated,'Kapitel 12: Kongruenz').
+
+%ts(138,"Er arbeitet der ganze Tag.", @decl,0,_Scopes,_Generated,'Kapitel 13: Kasus').
 %t(126,"weil der ganze Tag gearbeitet wurde."@decl,0,'Kapitel 13: Kasus').
 
-ts(140,"Dass Aicke lacht, freut mich.",@decl,1,[0],_Generated,'Kapitel 13: Kasus').
-ts(141,"Dass Aicke lacht, freut er.",  @decl,0,[0],_Generated,'Kapitel 13: Kasus').
+ts(139,"Dass Aicke lacht, freut mich.",@decl,1,[0],_Generated,'Kapitel 13: Kasus').
+ts(140,"Dass Aicke lacht, freut er.",  @decl,0,[0],_Generated,'Kapitel 13: Kasus').
 
 
 % Generierungstests: tg(Nummer,Eingabe,Startsymbol,AnzahlAbleitungen,Kommentar).

@@ -31,6 +31,8 @@ des ---> @det(gen,sg,mas_or_neu,def_q).
 
 jede ---> @det(nom_or_acc,sg,fem,every_q).
 
+jedem ---> @det(dat,sg,mas_or_neu,every_q).
+
 jeder ---> @det(gen_or_dat,sg,fem,every_q).
 
 jeder ---> @det(nom,sg,mas,every_q).
@@ -65,9 +67,9 @@ schwierige   ---> @attr_adj(schwierig_rel).
 
 
 
-affe   ---> @noun(nom_or_acc,mas,sg,affe_rel).
-affens ---> @noun(gen,       mas,sg,affe_rel).
-affen  ---> @noun(dat_or_acc,mas,sg,affe_rel).
+affe   ---> @noun(nom,       mas,sg,affe_rel).
+affen  ---> @noun(gen_or_dat_or_acc,mas,sg,affe_rel).
+affen  ---> @noun(case,      mas,pl,affe_rel).
 
 beispiel ---> @noun(nom_or_dat_or_acc,neu,sg,beispiel_rel).
 

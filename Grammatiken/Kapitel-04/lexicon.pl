@@ -124,7 +124,7 @@ affen ---> (word,
            comps:[])],
   comps:[ ] ).
 
-affe ---> (word,
+affen ---> (word,
   head:(noun,
         case:acc),
   spr:[(head:(det,
@@ -133,7 +133,7 @@ affe ---> (word,
           comps:[])],
   comps:[ ] ).
 
-affens ---> (word,
+affen ---> (word,
   head:(noun,
         case:gen),
   spr:[(head:(det,
