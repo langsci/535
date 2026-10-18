@@ -1,3 +1,4 @@
+% -*- coding: utf-8; mode: trale-prolog -*-
 % Experimental lexical look-ahead for the textbook grammar's verb traces.
 % Enabled only by ale_flag(head_movement_filter,_,on); the default parser is unchanged.
 % A DSL-local projection must be licensed by a preceding finite verb whose

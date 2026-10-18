@@ -1,4 +1,4 @@
-% -*-trale-prolog-*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 % Gemeinsame Einstellungen aller Lehrbuchgrammatiken. Speicherwerte in MiB.
 % Bei einer Grammatik-Neuladung erneut konsultieren (nicht ensure_loaded).
 

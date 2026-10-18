@@ -1,4 +1,4 @@
-% -*-  coding:utf-8; mode:trale-prolog   -*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 
 % ts(Nr, Satz, Root, Parses, Skopuslesarten, Generiert, Kommentar).
 % Generiert: erwartete Anzahl pro Parsing-Lesart, z.B. [7] oder [7,7].

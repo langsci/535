@@ -1,3 +1,4 @@
+% -*- coding: utf-8; mode: trale-prolog -*-
 
 
 % So if there is a general type A that introduces two features and the values of these features
