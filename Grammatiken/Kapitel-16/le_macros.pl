@@ -1,4 +1,4 @@
-% -*-trale-prolog-*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%   $RCSfile: le_macros.pl,v $
 %%  $Revision: 1.4 $
@@ -39,9 +39,12 @@ overt_le *>
 % Verbspur unter ein Hilfs- oder Modalverb auszuschließen.
 %
 % * Der Frau den Aufsatz _v will er.
-
+/*
+todo
 overt_le *>
   synsem:loc:cat:arg_st:list_of_non_dsl_synsems.
+
+*/
 
 fun list_of_non_dsl_synsems(-).
 list_of_non_dsl_synsems(L) if
@@ -76,18 +79,20 @@ e_trace *>
           nonloc:slash:[Loc],
           trace:extraction)).
 
-/*
-% Die alte zyklische Verbspur. Im Prinzip bräuchte man nicht mal die Information darüber, dass es ein Verb und final ist.
-empty
-   (trace,
-    loc:(Loc,
-         cat:head:(verb,
-                   initial:minus,
-                   dsl:Loc)),
-    nonloc:slash:[],
-    trace:vm).
-*/
 
+% Die alte zyklische Verbspur. Im Prinzip bräuchte man nicht mal die Information darüber, dass es ein Verb und final ist.
+v_trace *>
+ (%trace,
+  %non_slashed_le,
+  %spr_saturated_le
+  synsem:(loc:(Loc,
+               cat:head:(verb,
+                         initial:minus,
+                         dsl:Loc)),
+          trace:vm)).
+
+
+/*
 v_trace *>
  (%trace,
   %non_slashed_le,
@@ -107,6 +112,7 @@ v_trace *>
                     arg_st:ArgSt),
                  cont:Cont),
             trace:vm)).
+*/
 
 empty_determiner *>
   synsem:trace:minus.
@@ -261,6 +267,10 @@ np_ref :=
   (@argument_np,
    arg:loc:cont:ind:ref).
 
+argument_np_lex :=
+  (@argument_np,
+   @np_lex).
+
 np(Ind) :=
   (@np_ref,
    arg:loc:cont:ind:Ind).
@@ -369,6 +379,14 @@ pp(PForm,Case) :=
 pp(PForm,Case,Ind) :=
   (@pp(PForm,Case),
    arg:loc:cont:ind:Ind).
+
+% This does not inherit from xp and hence is not marked as realized:minus.
+% Therefor it is compatible with both realized:plus and realized:minus and hence optional.
+% The part of speech follows from pform.
+optional_passive_pp(Ind) :=
+  arg:loc:(cat:head:(pform:von_pform,
+                     case:morph_case:dat),
+            cont:ind:Ind).
 
 % Could be done in signature.tdl, but then the HCONS feature would not be displayed
 non_scopal_le *>
@@ -562,12 +580,19 @@ proper_noun(Genus,Name) :=
   synsem:loc:cont:ind:gen:Genus,
   rels:tl:hd:name:(a_ Name)).
 
+/*
+% für die nicht-zyklische Verbspur
+verb_stem *>
+ (%word,
+  %arg0_ltop_lbl_le
+  synsem:loc:cat:head:dsl:none).
+*/
+
 verb_stem *>
  (%word,
   %arg0_ltop_lbl_le
   synsem:loc:(cat:(head:(verb,
-                         initial:minus,
-                         dsl:none),
+                         initial:minus),
                    spr:[]),
               cont:ind:event)).
 
@@ -699,7 +724,8 @@ ditrans_verb(Relation) :=
 
 glauben_denken_verb *>
  (%intrans_nerg_verb,
-  synsem:loc:cat:arg_st:[ (arg:loc:(cat:(head:(comp,
+  synsem:loc:cat:arg_st:[ (@argument,
+                           arg:loc:(cat:(head:(comp,
                                                cform:dass),
                                          spr:[],
                                          comps:list_of_spirits),
@@ -749,7 +775,7 @@ undelayed_list_of_non_complex_forming_arguments([realized:plus|T]) if
 
 % optional kohärente Verben ziehen alle Elemente auf ARG-ST an.
 % auch die Verbbewegungsregeln fallen darunter.
-optionally_coherent_le *>
+optionally_cluster_forming_le *>
   synsem:loc:cat:arg_st:[@argument|list_of_non_complex_forming_arguments].
 
 % Anhebungsverben aber auch die Verbbewegungsregel
@@ -834,8 +860,10 @@ subj_raising_verb(GovVForm,Relation) :=
 
 modal_verb *>
  (%argument_raising_verb
-  synsem:loc:cat:arg_st:hd:arg:loc:cat:head:(vform:bse,
-                                             flip:minus)). % [ dürfen _Extraction ]     % nur für Geschwindigkeit
+  synsem:loc:cat:(head:(vform:not_ppp,
+                        auxf:haben),
+                  arg_st:hd:arg:loc:cat:head:(vform:bse,
+                                              flip:minus))). % [ dürfen _Extraction ]     % nur für Geschwindigkeit
 
 
 modal_verb(Relation) :=
@@ -868,7 +896,7 @@ irregular_verb(VForm) :=
   ;inf_verb_infl_lr
   ;ppp_verb_infl_lr
   ),
-  dtr:synsem:loc:cat:head:vform:VForm).
+  synsem:loc:cat:head:vform:VForm).
 
 
 irregular_verb(Per,Num,TeMo) :=
@@ -995,10 +1023,59 @@ dative_passive_aux_verb *>
 
 % Modale Infinitive
 
-
 modal_zu_inf *>
  rels:[modal_rel].
 
+% Gelhaus 1977: Der modale Infinitiv
+% Variante I: müssen
+% Beispiele:
+% Ich möchte betonen, daß Sie meinen Anweisungen zu befolgen haben
+% Ich möchte betonen, daß Sie meinen Anweisungen befolgen müssen
+%
+% Variante I,1 nicht brauchen
+%
+% Du hast von mir nicht zu fürchten, dass
+% Um die Außenpolitik hatte ich mich zu nächst nicht zu kümmern gehabt.
+% Subsumiere ich hier unter "müssen".
+% Um die Außenpolitik hatte ich mich zunächst nicht kümmern müssen.
+%
+% Variante I,2 nicht dürfen
+% Er hat keine Zeit zu verlieren.
+% Er darf keine Zeit verlieren.
+%
+% Variante I,3 sollen
+%
+% Wie die Bundesregierung den Akt zu vollziehen habe, schilderte
+% Ich kann es nicht ausstehen, wenn man mir sagt, was ich zu empfinden habe.
+%
+% Variante II "er hat zu entscheiden"
+%
+% befugt, berechtigt sein
+%
+% Der Pilot hat allein zu entscheiden, ob er Passagiere mitnimmt.
+%
+% Hier "können".
+
+% Variante III: "Er hat etwas zu bieten."
+%
+% Die Ärzte, die dem Stebernden keinen Himmel zu bieten haben, ...
+% Was Bummel am neuen Bauernverein zu tadeln hatte
+% Dabei hatten die Satelliten überhaupt erst nur zwei Drittel der Entweichungsgeschwindigkeit aufzuweisen.
+%
+% IV Idiomatische Wendungen
+
+% Generated phrases: 28.
+% Generation: 500.651 s CPU time.
+% Chart: 10618 edges (3268 active, 7350 inactive).
+%
+% ->
+%
+% Generated phrases: 20.
+% Generation: 203.774 s CPU time.
+% Chart: 7610 edges (2662 active, 4948 inactive).
+
+modal_haben *>
+  rels:[können_müssen_sollen_rel].
 
 
 sein_modal(Per-per,Num-num,TeMo-temo) :=
@@ -1119,7 +1196,7 @@ preposition_word *>
  synsem:loc:cat:(head:(prep,
                        initial:plus),
                  spr:[], % otherwise the NP may map to the SPR
-                 arg_st:[ (@np_lex,
+                 arg_st:[ (@argument_np_lex,
                            arg:nonloc:slash:[]) ] )).
 
 comp_preposition *>
@@ -1284,6 +1361,12 @@ location_verb_mod_prep(Relation) :=
 
 % Nur Partizipien haben ein Element in DA. Echte Adjektive haben eine
 % leere DA-Liste.
+% Das Buch ist von allen zu lesen.
+% Das Buch wurde von allen gelesen.
+% Er liess das Buch von allen lesen.
+% das von allen zu lesende Buch
+% * das von dem Kind den Aufsatz lesende Kind
+% finite Verben haben leere DA-Liste, auch wegen Koordination
 passive_preposition *>
   (%verb_mod_preposition
    % scopal:minus
@@ -1304,8 +1387,9 @@ complementizer_like_sign *>
 
 complementizer_word *>
  (%complementizer_like_sign
-  synsem:loc:cat:(head:comp,
-                  arg_st:[arg:loc:cat:head:dsl:none])).
+  synsem:loc:(cat:(head:comp,
+                   arg_st:[arg:loc:cat:head:dsl:none]),
+              cont:ind:mode:none)).
 
 complementizer(CForm) :=
  (complementizer_word,

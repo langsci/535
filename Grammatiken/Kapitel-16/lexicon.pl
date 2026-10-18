@@ -1,4 +1,4 @@
-% -*-  coding:utf-8; mode:trale-prolog   -*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%   $RCSfile: lexicon.pl,v $
 %%  $Revision: 1.7 $
@@ -47,10 +47,11 @@ einer ---> @det(gen_or_dat,sg,fem,       strong,exists_q).
 eines ---> @det(gen,       sg,mas_or_neu,strong,exists_q).
 
 
-jede  ---> @det(nom_or_acc,sg,fem,strong,every_q).
-jeder ---> @det(gen_or_dat,sg,fem,strong,every_q).
-jeder ---> @det(nom,       sg,mas,strong,every_q).
-jedes ---> @det(nom_or_acc,sg,neu,strong,every_q).
+jede  ---> @det(nom_or_acc,sg,fem,       strong,every_q).
+jedem ---> @det(dat,       sg,mas_or_neu,strong,every_q).
+jeder ---> @det(gen_or_dat,sg,fem,       strong,every_q).
+jeder ---> @det(nom,       sg,mas,       strong,every_q).
+jedes ---> @det(nom_or_acc,sg,neu,       strong,every_q).
 
 
 die    ---> @rel_pronoun(nom_or_acc,third,sg,fem).
@@ -114,9 +115,8 @@ mädchen  ---> @noun(case,             genus,fem_or_neu,pl,mädchen_rel).
 
 % Nomina mask
 
-affe   ---> @noun(nom_or_acc,mas,sg,affe_rel).
-affens ---> @noun(gen,       mas,sg,affe_rel).
-affen  ---> @noun(dat_or_acc,mas,sg,affe_rel).
+affe   ---> @noun(nom,       mas,sg,affe_rel).
+affen  ---> @noun(gen_or_dat_or_acc,mas,sg,affe_rel).
 affen  ---> @noun(case,      mas,pl,affe_rel).
 
 aufsatz   ---> @noun(nom_or_dat_or_acc,mas,sg,aufsatz_rel).
@@ -574,6 +574,15 @@ lieb  ---> @trans_verb(lieben_rel),
            @vflex_pl_n(minus),
            @vflex_spe(minus),
            @vflex_tm(minus),
+           @vflex_em(minus),
+           @vflex_bet1(plus).
+
+mal   ---> @trans_verb(malen_rel),
+           @vflex_fk(v_weak),
+ 
+           @vflex_ep(minus),
+           @vflex_sm(minus),
+           @vflex_pl_n(minus),
            @vflex_em(minus),
            @vflex_bet1(plus).
 
@@ -1055,7 +1064,7 @@ für ---> @comp_prep(für_pform,acc).
 von ---> @comp_prep(von_pform,dat).
 zu  ---> @comp_prep(zu_pform,dat).
 
-von ---> passive_preposition.
+% von ---> passive_preposition.
 
 
 in ---> @location_noun_mod_prep(in_rel).

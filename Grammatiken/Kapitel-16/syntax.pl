@@ -1,4 +1,4 @@
-% -*-trale-prolog-*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%   $RCSfile: syntax.pl,v $
 %%  $Revision: 1.3 $
@@ -237,6 +237,7 @@ verb_initial_rule *>
 */
 
 
+
 % [einen Mann _i] und schläft kann koordiniert werden.
 % dabei muss "einen Mann" irgendwo in der COMPS-Liste von _i auftreten.
 % Bei der Koordination wird die COMPS-Liste von [einen Mann _i] mit der von schläft identifiziert.
@@ -256,7 +257,29 @@ verb_initial_rule *>
  dtrs:[coord_phrase]) *> dtrs:hd:dtrs:[synsem:phrase:minus,              % X
                                        dtrs:tl:hd:synsem:phrase:minus].  % Y
 
+% * Er schläft schläft.
+(headed_phrase,
+ head_dtr:(word,
+           phon:ne_list)) *> head_dtr:synsem:loc:cat:head:dsl:none.
 
+% * Gibt der affe lacht und dem kind den stock?
+% * Kennt der Affe lacht und den Stock?
+(headed_phrase,
+ head_dtr:coord_phrase) *> head_dtr:synsem:loc:cat:head:dsl:none.
+
+
+% Da coord_phrase nicht Untertyp von headed_phrase ist,
+% ist der PHRASE-Wert unterspezifiziert.
+
+% Da coord_phrase nicht Untertyp von headed_phrase ist,
+% ist der PHRASE-Wert unterspezifiziert.
+
+% [Ihn kennt und schläft] er.
+%
+% Ist dennoch ausgeschlossen, da die obige Implikation (* Er schläft schläft)
+% dafür sorgt, daß der DSL-Wert von `ihn kennt' none ist.
+% Damit hat die Konjunktion auch den DSL-Wert none und kann
+% dann nicht mehr Tochter der V1-Regel sein.
 
 headed_phrase *> synsem:phrase:plus.
 
@@ -505,8 +528,8 @@ rc *>
 % im Verbalkomplex zugelassen.
 
 
-head_cluster_phrase *> (head_dtr:(word;v_trace),
-                        non_head_dtrs:[synsem:loc:cat:head:initial:minus]).
+head_cluster_phrase *> (head_dtr:word_or_v_trace,
+                        non_head_dtrs:hd:synsem:loc:cat:head:initial:minus).
 
 head_complement_phrase *> synsem:lex:minus.
 head_filler_phrase     *> synsem:lex:minus.
@@ -516,10 +539,34 @@ head_cluster_phrase *> head_dtr:synsem:trace:minus_or_vm.
 
 % Wenn eine vorangestellte Phrase über das Cluster-Schema kombiniert wird,
 % darf sie nicht vollständig sein, denn diese Phrasen sollen über das head_complement_schema abgebunden werden.
-% Das erste Element in der COMPS-Liste ist der Spirit des eingebetteten Verbs und dann muss aber noch was kommen.
+%
+% Den Kran zu lesen wurde versucht.
+%
+% Das funktioniert aber nicht wegen "Gelacht wurde."
+% Das Problem ist auch allgemeiner:
+%
+% Den Aufsatz zu lesen versucht er.
+%
+% Diese Beschränkungen dürfen nur für optional kohärenten Verben formuliert werden, denn die anderen
+% müssen immer über das Verbalkomplexschema gehen. Man braucht dafür ein Merkmal, dass optional
+% kohärente Verben von anderen unterscheidet. An der Verbform kann man es nicht festmachen, denn
+% auch scheinen konstruiert obligatorisch kohärent. Siehe Berligram
+%
+% 
 (head_cluster_phrase,
- non_head_dtrs:hd:e_trace) *> synsem:loc:cat:comps:tl:ne_list.
+ synsem:loc:cat:head:optionally_coherent:plus,
+ non_head_dtrs:hd:e_trace) *> non_head_dtrs:hd:synsem:loc:cat:comps:at_least_one_unrealized_element.
 
+fun at_least_one_unrealized_element(-).
+at_least_one_unrealized_element(X) if
+  when( X=(e_list;ne_list)
+      , undelayed_at_least_one_unrealized_element(X)
+      ).
+
+undelayed_at_least_one_unrealized_element([realized:minus|_]) if !,true.
+undelayed_at_least_one_unrealized_element([_|T]) if
+   at_least_one_unrealized_element(T).
+                                         
 
 % Geht durch eine Liste und gibt dem letzten Element die
 % Person und Numerus-Merkmale, wenn die Liste mit einer NP_str
@@ -773,7 +820,7 @@ list_of_zu_minus(L) if
 
 list_of_zu_minus2([]) if true.
 list_of_zu_minus2([H|T]) if
-   when( (H=(word;phrase)),
+   when( (H=(word;phrase;trace)),
          undelayed_list_of_zu_minus([H|T]) ).
 
 undelayed_list_of_zu_minus([]) if true.
@@ -782,6 +829,10 @@ undelayed_list_of_zu_minus([(word,
    list_of_zu_minus(T).
 undelayed_list_of_zu_minus([phrase|T]) if
    list_of_zu_minus(T).
+undelayed_list_of_zu_minus([trace|T]) if
+   list_of_zu_minus(T).
+
+
 
 % Sorgt dafür, daß Objekte, die noch ein `zu' benötigen,
 % nicht in der Syntax als Töchter auftreten können.

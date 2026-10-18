@@ -1,4 +1,4 @@
-;; -*-  coding:utf-8   -*-
+;;; -*- coding: utf-8; mode: tdl -*-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;   $RCSfile: types.tdl,v $
 ;;  $Revision: 1.2 $
@@ -26,7 +26,7 @@ ne_list := list & [
   tl list ].
 
 none_or_synsem := bot.
-none   := none_or_synsem & none_or_local.
+none   := none_or_synsem & none_or_local & mode.
 
 synsem := none_or_synsem & [
  loc  local,
@@ -100,9 +100,9 @@ head_specifier_phrase  := headed_flexible_order_phrase & head_non_adjunct_phrase
 
 coord_phrase := phrase.
 
-verb_movement_rule := optionally_coherent_le & cannonical_complex_word_dtrs.
-verb_initial_rule  := verb_movement_rule & complementizer_like_sign.
-mvf_rule           := verb_movement_rule.
+verb_movement_rule := optionally_cluster_forming_le & cannonical_complex_word_dtrs.
+verb_initial_rule  := verb_movement_rule & complementizer_like_sign. ; & incoherent_le. Gibt es in der großen Grammatik
+mvf_rule           := verb_movement_rule & coherent_le.
 
 ; DTRS enthält den zu flektierenden Stamm und INFL
 ; die Information über das Affix.
@@ -124,10 +124,11 @@ attr_adj_infl_lr := infl_lr & non_relational_lr & spr_saturated_le & cannonical_
 ;isect_attr_adj_infl_lr  := attr_adj_infl_lr & isect_n_modifier.
 ;scopal_attr_adj_infl_lr :< attr_adj_infl_lr.
 
-part_derivation_lr     := derived_stem & isect_modifier.
-ppp_part_derivation_lr := part_derivation_lr & non_relational_lr.
-inf_part_derivation_lr := part_derivation_lr & relational_lr.      ; das zu lesende Buch
-bse_part_derivation_lr := part_derivation_lr & non_relational_lr.  ; das das Buch lesende Kind
+part_derivation_lr            := derived_stem & isect_modifier.
+inf_or_ppp_part_derivation_lr :< part_derivation_lr.
+ppp_part_derivation_lr        := inf_or_ppp_part_derivation_lr & non_relational_lr.
+inf_part_derivation_lr        := inf_or_ppp_part_derivation_lr & relational_lr.      ; das zu lesende Buch
+bse_part_derivation_lr        := part_derivation_lr & non_relational_lr.             ; das das Buch lesende Kind
 
 
 fin_verb_infl_lr := relational_lr & cannonical_complex_word.
@@ -139,7 +140,8 @@ irreg_infl_lr := infl_lr.
 
 irreg_bse_or_inf_verb_infl_lr := bse_or_inf_verb_infl_lr & irreg_infl_lr.
 
-non_fin_verb_infl_lr :< non_relational_lr.
+non_fin_verb_infl_lr     :< non_relational_lr.
+reg_non_fin_verb_infl_lr :< non_fin_verb_infl_lr.
 
 bse_or_inf_verb_infl_lr :=  cannonical_complex_word & non_fin_verb_infl_lr.
 
@@ -148,19 +150,22 @@ inf_verb_infl_lr := bse_or_inf_verb_infl_lr.
 ppp_verb_infl_lr := non_fin_verb_infl_lr & noncannonical_complex_word.
 
 ; constraints on morphology
-reg_bse_or_inf_verb_infl_lr := bse_or_inf_verb_infl_lr & n_v_infl_lr.
+reg_bse_or_inf_verb_infl_lr := bse_or_inf_verb_infl_lr & n_v_infl_lr & reg_non_fin_verb_infl_lr.
 
 reg_bse_verb_infl_lr := reg_bse_or_inf_verb_infl_lr & bse_verb_infl_lr.
 reg_inf_verb_infl_lr := reg_bse_or_inf_verb_infl_lr & inf_verb_infl_lr.
 
-reg_ppp_verb_infl_lr := ppp_verb_infl_lr & n_v_infl_lr.
+reg_ppp_verb_infl_lr := ppp_verb_infl_lr & n_v_infl_lr & reg_non_fin_verb_infl_lr.
 
 
 ; Wörter, die im Lexikon aufgelistet sind.
 
+; aux-Typ, um Disjunktion zu vermeiden
+word_or_v_trace :< lexical_sign.
+
 word :=
   syntactic_sign &
-  lexical_sign & [
+  word_or_v_trace & [
   cannonical bool].
 
 simple_word := word & [
@@ -252,7 +257,7 @@ trace      := non_overt_le & non_scopal_non_relational_le.
 empty      := non_overt_le & simple_word & empty_slash_word.
 
 e_trace :< trace.
-v_trace := trace & empty_slash_le & spr_saturated_le.
+v_trace := trace & empty_slash_le & spr_saturated_le & word_or_v_trace.
 
 spr_saturated_le := sign.
 
@@ -365,10 +370,19 @@ modal_zu_inf := zu_inf_verb_le & relational_raising_verb.
 modal_sein  := simple_passive_aux_verb  & modal_zu_inf. 
 modal_haben := subj_raising_verb & coherent_le & modal_zu_inf. 
 
+; Das sind sowohl kohärent als auch optional kohärent konstruierende Verben.
+optionally_cluster_forming_le := spr_saturated_le.
 
-optionally_coherent_le := spr_saturated_le.
+; Das sind die, die optional kohärent sind. Eigentlich könnten die kohärenten ein Untertyp der optional kohärenten Verben sein. Aber die obligatorisch konstruierenden müssen von den obligatorisch kohärent konstruierenden unterscheidbar bleiben, damit man unechte Mehrdeutigkeiten ausschließen kann.
+; Für die folgenden Typen gibt es implicational constraints, die den Kopf-Wert OPTIONALLY_COHERENT +/- setzen.
+optionally_coherent_le :< optionally_cluster_forming_le.
 
-raising_verb := optionally_coherent_le & verb_stem.
+coherent_le :< optionally_cluster_forming_le.
+
+incoherent_le :< lexical_sign.
+
+; Phasenverben sind optional kohärent, scheinen ist obligatorisch kohärent.
+raising_verb := optionally_cluster_forming_le & verb_stem.
 
 relational_raising_verb := raising_verb & relational_verb_stem.
 
@@ -376,9 +390,15 @@ dative_passive_aux_verb   := ppp_passive_aux_verb & non_scopal_non_relational_le
 
 modal_verb := bse_inf_verb_le & subj_raising_verb.
 
+; Verb, das bse-Infinitiv verlangt
 bse_inf_verb_le := relational_raising_verb & coherent_le.
 
+; Verb, das ppp-Infinitiv verlangt
 ppp_inf_verb_le := raising_verb & coherent_le.
+
+; Verb, das zu-Infinitiv verlangt
+zu_inf_verb_le := non_flip_verb_stem.
+
 
 subj_raising_verb := relational_raising_verb.
 
@@ -393,11 +413,10 @@ futur_aux_verb := aux_verb & bse_inf_verb_le & subj_raising_verb.
 
 non_flip_coherent_zu_inf_subj_raising_verb := coherent_le & subj_raising_verb & zu_inf_verb_le.
 
-phase_verb := subj_raising_verb & zu_inf_verb_le.
+phase_verb := subj_raising_verb & zu_inf_verb_le & optionally_coherent_le.
 
-control_verb := non_flip_verb_stem & non_scopal_verb_stem & optionally_coherent_le.
-
-zu_inf_verb_le := non_flip_verb_stem.
+; Sind die alle unergativisch/transitiv?
+control_verb := non_flip_verb_stem & non_scopal_verb_stem & optionally_coherent_le & nerg_verb.
 
 subj_control_verb := control_verb.
 
@@ -409,18 +428,18 @@ np_v_subj_zu_inf_control_verb := subj_control_verb & zu_inf_verb_le.
 
 np_np_v_obj_zu_inf_control_verb := obj_control_verb.
 
-coherent_le := optionally_coherent_le.
+
 
 non_flip_raising_verb := non_flip_verb_stem & raising_verb.
 
 non_flip_verb_stem := verb_stem.
 
-subjlos_verb := non_flip_verb_stem & non_scopal_verb_stem.
+subjlos_verb := non_flip_verb_stem & non_scopal_verb_stem & incoherent_le.
 expl_np_verb := non_flip_verb_stem & non_scopal_verb_stem & nerg_verb.
 
 non_scopal_verb_stem := relational_verb_stem & non_scopal_le.
 
-intrans_verb := non_flip_verb_stem.
+intrans_verb := non_flip_verb_stem & incoherent_le.
 
 non_scopal_intrans_verb := intrans_verb & non_scopal_verb_stem.
 
@@ -435,7 +454,9 @@ strict_intrans_nerg_verb  := strict_intrans_verb & intrans_nerg_verb.
 strict_intrans_unacc_verb := strict_intrans_verb & intrans_unacc_verb.
 
 np_np_verb      := non_scopal_intrans_verb & bi_or_more_val_verb.
-np_pp_verb      := non_scopal_intrans_verb & bi_or_more_val_verb.
+
+; denken an
+np_pp_verb      := non_scopal_intrans_verb & bi_or_more_val_verb & intrans_nerg_verb.
 
 np_np_dat_verb :< np_np_verb.
 
@@ -444,7 +465,7 @@ np_np_dat_nerg_verb := np_np_dat_verb & intrans_nerg_verb.
 np_np_unacc_verb    := np_np_verb & intrans_unacc_verb.
 
 ; helfen, kennen, geben
-bi_or_more_val_verb := non_scopal_verb_stem.
+bi_or_more_val_verb := non_scopal_verb_stem & incoherent_le.
 
 ; kennen, geben
 trans_verb := bi_or_more_val_verb & nerg_verb & non_flip_verb_stem.
@@ -573,7 +594,8 @@ noun := intro_case_head & non_modifier_head & non_spec_head & non_dsl_head & non
 adj_or_participle_or_verb := non_spec_head &
  [ da list ].
 
-participle_or_verb :< adj_or_participle_or_verb.
+participle_or_verb := adj_or_participle_or_verb & [
+     optionally_coherent bool].
 
 verb := participle_or_verb & non_modifier_head & intro_flip & [
    vform vform,
@@ -634,11 +656,13 @@ zu_pform  := pform.
 
 
 vform   := bot.
-fin     := vform.
+; Für Ersatzinfinitive
+not_ppp := vform.
+fin     := not_ppp.
 non_fin := vform.
 
 ; irreguläre Form von `sein'
-bse_or_inf := non_fin.
+bse_or_inf := non_fin & not_ppp.
 bse := bse_or_inf & bse_or_ppp.
 inf := bse_or_inf.
        
@@ -850,7 +874,7 @@ accomplishment_or_achievement_or_activity :< accomplishment_or_achievement_or_ac
 ; lesen und singen sind lexikalisch Activities. Mit einem begrenzten Objekt (das Buch lesen, ein
 ; Lied singen) werden sie zu Accomplishments, was sich auf Satzebene (Komposition) ergibt, nicht im
 ; Lexikoneintrag.
-activity_or_accomplishment :< accomplishment_or_achievement_or_activity.
+accomplishment_or_activity :< accomplishment_or_achievement_or_activity.
 
 ;schlagen ist semelfaktiv (einzelner Schlag, iterierbar), mit Plural- oder Mehrfachlesart auch Activity.
 activity_or_semelfactive :< accomplishment_or_achievement_or_activity_or_semelfactive.
@@ -858,10 +882,10 @@ activity_or_semelfactive :< accomplishment_or_achievement_or_activity_or_semelfa
 accomplishment_or_achievement :< accomplishment_or_achievement_or_activity.
 
 ; lachen, schlafen, laufen, schieben
-activity       := activity_or_accomplishment & activity_or_semelfactive.
+activity       := accomplishment_or_activity & activity_or_semelfactive.
 
 ; ein Haus bauen, einen Brief schreiben, das Fenster öffnen
-accomplishment := activity_or_accomplishment & accomplishment_or_achievement.
+accomplishment := accomplishment_or_activity & accomplishment_or_achievement.
 
 ; ankommen, finden, erkennen, sterben
 achievement    :< accomplishment_or_achievement.
@@ -910,13 +934,16 @@ kennen_rel        := verbal_arg012_relation  & [
   aktionsart state].
 
 lesen_rel         := verbal_arg012_relation  & [
-  aktionsart activity_or_accomplishment].
+  aktionsart accomplishment_or_activity].
 
 lieben_rel        := verbal_arg012_relation  & [
   aktionsart state].
 ;nehmen und widersprechen habe ich als punktuell (Achievement) eingestuft. Widersprechen könnte man auch als Activity lesen, wenn man es als Sprechhandlung mit Dauer versteht.
 nehmen_rel        := verbal_arg012_relation  & [
   aktionsart achievement].
+
+malen_rel         := verbal_arg012_relation  & [
+  aktionsart accomplishment_or_activity].
 
 reparieren_rel    := verbal_arg012_relation  & [
   aktionsart accomplishment].
@@ -929,7 +956,7 @@ schlagen_rel      := verbal_arg012_relation & [
 
 
 singen_rel        := verbal_arg012_relation & [
-  aktionsart activity_or_accomplishment].
+  aktionsart accomplishment_or_activity].
 
 widersprechen_rel := verbal_arg012_relation  & [
   aktionsart achievement].
@@ -1002,10 +1029,12 @@ und_v_rel := conjunction_v_rel & und_rel.
 
 modal_rel := arg03_relation.
 
+können_müssen_sollen_rel :< modal_rel.
+
 dürfen_rel := modal_rel.
-können_rel := modal_rel.
-müssen_rel := modal_rel.
-sollen_rel := modal_rel.
+können_rel := können_müssen_sollen_rel.
+müssen_rel := können_müssen_sollen_rel.
+sollen_rel := können_müssen_sollen_rel.
 wollen_rel := modal_rel.
 
 futur_rel   := arg03_relation.
@@ -1023,6 +1052,10 @@ event := event_or_index & [
 
 ; Für Satztypen
 mode := bot.
+
+; dass-Sätze haben keinen instantiierten MODE-Wert.
+; steht schon oben, weil none noch von mehreren Typen erbt.
+; none :< mode.
 
 assertion_or_imperative_or_interrogative := mode.
 assertion_or_imperative     := assertion_or_imperative_or_interrogative.

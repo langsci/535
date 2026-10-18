@@ -1,4 +1,4 @@
-% -*-trale-prolog-*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%   $RCSfile: speed.pl,v $
 %%  $Revision: 1.11 $
@@ -256,6 +256,18 @@ head_cluster_phrase *> synsem:loc:cat:comps:list_of_arguments. % Extraktionsspur
  synsem:loc:cat:head:dsl:local,
  non_head_dtrs:[synsem:loc:cat:head:flip:plus]) *> non_head_dtrs:hd:phon:hd: (a_ haben).
 
+% Wenn die Nicht-Kopftochter eine Extraktionsspur ist und von der Kategorie Verb, dann muss sie
+% FLIP- sein und also vor dem regierenden Verb stehen.
+% Das schließt zweite Lesart bei folgendem Satz aus:
+%
+% Das Buch lesen müssen glaube ich dass er wird.
+%
+% 233 -> 177 Kanten
+
+(head_cluster_phrase,
+ non_head_dtrs:[synsem:(nonloc:slash:hd:loc:cat:head:verb;
+                        trace:extraction)]) *> non_head_dtrs:hd:synsem:loc:cat:head:flip:minus.
+
 
 % Terminierung: Der Regelberechnung.
 % Die Nicht-Kopftochter in Kopf-Cluster-Strukturen kann nur einen
@@ -271,3 +283,72 @@ head_cluster_phrase *> synsem:loc:cat:comps:list_of_arguments. % Extraktionsspur
 % ,phon:ne_list  % funktioniert nicht. TRALE-Bug??
 , non_head_dtrs:[synsem:loc:cat:head:dsl:none] 
 )         *> non_head_dtrs:hd:synsem:loc:cat:head:vform:non_fin.
+
+
+
+
+
+
+
+optionally_coherent_le *>
+  synsem:loc:cat:head:optionally_coherent:plus.
+
+% auxiliaries and modals in German, but also the multiple fronting LR.
+coherent_le *>
+  synsem:loc:cat:head:optionally_coherent:minus.
+
+% for instance the verb initial LR in German.
+% incoherent_le *>
+%  @incoherent_le.
+
+% called in macros for intransitive and transitive verbs as well
+%incoherent_le :=
+%  synsem:loc:cat:head:optionally_coherent:minus.
+
+non_fin_verb_infl_lr *>
+( synsem:loc:cat:head:optionally_coherent:OC,
+  dtr:synsem:loc:cat:head:optionally_coherent:OC).
+
+
+
+% If the head is optionally coherent and it is combined with the most oblique argument,
+% then the head_dtr should be a phrase.
+% As a consequence of this constraint the VP or AP is intraposed.
+% St. Mü. 27.07.2009
+% This does not hold true of NPs and PPs. They never enter the predicate complex.
+% They always have to be phrases, even if adjacent to an optionally coherent verb.
+% St. Mü. 30.07.2009
+Synsem^(head_complement_phrase,
+  synsem:loc:cat:head:optionally_coherent:plus,
+  head_dtr:synsem:loc:cat:comps:hd:arg:Synsem,
+  non_head_dtrs:hd:synsem:(Synsem,
+                           loc:cat:head:adj_or_participle_or_verb)) *> (head_dtr:phrase,
+                                                                           non_head_dtrs:hd:synsem:trace:minus).
+
+
+optionally_coherent_le *> synsem:loc:cat:head:optionally_coherent:plus.
+
+coherent_le *> synsem:loc:cat:head:optionally_coherent:minus.
+
+incoherent_le *> synsem:loc:cat:head:optionally_coherent:minus.
+
+
+% verb_movement_rule *>
+%   (synsem:loc:cat:head:optionally_coherent:OC,
+%       dtrs:hd:synsem:loc:cat:head:optionally_coherent:OC).
+
+% Die Initial-Regel ist minus, die MVF-Regel ist plus.
+verb_initial_rule *>
+  synsem:loc:cat:head:optionally_coherent:minus.
+
+fin_verb_infl_lr *>
+  (synsem:loc:cat:head:optionally_coherent:OC,
+      dtr:synsem:loc:cat:head:optionally_coherent:OC).
+
+part_derivation_lr *>
+  (synsem:loc:cat:head:optionally_coherent:OC,
+      dtr:synsem:loc:cat:head:optionally_coherent:OC).
+
+v_trace *>
+  synsem:loc:cat:head:(dsl:cat:head:optionally_coherent:OC,
+                       optionally_coherent:OC).

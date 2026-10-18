@@ -1,4 +1,4 @@
-% -*-trale-prolog-*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%   $RCSfile: lexrules.pl,v $
 %%  $Revision: 1.4 $
@@ -36,8 +36,8 @@ conj_word *>
                                  nonloc:Nonloc)),
                      spr:[],
                      arg_st:[(@argument,
-                              arg:(loc:(cat:head:(Head,
-                                                  dsl:none), % auskommentieren bei zyklischer Verbspur.
+                              arg:(loc:(cat:head:Head,
+                                                  %dsl:none), % auskommentieren bei zyklischer Verbspur.
                                         cont:(ltop:RHandle,
                                         % =\=LHandle\), % ohne das loopt Ein Affe nimmt einen Stock und ein Affe lacht.
                                               ind:RInd)),
@@ -187,5 +187,8 @@ undelayed_unrealized_args([(Arg,
    unrealized_args(T1,T2).
 
 
-undelayed_unrealized_args([realized:plus|T1],T2) if 
+% Ohne das raised:minus wird analysiert und generiert.
+% * Des Romans wird gekannt und von dem Kind geliebt.
+undelayed_unrealized_args([(raised:minus,
+                            realized:plus)|T1],T2) if 
    unrealized_args(T1,T2).

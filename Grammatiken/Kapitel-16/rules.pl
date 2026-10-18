@@ -1,4 +1,4 @@
-% -*-trale-prolog-*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%   $RCSfile: rules.pl,v $
 %%  $Revision: 1.3 $
@@ -23,7 +23,7 @@ h_comp rule (head_complement_phrase,
              dtrs:[HeadDtr,NonHeadDtr],
              head_dtr:synsem:loc:cat:head:initial:plus)
   ===>
-cat> HeadDtr,
+sem_head> HeadDtr,
 cat> NonHeadDtr.
 
 comp_h rule (head_complement_phrase,
@@ -34,7 +34,7 @@ comp_h rule (head_complement_phrase,
                             )])
   ===>
 cat> NonHeadDtr,
-cat> HeadDtr.
+sem_head> HeadDtr.
 
 spr_h rule (head_specifier_phrase,
              dtrs:[NonHeadDtr,HeadDtr])
@@ -47,7 +47,7 @@ adj_h rule (head_adjunct_phrase,
              dtrs:[NonHeadDtr,HeadDtr],
              non_head_dtrs:[synsem:loc:cat:head:pre_modifier:plus])
   ===>
-cat> NonHeadDtr,
+sem_head> NonHeadDtr,
 cat> HeadDtr.
 
 
@@ -57,7 +57,7 @@ h_adj rule (head_adjunct_phrase,
              non_head_dtrs:[synsem:loc:cat:head:pre_modifier:minus])
   ===>
 cat> HeadDtr,
-cat> NonHeadDtr.
+sem_head> NonHeadDtr.
 
 
 
@@ -67,7 +67,7 @@ f_h rule (head_filler_phrase,
              dtrs:[NonHeadDtr,HeadDtr])
   ===>
 cat> NonHeadDtr,
-cat> HeadDtr.
+sem_head> HeadDtr.
 
 
 % Das ist eine unär verzweigende Regel und keine Lexikonregel,
@@ -75,14 +75,14 @@ cat> HeadDtr.
 v1 rule (verb_initial_rule,
          dtrs:[Dtr])
   ===>
-cat>     Dtr.
+sem_head>     Dtr.
 
 
 rc rule (rc,
          dtrs:[Filler,Clause])
   ===>
 cat> Filler,
-cat> Clause.
+sem_head> Clause.
 
 
 cl_h rule (head_cluster_phrase,
@@ -90,7 +90,7 @@ cl_h rule (head_cluster_phrase,
            dtrs:[NonHeadDtr,HeadDtr])
   ===>
 cat> NonHeadDtr,
-cat> HeadDtr.
+sem_head> HeadDtr.
 
 
 % Hierfür würde man eigentlich eine Lexikonregel verwenden,
@@ -118,7 +118,7 @@ inf_zu rule
 cat> (word,
             phon:[(a_ zu)],
             synsem:loc:cat:head:comp_prep),
-cat> (word,
+sem_head> (word,
       phon:Phon,
       synsem:Synsem,
       rels:Rels,

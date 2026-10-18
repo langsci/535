@@ -1,4 +1,4 @@
-% -*-trale-prolog-*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%   $RCSfile: lexrules.pl,v $
 %%  $Revision: 1.19 $
@@ -127,11 +127,15 @@ relational_lr *>
 
 fin_verb_infl_lr *>
 ( %relational_lr & cannonical_complex_word.
-  synsem:(loc:(cat:(Cat,
-                    head:(verb,
+  synsem:(loc:(cat:(head:(verb,
                           initial:minus,
+                          dsl:DSL,
+                          da:[], % schließt Kombination von von-Phrase mit finiten Verben aus.
                           subj:[],
-                          vform:fin)),
+                          vform:fin),
+                    spr:Spr,
+                    comps:Comps,
+                    arg_st:ArgSt),
                cont:(ltop:TenseLTop,
                      ind:Event)),
           nonloc:Nonloc,
@@ -145,7 +149,12 @@ fin_verb_infl_lr *>
   hcons:HCons,
   inf_marking:minus,
   dtr:( stem,
-          synsem:(loc:(cat:Cat,
+          synsem:(loc:(cat:(head:(vform:fin,
+                                  initial:minus,
+                                  dsl:DSL),
+                            spr:Spr,
+                            comps:Comps,
+                            arg_st:ArgSt),
                        cont:(ltop:LTop,
                              ind:Event)),
                   nonloc:Nonloc,
@@ -199,15 +208,17 @@ non_relational_lr *>
         hcons:HCons)).
 
 
+% Der Ersatzinfinitiv hat eine VFORM (ppp), die vom Input (bse) abweicht.
 non_fin_verb_infl_lr *> 
  (%non_relational_lr
   synsem:(loc:cat:(head:(verb,
                          da:DA,
                          initial:(Initial,
                                   minus),
-                         vform:VForm,
+     %                    vform:VForm,
                          auxf:AuxF,
                          mod:Mod,
+                         dsl:none, % für die zyklische Verbspur
                          flip:Flip),
                    spr:Spr),
           nonloc:Nonloc,
@@ -217,7 +228,7 @@ non_fin_verb_infl_lr *>
        synsem:(loc:cat:(head:(verb,
                               da:DA,
                               initial:Initial,
-                              vform:VForm,
+%                              vform:VForm,
                               auxf:AuxF,
                               mod:Mod,
                               flip:Flip),
@@ -225,6 +236,11 @@ non_fin_verb_infl_lr *>
                nonloc:Nonloc,
                lex:Lex,
                trace:Trace)) ).
+
+reg_non_fin_verb_infl_lr *> 
+ (%non_relational_lr
+  synsem:loc:cat:head:vform:VForm,
+  dtr:synsem:loc:cat:head:vform:VForm).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -238,9 +254,11 @@ non_fin_verb_infl_lr *>
 bse_or_inf_verb_infl_lr *> 
  (%cannonical_complex_word & non_fin_verb_infl_lr
   synsem:loc:cat:(head:subj:Subj,
-                  comps:block_subject(ArgSt,Subj),
-                  arg_st:ArgSt),
-  dtr:synsem:loc:cat:arg_st:ArgSt).
+                  comps:block_subject(NewArgSt,Subj),
+                  arg_st:(NewArgSt,
+                          append(add_optional_passive_pp(DA),ArgSt))),
+  dtr:synsem:loc:cat:(head:da:DA,
+                      arg_st:ArgSt)).
 
 
 reg_bse_or_inf_verb_infl_lr *>
@@ -305,8 +323,45 @@ ppp_verb_infl_lr *>
                         da:DA),
                   comps:Comps,
                   arg_st:(Comps,
-                          block_da(DA,ArgSt))),
+                          add_optional_passive_pp_after_verb(DA,block_da(DA,ArgSt)))),
   dtr:synsem:loc:cat:arg_st:ArgSt).
+
+fun add_optional_passive_pp_after_verb(+,+,-).
+add_optional_passive_pp_after_verb(DA,List,Result) if
+  when(List=(e_list;ne_list),
+       passive_pp_list(DA,List,Result)).
+
+passive_pp_list(DA,[],Result) if
+  add_optional_passive_pp(DA,Result).
+
+passive_pp_list(DA,[H|T],Result) if
+  when(H=arg:loc:cat:head:(verb;adj;adv;comp;noun;prep),
+       passive_pp_head(DA,H,T,Result)).
+
+% Die ARG-ST-Liste ist leer. Es wird PP angehängt, oder nicht.
+undelayed_add_optional_passive_pp_after_verb(DA,[],Result) if
+  add_optional_passive_pp(DA,Result).
+
+% Wenn das letzte Argument ein Verb ist, füge die PP nach dem Verb ein.
+passive_pp_head(DA,(VerbArg,
+                    arg:loc:cat:head:verb),T,Result) if
+  add_optional_passive_pp(DA,PPList),
+  append([VerbArg|PPList],T,Result).
+
+% Wenn es kein Verb ist, füge die PP vorne an, wenn es eine gibt.
+passive_pp_head(DA,(NoVerbArg,
+                    arg:loc:cat:head:(adj;adv;comp;noun;prep)),T,Result) if 
+  add_optional_passive_pp(DA,PPList),
+  append(PPList,[NoVerbArg|T],Result).
+
+
+fun add_optional_passive_pp(+,-).
+add_optional_passive_pp(DA,List) if
+  when( (DA=(e_list;ne_list)),
+         undelayed_add_optional_passive_pp(DA,List) ).
+
+undelayed_add_optional_passive_pp([],[]) if true.
+undelayed_add_optional_passive_pp([arg:loc:cont:ind:Ind],[@optional_passive_pp(Ind)]) if true.
 
 
 ppp_verb_infl_lr lex_rule
@@ -344,18 +399,15 @@ undelayed_list_of_blocked_arguments([@blocked_np_ref|T]) if
 %
 part_derivation_lr *>
  (%derived_stem & isect_modifier
-  synsem:(loc:cat:(head:(attr_participle,         % kann nicht prädikativ genutzt werden,
-                                                  % dafür sollte es eine prinzipiellere Erklärung geben.
-                         subj:[@pro_np_str],      % ist str: * der gegraute Mann
-                         da:(raise(DA),
-                             list_of_blocked_arguments))),
+  synsem:(loc:cat:head:(attr_participle,         % kann nicht prädikativ genutzt werden,
+                                                 % dafür sollte es eine prinzipiellere Erklärung geben.
+                        subj:[@pro_np_str]),     % ist str: * der gegraute Mann
           nonloc:Nonloc,
           lex:Lex,
           trace:Trace),
   inf_marking:Zu,
   dtr:(word,
        synsem:(loc:cat:head:(verb,
-                             da:DA,
                              flip:minus % schließt Ersatzinfinitive aus * `wollene' statt `gewollte'
                             ),    
                nonloc:Nonloc,
@@ -363,6 +415,13 @@ part_derivation_lr *>
                trace:Trace),
        inf_marking:Zu)).
 
+% der von allen zu lesende Aufsatz
+% der von allen gelesene Aufsatz
+inf_or_ppp_part_derivation_lr *>
+ (%part_derivation_lr
+  synsem:loc:cat:head:da:(raise(DA),
+                          list_of_blocked_arguments),
+  dtr:synsem:loc:cat:head:da:DA). 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
@@ -370,14 +429,16 @@ part_derivation_lr *>
 %
 % geliebt (V) -> geliebt (A)
 %
+% DA ist verfügbar für von-PP
+%
+% der von allen geleiebte Affe
+%
 % Flexionsregel erzeugt dann: geliebt (A) -> geliebte
 %
 ppp_part_derivation_lr *>
- (%part_derivation_lr & non_relational_lr
-  synsem:loc:cont:Cont,
+ (%inf_or_ppp_part_derivation_lr & non_relational_lr
   inf_marking:Zu,
-  dtr: (synsem:loc:(cat:head:vform:ppp,
-                    cont:Cont),
+  dtr: (synsem:loc:cat:head:vform:ppp,
            inf_marking:Zu)).
 
 ppp_part_derivation_lr *>
@@ -400,7 +461,7 @@ morphs
 % * der zu gelingende Aufsatz
 % der zu lesende Aufsatz
 inf_part_derivation_lr *>
- (%part_derivation_lr & relational_lr
+ (%inf_or_ppp_part_derivation_lr & relational_lr
   rels:hd:(modal_rel,
            arg3:VLTop),
   dtr:synsem:loc:(cat:head:vform:inf,
@@ -408,7 +469,7 @@ inf_part_derivation_lr *>
 
 % der zu lesende Aufsatz
 inf_part_derivation_lr *>
-  (%part_derivation_lr & relational_lr
+  (%inf_or_ppp_part_derivation_lr & relational_lr
    synsem:loc:cat:arg_st:raise(ArgSt), % Die Elemente auf COMPS gehören ja zu einem (zu)
                                                 % Infinitiv. Wenn wir die einfach übernehmen
                                                 % würden, wären sie teil einer größeren ARG-ST und würden dort anderen Kasus bekommen.
@@ -417,10 +478,18 @@ inf_part_derivation_lr *>
 % der den Aufsatz lesende Affe
 bse_part_derivation_lr *>
   (%part_derivation_lr & non_relational_lr
-   synsem:loc:cat:arg_st:raise(ArgSt), % Die Elemente auf COMPS gehören ja zu einem (zu)
+   synsem:loc:cat:(head:da:[],
+                   arg_st:raise(ArgSt)), % Die Elemente auf COMPS gehören ja zu einem (zu)
                                                 % Infinitiv. Wenn wir die einfach übernehmen
                                                 % würden, wären sie teil einer größeren ARG-ST und würden dort anderen Kasus bekommen.
-   dtr:synsem:loc:cat:arg_st:ArgSt).
+      
+   % Die dtr:dtr-Sache war Codex' Idee. Das ist nicht lokal, also eigentlich nicht üblich.  Aber im
+   % vorigen Ableitungsschritt wird die optionale PP ergänzt. Das wäre zwar nicht falsch, denn
+   % doppelte Benutzung von Quantoren wird von Utool erkannt, aber es ist trotzdem syntaktisch
+   % unsinnig für die aktiven Partizipiel eine von-PP auf der liste zu haben. Das betrifft wirklich
+   % nur das Partizip mit -d ohne zu. ge-Partizip und zu-Form können mit von-PP vorkommen. St. Mü. 17.10.2026
+   dtr:dtr:synsem:loc:cat:arg_st:ArgSt,
+   dtr:synsem:loc:cat:arg_st:hd:raised:minus). % Residuum der von-PP check mit komplexbildenden Verben
 
 inf_part_derivation_lr lex_rule
   Dtr
@@ -568,48 +637,60 @@ get_irreg_v_stem((Affix,
        ,undelayed_get_irreg_v_stem(Affix,VStems,IrregStem)).
 
 
-%undelayed_get_irreg_v_stem(_Affix,VStems,_)  if prolog((write(VStems),nl)),fail.
+%netter_get_irreg_v_stem(_Affix,VStems,_)  if prolog((write(VStems),nl)),fail.
 
-undelayed_get_irreg_v_stem((temo:pres_ind_conj),                (pres2:(a_ none)),     (a_ none    ))  if !,true.
+netter_get_irreg_v_stem((temo:pres_ind_conj),                (pres2:(a_ none)),     (a_ none    ))  if !,true.
 
 % ich fange, du fängst, er fängt
 % ich habe, du hast, er hat
-undelayed_get_irreg_v_stem((fk:(v_strong;mixed;v_weak),
+netter_get_irreg_v_stem((fk:(v_strong;mixed;v_weak),
                             temo:pres_ind, per:second_or_third,num:sg),(pres2:(a_ Pres2Stem)),(a_ Pres2Stem)) if !,true.
 
 
-undelayed_get_irreg_v_stem((fk:(v_strong;mixed;v_weak),
+netter_get_irreg_v_stem((fk:(v_strong;mixed;v_weak),
                             temo:pres_imp),                     (imp_st:(a_ Pres2Stem)),(a_ Pres2Stem)) if !,true.
 
 % Ich darf, du darfst, er darf, wir dürfen, ihr dürft, sie dürfen
 % the irregular stem in sg:
-undelayed_get_irreg_v_stem((fk:modal,
+netter_get_irreg_v_stem((fk:modal,
                             temo:pres_ind,
                             num:sg),                            (pres2:(a_ Pres2Stem)),(a_ Pres2Stem)) if !,true.
 
 
-undelayed_get_irreg_v_stem((temo:pres_conj,per:second_or_third,num:sg),_,     (a_ none    ))  if !,true.
+netter_get_irreg_v_stem((temo:pres_conj,per:second_or_third,num:sg),_,     (a_ none    ))  if !,true.
 
 % ich fange, ich habe
-undelayed_get_irreg_v_stem((fk:(v_strong;mixed),
+netter_get_irreg_v_stem((fk:(v_strong;mixed),
                             temo:pres_ind_conj,per:first,num:sg),      _,                     (a_ none    ))  if !,true.
 
 
 % versuchtest
-undelayed_get_irreg_v_stem((temo:past_ind_conj),                (past:(a_ none),
+netter_get_irreg_v_stem((temo:past_ind_conj),                (past:(a_ none),
                                                                  conj:(a_ none)),      (a_ none    ))  if !,true.
 
 % ich fing, ..., ich durfte, ...
-undelayed_get_irreg_v_stem((temo:past_ind),                     (past:(a_ PastStem)),  (a_ PastStem))  if !,true.
+netter_get_irreg_v_stem((temo:past_ind),                     (past:(a_ PastStem)),  (a_ PastStem))  if !,true.
 
 % If a conj stem is definied, take it, otherwise return the past stem.
 % kommen, kam, käme
 % fangen, fing, finge
-undelayed_get_irreg_v_stem((temo:past_conj),                    (conj:(a_ ConjStem)),  (a_ ConjStem))  if !,prolog(ConjStem\=none).
-undelayed_get_irreg_v_stem((temo:past_conj),                    (past:(a_ ConjStem)),  (a_ ConjStem))  if !,prolog(ConjStem=none).
+netter_get_irreg_v_stem((temo:past_conj),                    (conj:(a_ ConjStem)),  (a_ ConjStem))  if !,prolog(ConjStem\=none).
+netter_get_irreg_v_stem((temo:past_conj),                    (past:(a_ ConjStem)),  (a_ ConjStem))  if !,prolog(ConjStem=none).
 
 
-undelayed_get_irreg_v_stem(_,          _,                     (a_ none    ))  if true.
+netter_get_irreg_v_stem(_,          _,                     (a_ none    ))  if true.
 
 
 
+
+% Avoid selecting a person/number/mood when all compatible rows use one stem.
+undelayed_get_irreg_v_stem(Affix,VStems,Stem) if
+  prolog(suffix_stem_choice(Affix,VStems,Stem)).
+
+% Grammar-specific ordered stem rules used by the generic morphology helper.
+:- multifile morphology_stem/3.
+morphology_stem(Affix,Stems,Selected) :-
+  fs_netter_get_irreg_v_stem(Affix,Stems,Selected),
+  % An unspecified alternative stem permits the regular stem (none).
+  % This callback is evaluated on a private copy by morphology.pl.
+  get_type(Selected,a_ Value),(var(Value) -> Value=none ; true).

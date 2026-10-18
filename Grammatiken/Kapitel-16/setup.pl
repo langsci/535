@@ -1,10 +1,22 @@
-% -*-trale-prolog-*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 
 :- ['../Gemeinsames/setup'].
 
-% Zusaetzliche Woerter ohne eigene Semantikrelation fuer Paraphrasen.
-% Die uebrigen semantisch leeren Woerter bleiben auf die Eingabe beschraenkt.
+% Zusaetzliche Wörter ohne eigene Semantikrelation für Paraphrasen.
+% Die übrigen semantisch leeren Wörter bleiben auf die Eingabe beschränkt.
 generator_input_lexicon_exceptions([von,durch]).
+
+% Distributive Tempus-/Modussemantik bei verbaler Koordination.
+generator_distributive_relation(temo,conjunction_rel).
+generator_distributive_operator(temo,[lbl],[arg0],[arg3]).
+generator_distributive_conjunction(conjunction_rel,[lbl],[arg0],[[lhandle],[rhandle]],[[lindex],[rindex]]).
+
+% Zeige alle morphologischen Formen, die über Lexikoneregeln erzeugt werden.
+% In Kapiteln kann Ausgabe von Flexionsmerkmalen konfiguriert werden.
+% Pro Kapitel einschalten.
+%:- ale_flag(morphoutput,_,on).
+%:- ale_flag(morphoutput,_,off).
+
 
 % TDL signature input; TRALE supplies missing least upper bounds.
 :- ale_flag(subintro,_,file).
@@ -70,8 +82,14 @@ lhandle <<< rhandle.
 
 % If a description that should be used for generation is produced from a chart edge,
 % which pathes of the input sign shall be considered?
-gen_pathes([[synsem,loc,cat,head],[synsem,loc,cat,spr],[synsem,loc,cat,comps],[synsem,loc,cont],[rels],[hcons]]).
+%gen_pathes([[synsem,loc,cat,head],[synsem,loc,cat,spr],[synsem,loc,cat,comps],[synsem,loc,cont],[rels],[hcons]]).
+gen_pathes([[synsem,loc,cat,head]]).
+% Preserve the NP category while allowing all grammatical cases.
+gen_pathes_exclude([[synsem,loc,cat,head,case]]).
+% Require complete results without copying the input valence/spirits.
+gen_root_condition(@root).
 
+% Nur diese spielen in der Syntax eine Rolle. Töchter in syntaktischen Regeln sind alle vom Typ syntactic_sign.
 syntactic_object(syntactic_sign).
 
 ind_path([synsem,loc,cont,ind]).
@@ -105,6 +123,27 @@ generator_empty_anchor([synsem,loc],[synsem,loc],
                        (synsem:(loc:cat:head:(verb,dsl:none),
                                 nonloc:slash:[],trace:minus))).
 
+% Gewöhnliche gesättigte Modifikatoren liefern den LOC-Wert der Spur.
+% Relative Füller (REL nicht leer) sind durch den Anker oben abgedeckt.
+generator_empty_anchor([synsem,loc],[synsem,loc],
+  synsem:(loc:cat:(head:modifier_head,
+                  spr:list_of_spirits,comps:list_of_spirits),
+          nonloc:(slash:[],rel:[]),trace:minus)).
+
+% Auch gesättigte Modifikatorspuren benötigen einen passenden sichtbaren
+% Füller. Sonst können unbestimmte leere Adjunkte beliebig kombiniert werden.
+%
+% Das Buch ist zu lesen.
+% Alt:
+% Generation: 736.718 s CPU time.
+% Chart: 8709 edges (2038 active, 6671 inactive).
+% Neu:
+% Generation: 363.001 s CPU time.
+% Chart: 5441 edges (1526 active, 3915 inactive).
+generator_empty_anchor_required(
+  synsem:(trace:extraction,loc:cat:head:modifier_head)).
+
+
 generator_valence_path([synsem,loc,cat,comps]).
 % Nominal spirits may stay open until their filler is known; verbal valence
 % must be anchored before the generator projects an empty category.
@@ -116,8 +155,7 @@ scopable_description([@decl,@interrog,@ass_or_imp]).
 
 quantifiers([udef_q,def_q,some_q,demonstrative_q,proper_q]).
 
-% Optional parsing experiment; leave the standard parser enabled by default.
-:- compile('../Gemeinsames/parser_head_movement_filter4').
+
 
 % Nodes in Trees
 grale_abbreviation(
@@ -218,6 +256,10 @@ grale_abbreviation(
     
 strike_out_pattern(realized:plus).
 
+:- dynamic morphology_info/2.
+
+:-retractall(morphology_info/2).
+
 /*
 morphology_info((synsem:loc:cat:(head:(verb,
                                        vform:fin),
@@ -248,3 +290,43 @@ generator_extra_rels(FS,Extra) :-
     -> add_to(Kind,EP),ind_path(Path),gen_pathval(Path,FS,bot,Index,bot),
        gen_pathval([generator_index],EP,bot,Argument,bot),Argument=Index,Extra=[EP]
     ; Extra=[]).
+
+% Optionaler Head-Movement-Filter: Implementierung in TRALE, Angaben hier.
+% Einschalten: ale_flag(head_movement_filter,_,on).
+% Ausschalten: ale_flag(head_movement_filter,_,off).
+% Der Lizenzgeber muss vor der geprüften Kante stehen. Der Vergleich bindet
+% die Kante nicht. Ohne Flag oder Konfiguration bleibt der Parser ungefiltert.
+% Bei möglicher Koordination nicht filtern: koordinierte Köpfe können einen
+% LOCAL-Wert beitragen, der in keinem einzelnen Lexikoneintrag vorkommt.
+:- multifile parser_head_movement_filter/6.
+parser_head_movement_filter(
+  (synsem:(loc:cat:head:(verb,initial:minus,vform:fin),phrase:minus,trace:minus)),
+  [synsem,loc],                         % Wert des lexikalischen Lizenzgebers
+  [synsem,loc,cat,head,dsl], % zu lizenzierender Wert
+  local, before, bypass(synsem:loc:cat:head:coord)).
+
+% Valenzdiagnose auf fertigen Lexikoneinträgen; verändert keine Beschränkungen.
+% DA muss geschlossen sein. Bei ARG-ST muss nur das erste Argument samt
+% Wortart feststehen; der Rest darf für Argumentanziehung offen bleiben.
+
+% Die vier Argumente bedeuten:
+
+% 1. **`[synsem,loc,cat,head]`**: Pfad vom Lexikoneintrag zu dem Wert, der die Auswahl der zu prüfenden Einträge bestimmt.
+% 2. **`verb`**: Nur wenn dieser Wert bereits vom Typ `verb` oder einem Untertyp ist, wird geprüft.
+% 3. **`[synsem,loc,cat,arg_st]`**: Pfad zur zu prüfenden Liste.
+% 4. **`first([arg,loc,cat,head],head)`**: Beim ersten Listenelement wird dem Pfad `arg:loc:cat:head` gefolgt. Dort muss ein spezifischerer Typ als der allgemeine Typ `head` stehen, beispielsweise `noun`, `verb` oder `prep`.
+
+% Die Prüfung warnt also, wenn die erste Listenzelle noch unbestimmt ist oder die Wortart ihres Arguments noch nicht feststeht. **Der Listenrest darf offen bleiben**, damit Argumentanziehung möglich bleibt. Eine leere ARG-ST-Liste wird akzeptiert.
+
+% Allgemein lautet das Format:
+
+% lexical_valence_check(Auswahlpfad, Auswahltyp, Listenpfad, Prüfung).
+
+% Als Prüfung sind außerdem `closed` für eine vollständig geschlossene Liste und `first` für ein bereits typmäßig spezifiziertes erstes Element möglich. Es werden ausschließlich Warnungen ausgegeben, keine Werte ergänzt.
+
+
+:- ale_flag(lexical_valence_checks,_,on).
+lexical_valence_check([synsem,loc,cat,head],verb,
+                     [synsem,loc,cat,head,da],closed).
+lexical_valence_check([synsem,loc,cat,head],verb,
+                     [synsem,loc,cat,arg_st],first([arg,loc,cat,head],head)).

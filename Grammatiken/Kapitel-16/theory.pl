@@ -1,4 +1,4 @@
-% -*-  coding:utf-8; mode:trale-prolog   -*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%   $RCSfile: theory.pl,v $
@@ -39,6 +39,7 @@ signature('signature.tdl').
 
 
 % load suffixes for inflection
+:- ['../Gemeinsames/morphology'].
 :- [suffixes].
 
 % load lexical rules
@@ -70,7 +71,7 @@ signature('signature.tdl').
 
 % load some constraints that are not linguistically necessary,
 % but good for performance/termination
-:- [speed].
+:- [speed,generator_speed].
 
 
 % load relational constraints for rules
@@ -83,13 +84,6 @@ signature('signature.tdl').
 % load a sequence that is executed after the grammar is loaded
 :- ['../Gemeinsames/common.pl'].
 
-% load the generator, see setup.pl for configuration
-% SICStus 3.0
-%:- ['../Gemeinsames/generator'].
-
-% SICStus 4.0
-% Compile the generator's frequently called chart and matching predicates.
-:- compile('../Gemeinsames/generator4').
 
 % p_and_g("Der Affe schläft.",@decl).
 % p_and_g("Jede Frau und jeder Mann kennt ein Buch.",@decl).

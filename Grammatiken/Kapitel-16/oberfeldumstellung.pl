@@ -1,4 +1,4 @@
-% -*- coding:utf-8; trale-prolog -*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%   $RCSfile: oberfeldumstellung.pl,v $
 %%  $Revision: 1.5 $
@@ -23,7 +23,7 @@ h_cl rule (head_cluster_phrase,
            non_head_dtrs:hd:synsem:loc:cat:head:flip:plus,
            dtrs:[HeadDtr,NonHeadDtr])
   ===>
-cat> HeadDtr,
+sem_head> HeadDtr,
 cat> NonHeadDtr.
 
 
