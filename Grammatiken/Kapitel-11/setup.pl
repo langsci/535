@@ -1,4 +1,4 @@
-% -*-trale-prolog-*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 
 :- ['../Gemeinsames/setup'].
 

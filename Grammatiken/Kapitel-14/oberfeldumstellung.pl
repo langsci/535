@@ -1,4 +1,4 @@
-% -*- coding:utf-8; trale-prolog -*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%   $RCSfile: oberfeldumstellung.pl,v $
 %%  $Revision: 1.5 $

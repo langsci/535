@@ -1,4 +1,4 @@
-% -*-trale-prolog-*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%   $RCSfile: le_macros.pl,v $
 %%  $Revision: 1.4 $

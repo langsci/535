@@ -1,4 +1,4 @@
-% -*-  coding:utf-8; mode:trale-prolog   -*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%   $RCSfile: theory.pl,v $

@@ -1,4 +1,4 @@
-% -*- coding:utf-8; mode:trale-prolog -*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 % Generated from lkb/types.tdl by ../Gemeinsames/tdl_to_signature.py.
 % Do not edit: regenerate after changes to lkb/types.tdl.
 % Load with ale_flag(subintro,_,grammar) and ale_flag(msl,_,off).

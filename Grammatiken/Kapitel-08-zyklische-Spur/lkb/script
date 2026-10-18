@@ -1,3 +1,4 @@
+;;; -*- coding: utf-8; mode: lisp -*-
 ;; Start LKB in Emacs with ESC-x lkb
 ;; then type 
 ;; (lkb::read-script-file-aux "/Users/stefan/Documents/Dienstlich/Buecher/HPSG-Lehrbuch-LangSci/Grammatiken/Kapitel-08-zyklische-Spur/lkb/script")

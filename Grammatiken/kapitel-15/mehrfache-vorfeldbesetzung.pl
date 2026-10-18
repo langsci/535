@@ -1,4 +1,4 @@
-% -*- trale-prolog -*-
+% -*- coding: utf-8; mode: trale-prolog -*-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%   $RCSfile: mehrfache-vorfeldbesetzung.pl,v $
 %%  $Revision: 1.9 $
