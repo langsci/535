@@ -92,16 +92,16 @@ head_non_cluster_phrase    := headed_phrase.
 head_non_complement_non_cluster_phrase := head_non_cluster_phrase & head_non_complement_phrase.
 
 head_adjunct_phrase    := headed_flexible_order_phrase & head_non_complement_non_cluster_phrase & head_non_filler_phrase     & head_non_specifier_phrase.
-head_cluster_phrase    := headed_flexible_order_phrase & head_non_specifier_phrase  & head_non_filler_phrase     & head_non_adjunct_phrase.
-head_complement_phrase := headed_flexible_order_phrase & head_non_adjunct_phrase    & head_non_filler_phrase     & head_non_specifier_phrase.
-head_filler_phrase     := headed_flexible_order_phrase & head_non_adjunct_phrase    & head_non_complement_non_cluster_phrase & head_non_specifier_phrase & filler_phrase.
-head_specifier_phrase  := headed_flexible_order_phrase & head_non_adjunct_phrase    & head_non_filler_phrase     & head_non_complement_non_cluster_phrase.
+head_cluster_phrase    := headed_flexible_order_phrase & head_non_adjunct_phrase & head_non_filler_phrase     & head_non_specifier_phrase.
+head_complement_phrase := headed_flexible_order_phrase & head_non_adjunct_phrase & head_non_filler_phrase     & head_non_specifier_phrase.
+head_filler_phrase     := headed_flexible_order_phrase & head_non_adjunct_phrase & head_non_complement_non_cluster_phrase & head_non_specifier_phrase & filler_phrase.
+head_specifier_phrase  := headed_flexible_order_phrase & head_non_adjunct_phrase & head_non_filler_phrase     & head_non_complement_non_cluster_phrase.
 
 
 coord_phrase := phrase.
 
 verb_movement_rule := optionally_cluster_forming_le & cannonical_complex_word_dtrs.
-verb_initial_rule  := verb_movement_rule & complementizer_like_sign. ; & incoherent_le. Gibt es in der großen Grammatik
+verb_initial_rule  := verb_movement_rule & complementizer_like_sign & incoherent_le.
 mvf_rule           := verb_movement_rule & coherent_le.
 
 ; DTRS enthält den zu flektierenden Stamm und INFL
@@ -124,11 +124,12 @@ attr_adj_infl_lr := infl_lr & non_relational_lr & spr_saturated_le & cannonical_
 ;isect_attr_adj_infl_lr  := attr_adj_infl_lr & isect_n_modifier.
 ;scopal_attr_adj_infl_lr :< attr_adj_infl_lr.
 
-part_derivation_lr            := derived_stem & isect_modifier.
+part_derivation_lr            := derived_stem & isect_modifier & relational_lr.
 inf_or_ppp_part_derivation_lr :< part_derivation_lr.
-ppp_part_derivation_lr        := inf_or_ppp_part_derivation_lr & non_relational_lr.
-inf_part_derivation_lr        := inf_or_ppp_part_derivation_lr & relational_lr.      ; das zu lesende Buch
-bse_part_derivation_lr        := part_derivation_lr & non_relational_lr.             ; das das Buch lesende Kind
+ppp_part_derivation_lr        := inf_or_ppp_part_derivation_lr.      ; relation = past_ind "der geschlagene Weltmeister" = "der Weltmeister, der geschlagen wurde"
+inf_part_derivation_lr        := inf_or_ppp_part_derivation_lr.      ; das zu lesende Buch
+bse_part_derivation_lr        := part_derivation_lr.                 ; das das Buch lesende Kind relation = pres_ind, 
+                                                                     ; damit Relativsatz generiert wird.
 
 
 fin_verb_infl_lr := relational_lr & cannonical_complex_word.
@@ -364,11 +365,13 @@ agentive_passive_aux_verb :< simple_ppp_passive_aux_verb.
 ; this mentions the result state.
 stative_passive_aux_verb  := simple_passive_aux_verb & ppp_inf_verb_le & relational_raising_verb.
 
-
-modal_zu_inf := zu_inf_verb_le & relational_raising_verb.
+; aux_verb markiert AUX+ und schließt Verwendung als attributives Partizip aus:
+; Der Mann hat das Buch zu lesen.
+; * der das Buch zu lesen gehabte Mann
+modal_zu_inf := zu_inf_verb_le & relational_raising_verb & aux_verb.
 
 modal_sein  := simple_passive_aux_verb  & modal_zu_inf. 
-modal_haben := subj_raising_verb & coherent_le & modal_zu_inf. 
+modal_haben := subj_raising_verb & modal_zu_inf. 
 
 ; Das sind sowohl kohärent als auch optional kohärent konstruierende Verben.
 optionally_cluster_forming_le := spr_saturated_le.
@@ -474,6 +477,10 @@ strict_trans_verb := trans_verb.
 ditrans_verb      := trans_verb.
 
 glauben_denken_verb := intrans_nerg_verb.
+
+; stimmen, fetzen
+; eigentlich intrans_nerg_verb, aber die sind als NP-Verben definiert.
+cp_verb := nerg_verb & non_scopal_le & incoherent_le.
 
 preposition_word := overt_le & non_scopal_le & empty_rel_word & simple_word.
 comp_preposition := preposition_word & transparent_non_scopal_non_relational_le.
@@ -599,6 +606,7 @@ participle_or_verb := adj_or_participle_or_verb & [
 
 verb := participle_or_verb & non_modifier_head & intro_flip & [
    vform vform,
+   aux   bool,  ; um Hilfsverben in der PPP-Partizip-Adjektiv-Derivation ausschließen zu können.
    auxf  auxf,
    prd   minus ].
 
@@ -964,6 +972,9 @@ widersprechen_rel := verbal_arg012_relation  & [
 denken_an_rel := verbal_arg012_relation & [
   aktionsart activity].
 
+fetzen_rel    := verbal_arg01_relation  & [
+  aktionsart state].
+
 glauben_rel   := verbal_arg012_relation  & [
   aktionsart state].
 
@@ -1029,12 +1040,15 @@ und_v_rel := conjunction_v_rel & und_rel.
 
 modal_rel := arg03_relation.
 
-können_müssen_sollen_rel :< modal_rel.
+dürfen_können_müssen_sollen_rel :< modal_rel.
+können_müssen_sollen_rel :< dürfen_können_müssen_sollen_rel.
+müssen_sollen_rel :< können_müssen_sollen_rel.
 
-dürfen_rel := modal_rel.
+
+dürfen_rel := dürfen_können_müssen_sollen_rel.
 können_rel := können_müssen_sollen_rel.
-müssen_rel := können_müssen_sollen_rel.
-sollen_rel := können_müssen_sollen_rel.
+müssen_rel := müssen_sollen_rel.
+sollen_rel := müssen_sollen_rel.
 wollen_rel := modal_rel.
 
 futur_rel   := arg03_relation.

@@ -64,7 +64,8 @@ undelayed_del(El,[H|T1],[H|T2]) if del(El,T1,T2).
 
 fun append_known_prefix(+,+,-).
 append_known_prefix(X,Y,Z) if
-  when(X=(e_list;ne_list),undelayed_append_known_prefix(X,Y,Z)).
+  when(X=(e_list;ne_list),
+       undelayed_append_known_prefix(X,Y,Z)).
 
 undelayed_append_known_prefix([],L,L) if true.
 undelayed_append_known_prefix([H|T1],L,[H|T2]) if

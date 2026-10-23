@@ -216,6 +216,7 @@ non_fin_verb_infl_lr *>
                          initial:(Initial,
                                   minus),
      %                    vform:VForm,
+                         aux:Aux,
                          auxf:AuxF,
                          mod:Mod,
                          dsl:none, % für die zyklische Verbspur
@@ -229,6 +230,7 @@ non_fin_verb_infl_lr *>
                               da:DA,
                               initial:Initial,
 %                              vform:VForm,
+                              aux:Aux,
                               auxf:AuxF,
                               mod:Mod,
                               flip:Flip),
@@ -256,7 +258,7 @@ bse_or_inf_verb_infl_lr *>
   synsem:loc:cat:(head:subj:Subj,
                   comps:block_subject(NewArgSt,Subj),
                   arg_st:(NewArgSt,
-                          append(add_optional_passive_pp(DA),ArgSt))),
+                          add_optional_passive_pp_after_verb(DA,ArgSt))),
   dtr:synsem:loc:cat:(head:da:DA,
                       arg_st:ArgSt)).
 
@@ -326,6 +328,11 @@ ppp_verb_infl_lr *>
                           add_optional_passive_pp_after_verb(DA,block_da(DA,ArgSt)))),
   dtr:synsem:loc:cat:arg_st:ArgSt).
 
+% Das schließt die Partizipformen von perfect haben aus, denn die sind als not_ppp spezifiziert.
+ppp_verb_infl_lr *>
+ (synsem:loc:cat:head:vform:VForm,
+  dtr:synsem:loc:cat:head:vform:VForm).
+
 fun add_optional_passive_pp_after_verb(+,+,-).
 add_optional_passive_pp_after_verb(DA,List,Result) if
   when(List=(e_list;ne_list),
@@ -339,10 +346,10 @@ passive_pp_list(DA,[H|T],Result) if
        passive_pp_head(DA,H,T,Result)).
 
 % Die ARG-ST-Liste ist leer. Es wird PP angehängt, oder nicht.
-undelayed_add_optional_passive_pp_after_verb(DA,[],Result) if
-  add_optional_passive_pp(DA,Result).
+%undelayed_add_optional_passive_pp_after_verb(DA,[],Result) if
+%  add_optional_passive_pp(DA,Result).
 
-% Wenn das letzte Argument ein Verb ist, füge die PP nach dem Verb ein.
+% Wenn das erste Argument ein Verb ist, füge die PP direkt nach diesem Verb ein.
 passive_pp_head(DA,(VerbArg,
                     arg:loc:cat:head:verb),T,Result) if
   add_optional_passive_pp(DA,PPList),
@@ -415,6 +422,13 @@ part_derivation_lr *>
                trace:Trace),
        inf_marking:Zu)).
 
+part_derivation_lr *>
+ (%derived_stem & isect_modifier & relational_lr
+  rels:hd:(arg0:Ind,
+           arg3:VLTop),
+  dtr:synsem:loc:cont:(ltop:VLTop,
+                       ind:Ind)).
+
 % der von allen zu lesende Aufsatz
 % der von allen gelesene Aufsatz
 inf_or_ppp_part_derivation_lr *>
@@ -438,7 +452,8 @@ inf_or_ppp_part_derivation_lr *>
 ppp_part_derivation_lr *>
  (%inf_or_ppp_part_derivation_lr & non_relational_lr
   inf_marking:Zu,
-  dtr: (synsem:loc:cat:head:vform:ppp,
+  dtr: (synsem:loc:cat:head:(aux:minus,
+                             vform:ppp),
            inf_marking:Zu)).
 
 ppp_part_derivation_lr *>
@@ -446,6 +461,8 @@ ppp_part_derivation_lr *>
    synsem:loc:cat:arg_st:ArgSt,   % unveränderte ARG-ST muss nicht angehoben werden.
    dtr:synsem:loc:cat:arg_st:ArgSt).
 
+ppp_part_derivation_lr *>
+   rels:hd:past_ind.
 
 ppp_part_derivation_lr lex_rule
   Dtr
@@ -460,12 +477,21 @@ morphs
 
 % * der zu gelingende Aufsatz
 % der zu lesende Aufsatz
+% Der Mann bekommt ein Märchen erzählt.
+% ?? der ein Märchen erzählt bekommende Mann Partizip I vielleicht
+% * das erzählt zu bekommende Märchen        mit zu niemals
+% Der Roman ist zu lesen.
+% der zu lesende Roman
+% der Mann hat den Roman zu lesen
+% * der zu lesen zu habende Roman
+% Er erzählt ihr einen Roman.
+% Sie bekommt einen Roman erzählt.
+% der erzählt zu bekommende Roman
 inf_part_derivation_lr *>
  (%inf_or_ppp_part_derivation_lr & relational_lr
-  rels:hd:(modal_rel,
-           arg3:VLTop),
-  dtr:synsem:loc:(cat:head:vform:inf,
-                  cont:ltop:VLTop)).
+  rels:hd:modal_rel,
+  dtr:synsem:loc:cat:head:(aux:minus,
+                           vform:inf)).
 
 % der zu lesende Aufsatz
 inf_part_derivation_lr *>
@@ -489,7 +515,28 @@ bse_part_derivation_lr *>
    % unsinnig für die aktiven Partizipiel eine von-PP auf der liste zu haben. Das betrifft wirklich
    % nur das Partizip mit -d ohne zu. ge-Partizip und zu-Form können mit von-PP vorkommen. St. Mü. 17.10.2026
    dtr:dtr:synsem:loc:cat:arg_st:ArgSt,
-   dtr:synsem:loc:cat:arg_st:hd:raised:minus). % Residuum der von-PP check mit komplexbildenden Verben
+   dtr:synsem:loc:cat:(head:da:DA,
+                       arg_st:InfArgSt))
+  goal own_passive_pp_not_raised(DA,InfArgSt).
+
+% Nur die zusätzlich eingefügte eigene von-PP wird hier nicht angehoben.
+% Ohne DA gibt es diese PP nicht; dann bleibt die ganze Liste unverändert.
+own_passive_pp_not_raised(DA,List) if
+  when(DA=(e_list;ne_list),own_passive_pp_not_raised_da(DA,List)).
+own_passive_pp_not_raised_da([],_List) if true.
+own_passive_pp_not_raised_da([_|_],[H|T]) if
+  when(H=arg:loc:cat:head:(verb;adj;adv;comp;noun;prep),
+       own_passive_pp_not_raised_head(H,T)).
+% Bei verbalem ersten Argument ist die eigene PP das zweite Argument.
+own_passive_pp_not_raised_head(arg:loc:cat:head:verb,[raised:minus|_]) if true.
+% Sonst steht die eigene PP am Anfang der Liste.
+own_passive_pp_not_raised_head((raised:minus,
+                                arg:loc:cat:head:(adj;adv;comp;noun;prep)),_) if true.
+
+% der das Buch lesende Mann = der Mann, der das Buch liest
+bse_part_derivation_lr *>
+ rels:hd:pres_ind.
+
 
 inf_part_derivation_lr lex_rule
   Dtr

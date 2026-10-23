@@ -39,12 +39,13 @@ overt_le *>
 % Verbspur unter ein Hilfs- oder Modalverb auszuschließen.
 %
 % * Der Frau den Aufsatz _v will er.
-/*
-todo
-overt_le *>
+%
+% Kann nicht für overt_le gelten, weil coord_word etwas in DSL haben kann.
+%
+%overt_le *>
+verb_stem *>
   synsem:loc:cat:arg_st:list_of_non_dsl_synsems.
 
-*/
 
 fun list_of_non_dsl_synsems(-).
 list_of_non_dsl_synsems(L) if
@@ -232,6 +233,7 @@ np :=
 % Deshalb dürfen sie nicht von @argument erben.
 np_str :=
   (@np,
+   @np_str_speed, % Für den Generator: Kasus wird auf nom-gen-acc festgelegt. Damit ist Dativ beim Generieren ausgeschlosen. Folgt eigentlich aus Kasusprinzip, aber das wird erst verzögert angewendet. Siehe generator-speed.pl
    arg:loc:cat:head:case:case_type:str).
 
 np_lex :=
@@ -365,7 +367,8 @@ nbar(Ind) :=
 
 pp :=
   (@xp,
-   arg:loc:cat:head:prep).
+   arg:loc:cat:head:(prep,
+                     case:case_type:lex)).
 
 pp(Ind) :=
   (@pp,
@@ -385,7 +388,8 @@ pp(PForm,Case,Ind) :=
 % The part of speech follows from pform.
 optional_passive_pp(Ind) :=
   arg:loc:(cat:head:(pform:von_pform,
-                     case:morph_case:dat),
+                     case:(case_type:lex,
+                           morph_case:dat)),
             cont:ind:Ind).
 
 % Could be done in signature.tdl, but then the HCONS feature would not be displayed
@@ -721,6 +725,21 @@ ditrans_verb(Relation) :=
  (ditrans_verb,
   rels:hd:Relation).
 
+% stimmen, fetzen Hier wäre eine Unterspezifikation NP/CP schön, leider ist die Anbindung der Semantik aber anders.
+cp_verb *>
+ (% nerg_verb & non_scopal_le & incoherent_le
+  synsem:loc:cat:arg_st:[(@argument,
+                          arg:loc:(cat:(head:(comp,
+                                              cform:dass),
+                                        spr:[],
+                                        comps:list_of_spirits),
+                                   cont:ltop:LTop))],
+  rels:[arg1:LTop]).
+
+cp_verb(Relation) :=
+ (cp_verb,
+  rels:hd:Relation).
+
 
 glauben_denken_verb *>
  (%intrans_nerg_verb,
@@ -805,7 +824,7 @@ raising_verb *>
  synsem:loc:cat:head:da:[].
 
 
-% scheinen, not AcI
+% scheinen, not AcI, phase_verb
 subj_raising_verb *>
  (%raising_verb,
   synsem:loc:cat:arg_st:[arg:loc:cat:(head:subj:(Subj,
@@ -877,7 +896,15 @@ modal_flip_verb(Relation) :=
   synsem:loc:cat:head:(vform:ppp,
                        flip:plus),
   rels:hd:Relation,
-  dtr:modal_verb).
+  inf_marking:minus,
+  dtr:(modal_verb,
+       synsem:loc:cat:head:vform:bse)).
+
+% zum Ausschluss von Hilfsverben in der Lexikonregel für Partizipbildung
+% * der das Buch zu lesen gehabte Mann
+% * der das Buch gelesen gehabte Mann
+aux_verb *>
+  synsem:loc:cat:head:aux:plus.
 
 futur_aux_verb *>
   rels:hd:futur_rel.
@@ -889,7 +916,7 @@ futur_aux_verb(Per,Num,Temo) :=
   dtr:futur_aux_verb).
 
 
-
+% Ersatzinfinitiv ist ppp mit Tochter mit VFORM bse
 irregular_verb(VForm) :=
  (
   (bse_verb_infl_lr
@@ -941,6 +968,7 @@ werden(Per,Num,TeMo) :=
 
 werden_pas(VForm) :=
   (@irregular_verb(VForm),
+   synsem:loc:cat:head:auxf:sein,
    dtr:agentive_passive_aux_verb).
 
 werden(VForm) :=
@@ -965,9 +993,13 @@ sein_pas(VForm) :=
   (@irregular_verb(VForm),
    dtr:stative_passive_aux_verb).
 
-
+% * Der Mann ist gestorben gewesen.
+% * Der Mann hat geschlafen gehabt.
+% * der das Buch gelesen gehabte Mann
+% * der gestorben gewesene Mann
 perfect_aux_verb *>
-  rels:hd:perfect_rel.
+  (synsem:loc:cat:head:vform:not_ppp,
+   rels:hd:perfect_rel).
 
 haben_perfect *>
   synsem:loc:cat:(head:flip:Flip,
@@ -1023,8 +1055,10 @@ dative_passive_aux_verb *>
 
 % Modale Infinitive
 
+% Der Mann hat das Buch zu lesen gehabt.
+% Das Buch ist bis Montag zu lesen gewesen.
 modal_zu_inf *>
- rels:[modal_rel].
+  rels:[modal_rel].
 
 % Gelhaus 1977: Der modale Infinitiv
 % Variante I: müssen
@@ -1075,8 +1109,46 @@ modal_zu_inf *>
 % Chart: 7610 edges (2662 active, 4948 inactive).
 
 modal_haben *>
-  rels:[können_müssen_sollen_rel].
+  rels:[müssen_sollen_rel]. % [können_müssen_sollen_rel].
 
+% sein + zu
+% Variante I können
+% der noch heute in der Kirche zu sehen ist = gesehen werden kann
+%
+% Variante I, 1 dürfen
+% auf Leon war nicht viel Hoffnung zu setzen
+% als das auch nur auf vorübergehende Besserung zu hoffen gewesen wäre
+%
+% Variante II müssen
+% Selbstverständlich ist auch eine Verständigungsmöglichkeit durch Sprechfunk vorzusehen.
+%
+% Variante II,1 nicht brauchen
+%
+% Deshalb ist eine schriftliche Einwilligung des betroffenen Patienten nur für gewisse Ausnahmefälle zu fordern.
+%
+% Variante II,2 nicht dürfen
+%
+% Und es ist nicht zu vergessen, dass …
+%
+% Variante II,3 sollen
+%
+% und zum Schluss wuisste niemand, wie das Erntefest zu feieren wäre
+%
+% Variante II,4 -wert/-würdig
+%
+% Für bemannte Raketen ist dies Methode weniger zu empfehlen.
+%
+% Variante III Viel ist da für Stachelschweine ohnehin nicht zu holen.
+%
+% Variante IV Es ist schön anzusehen.
+%
+% Variante V
+%
+% Variante VI idiomatische Wendungen
+
+modal_sein *>
+  synsem:loc:cat:head:auxf:sein,
+  rels:[dürfen_können_müssen_sollen_rel].
 
 sein_modal(Per-per,Num-num,TeMo-temo) :=
  (@irregular_verb(Per,Num,TeMo),

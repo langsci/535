@@ -113,11 +113,8 @@ inf_zu rule
                     % wenn wir das hier noch einmal berechneten, aber es würde dasselbe herauskommen
                     % und nur Zeit benötigen.
   ===>
-  % Als erste Tochter nehmen wir irgendein `zu', das in der Grammatik vorhanden ist.
-  % Es muß eindeutig sein!
-cat> (word,
-            phon:[(a_ zu)],
-            synsem:loc:cat:head:comp_prep),
+  % Festes Terminal ohne Lexikoneintrag und ohne eigene Chart-Kante.
+  token> zu,
 sem_head> (word,
       phon:Phon,
       synsem:Synsem,

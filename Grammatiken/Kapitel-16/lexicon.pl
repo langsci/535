@@ -736,6 +736,17 @@ glaub ---> @glauben_denken_verb(glauben_rel),
           @vflex_em(minus),
           @vflex_bet1(plus).
 
+fetz ---> @cp_verb(fetzen_rel),
+          @vflex_fk(v_weak),
+          @vflex_ep(minus),
+          @vflex_sm(minus),
+          @vflex_pl_n(minus),
+          @vflex_spe(minus),
+          @vflex_tm(minus),
+          @vflex_em(minus),
+          @vflex_bet1(plus).
+
+
 
 % Modalverben
 

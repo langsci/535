@@ -6,6 +6,33 @@
 % Die übrigen semantisch leeren Wörter bleiben auf die Eingabe beschränkt.
 generator_input_lexicon_exceptions([von,durch]).
 
+% Modalrelationen duerfen beim Generieren nicht spezifischer werden als
+% die Eingabe: z.B. müssen_sollen_rel darf nicht zu müssen_rel werden.
+% Er hat das Buch zu lesen. -/-> Er muss das Buch lesen.
+% Allgemeinere Lexikoneintraege koennen weiterhin die Eingabesemantik erben.
+% TEMO bleibt von dieser Beschraenkung unberuehrt (synkretische Flexion).
+%
+% Generated phrases: 18.
+% Generation: 240.183 s CPU time.
+% Chart: 3586 edges (1240 active, 2346 inactive).
+%
+% Generated phrases: 13.
+% Generation: 112.562 s CPU time.
+% Chart: 2534 edges (1020 active, 1514 inactive).
+generator_no_semantic_specialization(modal_rel).
+
+% Zusaetzlich exakt: Auch allgemeinere lexikalische Modalrelationen werden
+% ausgeschlossen. Bei muessen_rel im Input sollen modales haben/sein mit
+% muessen_sollen_rel bzw. duerfen_koennen_muessen_sollen_rel nicht antreten.
+% Geprueft wird der Typ VOR der Unifikation mit der Eingabe.
+% TEMO bleibt weiterhin synkretisch; die Typhierarchie bleibt unverändert.
+% Zum schwächeren Verhalten oben zurück: folgende Zeile auskommentieren.
+% Ein Märchen erzählen wird er ihr müssen.
+% Er wird ihr ein Märchen zu erzählen haben.
+% Ein Märchen wird ihr von ihm zu erzählen sein.
+%
+% generator_exact_semantic_type(modal_rel).
+
 % Distributive Tempus-/Modussemantik bei verbaler Koordination.
 generator_distributive_relation(temo,conjunction_rel).
 generator_distributive_operator(temo,[lbl],[arg0],[arg3]).
@@ -15,7 +42,7 @@ generator_distributive_conjunction(conjunction_rel,[lbl],[arg0],[[lhandle],[rhan
 % In Kapiteln kann Ausgabe von Flexionsmerkmalen konfiguriert werden.
 % Pro Kapitel einschalten.
 %:- ale_flag(morphoutput,_,on).
-%:- ale_flag(morphoutput,_,off).
+:- ale_flag(morphoutput,_,off).
 
 
 % TDL signature input; TRALE supplies missing least upper bounds.
@@ -143,6 +170,13 @@ generator_empty_anchor([synsem,loc],[synsem,loc],
 generator_empty_anchor_required(
   synsem:(trace:extraction,loc:cat:head:modifier_head)).
 
+
+% Eine verbale Extraktionsspur kann trotz geschlossener COMPS-Liste noch
+% eine offene SUBJ-Liste haben. AcI-Verben ziehen beide Listen an.
+% Deshalb muss vor der Projektion stets ein passender verbaler Filler den
+% gesamten LOC-Wert liefern, auch wenn COMPS bereits leer ist.
+generator_empty_anchor_required(
+  synsem:(trace:extraction,loc:cat:head:verb)).
 
 generator_valence_path([synsem,loc,cat,comps]).
 % Nominal spirits may stay open until their filler is known; verbal valence
@@ -286,7 +320,10 @@ generator_extra_rels(FS,Extra) :-
    get_type(FS,Type),
    (Type \== 0,
     (sub_type(pers_pronoun,Type) -> Kind=generator_pers_pronoun_rel
-     ; sub_type(rel_pronoun,Type) -> Kind=generator_relative_pronoun_rel)
+     % Alte Variante: Relativpronomen waren an die Eingabe gebunden.
+     % Das verhindert Paraphrasen wie Partizipialattribut <-> Relativsatz.
+     %; sub_type(rel_pronoun,Type) -> Kind=generator_relative_pronoun_rel
+    )
     -> add_to(Kind,EP),ind_path(Path),gen_pathval(Path,FS,bot,Index,bot),
        gen_pathval([generator_index],EP,bot,Argument,bot),Argument=Index,Extra=[EP]
     ; Extra=[]).
@@ -330,3 +367,71 @@ lexical_valence_check([synsem,loc,cat,head],verb,
                      [synsem,loc,cat,head,da],closed).
 lexical_valence_check([synsem,loc,cat,head],verb,
                      [synsem,loc,cat,arg_st],first([arg,loc,cat,head],head)).
+
+% Semantisch leeres Präpositions-zu braucht eine passende PFORM-Selektion.
+% Infinitiv-zu wird direkt von inf_zu über token> zu bereitgestellt.
+:- ale_flag(generator_lexical_selection,_,on).
+generator_lexical_selection(
+    (comp_preposition,synsem:loc:cat:head:pform:zu_pform),
+    bot,[synsem,loc,cat,arg_st],
+    [[synsem,loc,cat,head,pform]-[arg,loc,cat,head,pform]]).
+
+% Attributive Kongruenz: Der Index ordnet nur das Bezugsnomen zu.
+% Verglichen werden die syntaktischen Anforderungen an den Artikel,
+% nicht GEN/NUM am semantischen Index (vgl. Mädchen).
+:- ale_flag(generator_lexical_agreement,_,on).
+generator_lexical_agreement(
+    attr_adj_infl_lr,
+    [synsem,loc,cat,head,mod,loc,cont,ind],
+    [synsem,loc,cat,head,mod,loc,cat,spr,hd,arg,loc,cat,head],
+    synsem:loc:cat:head:noun,
+    [synsem,loc,cont,ind],
+    [synsem,loc,cat,spr,hd,arg,loc,cat,head]).
+
+% Fruehe Partnerpruefung fuer argumentanziehende Verben.
+% Die Projektion erhaelt HEAD und die COMPS-Argumente, aber nicht deren
+% REALIZED/RAISED-Werte: Diese koennen sich bei der Phrasenbildung aendern.
+% Bekannte IND-/LTOP-Bezuege ordnen moegliche lexikalische Partner zu.
+% Unbekannte oder nur phrasal verfuegbare Bezuege werden nicht ausgeschlossen.
+% Delays werden nur auf Kopien durch die Partnerprobe geweckt.
+%:- ale_flag(generator_lexical_support,_,on).
+%:- ale_flag(generator_lexical_support,_,chains).
+:- ale_flag(generator_lexical_support,_,tabled).
+:- ale_flag(generator_chain_anchor_matching,_,strict).
+%:- ale_flag(generator_chain_anchor_matching,_,permissive).
+
+generator_lexical_support(
+    [synsem,loc,cat,arg_st,hd,arg,loc],
+    [synsem,loc],head([cat,head],verb),
+    [[cont,ind],[cont,ltop]],valence([cat,comps],[arg])).
+
+% Experimentelle Valenzvorschau bei der Generierung (ohne Hilfsmerkmale).
+% Offene Kopf-Komplement-Kanten warten auf eine passende verbale Projektion.
+% participle_or_verb umfasst auch die attributiven Partizipien: Deren offene
+% Valenz darf nicht an der Pruefung vorbeigehen. Die uebrigen Pfade stammen
+% aus generator_lexical_support/5 oben. REALIZED bleibt bei der Projektion
+% erhalten; RAISED wird nicht geteilt. Vergleich: Flag auf off setzen.
+:- ale_flag(generator_valence_wait,_,on).
+generator_valence_wait(
+    head_complement_phrase,
+    head([synsem,loc,cat,head],participle_or_verb),
+    projection([cont],[realized],[cat,head,vform])).
+
+% Lexikalische Valenzvorschau auch beim Parsen, ohne attracted_comps_.
+% Nutzt die obigen generator_valence_wait-/generator_lexical_support-Pfade.
+% COMPS behaelt in dieser Grammatik realisierte Argumente als "spirits";
+% deshalb koennen Listenlaenge und Argumenttypen vorab verglichen werden.
+% Kein Wortstellungsfilter: auch Scrambling/Voranstellung bleibt moeglich.
+% Keine Bindung der Kante durch die Probe. Bei Koordination oder zu grosser
+% Vorschau wird normal geparst. Ausschalten: ale_flag(parser_valence_filter,_,off).
+%:- ale_flag(parser_valence_filter,_,on).
+% Der Filter verringert bei einem Gesamtlauf die Kanten um 1016, braucht aber 38 Sekunden länger (5:54 gesamt)
+:- ale_flag(parser_valence_filter,_,off).
+:- multifile parser_valence_filter/4.
+parser_valence_filter(
+ [cat,head,subj],
+ restructured([synsem,loc,cat,head,initial],plus), % V1/V2 ersetzt die Valenz
+ argument([loc],head([cat,head],participle_or_verb),
+   [[loc,cat,head],[loc,cat,head,case],[loc,cat,head,pform],
+    [loc,cat,head,vform],[loc,cont,ind,per],[loc,cont,ind,num]]),
+ bypass(synsem:loc:cat:head:coord)).

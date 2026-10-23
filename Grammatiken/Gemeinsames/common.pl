@@ -9,10 +9,25 @@
 %      System: TRALE 2.7.5 (release ) under Sicstus 3.12.0
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+% Hack to reset the timer.
+
+:- statistics(walltime,_).
+
+
 compile_grammar_hook :-
          inform_user_about_top_level,
-         print_examples.
+         print_examples,
+         statistics(walltime,[_,T]),
+%         statistics(runtime,[_,T]),
+         msec2time(T,Time),
+         number_of(lex(_,_),NumberOfWords),
+         format(user_error,"~nGrammatik geladen: ~w~n~w Lexikoneinheiten~n~n",[Time,NumberOfWords]),
+%         r,   % diese Zeile auskommentieren, falls die Stämme zum Debuggen im Lexikon bleiben sollen
+         ( current_predicate(grammar_hook,grammar_hook) -> call_all(grammar_hook)
+         ; true).
          
+
 
 % Interferes with TSDB stuff
 

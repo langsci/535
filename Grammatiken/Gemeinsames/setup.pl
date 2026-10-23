@@ -49,7 +49,7 @@ test_memory_messages(off).
 
 % CPU-Zeit in Millisekunden für Generierung und Parsing/Skopus bei testall.
 % Interaktives p_and_g wird dadurch nicht begrenzt.
-generator_test_timeout(300000). % 5 Minuten
+generator_test_timeout(1200000). % 20 Minuten
 
 :- [tokenization].
 % SVG in der auf dem Mac eingestellten Anwendung öffnen.

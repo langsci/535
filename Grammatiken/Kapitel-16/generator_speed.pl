@@ -74,3 +74,44 @@ coord_phrase *>
 
 %head_cluster_phrase *>
 %  non_head_dtrs:hd:synsem:lex:plus.
+
+
+% Der Generator baut Kanten für "ihn ihm lesen zu sehen".  Das liegt daran, dass lesen und sehen
+% zwar NPen mit strukturllem Kasus verlangen, aber noch nicht festgelegt ist, ob die NPen angehoben sind. Deshalb wird kein Kasus zugewiesen. Und es entsteht eine NP mit strukturellem Dativ.
+
+% Weiß nicht, ob das in die richtige Grammatik gehört. Es ergibt sich ja aud dem Kasusprinzip.
+% Hier sorgt es für delayed constraints. Da es auch für Beschreibungen in MOD gilt
+% case_type:str *> morph_case:nom_or_gen_or_acc.
+
+np_str_speed :=
+  arg:loc:cat:head:case:morph_case:nom_or_gen_or_acc.
+
+
+% Struktureller Kasus an verbalen Argumenten ist immer Nominativ oder
+% Akkusativ. Diese notwendige Bedingung gilt schon vor der positionsabhaengigen
+% Kasuszuweisung: RAISED bleibt offen, und nom/acc wird hier nicht entschieden.
+% Lexikalischer Kasus und Genitivzuweisung in nominalen Umgebungen bleiben frei.
+(word,
+ synsem:loc:cat:head:verb) *>
+  synsem:loc:cat:arg_st:ArgSt goal generator_verbal_cases(ArgSt).
+
+fun generator_verbal_cases(-).
+generator_verbal_cases(Args) if
+  when(Args=(e_list;ne_list),generator_verbal_cases_list(Args)).
+
+generator_verbal_cases_list([]) if true.
+generator_verbal_cases_list([H|T]) if
+  when((H=arg:loc:cat:head:(noun,case:case_type:(str;lex));
+        H=arg:loc:cat:head:(det;adj_or_participle_or_verb;prep;comp;coord;relativizer;adv)),
+       generator_verbal_case(H)),
+  generator_verbal_cases(T).
+
+generator_verbal_case((@np_str,
+                        arg:loc:cat:head:case:morph_case:nom_or_acc)) if true.
+generator_verbal_case(@np_lex) if true.
+generator_verbal_case(arg:loc:cat:head:(det;adj_or_participle_or_verb;prep;comp;coord;relativizer;adv)) if true.
+
+
+% Das wird in der Grammatik auch gefordert, aber da die Valenzliste offen ist, greifen die Forderungen nicht.
+%(head_complement_phrase,
+% synsem:loc:cat:head:attr_adj_or_attr_participle) *> synsem:nonloc:rel:e_list.

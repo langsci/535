@@ -199,11 +199,11 @@ head_adjunct_phrase *>
 
 % Für Sätze wie "Lachen muß er." braucht man am Satzende
 % eine Kombination der Verbspur mit einer Extraktionsspur.
-% Die Sucat-Liste der entstehenden Projektion ist unbestimmt,
-% so daß dieser Komplex dann mit allem Material, das es
+% Die COMPS-Liste der entstehenden Projektion ist unbestimmt,
+% so dass dieser Komplex dann mit allem Material, das es
 % im Satz gibt, kombiniert werden kann.
 % Erst wenn der Füller gefunden wird, stellt sich heraus,
-% daß diese Kombinationen sinnlos waren.
+% dass diese Kombinationen sinnlos waren.
 % Wir sind schlauer und sagen schon jetzt Bescheid:
 
 fun list_of_arguments(-).
@@ -325,6 +325,83 @@ Synsem^(head_complement_phrase,
                            loc:cat:head:adj_or_participle_or_verb)) *> (head_dtr:phrase,
                                                                            non_head_dtrs:hd:synsem:trace:minus).
 
+% If we are combining an optionally coherent verb with an argument via the head-complement-phrase,
+% we want to be sure that it is a proper argument. Since the append of the ARG-ST is delayed till
+% the VP argument is found, all kinds of phrases may be combined with the head. Any number and any
+% kind of phrase. For example, NPs in the genitive. This is especially bad for the generator.
+% Parsing:
+%
+% dass den roman zu lesen der mann versucht
+%
+% ==> 2.146 sec CPU time.        1 solutions; 139 passive edges; residues: 0
+% ==> 1.425 sec CPU time.        1 solutions;  82 passive edges; residues: 0
+ 
+
+% Durch generator_valence_wait ersetzt; historische Fassung fuer Vergleiche.
+/*
+(head_complement_phrase,
+ synsem:loc:cat:(head:optionally_coherent:plus,
+                 comps:hd:realized:minus)) *>
+    synsem:loc:cat:comps:hd:arg:loc:cat:attracted_comps_:e_list.
+*/
+
+% Die angehobene VP kann auch an zweiter Stelle stehen, wenn ein Verbalkomplex gebildet wurde:
+%
+% Das den Roman zu lesen den Mann zu zwingen versprechende Kind lacht.
+%
+% funktioniert nicht, weil das optional kohärent konstruierende Verb eingebettet sein kann.
+%
+% bekommender ist obligatorisch kohärent, aber versprochen ist optional.
+%
+% von ihm das von ihm versprochen bekommender
+%
+% Das werden teilweise mehr Kanten.
+% Die Kopftochter ist hier bereits ein Komplex. Seine Nicht-Kopftochter
+% kann noch eine VP verlangen, obwohl der obere Kopf obligatorisch kohärent ist.
+% Nur für diese Kopf-Cluster-Struktur wird die folgende Bedingung geprüft.
+% Historische Hilfsbeschraenkung; die Valenzvorschau arbeitet ohne sie.
+/*
+(head_cluster_phrase,
+ non_head_dtrs:hd:synsem:loc:cat:(head:optionally_coherent:plus,
+                                  comps:hd:realized:minus)) *>
+ non_head_dtrs:hd:synsem:loc:cat:comps:hd:arg:loc:cat:attracted_comps_:e_list.
+*/
+
+
+
+% Wiederholt Beschränkungen aus le_macros.pl, damit es dort übersichtlich beleibt.
+
+% attracted_comps_ wird fuer den Live-Versuch nicht mehr verwendet.
+/*
+np_v_subj_zu_inf_control_verb *>
+  (%zu_inf_subj_control_verb,
+   synsem:loc:cat:arg_st:[arg:loc:cat:(attracted_comps_:AC,
+                                       comps:Comps)|append((AC,
+                                                            attract_unrealized(Comps)),[_])]).
+
+
+np_np_v_subj_zu_inf_control_verb *>
+  (%zu_inf_control_verb,
+   synsem:loc:cat:arg_st:[arg:loc:cat:(attracted_comps_:AC,
+                                       comps:Comps)|append((AC,
+                                                            attract_unrealized(Comps)),[_,_])]).
+
+% phase verb
+
+subj_raising_verb *>
+ (%raising_verb,
+  synsem:loc:cat:arg_st:[arg:loc:cat:(head:subj:(Subj,
+                                                 list_of_raised_arguments), % löschen?
+                                      attracted_comps_:AC,
+                                      comps:Comps)
+                        |(AC,
+                          raise(append_known_prefix(Comps,Subj)))]).
+
+*/
+
+% If a non-head-dtr in a verbal complex 
+%(head_cluster_phrase,
+% non_head_dtr:synsem:loc:cat:comps:tl:hd:arg:loc:cat:head:verb) *>
 
 optionally_coherent_le *> synsem:loc:cat:head:optionally_coherent:plus.
 
@@ -352,3 +429,6 @@ part_derivation_lr *>
 v_trace *>
   synsem:loc:cat:head:(dsl:cat:head:optionally_coherent:OC,
                        optionally_coherent:OC).
+
+
+
