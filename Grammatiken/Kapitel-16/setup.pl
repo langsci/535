@@ -84,8 +84,9 @@ nonloc <<< lex.
 
 synsem <<< rels.
 rels   <<< hcons.
-hcons  <<< dtrs.
-hcons  <<< dtr.
+hcons  <<< root_cont.
+root_cont <<< dtrs.
+root_cont <<< dtr.
 dtr <<< affix.
 
 v2 <<< cannonical.
@@ -435,3 +436,7 @@ parser_valence_filter(
    [[loc,cat,head],[loc,cat,head,case],[loc,cat,head,pform],
     [loc,cat,head,vform],[loc,cont,ind,per],[loc,cont,ind,num]]),
  bypass(synsem:loc:cat:head:coord)).
+
+% Experimental generic runtime contract; closure itself is grammar code.
+root_cont_paths([utterance],plus,[root_cont,rels],[root_cont,hcons]).
+generator_root_cont_relations([exists_q,ec_trial_entity_rel]).

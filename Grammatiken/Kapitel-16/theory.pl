@@ -108,3 +108,5 @@ examples(['  dass Aicke lachen muss',
 
 
 
+
+:- ['closure'].

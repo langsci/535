@@ -12,12 +12,13 @@ intro_phon := bot & [
  PHON LIST ].
 
 
-sign := intro_phon & [
+mrs_lists := bot & [rels list,hcons list].
+
+sign := intro_phon & mrs_lists & [
  synsem synsem,
  v2     bool,
- rels  list,
  generator_rels list,
- hcons list ].
+ ec_protected list ].
 
 list := bot.
 e_list := list.
@@ -63,7 +64,7 @@ intro_complex_sign_dtr := sign &
 ; Zeichen, die in Syntaxregeln als Töchter vorkommen können,
 ; d.h. Phrasen und flektierte bzw. vollständige Wörter, aber keine
 ; unflektierten Stämme.
-syntactic_sign := sign.
+syntactic_sign := sign & [utterance bool,root_cont ec_content].
 lexical_sign   := sign &
   [ inf_marking bool ].
 
@@ -1314,3 +1315,8 @@ vm         := extraction_or_vm    & minus_or_vm.
 generator_relation := bot & [generator_index event_or_index].
 generator_pers_pronoun_rel := generator_relation & [generator_index index].
 generator_relative_pronoun_rel :< generator_relation.
+
+ec_trial_entity_rel := arg0_relation & [arg0 ref].
+ec_content := mrs_lists & [ec_indices list].
+ec_analysis := bot & [ec_args list,ec_bound list].
+ec_trial_pronoun := nominal_pronoun.

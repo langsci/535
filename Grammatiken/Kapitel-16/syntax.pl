@@ -843,10 +843,11 @@ phrase *> dtrs:list_of_zu_minus.
 
 
 root :=
- synsem:(loc:cat:(head:dsl:none,
+ (synsem:(loc:cat:(head:dsl:none,
                   spr:list_of_spirits,
                   comps:list_of_spirits),
-         nonloc:slash:[]).
+         nonloc:slash:[]),
+  utterance:plus).
 
 initial_fin_verb :=
  (@root,
