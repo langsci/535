@@ -109,6 +109,7 @@ inf_zu rule
   rels:Rels,
   hcons:HCons,
   inf_marking:minus,
+  dtr:Dtr,
   cannonical:minus) % ARG-ST wird in der zweiten Tochter shcon berechent.  Es würde nichts schaden,
                     % wenn wir das hier noch einmal berechneten, aber es würde dasselbe herauskommen
                     % und nur Zeit benötigen.
@@ -116,6 +117,7 @@ inf_zu rule
   % Festes Terminal ohne Lexikoneintrag und ohne eigene Chart-Kante.
   token> zu,
 sem_head> (word,
+      Dtr,
       phon:Phon,
       synsem:Synsem,
       rels:Rels,

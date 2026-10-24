@@ -124,6 +124,13 @@ relational_lr *>
   dtr:(rels:Rels,
        hcons:HCons)).
 
+relational_two_rels_lr *>
+( %relational_lr & cannonical_complex_word.
+  rels:tl:tl:Rels,
+  hcons:HCons,
+  dtr:(rels:Rels,
+       hcons:HCons)).
+
 
 fin_verb_infl_lr *>
 ( %relational_lr & cannonical_complex_word.
@@ -422,7 +429,8 @@ part_derivation_lr *>
                trace:Trace),
        inf_marking:Zu)).
 
-part_derivation_lr *>
+% Das gilt nicht für inf_part_... weil der sowohl modal als auch Tempus-Semantik einführt.
+bse_or_ppp_part_derivation_lr *>
  (%derived_stem & isect_modifier & relational_lr
   rels:hd:(arg0:Ind,
            arg3:VLTop),
@@ -481,18 +489,29 @@ morphs
 % ?? der ein Märchen erzählt bekommende Mann Partizip I vielleicht
 % * das erzählt zu bekommende Märchen        mit zu niemals
 % Der Roman ist zu lesen.
-% der zu lesende Roman
+% der zu lesende Roman = der Roman, der zu lesen ist,
 % der Mann hat den Roman zu lesen
 % * der zu lesen zu habende Roman
 % Er erzählt ihr einen Roman.
 % Sie bekommt einen Roman erzählt.
 % der erzählt zu bekommende Roman
 inf_part_derivation_lr *>
- (%inf_or_ppp_part_derivation_lr & relational_lr
-  rels:hd:modal_rel,
+ (%inf_or_ppp_part_derivation_lr & relational_two_rels_lr
   dtr:synsem:loc:cat:head:(aux:minus,
                            vform:inf)).
 
+inf_part_derivation_lr *>
+ (rels:[(pres_ind,
+         arg0:Ind,
+         arg3:ModalLTop),
+        (dürfen_können_müssen_sollen_rel,
+         lbl:ModalLTop,
+         arg0:Ind,
+         arg3:VLTop)|Rels],
+  dtr:(synsem:loc:cont:ltop:VLTop,
+       rels:Rels)).
+
+       
 % der zu lesende Aufsatz
 inf_part_derivation_lr *>
   (%inf_or_ppp_part_derivation_lr & relational_lr

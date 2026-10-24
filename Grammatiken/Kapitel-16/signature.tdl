@@ -114,6 +114,8 @@ non_relational_lr :< intro_complex_sign_dtr.
 
 relational_lr := intro_complex_sign_dtr & arg0_ltop_lbl_le.
 
+relational_two_rels_lr := intro_complex_sign_dtr & arg0_ltop_lbl_le.
+
 
 ; Teilt auch morphophonologische Merkmale.
 n_v_infl_lr := infl_lr.
@@ -125,11 +127,12 @@ attr_adj_infl_lr := infl_lr & non_relational_lr & spr_saturated_le & cannonical_
 ;isect_attr_adj_infl_lr  := attr_adj_infl_lr & isect_n_modifier.
 ;scopal_attr_adj_infl_lr :< attr_adj_infl_lr.
 
-part_derivation_lr            := derived_stem & isect_modifier & relational_lr.
+part_derivation_lr            := derived_stem & isect_modifier.
+bse_or_ppp_part_derivation_lr := part_derivation_lr  & relational_lr.
 inf_or_ppp_part_derivation_lr :< part_derivation_lr.
-ppp_part_derivation_lr        := inf_or_ppp_part_derivation_lr.      ; relation = past_ind "der geschlagene Weltmeister" = "der Weltmeister, der geschlagen wurde"
-inf_part_derivation_lr        := inf_or_ppp_part_derivation_lr.      ; das zu lesende Buch
-bse_part_derivation_lr        := part_derivation_lr.                 ; das das Buch lesende Kind relation = pres_ind, 
+ppp_part_derivation_lr        := bse_or_ppp_part_derivation_lr & inf_or_ppp_part_derivation_lr.      ; relation = past_ind "der geschlagene Weltmeister" = "der Weltmeister, der geschlagen wurde"
+inf_part_derivation_lr        := inf_or_ppp_part_derivation_lr & relational_two_rels_lr.      ; das zu lesende Buch
+bse_part_derivation_lr        := bse_or_ppp_part_derivation_lr.                 ; das das Buch lesende Kind relation = pres_ind, 
                                                                      ; damit Relativsatz generiert wird.
 
 
@@ -854,10 +857,12 @@ wahrscheinlich_rel := arg1_relation.
 
 
 verbal_relation := arg0_relation & [
+  arg0       event,
   aktionsart aktionsart ].
 
 verbal_arg01_relation   := verbal_relation & arg01_relation.
 verbal_arg02_relation   := verbal_relation & arg02_relation.
+verbal_arg03_relation   := verbal_relation & arg03_relation.
 verbal_arg012_relation  := verbal_relation & arg012_relation.
 verbal_arg0123_relation := verbal_relation & arg0123_relation.
 
@@ -1039,7 +1044,7 @@ und_rel := conjunction_rel.
 und_n_rel := conjunction_n_rel & und_rel.
 und_v_rel := conjunction_v_rel & und_rel.
 
-modal_rel := arg03_relation.
+modal_rel := verbal_arg03_relation.
 
 dürfen_können_müssen_sollen_rel :< modal_rel.
 können_müssen_sollen_rel :< dürfen_können_müssen_sollen_rel.

@@ -21,6 +21,11 @@ generator_input_lexicon_exceptions([von,durch]).
 % Chart: 2534 edges (1020 active, 1514 inactive).
 generator_no_semantic_specialization(modal_rel).
 
+% Auch SORT-Werte in semantischen Indizes duerfen nicht spezifischer werden.
+% Z.B. object im Input lizenziert weder agentive (jemand) noch non_agentive
+% (etwas), sofern diese zusaetzliche Einschraenkung nicht schon gegeben ist.
+generator_no_semantic_specialization(anything).
+
 % Zusaetzlich exakt: Auch allgemeinere lexikalische Modalrelationen werden
 % ausgeschlossen. Bei muessen_rel im Input sollen modales haben/sein mit
 % muessen_sollen_rel bzw. duerfen_koennen_muessen_sollen_rel nicht antreten.

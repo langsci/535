@@ -29,6 +29,13 @@ specification: -->
 		<quantifier label="exists_q" hole="1" />
 	</equivalencegroup>
 
+	<!-- EC inside a definite NP restrictor and EC outside that NP:
+	     normalize only this pair, without permuting EC past every_q. -->
+	<equivalencegroup>
+		<quantifier label="exists_q" hole="1"/>
+		<quantifier label="def_q" hole="0"/>
+	</equivalencegroup>
+
 	<equivalencegroup>
 		<!-- implicit_q_rel -->
 		<quantifier label="def_q"  hole="1"/>

@@ -313,7 +313,7 @@ ts(192,"Mir wird geschlagen.",@decl,0,[],[],'Kapitel 16: Passiv + Kasus').
 ts(193,"Mir werde geschlagen.",@decl,0,[],[],'Kapitel 16: Passiv + Kasus').
 ts(194,"Der Frau wird gegraut.",@decl,0,[],[],'Kapitel 16: Passiv + subjektloses Prädikat').
 ts(195,"Heute wird gegraut.",@decl,0,[],[],'Kapitel 16: Passiv + subjektloses Prädikat').
-ts(196,"Gelacht wurde.",@decl,1,[1],[1],'Kapitel 16: Passiv + subjektloses Prädikat').
+ts(196,"Gelacht wurde.",@decl,1,[1],[2],'Kapitel 16: Passiv + subjektloses Prädikat').
 ts(197,"Gearbeitet wird von dem Affen.",@decl,1,[1],[4],'Kapitel 16: Passiv + subjektloses Prädikat').
 
 
@@ -388,11 +388,11 @@ ts(243,"Ist heute geregnet?",@interrog,0,[],[],'Kapitel 16: Passiv + Zustandspas
 ts(244,"Ich bin geholfen.",@decl,0,[],[],'Kapitel 16: Passiv + Zustandspassiv').
 ts(245,"Der Kran hat repariert zu sein.",@decl,1,[1],[3],'Kapitel 16: Passiv + Zustandspassiv + modaler Infinitiv').
 ts(246,"dass der Kran zu reparieren versucht wurde",@root,1,[],_Generated,'Kapitel 16: Passiv + Fernpassiv + Kohärenz + Kasus').
-ts(247,"Zu reparieren versucht wurde der Kran.",@decl,1,[1],[6],'Kapitel 16: Passiv + Fernpassiv + Kohärenz + Kasus').
-ts(248,"Den Kran zu reparieren wurde versucht.",@decl,1,[1],[6],'Kapitel 16: Passiv + Fernpassiv + Kohärenz + Kasus').
+ts(247,"Zu reparieren versucht wurde der Kran.",@decl,1,[1],[11],'Kapitel 16: Passiv + Fernpassiv + Kohärenz + Kasus').
+ts(248,"Den Kran zu reparieren wurde versucht.",@decl,1,[1],[11],'Kapitel 16: Passiv + Fernpassiv + Kohärenz + Kasus').
 ts(249,"dass den Kran zu reparieren versucht wurde",@root,1,[],_Generated,'Kapitel 16: Passiv + Fernpassiv + Kohärenz + Kasus').
-ts(250,"Der Kran wurde zu reparieren versucht.",@decl,1,[1],[6],'Kapitel 16: Passiv + Fernpassiv + Kohärenz + Kasus').
-ts(251,"Den Kran wurde zu reparieren versucht.",@decl,1,[1],[6],'Kapitel 16: Passiv + Fernpassiv + Kohärenz + Kasus').
+ts(250,"Der Kran wurde zu reparieren versucht.",@decl,1,[1],[11],'Kapitel 16: Passiv + Fernpassiv + Kohärenz + Kasus').
+ts(251,"Den Kran wurde zu reparieren versucht.",@decl,1,[1],[11],'Kapitel 16: Passiv + Fernpassiv + Kohärenz + Kasus').
 ts(252,"Ist der Kran zu reparieren versucht worden?",@interrog,1,[1],_Generated,'Kapitel 16: Passiv + Fernpassiv + Kohärenz + Kasus').
 ts(253,"Ein Aufsatz wurde ihm zu lesen erlaubt.",@decl,1,[1],_Generated,'Kapitel 16: Passiv + Fernpassiv + Kohärenz + Kasus').
 ts(254,"Zu reparieren versucht wurde der Kran.",@decl,1,[1],_Generated,'Kapitel 16: Passiv + Fernpassiv + Kohärenz + Kasus + PVP').
@@ -410,7 +410,7 @@ ts(265,"Dem Mann ist zu helfen.",@decl,1,[1],_Generated,'Kapitel 17: modaler Inf
 ts(266,"Dem Mann scheint nicht zu helfen zu sein.",@decl,3,[2,2,2],[5,7,7],'Kapitel 17: modaler Infinitiv + sein').
 ts(267,"Die Frau ist ihm zu helfen.",@decl,0,[],[],'Kapitel 17: modaler Infinitiv + sein').
 ts(268,"Die Frau ist das Buch zu lesen.",@decl,0,[],[],'Kapitel 17: modaler Infinitiv + sein').
-ts(269,"Aicke kennt den zu lesenden Aufsatz.",@decl,1,[1],_Generated,'Kapitel 17: modaler Infinitiv + attributiv').
+ts(269,"Aicke kennt den zu lesenden Aufsatz.",@decl,1,[1],[10],'Kapitel 17: modaler Infinitiv + attributiv').
 ts(270,"Aicke kennt den von ihm zu lesenden Aufsatz.",@decl,1,[1],[10],'Kapitel 17: modaler Infinitiv + attributiv').
 ts(271,"der das Buch zu lesende Mann",@root,0,[],_Generated,'Kapitel 17: modaler Infinitiv + attributiv').
 %ts(271,"der zu lesen zu habende Roman",@root,0,[],_Generated,'Kapitel 17: modaler Infinitiv + attributiv').

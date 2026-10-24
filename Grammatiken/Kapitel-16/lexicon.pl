@@ -484,8 +484,9 @@ grau   ---> @subjlos_verb(dat,grauen_rel,human),
            @vflex_em(minus),
            @vflex_bet1(plus).
 
-% Die Tablette hilft. Ist hier nicht gemeint.
-helf   ---> @np_np_dat_verb(helfen_rel,agentive,agentive),
+% Die Tablette hilft. Das Buch hilft mir.
+% ? Der Plan hilft mir. Erst mal Objekt
+helf   ---> @np_np_dat_verb(helfen_rel,object,agentive),
 
            @pres2_stem(a_ hilf),
            @past_stem(a_ half),
@@ -742,7 +743,8 @@ glaub ---> @glauben_denken_verb(glauben_rel,human),
           @vflex_em(minus),
           @vflex_bet1(plus).
 
-fetz ---> @cp_verb(fetzen_rel),
+fetz ---> (@cp_verb(fetzen_rel)
+          ;@intrans_verb(fetzen_rel,anything)),
           @vflex_fk(v_weak),
           @vflex_ep(minus),
           @vflex_sm(minus),

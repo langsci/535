@@ -31,7 +31,7 @@ que_symbol(@interrog).
 imp_symbol(@imp).
 
 % specify signature file
-signature('signature.tdl').
+signature(tdl(['signature.tdl','../Gemeinsames/verbmobil-ontology.tdl'])).
 
 % macros for the lexicon
 :- [le_macros].
