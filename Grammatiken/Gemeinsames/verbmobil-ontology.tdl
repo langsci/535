@@ -1,0 +1,61 @@
+; ontology from VerbMobil
+anything :< bot. 
+non_human :< anything.              ; needed for pronoun `it'
+
+  ; this is not complete. more types have to be added here, basically everything that is not human ...
+
+
+  non_agentive :< non_human.
+
+    location_temporal_or_thing := non_agentive & space_time.
+    location_thing_or_substance := non_agentive & entity.
+      thing_or_substance := location_thing_or_substance & object.
+      location_or_thing := location_thing_or_substance & location_temporal_or_thing.
+        location     :< location_or_thing.
+          geo_location :< location.    ; Berlin, Bremen, Babel
+          nongeo_location := location & human_or_nongeo_location & inst_or_nongeo_location. ; Raum, Gebäude 
+        thing := location_or_thing & thing_or_substance.
+      temporal :< location_temporal_or_thing.
+    abstract :< non_agentive.
+      property :< abstract.          ; Angst, Interesse  
+      field   :< abstract.           ; Informatik, Sport, Wirtschaft  
+      info_content := information_poly & abstract.      ; Programm, Plan  
+      institution  := abstract & inst_or_nongeo_location.      ; BASF, Universität  
+      symbol     :< abstract.        ; Bindestrich, Punkt 
+      unit       :< abstract.        ; not in VM: Liter, Meter
+    information_poly :< non_agentive.
+    inst_or_nongeo_location :< inst_loc_coll_poly.
+space_time :< anything.
+
+      situation :< temporal.
+
+        volitional     :< situation.
+        non_volitional :< situation.
+
+        
+
+        meeting_sit :< situation.     ; treffen, Konferenz, Sitzung  
+        communicat_sit  :< situation. ; sagen, danken, Gespräch
+        action_sit  :< situation.     ; arbeiten, schreiben, handeln  
+        move_sit   :< situation.      ; fahren, legen, gehen, Reise  
+        position_sit  :< situation.   ; liegen, stehen  
+        temp_sit    :< situation.     ; anfangen, beenden, dauern  
+        mental_sit   :< situation.    ; passen, denken, Annahme  
+      time  :< temporal.              ; Sommer, Abend, dofw, mofy 
+  entity :< space_time.
+    object :< entity.
+      agentive :< object.
+        human  := agentive & human_or_nongeo_location.
+        animal := non_human & agentive.
+
+      instrument :< thing.    ; Computer, Telefon
+      info_bearer := information_poly &  thing.   ; Kalender, Unterlagen food  
+      food       :< thing.    ; Bier, Abendessen 
+      vehicle    :< thing.    ; Zug, Auto
+      substance :< thing_or_substance.
+
+
+
+ilcp_human_poly :< anything.
+  inst_loc_coll_poly := ilcp_human_poly & non_agentive.
+  human_or_nongeo_location := ilcp_human_poly & entity.

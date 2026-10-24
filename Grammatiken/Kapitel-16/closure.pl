@@ -7,9 +7,10 @@
 :- multifile fun/1,if/2,'*>'/2,'--->'/2,':='/2.
 :- discontiguous fun/1,if/2,'*>'/2.
 
-% Preserve pronominal indices independently of generator coverage records.
-word *> ((pers_pronoun,synsem:loc:cont:ind:I,ec_protected:[I]);
-          (@not(pers_pronoun),ec_protected:[])).
+% Personal pronouns and possessors are contextually given, not existentially closed.
+% For possessives IND is the possessor; SPEC carries the possessed noun index.
+word *> (((pers_pronoun;possessive),synsem:loc:cont:ind:I,ec_protected:[I]);
+          (@not(pers_pronoun),@not(possessive),ec_protected:[])).
 trace *> ec_protected:[].
 empty *> ec_protected:[].
 phrase *> (dtrs:Dtrs,ec_protected:ec_collect_protected(Dtrs)).
@@ -95,8 +96,13 @@ ec_close_candidates_list([I|Rest],Seen,Content) if
 syntactic_sign *>
  (utterance:U,rels:Rels,ec_protected:Protected,root_cont:Contribution)
  goal when(U=(plus;minus),ec_root_contribution(U,Rels,Protected,Contribution)).
+
+% villeicht dtrs:list *> dtrs:ec_internal_daughters.
 phrase *> dtrs:ec_internal_daughters.
 verb_movement_rule *> dtrs:ec_internal_daughters.
+
+% lexical rules
+dtr:syntactic_sign *> dtr:utterance:minus.
 
 fun ec_internal_daughters(-).
 ec_internal_daughters(Dtrs) if
@@ -110,14 +116,24 @@ ec_root_contribution(minus,_,_,(ec_indices:[],rels:[],hcons:[])) if true.
 ec_root_contribution(plus,Rels,Protected,Content) if existential_closure(Rels,Protected,Content).
 
 % Trial realization vocabulary, unchanged from the earlier experiment.
-ec_pronoun(Case,Gender) :=
+ec_pronoun(Case,Gender,Relation,Sort) :=
  (ec_trial_pronoun,
   synsem:(lex:minus,nonloc:rel:[],
-   loc:(cat:(head:case:morph_case:Case,spr:[],comps:[],arg_st:[]),
-        cont:(ind:(Ind,per:third,num:sg,gen:Gender),ltop:Label))),
+   loc:(cat:(head:case:morph_case:Case,
+             spr:[],
+             comps:[],
+             arg_st:[]),
+        cont:(ind:(Ind,
+                   per:third,
+                   num:sg,
+                   gen:Gender,
+                   sort:Sort),
+              ltop:Label))),
   rels:[(exists_q,arg0:Ind,rstr:Restr),
-        (ec_trial_entity_rel,lbl:Label,arg0:Ind)],
+        (Relation,lbl:Label,arg0:Ind)],
   hcons:[(qeq,harg:Restr,larg:Label)]).
-jemand ---> @ec_pronoun(nom,fem_or_mas).
-jemanden ---> @ec_pronoun(acc,fem_or_mas).
-etwas ---> @ec_pronoun(nom_or_acc,neu).
+
+% Jemand hat die Milch getrunken. = Mensch oder Katze
+jemand   ---> @ec_pronoun(nom,fem_or_mas,ec_trial_entity_rel,agentive).
+jemanden ---> @ec_pronoun(acc,fem_or_mas,ec_trial_entity_rel,agentive).
+etwas    ---> @ec_pronoun(nom_or_acc,neu,ec_trial_entity_rel,non_agentive).

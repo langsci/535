@@ -358,7 +358,8 @@ conny ---> @proper_noun(fem_or_mas,'Conny').
 
 % Verben
 
-arbeit  ---> @intrans_verb(arbeiten_rel),
+% Menschen und Elefanten?
+arbeit  ---> @intrans_verb(arbeiten_rel,agentive),
             @vflex_fk(v_weak),
 
             @vflex_ep(plus),
@@ -367,8 +368,8 @@ arbeit  ---> @intrans_verb(arbeiten_rel),
             @vflex_em(minus),
             @vflex_bet1(plus).
 
-
-bell    ---> @intrans_verb(bellen_rel),
+% Hunde und auch Menschen
+bell    ---> @intrans_verb(bellen_rel,agentive),
             @vflex_fk(v_weak),
  
             @vflex_ep(minus),
@@ -377,7 +378,7 @@ bell    ---> @intrans_verb(bellen_rel),
             @vflex_em(minus),
             @vflex_bet1(plus).
 
-lach    ---> @intrans_verb(lachen_rel),
+lach    ---> @intrans_verb(lachen_rel,agentive),
             @vflex_fk(v_weak),
  
             @vflex_ep(minus),
@@ -387,7 +388,7 @@ lach    ---> @intrans_verb(lachen_rel),
             @vflex_bet1(plus).
 
 
-schlaf ---> @intrans_verb(schlafen_rel),
+schlaf ---> @intrans_verb(schlafen_rel,agentive),
            @pres2_stem(a_ schläf),
            @past_stem(a_ schlief),
             
@@ -402,7 +403,7 @@ schlaf ---> @intrans_verb(schlafen_rel),
            @vflex_em(minus),
            @vflex_bet1(plus).
 
-tanz   ---> @intrans_verb(tanzen_rel),
+tanz   ---> @intrans_verb(tanzen_rel,agentive),
            @vflex_fk(v_weak),
  
            @vflex_ep(minus),
@@ -412,7 +413,7 @@ tanz   ---> @intrans_verb(tanzen_rel),
            @vflex_bet1(plus).
 
 
-sterb  ---> @intrans_unacc_verb(sterben_rel),
+sterb  ---> @intrans_unacc_verb(sterben_rel,anything),
            @pres2_stem(a_ stirb),
            @past_stem(a_ starb),
            @part_stem(a_ storb),
@@ -443,7 +444,7 @@ regn  --->  @expl_np_verb(regnen_rel),
            @vflex_bet1(plus).
 
 % eigentlich würde man hier `auffallen' nehmen, aber das ist leider ein Partikelverb.
-geling ---> @np_np_unacc_verb(dat,gelingen_rel),
+geling ---> @np_np_unacc_verb(dat,gelingen_rel,anything,agentive),
            @past_stem(a_ gelang),
            @part_stem(a_ gelung),
               
@@ -461,8 +462,8 @@ geling ---> @np_np_unacc_verb(dat,gelingen_rel),
            @vflex_bet1(minus).
 
 
-
-spiel  ---> @intrans_verb(spielen_rel),
+% der Wind?
+spiel  ---> @intrans_verb(spielen_rel,agentive),
             @vflex_fk(v_weak),
 
             @vflex_ep(minus),
@@ -472,7 +473,7 @@ spiel  ---> @intrans_verb(spielen_rel),
             @vflex_bet1(plus).
 
 
-grau   ---> @subjlos_verb(dat,grauen_rel),
+grau   ---> @subjlos_verb(dat,grauen_rel,human),
            @vflex_fk(v_weak),
  
            @vflex_ep(minus),
@@ -483,7 +484,8 @@ grau   ---> @subjlos_verb(dat,grauen_rel),
            @vflex_em(minus),
            @vflex_bet1(plus).
 
-helf   ---> @np_np_dat_verb(helfen_rel),
+% Die Tablette hilft. Ist hier nicht gemeint.
+helf   ---> @np_np_dat_verb(helfen_rel,agentive,agentive),
 
            @pres2_stem(a_ hilf),
            @past_stem(a_ half),
@@ -504,7 +506,7 @@ helf   ---> @np_np_dat_verb(helfen_rel),
            @vflex_bet1(plus).
 
 
-jag    ---> @trans_verb(jagen_rel),
+jag    ---> @trans_verb(jagen_rel,agentive,agentive),
            @vflex_fk(v_weak),
  
            @vflex_ep(minus),
@@ -514,7 +516,7 @@ jag    ---> @trans_verb(jagen_rel),
            @vflex_bet1(plus).
 
 
-kenn  --->  @trans_verb(kennen_rel),
+kenn  --->  @trans_verb(kennen_rel,agentive,anything),
            @past_stem(a_ kann),
            @part_stem(a_ kann),
             
@@ -528,7 +530,7 @@ kenn  --->  @trans_verb(kennen_rel),
            @vflex_em(minus),
            @vflex_bet1(plus).
 
-les  ---> @trans_verb(lesen_rel),
+les  ---> @trans_verb(lesen_rel,agentive,info_bearer),
          @pres2_stem(a_ lies),
 
          @past_stem(a_ las),
@@ -547,7 +549,7 @@ les  ---> @trans_verb(lesen_rel),
          @vflex_em(minus),
          @vflex_bet1(plus).
 
-schmelz ---> @intrans_unacc_verb(schmelzen_rel),
+schmelz ---> @intrans_unacc_verb(schmelzen_rel,thing_or_substance),
          @pres2_stem(a_ schmilz),
 
          @past_stem(a_ schmolz),
@@ -566,7 +568,7 @@ schmelz ---> @intrans_unacc_verb(schmelzen_rel),
          @vflex_em(minus),
          @vflex_bet1(plus).
 
-lieb  ---> @trans_verb(lieben_rel),
+lieb  ---> @trans_verb(lieben_rel,agentive,anything),
            @vflex_fk(v_weak),
             
            @vflex_ep(minus),
@@ -577,7 +579,7 @@ lieb  ---> @trans_verb(lieben_rel),
            @vflex_em(minus),
            @vflex_bet1(plus).
 
-mal   ---> @trans_verb(malen_rel),
+mal   ---> @trans_verb(malen_rel,agentive,anything),
            @vflex_fk(v_weak),
  
            @vflex_ep(minus),
@@ -586,7 +588,7 @@ mal   ---> @trans_verb(malen_rel),
            @vflex_em(minus),
            @vflex_bet1(plus).
 
-nehm  ---> @trans_verb(nehmen_rel),
+nehm  ---> @trans_verb(nehmen_rel,agentive,object),
            @pres2_stem(a_ nimm),
 
            @past_stem(a_ nahm),
@@ -605,7 +607,7 @@ nehm  ---> @trans_verb(nehmen_rel),
            @vflex_bet1(plus).
 
 
-reparier  ---> @trans_verb(reparieren_rel),
+reparier  ---> @trans_verb(reparieren_rel,human,thing),
               @vflex_fk(v_weak),
  
               @vflex_ep(minus),
@@ -614,7 +616,8 @@ reparier  ---> @trans_verb(reparieren_rel),
               @vflex_em(minus),
               @vflex_bet1(minus).
 
-schlag ---> @trans_verb(schlagen_rel),
+% Menschen und Kängurus
+schlag ---> @trans_verb(schlagen_rel,agentive,agentive),
            @pres2_stem(a_ schläg),
            @past_stem(a_ schlug),
            @part_stem(a_ schlag),
@@ -631,7 +634,8 @@ schlag ---> @trans_verb(schlagen_rel),
            @vflex_em(minus),
            @vflex_bet1(plus).
 
-sing  ---> @trans_verb(singen_rel),
+% Vögel und Menschen. Der Wind?
+sing  ---> @trans_verb(singen_rel,agentive,info_content),
            @past_stem(a_ sang),
            @part_stem(a_ sung),
               
@@ -648,8 +652,10 @@ sing  ---> @trans_verb(singen_rel),
            @vflex_em(minus),
            @vflex_bet1(plus).
 
-
-widersprech  ---> @np_np_dat_verb(widersprechen_rel),
+% Sind LLMs agentive? Darüber denken wir lieber nicht weiter nach.
+% Ob Codex eingeschnappt ist, wenn er das hier liest?
+% Er/sie/es kann ja Bescheid sagen, wenn es passiert ist.
+widersprech  ---> @np_np_dat_verb(widersprechen_rel,agentive,agentive),
             @pres2_stem(a_ widersprich),
             @past_stem(a_ widersprach),
             @part_stem(a_ widersproch),
@@ -669,7 +675,7 @@ widersprech  ---> @np_np_dat_verb(widersprechen_rel),
 
 
 % Ditransitive Verben
-erzähl  ---> @ditrans_verb(erzählen_rel),
+erzähl  ---> @ditrans_verb(erzählen_rel,agentive,agentive,info_content),
             @vflex_fk(v_weak),
             
             @vflex_ep(minus),
@@ -680,7 +686,7 @@ erzähl  ---> @ditrans_verb(erzählen_rel),
             @vflex_em(minus),
             @vflex_bet1(minus).
 
-geb  ---> @ditrans_verb(geben_rel),
+geb  ---> @ditrans_verb(geben_rel,agentive,agentive,object),
          @pres2_stem(a_ gib),
          @past_stem(a_ gab),
          @part_stem(a_ geb),
@@ -699,7 +705,7 @@ geb  ---> @ditrans_verb(geben_rel),
          @vflex_em(minus),
          @vflex_bet1(plus).
 
-schenk  ---> @ditrans_verb(schenken_rel),
+schenk  ---> @ditrans_verb(schenken_rel,human,human,object),
             @vflex_fk(v_weak),
 
             @vflex_ep(minus),
@@ -711,7 +717,7 @@ schenk  ---> @ditrans_verb(schenken_rel),
             @vflex_bet1(plus).
 
 
-denk  ---> @np_pp_verb(an_pform,acc,denken_an_rel),
+denk  ---> @np_pp_verb(an_pform,acc,denken_an_rel,agentive,anything),
           @past_stem(a_ dach),
           @part_stem(a_ dach),
           
@@ -726,7 +732,7 @@ denk  ---> @np_pp_verb(an_pform,acc,denken_an_rel),
 
 
 
-glaub ---> @glauben_denken_verb(glauben_rel),
+glaub ---> @glauben_denken_verb(glauben_rel,human),
           @vflex_fk(v_weak),
           @vflex_ep(minus),
           @vflex_sm(minus),
@@ -816,8 +822,8 @@ woll   ---> @modal_verb(wollen_rel),
            @vflex_bet1(plus).
 
 
-versprech --->  ( @np_v_subj_control_verb(versprechen_rel)
-               ; @np_np_v_subj_control_verb(dat,versprechen_rel)
+versprech --->  ( @np_v_subj_control_verb(versprechen_rel,human)
+               ; @np_np_v_subj_control_verb(dat,versprechen_rel,human,human)
                ),
               @pres2_stem(a_ versprich),
 
@@ -838,7 +844,7 @@ versprech --->  ( @np_v_subj_control_verb(versprechen_rel)
               @vflex_em(minus),
               @vflex_bet1(minus).
 
-versuch   ---> @np_v_subj_control_verb(versuchen_rel),
+versuch   ---> @np_v_subj_control_verb(versuchen_rel,human),
               @vflex_fk(v_weak),
  
               @vflex_ep(minus),
@@ -851,7 +857,7 @@ versuch   ---> @np_v_subj_control_verb(versuchen_rel),
 
 
 % Objektkontrollverben
-erlaub    ---> @np_np_v_obj_control_verb(dat,erlauben_rel),
+erlaub    ---> @np_np_v_obj_control_verb(dat,erlauben_rel,human,human),
               @vflex_fk(v_weak),
               
               @vflex_ep(minus),
@@ -860,7 +866,7 @@ erlaub    ---> @np_np_v_obj_control_verb(dat,erlauben_rel),
               @vflex_em(minus),
               @vflex_bet1(minus).
 
-zwing     ---> @np_np_v_obj_control_verb(zwingen_rel),
+zwing     ---> @np_np_v_obj_control_verb(zwingen_rel,human,agentive),
               @past_stem(a_ zwang),
               @part_stem(a_ zwung),
               
@@ -921,7 +927,7 @@ beginn --->    @phase_verb(beginnen_rel),
 
 % AcI-Verben
 
-seh       ---> @aci_verb(sehen_rel),
+seh       ---> @aci_verb(sehen_rel,agentive),
               @pres2_stem(a_ sieh),
 
               @past_stem(a_ sah),
@@ -942,9 +948,9 @@ seh       ---> @aci_verb(sehen_rel),
               @vflex_bet1(plus).
 
 
-lass    ---> ( @aci_verb(lassen_rel)
+lass    ---> ( @aci_verb(lassen_rel,agentive)
             ;
-              lassen_passive
+               @lassen_passive(agentive)
             ),
             @pres2_stem(a_ läss),
 

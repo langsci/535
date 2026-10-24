@@ -1059,7 +1059,8 @@ perfect_rel := arg03_relation.
 stative_passive_rel := arg03_relation.
 
 
-event_or_index := bot.
+event_or_index := bot & [
+      sort anything].
 
 event := event_or_index & [
   mode mode ].

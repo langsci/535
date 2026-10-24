@@ -634,6 +634,12 @@ intrans_verb(Relation) :=
  (strict_intrans_nerg_verb,
   rels:hd:Relation).
 
+intrans_verb(Relation,Sort) :=
+ (strict_intrans_nerg_verb,
+  rels:hd:(Relation,
+           arg1:sort:Sort)).
+
+
 intrans_unacc_verb *>
  (%non_flip_verb_le,
   synsem:loc:cat:(head:auxf:sein,
@@ -645,6 +651,11 @@ intrans_unacc_verb(Relation) :=
  (strict_intrans_unacc_verb,
   rels:hd:Relation).
 
+intrans_unacc_verb(Relation,Sort) :=
+ (strict_intrans_unacc_verb,
+  rels:hd:(Relation,
+           arg2:sort:Sort)).
+
 
 np_pp_verb *> 
  (%non_scopal_intrans_verb,
@@ -655,6 +666,13 @@ np_pp_verb(PForm,Case,Relation) :=
  (np_pp_verb,
   synsem:loc:cat:arg_st:hd: @pp(PForm,Case),
   rels:hd:Relation).
+
+np_pp_verb(PForm,Case,Relation,Sort1,Sort2) :=
+ (np_pp_verb,
+  synsem:loc:cat:arg_st:hd: @pp(PForm,Case),
+  rels:hd:(Relation,
+           arg1:sort:Sort1,
+           arg2:sort:Sort2)).
 
 % regnen
 expl_np_verb *>
@@ -673,10 +691,11 @@ subjlos_verb *>
                   arg_st:[ @np(Ind) ]),
   rels:[arg2:Ind]).
 
-subjlos_verb(Case,Relation) :=
+subjlos_verb(Case,Relation,Sort) :=
  (subjlos_verb,
   synsem:loc:cat:arg_st:[ @np(Case,_Ind) ],
-  rels:hd:Relation).
+  rels:hd:(Relation,
+           arg2:sort:Sort)).
 
 % kennen, helfen verbs with at least two arguments and a nominative
 bi_or_more_val_verb *>
@@ -694,6 +713,12 @@ trans_verb(Relation) :=
  (strict_trans_verb,
   rels:hd:Relation).
 
+trans_verb(Relation,Sort1,Sort2) :=
+ (strict_trans_verb,
+  rels:hd:(Relation,
+           arg1:sort:Sort1,
+           arg2:sort:Sort2)).
+
 
 % helfen
 np_np_dat_nerg_verb *>
@@ -703,6 +728,12 @@ np_np_dat_nerg_verb *>
 np_np_dat_verb(Relation) :=
  (np_np_dat_nerg_verb,
   rels:hd:Relation).
+
+np_np_dat_verb(Relation,Sort1,Sort2) :=
+ (np_np_dat_nerg_verb,
+  rels:hd:(Relation,
+           arg1:sort:Sort1,
+           arg2:sort:Sort2)).
 
 % gelingen
 np_np_unacc_verb *> 
@@ -715,6 +746,12 @@ np_np_unacc_verb(Case,Relation) :=
   synsem:loc:cat:arg_st:hd: @np(Case,_Ind2),
   rels:hd:Relation).
 
+np_np_unacc_verb(Case,Relation,Sort1,Sort2) :=
+ (np_np_unacc_verb,
+  synsem:loc:cat:arg_st:hd: @np(Case,_Ind2),
+  rels:hd:(Relation,
+           arg1:sort:Sort1,
+           arg2:sort:Sort2)).
 
 ditrans_verb *>
  (%trans_verb = bi_or_more_val_verb
@@ -724,6 +761,13 @@ ditrans_verb *>
 ditrans_verb(Relation) :=
  (ditrans_verb,
   rels:hd:Relation).
+
+ditrans_verb(Relation,Sort1,Sort2,Sort3) :=
+ (ditrans_verb,
+  rels:hd:(Relation,
+           arg1:sort:Sort1,
+           arg2:sort:Sort2,
+           arg3:sort:Sort3)).
 
 % stimmen, fetzen Hier wäre eine Unterspezifikation NP/CP schön, leider ist die Anbindung der Semantik aber anders.
 cp_verb *>
@@ -739,7 +783,6 @@ cp_verb *>
 cp_verb(Relation) :=
  (cp_verb,
   rels:hd:Relation).
-
 
 glauben_denken_verb *>
  (%intrans_nerg_verb,
@@ -758,6 +801,11 @@ glauben_denken_verb *>
 glauben_denken_verb(Relation) :=
  (glauben_denken_verb,
   rels:hd:Relation).
+
+glauben_denken_verb(Relation,Sort) :=
+ (glauben_denken_verb,
+  rels:hd:(Relation,
+           arg1:sort:Sort)).
 
 
 % Das sind die Beschränkungen, die nötig sind, damit
@@ -1205,6 +1253,11 @@ np_v_subj_control_verb(Relation) :=
   (np_v_subj_zu_inf_control_verb,
    rels:hd:Relation).
 
+np_v_subj_control_verb(Relation,Sort) :=
+  (np_v_subj_zu_inf_control_verb,
+   rels:hd:(Relation,
+            arg1:sort:Sort)).
+
 np_np_v_subj_zu_inf_control_verb *>
   (%zu_inf_control_verb,
    synsem:loc:cat:arg_st:[arg:loc:cat:comps:Comps|append(attract_unrealized(Comps),[@np(ObjInd),@np_str])],
@@ -1216,17 +1269,38 @@ np_np_v_subj_control_verb(Case,Relation) :=
    synsem:loc:cat:arg_st:[arg:loc:cat:comps:Comps|append(attract_unrealized(Comps),[@np(Case,_ObjInd),_])],
    rels:hd:Relation).
 
+np_np_v_subj_control_verb(Case,Relation,Sort1,Sort2) :=
+  (np_np_v_subj_zu_inf_control_verb,
+   synsem:loc:cat:arg_st:[arg:loc:cat:comps:Comps|append(attract_unrealized(Comps),[@np(Case,_ObjInd),_])],
+   rels:hd:(Relation,
+            arg1:sort:Sort1,
+            arg2:sort:Sort2)).
+
 % zwingen
 np_np_v_obj_control_verb(Relation) :=
   (np_np_v_obj_zu_inf_control_verb,
    synsem:loc:cat:arg_st:[arg:loc:cat:comps:Comps|append(attract_unrealized(Comps),[@np_str,_])],
    rels:hd:Relation).
 
+np_np_v_obj_control_verb(Relation,Sort1,Sort2) :=
+  (np_np_v_obj_zu_inf_control_verb,
+   synsem:loc:cat:arg_st:[arg:loc:cat:comps:Comps|append(attract_unrealized(Comps),[@np_str,_])],
+   rels:hd:(Relation,
+            arg1:sort:Sort1,
+            arg2:sort:Sort2)).
+
 % erlauben
 np_np_v_obj_control_verb(Case,Relation) :=
   (np_np_v_obj_zu_inf_control_verb,
    synsem:loc:cat:arg_st:[arg:loc:cat:comps:Comps|append(attract_unrealized(Comps),[@np(Case,_ObjInd),_])],
    rels:hd:Relation).
+
+np_np_v_obj_control_verb(Case,Relation,Sort1,Sort2) :=
+  (np_np_v_obj_zu_inf_control_verb,
+   synsem:loc:cat:arg_st:[arg:loc:cat:comps:Comps|append(attract_unrealized(Comps),[@np(Case,_ObjInd),_])],
+   rels:hd:(Relation,
+            arg1:sort:Sort1,
+            arg2:sort:Sort2)).
 
 
 
@@ -1250,6 +1324,11 @@ aci_verb(Relation) :=
  (aci_verb,
   rels:hd:Relation).
 
+aci_verb(Relation,Sort) :=
+ (aci_verb,
+  rels:hd:(Relation,
+           arg1:sort:Sort)).
+
 % the same as above but the embedded subject is not raised
 % and the DA is required to contain a referential element
 
@@ -1261,6 +1340,9 @@ lassen_passive *>
    rels:[(lassen_passive_rel,
           arg1:Ind)]).
 
+lassen_passive(Sort) :=
+  (lassen_passive,
+   rels:hd:arg1:sort:Sort).
 
 preposition_word *>
 (%word,
