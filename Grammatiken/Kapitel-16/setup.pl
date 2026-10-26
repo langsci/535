@@ -5,6 +5,9 @@
 % Zusaetzliche Wörter ohne eigene Semantikrelation für Paraphrasen.
 % Die übrigen semantisch leeren Wörter bleiben auf die Eingabe beschränkt.
 generator_input_lexicon_exceptions([von,durch]).
+% Relativpronomen erlauben Paraphrasen zwischen Attribut und Relativsatz.
+% Andere Lesarten derselben Wortformen bleiben auf die Eingabe beschraenkt.
+generator_input_lexicon_exception_type(rel_pronoun).
 
 % Modalrelationen duerfen beim Generieren nicht spezifischer werden als
 % die Eingabe: z.B. müssen_sollen_rel darf nicht zu müssen_rel werden.
