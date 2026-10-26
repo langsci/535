@@ -581,6 +581,17 @@ denk  ---> @np_pp_verb(an_pform,acc,denken_an_rel),
 
 
 
+% NP-/Satzargument mit unterspezifiziertem Linking.
+fetz ---> @np_or_cp_verb(fetzen_rel),
+          @vflex_fk(v_weak),
+          @vflex_ep(minus),
+          @vflex_sm(minus),
+          @vflex_pl_n(minus),
+          @vflex_spe(minus),
+          @vflex_tm(minus),
+          @vflex_em(minus),
+          @vflex_bet1(plus).
+
 glaub ---> @glauben_denken_verb(glauben_rel),
           @vflex_fk(v_weak),
           @vflex_ep(minus),

@@ -39,40 +39,44 @@ ts(29,"Kennt ein Kind einen Mann?",@interrog,1,[1],_Generated,'Kapitel 5: Semant
 ts(30,"Kennt jeder Affe ein Kind?",@interrog,1,[2],_Generated,'Kapitel 5: Semantik, Skopus').
 ts(31,"Kennt eine Tochter eines Mitarbeiters einen Affen?",@interrog,1,[1],_Generated,'Kapitel 5: Semantik, Skopus').
 
-ts(32,"das Eis der Speisekammer in",@root,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(33,"dass das Kind dem Affen den Stock gibt",@root,1,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(34,"dass das Kind den Stock dem Affen gibt",@root,1,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(35,"Schläft er?",@interrog,1,[1],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(36,"Lacht das Kind oft?",@interrog,1,[1],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(37,"Lacht das Kind oft nicht?",@interrog,1,[2],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(38,"Lacht das Kind nicht oft?",@interrog,1,[2],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(39,"Kennt ein Kind den Roman?",@interrog,1,[1],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(40,"Kennt den Roman ein Kind?",@interrog,1,[1],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(41,"Aicke schläft schläft.",@decl,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(42,"Den Roman kennt und schläft er",@root,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(43,"Kennt und liebt das Kind den Roman?",@interrog,1,[1],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(44,"Kennt und liebt den Roman das Kind?",@interrog,1,[1],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(45,"Kennt sie den Film und den Roman?",@interrog,1,[1],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+% Unterspezifikation des Linkings für Satzargument und NP-Argument.
+ts(32,"Fetzt, dass der Affe lacht?",@interrog,1,[1],_Generated,'Kapitel 5: Semantik, Skopus').
+ts(33,"Fetzt der Affe?",@interrog,1,[1],_Generated,'Kapitel 5: Semantik, Skopus').
+
+ts(34,"das Eis der Speisekammer in",@root,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(35,"dass das Kind dem Affen den Stock gibt",@root,1,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(36,"dass das Kind den Stock dem Affen gibt",@root,1,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(37,"Schläft er?",@interrog,1,[1],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(38,"Lacht das Kind oft?",@interrog,1,[1],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(39,"Lacht das Kind oft nicht?",@interrog,1,[2],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(40,"Lacht das Kind nicht oft?",@interrog,1,[2],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(41,"Kennt ein Kind den Roman?",@interrog,1,[1],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(42,"Kennt den Roman ein Kind?",@interrog,1,[1],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(43,"Aicke schläft schläft.",@decl,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(44,"Den Roman kennt und schläft er",@root,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(45,"Kennt und liebt das Kind den Roman?",@interrog,1,[1],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(46,"Kennt und liebt den Roman das Kind?",@interrog,1,[1],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(47,"Kennt sie den Film und den Roman?",@interrog,1,[1],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 % Grammatiken mit zyklischer Spur lassen Folgendes zu:
 % Koordination eines Verbletztverbs als Verbspur mit [den Stock _]
 % Valenz der beiden Konjunkte muss gleich sein. Verb muss lexikalisch sein, weil sonst DSL zu none werden würde.
-ts(46,"Kennt der Affe lacht und den Stock?",@interrog,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(48,"Kennt der Affe lacht und den Stock?",@interrog,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 % parallel
-ts(47,"Gibt der Affe lacht und dem Kind den Stock?",@interrog,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(49,"Gibt der Affe lacht und dem Kind den Stock?",@interrog,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 
 % Spielt das Kind [spielt und lacht]. mit [spielt und lacht] statt Spur.
-ts(48,"Spielt das Kind spielt und lacht?",@interrog,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(50,"Spielt das Kind spielt und lacht?",@interrog,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 
-ts(49,"dass das Kind dem Affen den Stock morgen gibt",@root,1,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(50,"dass das Kind dem Affen morgen den Stock gibt",@root,1,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(51,"dass das Kind morgen dem Affen den Stock gibt",@root,1,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(52,"dass morgen das Kind dem Affen den Stock gibt",@root,1,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(53,"Mann der",@root,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(54,"der Speisekammer in",@root,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(55,"das Kind kluge",@root,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(56,"die in der Speisekammer Wurst",@root,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(57,"dass Aicke den Stock gibt ihm",@root,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
-ts(58,"dass das Kind den Roman",@root,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(51,"dass das Kind dem Affen den Stock morgen gibt",@root,1,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(52,"dass das Kind dem Affen morgen den Stock gibt",@root,1,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(53,"dass das Kind morgen dem Affen den Stock gibt",@root,1,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(54,"dass morgen das Kind dem Affen den Stock gibt",@root,1,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(55,"Mann der",@root,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(56,"der Speisekammer in",@root,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(57,"das Kind kluge",@root,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(58,"die in der Speisekammer Wurst",@root,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(59,"dass Aicke den Stock gibt ihm",@root,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
+ts(60,"dass das Kind den Roman",@root,0,[],_Generated,'Kapitel 8: Argument- und Adjunktstellung im Mittelfeld und Verbbewegung').
 
 
 

@@ -1159,6 +1159,44 @@ denkt ---> (word,
                 larg:Larg)])).
 */
 
+% Nominales Argument: ARG1 ist der Index der NP.
+fetzt ---> (word,
+  cat:(head:(verb,
+             vform:fin,
+             spec:none),
+       arg_st:[(cat:(head:(noun,
+                           case:nom),
+                     spr:[],
+                     comps:[]),
+                cont:ind:Ind)]),
+  cont:(ind:(Event,
+             event),
+        ltop:Lbl,
+        rels:[(fetzen_rel,
+               lbl:Lbl,
+               arg0:Event,
+               arg1:Ind)],
+        hcons:[])).
+
+% Satzargument: ARG1 ist der lokale Top-Handle des dass-Satzes.
+fetzt ---> (word,
+  cat:(head:(verb,
+             vform:fin,
+             spec:none),
+       arg_st:[(cat:(head:(comp,
+                           cform:dass),
+                     spr:[],
+                     comps:[]),
+                cont:ltop:LTop)]),
+  cont:(ind:(Event,
+             event),
+        ltop:Lbl,
+        rels:[(fetzen_rel,
+               lbl:Lbl,
+               arg0:Event,
+               arg1:LTop)],
+        hcons:[])).
+
 glaubt ---> (word,
   cat:(head:(verb,
              vform:fin,
@@ -1254,3 +1292,23 @@ dass ---> (word,
          ind:Ind,
          rels:[],
          hcons:[])).
+
+
+
+lacht ---> (word,
+  cat:(head:(verb,
+             vform:fin,
+             spec:none),
+       arg_st:[(cat:(head:(noun,
+                           case:nom),
+                     spr:[],
+                     comps:[]),
+                cont:ind:Ind) ]),
+  cont:(ind:(Event,
+             event),
+        ltop:Lbl,
+        rels:[(lachen_rel,
+               lbl:Lbl,
+               arg0:Event,
+               arg1:Ind)],
+        hcons:[]) ).

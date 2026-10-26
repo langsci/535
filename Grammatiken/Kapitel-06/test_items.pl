@@ -38,6 +38,10 @@ ts(29,"Ein Kind kennt einen Mann.",@decl,1,[1],_Generated,'Kapitel 5: Semantik, 
 ts(30,"Jeder Affe kennt ein Kind.",@decl,1,[2],_Generated,'Kapitel 5: Semantik, Skopus').
 ts(31,"Eine Tochter eines Mitarbeiters kennt einen Affen.",@decl,1,[1],_Generated,'Kapitel 5: Semantik, Skopus').
 
+% Unterspezifikation des Linkings für Satzargument und NP-Argument.
+ts(32,"Dass der Affe lacht, fetzt.",@decl,1,[1],_Generated,'Kapitel 5: Semantik, Skopus').
+ts(33,"Der Affe fetzt.",@decl,1,[1],_Generated,'Kapitel 5: Semantik, Skopus').
+
 
 % Generierungstests: tg(Nummer,Eingabe,Startsymbol,AnzahlAbleitungen,Kommentar).
 % testgt(all). / testgt(Nummer). / testgt([Von,Bis]).

@@ -565,6 +565,28 @@ ditrans_verb(Relation) :=
   rels:hd:Relation).
 
 
+% NP- oder dass-Satz-Argument: IND bei Nomina, LTOP bei Sätzen.
+np_or_cp_verb *>
+ (rels:[_],
+  synsem:loc:cat:arg_st:[loc:cat:(head:noun_or_comp,
+                                  spr:[],
+                                  comps:[])]).
+
+(np_or_cp_verb,
+ synsem:loc:cat:arg_st:hd:loc:cat:head:comp) *>
+ (synsem:loc:cat:arg_st:hd:loc:(cat:head:cform:dass,
+                                cont:ltop:LTop),
+  rels:[arg1:LTop]).
+
+(np_or_cp_verb,
+ synsem:loc:cat:arg_st:hd:loc:cat:head:noun) *>
+ (synsem:loc:cat:arg_st:hd: @np_str(Ind),
+  rels:[arg1:Ind]).
+
+np_or_cp_verb(Relation) :=
+ (np_or_cp_verb,
+  rels:hd:Relation).
+
 glauben_denken_verb *>
  (%intrans_verb,
   synsem:loc:cat:arg_st:[ (loc:(cat:(head:(comp,
@@ -996,6 +1018,3 @@ complementizer_word *>
 complementizer(CForm) :=
  (complementizer_word,
   synsem:loc:cat:head:cform:CForm).
-
-
-

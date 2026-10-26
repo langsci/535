@@ -117,7 +117,9 @@ subjlos_np_verb := one_place_verb & non_scopal_le.
 subj_np_verb := arg1_verb.
 
 one_place_verb := arg1_verb.
-;cp_verb := one_place_verb & non_scopal_le.
+
+np_or_cp_verb := one_place_verb & non_scopal_le.
+
 np_verb := one_place_verb & subj_np_verb & non_scopal_le.
 
 two_place_verb := arg12_verb.
@@ -218,7 +220,9 @@ intro_case_head := head &
 
 det := intro_case_head & intro_gen_num & non_modifier_head.
        
-noun := intro_case_head & non_modifier_head & non_spec_head.
+noun_or_comp := non_modifier_head & non_spec_head.
+
+noun := noun_or_comp & intro_case_head .
 
 adj_or_verb := non_spec_head.
 
@@ -228,7 +232,7 @@ verb := non_modifier_head & adj_or_verb &
 adj := adj_or_verb.
 attr_adj := intro_case_head & adj.
 
-comp := non_spec_head & non_modifier_head & [
+comp := noun_or_comp & [
   cform cform ].
 
 adv := non_spec_head.
@@ -317,9 +321,11 @@ wahrscheinlich_rel := arg1_relation.
 
 
 bellen_rel   := arg01_relation.
+fetzen_rel   := arg01_relation.
 lachen_rel   := arg01_relation.
 schlafen_rel := arg01_relation.
 schmelzen_rel := arg01_relation.
+
 
 
 jagen_rel     := arg012_relation.
@@ -413,7 +419,4 @@ bool := bot.
 
 plus  := bool.
 minus := bool.
-
-
-
 

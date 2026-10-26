@@ -310,6 +310,7 @@ non_flip_verb_le := verb_stem.
 subjlos_verb := non_flip_verb_le & non_scopal_verb_stem.
 intrans_verb := non_flip_verb_le.
 
+np_or_cp_verb := non_flip_verb_le & non_scopal_le.
 
 non_scopal_verb_stem := verb_stem & non_scopal_le.
 
@@ -445,7 +446,10 @@ cas := bot & [
 det := intro_case_head & intro_gen & intro_num & non_modifier_head & non_dsl_head & non_subj_head & [
   dtype dtype ].
        
-noun := intro_case_head & non_modifier_head & non_spec_head & non_dsl_head & non_subj_head.
+; Unterspezifikation zwischen nominalem und satzförmigem Argument.
+noun_or_comp := non_modifier_head & non_spec_head & non_dsl_head & non_subj_head.
+
+noun := noun_or_comp & intro_case_head .
 
 adj_or_verb := non_spec_head.
 
@@ -456,7 +460,7 @@ verb := non_modifier_head & adj_or_verb &
 adj := adj_or_verb & non_dsl_head & non_subj_head.
 attr_adj := intro_case_head & adj & pre_modifier_head.
 
-comp := non_spec_head & non_modifier_head & non_dsl_head & non_subj_head & [
+comp := noun_or_comp & [
   cform cform ].
 
 coord := non_dsl_head & non_modifier_head & non_subj_head & [
@@ -631,6 +635,8 @@ wahrscheinlich_rel := arg1_relation.
 
 arbeiten_rel := arg01_relation.
 bellen_rel   := arg01_relation.
+fetzen_rel := arg01_relation.
+
 lachen_rel   := arg01_relation.
 schlafen_rel := arg01_relation.
 schmelzen_rel := arg01_relation.

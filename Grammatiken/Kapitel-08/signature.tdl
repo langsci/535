@@ -148,6 +148,9 @@ subjlos_np_verb := one_place_verb & non_scopal_le.
 subj_np_verb := arg1_verb.
 
 one_place_verb := arg1_verb.
+
+np_or_cp_verb := verb_word & non_scopal_le.
+
 ;cp_verb := one_place_verb & non_scopal_le.
 np_verb := one_place_verb & subj_np_verb & non_scopal_le.
 
@@ -270,7 +273,10 @@ intro_case_head := head &
 
 det := intro_case_head & intro_gen_num & non_modifier_head & non_dsl_head.
        
-noun := intro_case_head & non_modifier_head & non_spec_head & non_dsl_head.
+; Unterspezifikation zwischen nominalem und satzförmigem Argument.
+noun_or_comp := non_modifier_head & non_spec_head & non_dsl_head.
+
+noun := noun_or_comp & intro_case_head .
 
 adj_or_verb := non_spec_head.
 
@@ -280,7 +286,7 @@ verb := non_modifier_head & adj_or_verb &
 adj := adj_or_verb & non_dsl_head.
 attr_adj := intro_case_head & adj & pre_modifier_head.
 
-comp := non_spec_head & non_modifier_head & non_dsl_head & [
+comp := noun_or_comp & [
   cform cform ].
 
 coord := non_dsl_head & non_modifier_head & [
@@ -382,6 +388,8 @@ wahrscheinlich_rel := arg1_relation.
 
 
 bellen_rel   := arg01_relation.
+fetzen_rel := arg01_relation.
+
 lachen_rel   := arg01_relation.
 schlafen_rel := arg01_relation.
 schmelzen_rel := arg01_relation.
@@ -501,5 +509,3 @@ minus  := bool & minus_or_vm.
 
 minus_or_vm := bot.
 vm := minus_or_vm.
-
-

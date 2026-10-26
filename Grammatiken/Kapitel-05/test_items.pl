@@ -54,9 +54,13 @@ ts(30,"Jeder Affe kennt ein Kind.",@decl,1,[2],_Generated,'Kapitel 5: Semantik, 
 
 ts(31,"Eine Tochter eines Mitarbeiters kennt einen Affen.",@decl,1,[1],_Generated,'Kapitel 5: Semantik, Skopus').
 
+% Verschiedene Linkings für Satzargument und NP-Argument.
+ts(32,"Dass der Affe lacht, fetzt.",@decl,1,[1],_Generated,'Kapitel 5: Semantik, Skopus').
+ts(33,"Der Affe fetzt.",@decl,1,[1],_Generated,'Kapitel 5: Semantik, Skopus').
+
 
 /*
-ts(32,"Eine Tochter eines Mitarbeiters kennt einen Affen.","a daughter of.an employee knows a monkey.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
+ts(32,"Eine Tochter eines Mitarbeiters kennt einen Affen.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
 
 ts(33,"Eine Tochter eines Mitarbeiters kennt einen Affen.",_Root,1,_Scopes,_Generated,'').
 
@@ -69,7 +73,3 @@ ts(35,"Eine Tochter eines Mitarbeiters kennt einen Affen.",@decl,1,[1],_Generate
 
 */
 
-% Generierungstests: tg(Nummer,Eingabe,Startsymbol,AnzahlAbleitungen,Kommentar).
-% testgt(all). / testgt(Nummer). / testgt([Von,Bis]).
-% Gleiche Wortfolgen werden je Ableitung gezaehlt, ueber alle Eingabeanalysen.
-tg(1,"Der Affe schläft.",@decl,6,'Grundfall').

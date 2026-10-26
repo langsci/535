@@ -91,6 +91,9 @@ proper_q := quant_rel.
 qeq := bot & [ HARG handle, LARG handle ].
 quant_rel := arg0_relation & [ RSTR handle, BODY handle ].
 relation := bot & [ LBL handle ].
+
+fetzen_rel := arg01_relation.
+lachen_rel := arg01_relation.
 schlafen_rel := arg01_relation.
 schmelzen_rel := arg01_relation.
 schwierig_rel := arg1_relation.

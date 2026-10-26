@@ -209,6 +209,9 @@ in ---> @location_noun_mod_prep(in_rel).
 in ---> @location_verb_mod_prep(in_rel).
 
 
+% NP-/Satzargument mit unterspezifiziertem Linking.
+fetzt ---> @np_or_cp_verb(fetzen_rel).
+
 glaubt ---> @glauben_denken_verb(glauben_rel).
 
 

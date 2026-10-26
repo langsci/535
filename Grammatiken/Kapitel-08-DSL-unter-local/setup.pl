@@ -70,3 +70,10 @@ parser_head_movement_filter(
   [loc],                         % Wert des lexikalischen Lizenzgebers
   [loc,dsl], % zu lizenzierender Wert
   local, before, bypass(loc:cat:head:coord)).
+
+% Generatorpfade dieser LOC-basierten Grammatik.
+gen_pathes([[loc,cat,head]]).
+gen_pathes_exclude([[loc,cat,head,case]]).
+gen_root_condition(@root).
+syntactic_object(sign).
+generator_empty_anchor([loc,dsl],[loc],(phrase:minus,trace:minus,loc:cat:head:(verb,initial:minus))).

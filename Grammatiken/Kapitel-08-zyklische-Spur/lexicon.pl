@@ -156,6 +156,9 @@ gibt  ---> @np_np_np_verb(geben_rel).
 
 denkt ---> @np_pp_verb(an_pform,acc,denken_an_rel).
 
+% NP-/Satzargument mit unterspezifiziertem Linking.
+fetzt ---> @np_or_cp_verb(fetzen_rel).
+
 glaubt ---> @glauben_denken_verb(glauben_rel).
 
 

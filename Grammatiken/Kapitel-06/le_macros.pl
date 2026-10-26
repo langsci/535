@@ -327,6 +327,28 @@ np_np_np_verb(Relation) :=
  (np_np_np_verb,
   cont:rels:hd:Relation).
 
+% NP- oder dass-Satz-Argument: IND bei Nomina, LTOP bei Sätzen.
+np_or_cp_verb *>
+ (cont:rels:[_],
+  cat:arg_st:[cat:(head:noun_or_comp,
+                   spr:[],
+                   comps:[])]).
+
+(np_or_cp_verb,
+ cat:arg_st:hd:cat:head:comp) *>
+ (cat:arg_st:hd:(cat:head:cform:dass,
+                 cont:ltop:LTop),
+  cont:rels:[arg1:LTop]).
+
+(np_or_cp_verb,
+ cat:arg_st:hd:cat:head:noun) *>
+ (cat:arg_st:hd: @np(nom,Ind),
+  cont:rels:[arg1:Ind]).
+
+np_or_cp_verb(Relation) :=
+ (np_or_cp_verb,
+  cont:rels:hd:Relation).
+
 % Es kann nur ein Argument mit qeq geben. Stimmts?
 scopal_arg2_verb *>
  (%verb_word
@@ -481,6 +503,3 @@ complementizer_word *>
 complementizer(CForm) :=
  (complementizer_word,
   cat:head:cform:CForm).
-
-
-
