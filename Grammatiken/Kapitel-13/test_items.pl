@@ -177,11 +177,15 @@ ts(137,"Kleine Kinder schlafen.",@decl,1,[1],_Generated,'Kapitel 12: Kongruenz')
 ts(138,"Die kleine Kinder schlafen.",@decl,0,[],_Generated,'Kapitel 12: Kongruenz').
 ts(139,"Kleinen Kinder schlafen.",@decl,0,[],_Generated,'Kapitel 12: Kongruenz').
 
+% Kongruenz bei nominalem Argument von fetzen.
+ts(140,"Ich fetze.",@decl,1,[1],[1],'Kapitel 12: Kongruenz').
+ts(141,"Du  fetzt.",@decl,1,[1],[1],'Kapitel 12: Kongruenz').
+
 %ts(138,"Er arbeitet der ganze Tag.", @decl,0,_Scopes,_Generated,'Kapitel 13: Kasus').
 %t(126,"weil der ganze Tag gearbeitet wurde."@decl,0,'Kapitel 13: Kasus').
 
-ts(140,"Dass Aicke lacht, freut mich.",@decl,1,[0],_Generated,'Kapitel 13: Kasus').
-ts(141,"Dass Aicke lacht, freut er.",  @decl,0,[0],_Generated,'Kapitel 13: Kasus').
+ts(142,"Dass Aicke lacht, freut mich.",@decl,1,[0],_Generated,'Kapitel 13: Kasus').
+ts(143,"Dass Aicke lacht, freut er.",  @decl,0,[0],_Generated,'Kapitel 13: Kasus').
 
 
 % Generierungstests: tg(Nummer,Eingabe,Startsymbol,AnzahlAbleitungen,Kommentar).

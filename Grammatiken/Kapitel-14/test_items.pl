@@ -176,6 +176,10 @@ ts(137,"Kleine Kinder schlafen.",@decl,1,[1],_Generated,'Kapitel 12: Kongruenz')
 ts(138,"Die kleine Kinder schlafen.",@decl,0,[],_Generated,'Kapitel 12: Kongruenz').
 ts(139,"Kleinen Kinder schlafen.",@decl,0,[],_Generated,'Kapitel 12: Kongruenz').
 
+% Kongruenz bei nominalem Argument von fetzen.
+ts(140,"Ich fetze.",@decl,1,[1],[1],'Kapitel 12: Kongruenz').
+ts(141,"Du  fetzt.",@decl,1,[1],[1],'Kapitel 12: Kongruenz').
+
 %ts(138,"Er arbeitet der ganze Tag", @root,0,[],_Generated,'Kapitel 13: Kasus').
 %ts(139,"weil der ganze Tag gearbeitet wurde"@root,0,[],_Generated,'Kapitel 13: Kasus').
 
@@ -185,26 +189,26 @@ ts(139,"Kleinen Kinder schlafen.",@decl,0,[],_Generated,'Kapitel 12: Kongruenz')
 
 
 % Verbalkomplexe
-ts(140,"dass er lachen wird",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex').
-ts(141,"dass lachen er wird",@root,0,[],_Generated,'Kapitel 14: Verbalkomplex').
-ts(142,"dass er den Aufsatz lesen wird",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex').
-ts(143,"dass lesen er den Aufsatz wird",@root,0,[],_Generated,'Kapitel 14: Verbalkomplex').
-ts(144,"dass er lesen den Aufsatz wird",@root,0,[],_Generated,'Kapitel 14: Verbalkomplex').
-ts(145,"Er wird das Lied singen dürfen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex').
-ts(146,"Er wird lachen können wollen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex').
+ts(142,"dass er lachen wird",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex').
+ts(143,"dass lachen er wird",@root,0,[],_Generated,'Kapitel 14: Verbalkomplex').
+ts(144,"dass er den Aufsatz lesen wird",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex').
+ts(145,"dass lesen er den Aufsatz wird",@root,0,[],_Generated,'Kapitel 14: Verbalkomplex').
+ts(146,"dass er lesen den Aufsatz wird",@root,0,[],_Generated,'Kapitel 14: Verbalkomplex').
+ts(147,"Er wird das Lied singen dürfen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex').
+ts(148,"Er wird lachen können wollen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex').
 
 % Partial Verb Phrase Fronting
-ts(147,"Lachen muss er.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + PVP').
-ts(148,"Dem Kind erzählen muss er das Märchen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + PVP').
-ts(149,"Ein Märchen erzählen muss er dem Kind.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + PVP').
-ts(150,"Ein Märchen erzählen wird er ihm müssen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + PVP').
-ts(151,"Müssen wird er ihm ein Märchen erzählen.",@decl,0,[],_Generated,'Kapitel 14: Verbalkomplex + PVP').
+ts(149,"Lachen muss er.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + PVP').
+ts(150,"Dem Kind erzählen muss er das Märchen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + PVP').
+ts(151,"Ein Märchen erzählen muss er dem Kind.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + PVP').
+ts(152,"Ein Märchen erzählen wird er ihm müssen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + PVP').
+ts(153,"Müssen wird er ihm ein Märchen erzählen.",@decl,0,[],_Generated,'Kapitel 14: Verbalkomplex + PVP').
 
 % Oberfeldumstellung z.T. mit Ersatzinfinitiv
-ts(152,"dass Aicke den Roman wird lesen dürfen",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex + PVP').
-ts(153,"dass Aicke den Roman hat lesen dürfen",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex + PVP').
-ts(154,"dass Aicke den Roman wird haben lesen dürfen",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex + PVP').
-ts(155,"Aicke wird haben schlafen wollen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + Oberfeldumstellung').
+ts(154,"dass Aicke den Roman wird lesen dürfen",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex + PVP').
+ts(155,"dass Aicke den Roman hat lesen dürfen",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex + PVP').
+ts(156,"dass Aicke den Roman wird haben lesen dürfen",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex + PVP').
+ts(157,"Aicke wird haben schlafen wollen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + Oberfeldumstellung').
 
 
 % scheinbar mehrfache Vorfeldbesetzung uncomment loding :- ['mehrfache-vorfeldbesetzung']. in theory.pl

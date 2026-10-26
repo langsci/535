@@ -176,8 +176,8 @@ ts(137,"Kleine Kinder schlafen.",@decl,1,[1],_Generated,'Kapitel 12: Kongruenz')
 ts(138,"Die kleine Kinder schlafen.",@decl,0,[],_Generated,'Kapitel 12: Kongruenz').
 ts(139,"Kleinen Kinder schlafen.",@decl,0,[],_Generated,'Kapitel 12: Kongruenz').
 
-ts(139,"Ich fetze.",@decl,1,[1],[1],'Kapitel 12: Kongruenz').
-ts(139,"Du  fetzt.",@decl,1,[1],[1],'Kapitel 12: Kongruenz').
+ts(140,"Ich fetze.",@decl,1,[1],[1],'Kapitel 12: Kongruenz').
+ts(141,"Du  fetzt.",@decl,1,[1],[1],'Kapitel 12: Kongruenz').
 % schon getestet
 %ts(139,"Er  fetzt.",@decl,1,[1],_Generated,'Kapitel 12: Kongruenz').
 %ts(139,"Dass Aicke lacht, fetzt.",@decl,1,[1],_Generated,'Kapitel 12: Kongruenz').

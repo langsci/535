@@ -15,6 +15,9 @@
 :- multifile '*>'/2.
 :- discontiguous '*>'/2.
 
+:- multifile fun/1,if/2.
+:- discontiguous fun/1,if/2.
+
 
 overt_sign *>
  (%sign,
@@ -534,6 +537,43 @@ np_np_np_verb(Per,Num,Relation) :=
   @verb(Per,Num),
   rels:hd:Relation).
 
+
+
+% NP- oder dass-Satz-Argument: IND bei Nomina, LTOP bei Sätzen.
+np_or_cp_verb *>
+ (rels:[_],
+  synsem:loc:cat:arg_st:[loc:cat:(head:noun_or_comp,
+                                  spr:[],
+                                  comps:[])]).
+
+(np_or_cp_verb,
+ synsem:loc:cat:arg_st:hd:loc:cat:head:comp) *>
+ (synsem:loc:cat:arg_st:hd:loc:(cat:head:cform:dass,
+                                cont:ltop:LTop),
+  rels:[arg1:LTop]).
+
+(np_or_cp_verb,
+ synsem:loc:cat:arg_st:hd:loc:cat:head:noun) *>
+ (synsem:loc:cat:arg_st:hd: @np_str(Ind),
+  rels:[arg1:Ind]).
+
+np_or_cp_verb(Per,Num,Relation) :=
+ (np_or_cp_verb,
+  synsem:loc:cat:(head:vform:fin,
+                  arg_st:hd:np_or_cp_agreement(Per,Num)),
+  rels:hd:Relation).
+
+fun np_or_cp_agreement(+,+,-).
+np_or_cp_agreement(Per,Num,Arg) if
+ when(Arg=loc:cat:head:(noun;comp),
+      np_or_cp_agreement_known(Per,Num,Arg)).
+fun np_or_cp_agreement_known(+,+,-).
+np_or_cp_agreement_known(Per,Num,
+                        loc:(cat:head:noun,
+                             cont:ind:(per:Per,
+                                       num:Num))) if true.
+np_or_cp_agreement_known(third,sg,loc:cat:head:comp) if true.
+
 % Es kann nur ein Argument mit qeq geben. Stimmts?
 scopal_arg2_verb *>
  (%verb_word
@@ -736,6 +776,3 @@ complementizer_word *>
 complementizer(CForm) :=
  (complementizer_word,
   synsem:loc:cat:head:cform:CForm).
-
-
-

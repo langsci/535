@@ -411,6 +411,10 @@ denkt  ---> @np_pp_verb(third, sg, an_pform,acc,denken_an_rel).
 denken ---> @np_pp_verb(first_or_third, pl, an_pform,acc,denken_an_rel).
 denkt  ---> @np_pp_verb(second,         pl, an_pform,acc,denken_an_rel).
 
+% NP-/Satzargument mit unterspezifiziertem Linking.
+fetze ---> @np_or_cp_verb(first,sg,fetzen_rel).
+fetzt ---> @np_or_cp_verb(second_or_third,sg,fetzen_rel).
+
 glaube  ---> @glauben_denken_verb(first, sg,glauben_rel).
 glaubst ---> @glauben_denken_verb(second,sg,glauben_rel).
 glaubt  ---> @glauben_denken_verb(third,sg,glauben_rel).
