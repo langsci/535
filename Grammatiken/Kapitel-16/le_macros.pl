@@ -770,18 +770,28 @@ ditrans_verb(Relation,Sort1,Sort2,Sort3) :=
            arg3:sort:Sort3)).
 
 % stimmen, fetzen Hier wäre eine Unterspezifikation NP/CP schön, leider ist die Anbindung der Semantik aber anders.
-cp_verb *>
+np_or_cp_verb *>
  (% nerg_verb & non_scopal_le & incoherent_le
   synsem:loc:cat:arg_st:[(@argument,
-                          arg:loc:(cat:(head:(comp,
-                                              cform:dass),
-                                        spr:[],
-                                        comps:list_of_spirits),
-                                   cont:ltop:LTop))],
+                          arg:loc:cat:(head:noun_or_comp,
+                                       spr:list_of_spirits,
+                                       comps:list_of_spirits))]).
+
+(np_or_cp_verb,
+ synsem:loc:cat:arg_st:hd:arg:loc:cat:head:comp) *>
+ (synsem:loc:cat:arg_st:hd:arg:loc:(cat:head:cform:dass,
+                                    cont:ltop:LTop),
   rels:[arg1:LTop]).
 
-cp_verb(Relation) :=
- (cp_verb,
+(np_or_cp_verb,
+ synsem:loc:cat:arg_st:hd:arg:loc:cat:head:noun) *>
+ (synsem:loc:cat:arg_st:hd: @np_str(Ind),
+  rels:[arg1:Ind]).
+
+
+% Die Sorte kann man per Macro nur zuweisen, wenn man eine Disjunktion hat.
+np_or_cp_verb(Relation,_Sort) :=
+ (np_or_cp_verb,
   rels:hd:Relation).
 
 glauben_denken_verb *>
@@ -1106,7 +1116,9 @@ dative_passive_aux_verb *>
 % Der Mann hat das Buch zu lesen gehabt.
 % Das Buch ist bis Montag zu lesen gewesen.
 modal_zu_inf *>
-  rels:[modal_rel].
+ (synsem:loc:cat:head:aux:plus,      % den zu lesenden Aufsatz, aber * den zu lesen seienden Aufsatz
+                                     % * den zu lesen habenden Aufsatz
+  rels:[modal_rel]).
 
 % Gelhaus 1977: Der modale Infinitiv
 % Variante I: müssen
@@ -1195,7 +1207,8 @@ modal_haben *>
 % Variante VI idiomatische Wendungen
 
 modal_sein *>
-  synsem:loc:cat:head:auxf:sein,
+  synsem:loc:cat:head:(%aux:plus, bei modal_zu_inf            % den zu lesenden Aufsatz, aber * den zu lesen seienden Aufsatz
+                       auxf:sein),
   rels:[dürfen_können_müssen_sollen_rel].
 
 sein_modal(Per-per,Num-num,TeMo-temo) :=

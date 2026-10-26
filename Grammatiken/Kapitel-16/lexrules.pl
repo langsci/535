@@ -349,7 +349,7 @@ passive_pp_list(DA,[],Result) if
   add_optional_passive_pp(DA,Result).
 
 passive_pp_list(DA,[H|T],Result) if
-  when(H=arg:loc:cat:head:(verb;adj;adv;comp;noun;prep),
+  when(H=arg:loc:cat:head:(verb;adj;adv;noun_or_comp;prep),
        passive_pp_head(DA,H,T,Result)).
 
 % Die ARG-ST-Liste ist leer. Es wird PP angehängt, oder nicht.
@@ -494,7 +494,8 @@ morphs
 % * der zu lesen zu habende Roman
 % Er erzählt ihr einen Roman.
 % Sie bekommt einen Roman erzählt.
-% der erzählt zu bekommende Roman
+% * der erzählt zu bekommende Roman
+% * der zu lesen zu seiende Roman
 inf_part_derivation_lr *>
  (%inf_or_ppp_part_derivation_lr & relational_two_rels_lr
   dtr:synsem:loc:cat:head:(aux:minus,
@@ -564,6 +565,7 @@ inf_part_derivation_lr lex_rule
   dtr:Dtr
   )
 morphs
+  sein becomes seiend,
   X becomes (X,d).
 
 
@@ -579,7 +581,9 @@ bse_part_derivation_lr lex_rule
   dtr:Dtr
   )
 morphs
-  X becomes (X,d).
+  %sein becomes seiend, 
+  X becomes (X,d) when X \= [s,e,i,n].
+
 
 % for islands 
 non_move_synsem :=

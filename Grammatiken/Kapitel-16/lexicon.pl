@@ -733,6 +733,16 @@ denk  ---> @np_pp_verb(an_pform,acc,denken_an_rel,agentive,anything),
 
 
 
+fetz ---> @np_or_cp_verb(fetzen_rel,anything),
+          @vflex_fk(v_weak),
+          @vflex_ep(minus),
+          @vflex_sm(minus),
+          @vflex_pl_n(minus),
+          @vflex_spe(minus),
+          @vflex_tm(minus),
+          @vflex_em(minus),
+          @vflex_bet1(plus).
+
 glaub ---> @glauben_denken_verb(glauben_rel,human),
           @vflex_fk(v_weak),
           @vflex_ep(minus),
@@ -743,16 +753,7 @@ glaub ---> @glauben_denken_verb(glauben_rel,human),
           @vflex_em(minus),
           @vflex_bet1(plus).
 
-fetz ---> (@cp_verb(fetzen_rel)
-          ;@intrans_verb(fetzen_rel,anything)),
-          @vflex_fk(v_weak),
-          @vflex_ep(minus),
-          @vflex_sm(minus),
-          @vflex_pl_n(minus),
-          @vflex_spe(minus),
-          @vflex_tm(minus),
-          @vflex_em(minus),
-          @vflex_bet1(plus).
+
 
 
 
