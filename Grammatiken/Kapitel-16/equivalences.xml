@@ -30,7 +30,12 @@ specification: -->
 	</equivalencegroup>
 
 	<!-- EC inside a definite NP restrictor and EC outside that NP:
-	     normalize only this pair, without permuting EC past every_q. -->
+	     normalize only this pair, without permuting EC past every_q. 
+
+        Kann sein, dass das falsch ist.
+        Der Affe, von dessen Kind er ein Bild malt, lacht. hat sonst zwei Lesarten.
+
+        -->
 	<equivalencegroup>
 		<quantifier label="exists_q" hole="1"/>
 		<quantifier label="def_q" hole="0"/>
