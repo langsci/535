@@ -372,6 +372,9 @@ stative_passive_aux_verb  := simple_passive_aux_verb & ppp_inf_verb_le & relatio
 ; aux_verb markiert AUX+ und schließt Verwendung als attributives Partizip aus:
 ; Der Mann hat das Buch zu lesen.
 ; * der das Buch zu lesen gehabte Mann
+; Das Buch ist zu lesen.
+; * das zu lesen seiende Buch
+; ?? das zu lesen gewesene Buch
 modal_zu_inf := zu_inf_verb_le & relational_raising_verb & aux_verb.
 
 modal_sein  := simple_passive_aux_verb  & modal_zu_inf. 
@@ -454,6 +457,9 @@ strict_intrans_verb := non_scopal_intrans_verb.
 
 nerg_verb          :< relational_verb_stem.
 
+; stimmen, fetzen
+np_or_cp_verb := nerg_verb & non_scopal_le & incoherent_le.
+
 intrans_nerg_verb  := intrans_verb & nerg_verb.
 intrans_unacc_verb :< intrans_verb.
 
@@ -482,9 +488,7 @@ ditrans_verb      := trans_verb.
 
 glauben_denken_verb := intrans_nerg_verb.
 
-; stimmen, fetzen
-; eigentlich intrans_nerg_verb, aber die sind als NP-Verben definiert.
-cp_verb := nerg_verb & non_scopal_le & incoherent_le.
+
 
 preposition_word := overt_le & non_scopal_le & empty_rel_word & simple_word.
 comp_preposition := preposition_word & transparent_non_scopal_non_relational_le.
@@ -599,8 +603,10 @@ cas := intro_morph_case & [
 
 
 det := intro_case_head & intro_gen & intro_num & non_modifier_head & non_dsl_head & non_subj_head & intro_dtype.
-       
-noun := intro_case_head & non_modifier_head & non_spec_head & non_dsl_head & non_subj_head.
+
+noun_or_comp := non_spec_head & non_modifier_head & non_dsl_head & non_subj_head.        
+
+noun := intro_case_head & noun_or_comp.
 
 adj_or_participle_or_verb := non_spec_head &
  [ da list ].
@@ -641,7 +647,8 @@ intro_flip := head &
  [ flip bool ].
 
 
-comp := non_spec_head & non_modifier_head & non_dsl_head & non_subj_head & [
+
+comp := noun_or_comp & [
   cform cform ].
 
 coord := non_dsl_head & non_modifier_head & non_subj_head & [
@@ -918,6 +925,9 @@ arbeiten_rel  := verbal_arg01_relation & [
 bellen_rel    := verbal_arg01_relation & [
   aktionsart activity].
 
+fetzen_rel    := verbal_arg01_relation  & [
+  aktionsart state].
+
 lachen_rel    := verbal_arg01_relation & [
   aktionsart activity].
 
@@ -978,8 +988,7 @@ widersprechen_rel := verbal_arg012_relation  & [
 denken_an_rel := verbal_arg012_relation & [
   aktionsart activity].
 
-fetzen_rel    := verbal_arg01_relation  & [
-  aktionsart state].
+
 
 glauben_rel   := verbal_arg012_relation  & [
   aktionsart state].
@@ -1316,6 +1325,9 @@ minus_or_vm         := minus_or_extraction_or_vm.
 extraction := extraction_or_minus & extraction_or_vm.
 minus      := extraction_or_minus & minus_or_vm          & bool.
 vm         := extraction_or_vm    & minus_or_vm.
+
+
+
 
 ; Only for generator coverage; never part of the MRS RELS list.
 generator_relation := bot & [generator_index event_or_index].
