@@ -135,5 +135,6 @@ ec_pronoun(Case,Gender,Relation,Sort) :=
 
 % Jemand hat die Milch getrunken. = Mensch oder Katze
 jemand   ---> @ec_pronoun(nom,fem_or_mas,ec_trial_entity_rel,agentive).
+jemandem ---> @ec_pronoun(dat,mas,       ec_trial_entity_rel,agentive).
 jemanden ---> @ec_pronoun(acc,fem_or_mas,ec_trial_entity_rel,agentive).
 etwas    ---> @ec_pronoun(nom_or_acc,neu,ec_trial_entity_rel,non_agentive).
