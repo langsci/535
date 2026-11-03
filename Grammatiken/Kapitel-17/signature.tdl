@@ -1,0 +1,1373 @@
+;;; -*- coding: utf-8; mode: tdl -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;   $RCSfile: types.tdl,v $
+;;  $Revision: 1.2 $
+;;      $Date: 2007/03/05 11:26:29 $
+;;     Author: Stefan Mueller, Universität Bremen
+;;    Purpose: 
+;;   Language: TDL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+intro_phon := bot & [
+ PHON LIST ].
+
+
+mrs_lists := bot & [rels list,hcons list].
+
+sign := intro_phon & mrs_lists & [
+ synsem synsem,
+ v2     bool,
+ generator_rels list,
+ ec_protected list ].
+
+list := bot.
+e_list := list.
+ne_list := list & [
+  hd bot,
+  tl list ].
+
+none_or_synsem := bot.
+none   := none_or_synsem & none_or_local & mode.
+
+synsem := none_or_synsem & [
+ loc  local,
+ nonloc nonloc,
+ trace minus_or_extraction_or_vm,
+ lex    bool,
+ phrase bool,
+ max_   bool].
+
+
+none_or_local := bot.
+local := none_or_local & [
+  cat  cat,
+  cont hook ].
+
+cat := bot & [
+  head   head,
+  spr    list,
+  comps  list,
+  arg_st list ].
+
+hook := bot & [
+  ltop handle,
+  ind  event_or_index,
+  key  relation ].
+
+intro_complex_sign := sign &
+ [ dtrs list ].
+
+; testing 
+intro_complex_sign_dtr := sign &
+ [ dtr sign ].
+
+; Zeichen, die in Syntaxregeln als Töchter vorkommen können,
+; d.h. Phrasen und flektierte bzw. vollständige Wörter, aber keine
+; unflektierten Stämme.
+syntactic_sign := sign & [utterance bool,root_cont ec_content].
+lexical_sign   := sign &
+  [ inf_marking bool ].
+
+phrase := intro_complex_sign & syntactic_sign.
+
+headed_phrase := phrase & [
+  head_dtr sign ].
+
+; all phrases that have non-head-dtrs. The elements in head-dtr and non-head-dtr are not
+; (necessarily) ordered in surface order. Only dtrs are. So head-dtr and non-head-dtrs can be used
+; as pointers to daughters. In principle, there could be phrases without a head-dtr that have
+; unordered dtrs. But the only unheaded-phrases in the current grammar are relative clauses (rc),
+; verbinitial lexical rule-like unary projections and coordination rules.
+headed_flexible_order_phrase := headed_phrase & [
+ non_head_dtrs list ].
+
+; V2 and relative clauses
+filler_phrase := phrase.
+
+head_non_adjunct_phrase    := headed_phrase.
+head_non_complement_phrase := headed_phrase.
+head_non_filler_phrase     := headed_phrase.
+head_non_specifier_phrase  := headed_phrase.
+head_non_cluster_phrase    := headed_phrase.
+
+head_non_complement_non_cluster_phrase := head_non_cluster_phrase & head_non_complement_phrase.
+
+head_adjunct_phrase    := headed_flexible_order_phrase & head_non_complement_non_cluster_phrase & head_non_filler_phrase     & head_non_specifier_phrase.
+head_cluster_phrase    := headed_flexible_order_phrase & head_non_adjunct_phrase & head_non_filler_phrase     & head_non_specifier_phrase.
+head_complement_phrase := headed_flexible_order_phrase & head_non_adjunct_phrase & head_non_filler_phrase     & head_non_specifier_phrase.
+head_filler_phrase     := headed_flexible_order_phrase & head_non_adjunct_phrase & head_non_complement_non_cluster_phrase & head_non_specifier_phrase & filler_phrase.
+head_specifier_phrase  := headed_flexible_order_phrase & head_non_adjunct_phrase & head_non_filler_phrase     & head_non_complement_non_cluster_phrase.
+
+
+coord_phrase := phrase.
+
+verb_movement_rule := optionally_cluster_forming_le & cannonical_complex_word_dtrs.
+verb_initial_rule  := verb_movement_rule & complementizer_like_sign & incoherent_le.
+mvf_rule           := verb_movement_rule & coherent_le.
+
+; DTRS enthält den zu flektierenden Stamm und INFL
+; die Information über das Affix.
+infl_lr := complex_word & [
+  affix affix ].
+
+non_relational_lr :< intro_complex_sign_dtr.
+
+relational_lr := intro_complex_sign_dtr & arg0_ltop_lbl_le.
+
+relational_two_rels_lr := intro_complex_sign_dtr & arg0_ltop_lbl_le.
+
+
+; Teilt auch morphophonologische Merkmale.
+n_v_infl_lr := infl_lr.
+
+prd_adj_infl_lr  :< infl_lr.
+
+attr_adj_infl_lr := infl_lr & non_relational_lr & spr_saturated_le & cannonical_complex_word.
+
+;isect_attr_adj_infl_lr  := attr_adj_infl_lr & isect_n_modifier.
+;scopal_attr_adj_infl_lr :< attr_adj_infl_lr.
+
+part_derivation_lr            := derived_stem & isect_modifier.
+bse_or_ppp_part_derivation_lr := part_derivation_lr  & relational_lr.
+inf_or_ppp_part_derivation_lr :< part_derivation_lr.
+ppp_part_derivation_lr        := bse_or_ppp_part_derivation_lr & inf_or_ppp_part_derivation_lr.      ; relation = past_ind "der geschlagene Weltmeister" = "der Weltmeister, der geschlagen wurde"
+inf_part_derivation_lr        := inf_or_ppp_part_derivation_lr & relational_two_rels_lr.      ; das zu lesende Buch
+bse_part_derivation_lr        := bse_or_ppp_part_derivation_lr.                 ; das das Buch lesende Kind relation = pres_ind, 
+                                                                     ; damit Relativsatz generiert wird.
+
+
+fin_verb_infl_lr := relational_lr & cannonical_complex_word.
+
+reg_fin_verb_infl_lr   := fin_verb_infl_lr & n_v_infl_lr.
+irreg_fin_verb_infl_lr := fin_verb_infl_lr & n_v_infl_lr & irreg_infl_lr.
+
+irreg_infl_lr := infl_lr.
+
+irreg_bse_or_inf_verb_infl_lr := bse_or_inf_verb_infl_lr & irreg_infl_lr.
+
+non_fin_verb_infl_lr     :< non_relational_lr.
+reg_non_fin_verb_infl_lr :< non_fin_verb_infl_lr.
+
+bse_or_inf_verb_infl_lr :=  cannonical_complex_word & non_fin_verb_infl_lr.
+
+bse_verb_infl_lr := bse_or_inf_verb_infl_lr.
+inf_verb_infl_lr := bse_or_inf_verb_infl_lr.
+ppp_verb_infl_lr := non_fin_verb_infl_lr & noncannonical_complex_word.
+
+; constraints on morphology
+reg_bse_or_inf_verb_infl_lr := bse_or_inf_verb_infl_lr & n_v_infl_lr & reg_non_fin_verb_infl_lr.
+
+reg_bse_verb_infl_lr := reg_bse_or_inf_verb_infl_lr & bse_verb_infl_lr.
+reg_inf_verb_infl_lr := reg_bse_or_inf_verb_infl_lr & inf_verb_infl_lr.
+
+reg_ppp_verb_infl_lr := ppp_verb_infl_lr & n_v_infl_lr & reg_non_fin_verb_infl_lr.
+
+; the transparent particle verb takes the semantics of the input verb. The particle adds semantics via its own RELS.
+; non_relational_lr takes over the CONT from the daughter. But this is wrong for the particle LR since it takes over the CONT from the particle.
+transparent_particle_verb_lr := derived_stem.; & non_relational_lr.
+
+; Wörter, die im Lexikon aufgelistet sind.
+
+; aux-Typ, um Disjunktion zu vermeiden
+word_or_v_trace := lexical_sign & syntactic_sign.
+
+word :=
+  word_or_v_trace & [
+  cannonical bool].
+
+simple_word := word & [
+  cannonical plus].
+
+
+cannonical_complex_word := complex_word & [
+  cannonical plus].
+
+cannonical_complex_word_dtrs := complex_word_dtrs & [
+  cannonical plus].
+
+noncannonical_complex_word := complex_word & [
+  cannonical minus].
+
+
+stem := lexical_sign & 
+ [ infl infl ].
+
+intro_morphophon := bot & [
+  morphophon morphophon ].
+
+; lexical rules can be infmarking:plus
+; overt_le is inf_marking:minus
+derived_stem   := stem & intro_complex_sign_dtr.
+underived_stem := stem & overt_le.
+
+
+
+rc := filler_phrase & isect_n_modifier.
+
+
+; empty HCONS
+; could be done here, but then hcons would not be displayed in GRALE
+; non_scopal_le := lexical_sign & 
+;   hcons e_list].
+non_scopal_le := lexical_sign.
+
+; empty RELS
+; if there are no RELS, there should not be any HCONS, or should there?
+non_relational_le :< lexical_sign.
+
+non_scopal_non_relational_le := non_scopal_le & non_relational_le.
+
+; lexical elements which do not contribute anything but share
+; LTOP and IND with their only element in their ARG-ST.
+; complement prepositions and some complementizers.
+transparent_head_le := lexical_sign.
+
+transparent_non_scopal_non_relational_le := transparent_head_le & non_scopal_non_relational_le.
+
+arg0_le := lexical_sign.
+
+ltop_lbl_le := lexical_sign.
+
+arg0_ltop_lbl_le := arg0_le & ltop_lbl_le.
+
+
+; Wörter, die mit Lexikonregeln abgeleitet wurden
+; Alle Lexikonregeln sind Untertypen von complex_word
+complex_word :=
+  intro_complex_sign_dtr &
+  word.
+
+complex_word_dtrs :=
+  intro_complex_sign &
+  word.
+
+empty_rel_le := sign.
+empty_rel_word := empty_rel_le & word.
+
+empty_slash_le := sign.
+empty_slash_word := empty_slash_le & word.
+
+; alle sichtbaren Lexikonelemente außer Lexikonregeln
+overt_le := lexical_sign.
+
+;overt_word := overt_le & word.
+
+non_overt_le := empty_rel_le & syntactic_sign.
+
+; Wenn Spuren vom Typ word sind, wird das Argumentstrukturprinzip angewendet. Das ist aber
+; ungünstig. Denn die Füller können vom Typ word oder phrase sein. Das muss also alles dort
+; entscheiden werden. Spuren sollten also weder noch sein. Einfach lexical_sign.
+; Problem: head_cluster_phrase möchte eine Kopftochter vom Typ word. Die Verbspur kann dort auch Kopftochter sein.
+trace      := non_overt_le & non_scopal_non_relational_le.
+
+; leere Determinatoren und Nomina
+empty      := non_overt_le & simple_word & empty_slash_word.
+
+e_trace :< trace.
+v_trace := trace & empty_slash_le & spr_saturated_le & word_or_v_trace.
+
+spr_saturated_le := sign.
+
+spr_saturated_word := spr_saturated_le & word.
+
+; inheritance superflous since the empty specifier follows from an empty ARG-ST list.
+saturated_word   := spr_saturated_word.
+
+; is this needed?
+relational_le  := ltop_lbl_le.
+
+relational_arg0_le := relational_le & arg0_ltop_lbl_le.
+
+determiner_word := saturated_word & simple_word.
+
+determiner := determiner_word & empty_rel_word.
+possessive := determiner_word & overt_le.
+
+overt_determiner := determiner & overt_le.
+empty_determiner := determiner & empty.
+
+simple_possessive      := possessive & empty_rel_word.
+possessive_rel_pronoun := possessive & rel_pronoun.
+
+noun_word := overt_le & simple_word.
+
+pronoun := saturated_word & overt_le.
+
+; damit is also a pronoun, but not a nominal pronoun
+nominal_pronoun := noun_word & pronoun.
+
+proper_noun  := saturated_word & noun_word & empty_rel_word.
+
+rel_pronoun :< pronoun.
+
+
+nominal_non_rel_pronoun := nominal_pronoun & empty_rel_word & non_scopal_non_relational_le.
+
+expl_pronoun :< nominal_non_rel_pronoun.
+pers_pronoun :< nominal_non_rel_pronoun.
+
+
+; all rel_pronouns apart from possessives
+; womit, worüber, der, die, das
+non_relational_rel_pronoun := rel_pronoun & non_scopal_non_relational_le.
+
+nominal_rel_pronoun  := nominal_pronoun & non_relational_rel_pronoun.
+
+; noun with a determiner
+det_noun_word := noun_word & non_scopal_le & relational_arg0_le & empty_rel_word.
+
+; noun with a determiner and nothing else.
+simple_noun  := det_noun_word.
+
+; noun with a determiner and a genitive NP.
+relational_noun := det_noun_word.
+
+;; Stems
+
+adj_stem         := spr_saturated_le & empty_rel_le & underived_stem.
+
+; klug
+isect_adj        := adj_stem & non_scopal_le & relational_arg0_le.
+
+; mutmaßlich
+scopal_adj       := adj_stem & scopal_modifier_le.
+
+; klug
+np_adj    :< isect_adj.
+
+; treu
+np_np_adj :< isect_adj.
+
+; stolz
+np_pp_adj :< isect_adj.
+
+
+; passives do not contribute a relation
+verb_stem    := spr_saturated_le & underived_stem & 
+                empty_rel_le.
+
+relational_verb_stem := relational_arg0_le & verb_stem.
+
+aux_verb := coherent_le & verb_stem.
+
+perfect_aux_verb := ppp_inf_verb_le & aux_verb & subj_raising_verb.  ; subject_raising stimmt für sein_perfect nicht
+haben_perfect    :< perfect_aux_verb.
+sein_perfect     := non_flip_verb_stem & perfect_aux_verb.
+
+passive_aux_verb := aux_verb & non_flip_raising_verb.
+
+;; Alle Passivhilfsverben außer lassen und die modalen Infinitive.
+;; Diese führen eigene Relationen ein.
+simple_passive_aux_verb := passive_aux_verb & non_scopal_le.
+
+simple_non_relational_passive_aux_verb :< simple_passive_aux_verb & non_scopal_non_relational_le.
+
+ppp_passive_aux_verb := ppp_inf_verb_le & passive_aux_verb.
+
+simple_ppp_passive_aux_verb := simple_non_relational_passive_aux_verb & ppp_passive_aux_verb.
+
+agentive_passive_aux_verb :< simple_ppp_passive_aux_verb.
+
+; this mentions the result state.
+stative_passive_aux_verb  := simple_passive_aux_verb & ppp_inf_verb_le & relational_raising_verb.
+
+; aux_verb markiert AUX+ und schließt Verwendung als attributives Partizip aus:
+; Der Mann hat das Buch zu lesen.
+; * der das Buch zu lesen gehabte Mann
+; Das Buch ist zu lesen.
+; * das zu lesen seiende Buch
+; ?? das zu lesen gewesene Buch
+modal_zu_inf := zu_inf_verb_le & relational_raising_verb & aux_verb.
+
+modal_sein  := simple_passive_aux_verb  & modal_zu_inf. 
+modal_haben := subj_raising_verb & modal_zu_inf. 
+
+; Das sind sowohl kohärent als auch optional kohärent konstruierende Verben.
+optionally_cluster_forming_le := spr_saturated_le.
+
+; Das sind die, die optional kohärent sind. Eigentlich könnten die kohärenten ein Untertyp der optional kohärenten Verben sein. Aber die obligatorisch konstruierenden müssen von den obligatorisch kohärent konstruierenden unterscheidbar bleiben, damit man unechte Mehrdeutigkeiten ausschließen kann.
+; Für die folgenden Typen gibt es implicational constraints, die den Kopf-Wert OPTIONALLY_COHERENT +/- setzen.
+optionally_coherent_le :< optionally_cluster_forming_le.
+
+coherent_le :< optionally_cluster_forming_le.
+
+incoherent_le :< lexical_sign.
+
+; Phasenverben sind optional kohärent, scheinen ist obligatorisch kohärent.
+raising_verb := optionally_cluster_forming_le & verb_stem.
+
+relational_raising_verb := raising_verb & relational_verb_stem.
+
+dative_passive_aux_verb   := ppp_passive_aux_verb & non_scopal_non_relational_le.
+
+modal_verb := bse_inf_verb_le & subj_raising_verb.
+
+; Verb, das bse-Infinitiv verlangt
+bse_inf_verb_le := relational_raising_verb & coherent_le.
+
+; Verb, das ppp-Infinitiv verlangt
+ppp_inf_verb_le := raising_verb & coherent_le.
+
+; Verb, das zu-Infinitiv verlangt
+zu_inf_verb_le := non_flip_verb_stem.
+
+
+subj_raising_verb := relational_raising_verb.
+
+aci_verb := bse_inf_verb_le.
+
+lassen_passive := bse_inf_verb_le & passive_aux_verb.
+
+copula_verb := coherent_le & subj_raising_verb & non_flip_verb_stem.
+
+
+futur_aux_verb := aux_verb & bse_inf_verb_le & subj_raising_verb.
+
+non_flip_coherent_zu_inf_subj_raising_verb := coherent_le & subj_raising_verb & zu_inf_verb_le.
+
+phase_verb := subj_raising_verb & zu_inf_verb_le & optionally_coherent_le.
+
+; Sind die alle unergativisch/transitiv?
+control_verb := non_flip_verb_stem & non_scopal_verb_stem & optionally_coherent_le & nerg_verb.
+
+subj_control_verb := control_verb.
+
+obj_control_verb := control_verb & zu_inf_verb_le.
+
+np_np_v_subj_zu_inf_control_verb := subj_control_verb & zu_inf_verb_le.
+
+np_v_subj_zu_inf_control_verb := subj_control_verb & zu_inf_verb_le.
+
+np_np_v_obj_zu_inf_control_verb := obj_control_verb.
+
+
+
+non_flip_raising_verb := non_flip_verb_stem & raising_verb.
+
+non_flip_verb_stem := verb_stem.
+
+subjlos_verb := non_flip_verb_stem & non_scopal_verb_stem & incoherent_le.
+expl_np_verb := non_flip_verb_stem & non_scopal_verb_stem & nerg_verb.
+
+non_scopal_verb_stem := relational_verb_stem & non_scopal_le.
+
+intrans_verb := non_flip_verb_stem & incoherent_le.
+
+non_scopal_intrans_verb := intrans_verb & non_scopal_verb_stem.
+
+strict_intrans_verb := non_scopal_intrans_verb.
+
+nerg_verb          :< relational_verb_stem.
+
+; stimmen, fetzen
+np_or_cp_verb := nerg_verb & non_scopal_le & incoherent_le.
+
+intrans_nerg_verb  := intrans_verb & nerg_verb.
+intrans_unacc_verb :< intrans_verb.
+
+strict_intrans_nerg_verb  := strict_intrans_verb & intrans_nerg_verb.
+strict_intrans_unacc_verb := strict_intrans_verb & intrans_unacc_verb.
+
+np_np_verb      := non_scopal_intrans_verb & bi_or_more_val_verb.
+
+; denken an
+np_pp_verb      := non_scopal_intrans_verb & bi_or_more_val_verb & intrans_nerg_verb.
+
+np_np_dat_verb :< np_np_verb.
+
+np_np_dat_nerg_verb := np_np_dat_verb & intrans_nerg_verb.
+
+np_np_unacc_verb    := np_np_verb & intrans_unacc_verb.
+
+; helfen, kennen, geben
+bi_or_more_val_verb := non_scopal_verb_stem & incoherent_le.
+
+; kennen, geben
+trans_verb := bi_or_more_val_verb & nerg_verb & non_flip_verb_stem.
+
+strict_trans_verb := trans_verb.
+ditrans_verb      := trans_verb.
+
+trans_particle_verb :< trans_verb.
+
+glauben_denken_verb := intrans_nerg_verb.
+
+preposition_word := overt_le & non_scopal_le & empty_rel_word & simple_word.
+comp_preposition := preposition_word & transparent_non_scopal_non_relational_le.
+relational_mod_preposition  := preposition_word & relational_le.
+
+
+noun_mod_preposition := relational_mod_preposition & isect_n_modifier_le.
+verb_mod_preposition := relational_mod_preposition & isect_v_modifier_le.
+
+location_noun_mod_prep := noun_mod_preposition.
+location_verb_mod_prep := verb_mod_preposition.
+
+passive_preposition := v_modifier_word & isect_modifier & preposition_word & non_relational_le.
+
+
+particle := overt_le & empty_rel_le & simple_word.
+
+modifying_particle           :< particle.
+
+subj_less_scopal_modifying_particle := modifying_particle & scopal_v_modifier_word & saturated_word.
+subj_isect_modifying_particle       := modifying_particle & isect_v_modifier_le & ltop_lbl_le.
+
+non_trans_particle := particle & saturated_word & non_scopal_non_relational_le.
+
+
+n_modifier_word := n_modifier & relational_le & overt_le & empty_rel_word.
+
+
+; old isect_n_modifier_word := isect_n_modifier_le & n_modifier_word.
+
+; old intersective_adj := isect_n_modifier_word.
+
+; old attr_adjective_word := n_modifier_word.
+
+
+
+; Adjektive, Präpositionen, Nomina, aber auch Relativsätze (=phrasal)
+n_modifier := sign.
+
+isect_modifier := sign.
+
+isect_n_modifier := n_modifier & isect_modifier.
+
+isect_modifier_le := isect_modifier & non_scopal_le.
+
+isect_n_modifier_le := isect_modifier_le & n_modifier.
+isect_v_modifier_le := isect_modifier_le & v_modifier.
+
+; Adverbien, Präpositionen
+adj_v_modifier :< sign.
+v_modifier     :< adj_v_modifier.
+
+
+; may be not relational because of the passive preposition
+v_modifier_word := v_modifier & overt_le & empty_rel_word.
+
+
+scopal_modifier_le := ltop_lbl_le.
+
+scopal_v_modifier_word := scopal_modifier_le & v_modifier_word.
+
+adv_word := saturated_word & ltop_lbl_le & adj_v_modifier & simple_word & overt_le.
+scopal_adv_word := scopal_modifier_le & adv_word.
+
+isect_adv_word := isect_v_modifier_le & adv_word.
+
+complementizer_like_sign := spr_saturated_le & empty_rel_le.
+
+complementizer_word := complementizer_like_sign & transparent_non_scopal_non_relational_le & overt_le & simple_word.
+
+conj_word := relational_arg0_le & empty_rel_word & simple_word & overt_le.
+
+head := bot & [
+   mod     none_or_synsem,
+   spec    none_or_synsem,
+   subj    list,
+   scopal  bool,
+   initial bool,
+   dsl     none_or_local,
+   prd     bool ].
+
+non_modifier_head := head & [
+  mod none ].
+
+non_subj_head := head & [ subj e_list ].
+
+non_spec_head := head & [
+  spec none ].
+
+non_dsl_head := head & [
+  dsl none ].
+
+modifier_head := non_spec_head & non_dsl_head & 
+ [ mod          synsem,
+   pre_modifier bool ].
+
+pre_modifier_head := modifier_head & [
+  pre_modifier plus ].
+
+post_modifier_head := modifier_head & [
+  pre_modifier minus ].
+
+
+; prep steht für Prä- und Postpositionen, der initial-Wert wird in le_macros.pl festgelegt
+; prädikative Präpositionen können ein Subjekt-Merkmal haben.
+prep := non_spec_head & non_dsl_head.
+
+comp_prep := prep & intro_case_head & non_modifier_head & non_subj_head &
+ [ pform pform ].
+
+; kann nach Nomina und vor Verben stehen, siehe le_macros.pl
+mod_prep := prep & modifier_head & non_subj_head.
+
+intro_case_head := head &
+ [ case cas ]. 
+
+intro_morph_case := bot & [
+  morph_case case ].
+
+cas := intro_morph_case & [
+  case_type case_type ].
+
+
+det := intro_case_head & intro_gen & intro_num & non_modifier_head & non_dsl_head & non_subj_head & intro_dtype.
+
+noun_or_comp := non_spec_head & non_modifier_head & non_dsl_head & non_subj_head.        
+
+noun := intro_case_head & noun_or_comp.
+
+adj_or_participle_or_verb := non_spec_head &
+ [ da list ].
+
+participle_or_verb := adj_or_participle_or_verb & [
+     optionally_coherent bool].
+
+verb := participle_or_verb & non_modifier_head & intro_flip & [
+   vform vform,
+   aux   bool,  ; um Hilfsverben in der PPP-Partizip-Adjektiv-Derivation ausschließen zu können.
+   auxf  auxf,
+   prd   minus ].
+
+adj_or_participle := non_dsl_head & adj_or_participle_or_verb & [
+  initial minus ].
+
+
+adj_participle := adj_or_participle & participle_or_verb.
+
+attr_adj_or_attr_participle := adj_or_participle & 
+ intro_case_head & 
+ pre_modifier_head & [
+ subj ne_list]. ; damit werden die Subjekte von ARG-ST auf SUBJ gemappt
+
+attr_participle := adj_participle & attr_adj_or_attr_participle.
+
+adj := adj_or_participle & [
+ da e_list].
+
+attr_adj := adj & attr_adj_or_attr_participle.
+
+prd_adj  := adj & intro_flip & non_modifier_head & [
+  prd plus ].
+
+; Die Verbalkomplexschemata nehmen auf FLIP Bezug. Da Adjektive im Prädikatskomplex
+; vorkommen können, müssen sie ein FLIP-Merkmal haben.
+intro_flip := head &
+ [ flip bool ].
+
+
+
+comp := noun_or_comp & [
+  cform cform ].
+
+coord := non_dsl_head & non_modifier_head & non_subj_head & [
+  initial plus ].
+
+relativizer := post_modifier_head & non_subj_head.
+
+
+part := intro_flip & non_spec_head &  
+ [ flip minus ].
+
+mod_part := part & modifier_head &
+ [ pre_modifier plus ].
+
+comp_part :=  part &
+ [ form string ].
+
+
+; adverbs may be pre- or post-modifiers
+adv := modifier_head & non_subj_head.
+
+cform := bot.
+
+dass := cform.
+
+string := bot.
+
+pform := bot.
+
+an_pform  := pform.
+auf_pform := pform.
+für_pform := pform.
+von_pform := pform.
+zu_pform  := pform.
+
+
+vform   := bot.
+; Für Ersatzinfinitive
+not_ppp := vform.
+fin     := not_ppp.
+non_fin := vform.
+
+; irreguläre Form von `sein'
+bse_or_inf := non_fin & not_ppp.
+bse := bse_or_inf & bse_or_ppp.
+inf := bse_or_inf.
+       
+bse_or_ppp := non_fin.
+ppp := bse_or_ppp.
+
+auxf  :< bot.
+
+haben :< auxf.
+sein  :< auxf.
+
+affix  := intro_phon & intro_fk.
+
+intro_fk := bot &
+ [ fk fk ].
+
+
+; Die Unterscheidung zwischen Präfixen und Suffixen muß hier gemacht
+; werden. Man kann sie nicht über INITIAL+/- machen, da das ein syntaktisches
+; Merkmal ist. Suffixe von Nomina wären INITIAL-, aber Nomina sind INITIAL+.
+; Für die Anordnung von Morphemen müssen deshalb andere Linearisierungsbeschränkungen
+; gelten als für die Anordnung von Wörtern. 14.06.2006
+prefix := affix.
+suffix := affix.
+
+attr_adj_i_suffix := suffix &
+  intro_num &
+  intro_gen &
+  intro_morph_case &
+  intro_dtype.
+
+
+; fk:fk_v auskommentiert, da das residues erzeugt ...
+verb_i_suffix := suffix & intro_morphophon.
+
+morphophon := bot.
+
+v_morphophon := morphophon &  
+ [ ep   bool,
+   epp  bool,
+   evp  bool,
+   sm   bool,
+   pl_n bool,
+   spe  bool, 
+   tm   bool_or_t,
+   em   bool       ].
+
+
+fin_verb_i_suffix := verb_i_suffix & intro_per & intro_num &
+ [ temo temo ].
+
+ppp_verb_i_suffix := verb_i_suffix.
+
+argument := bot & [
+  arg      synsem,
+  realized bool,
+  raised   bool ].
+
+
+relation := bot & [
+  lbl handle ].
+
+arg0_relation := relation & [
+  arg0 event_or_index ].
+
+
+affe_rel         := arg0_relation.
+aufsatz_rel      := arg0_relation.
+ball_rel         := arg0_relation.
+beamter_rel      := arg0_relation.
+beispiel_rel     := arg0_relation.
+buch_rel         := arg0_relation.
+einhorn_rel      := arg0_relation.
+fahrrad_rel      := arg0_relation.
+film_rel         := arg0_relation.
+frau_rel         := arg0_relation.
+kind_rel         := arg0_relation.
+kran_rel         := arg0_relation.
+lied_rel         := arg0_relation.
+lügner_rel       := arg0_relation.
+mann_rel         := arg0_relation.
+mädchen_rel      := arg0_relation.
+märchen_rel      := arg0_relation.
+mitarbeiter_rel  := arg0_relation.
+mörder_rel       := arg0_relation.
+roman_rel        := arg0_relation.
+speisekammer_rel := arg0_relation.
+stock_rel        := arg0_relation.
+eis_rel         := arg0_relation.
+überraschung_rel := arg0_relation.
+wagen_rel        := arg0_relation.
+wurst_rel        := arg0_relation.
+zeitschrift_rel  := arg0_relation.
+
+pronoun_rel      := arg0_relation.
+
+named_rel := arg0_relation & [
+  name string ].
+
+regnen_rel := arg0_relation.
+
+gestern_rel := arg1_relation.
+heute_rel   := arg1_relation.
+immer_rel   := arg1_relation.
+jetzt_rel   := arg1_relation.
+morgen_rel  := arg1_relation.
+oft_rel     := arg1_relation.
+
+genug_rel   := arg1_relation.
+leicht_rel  := arg1_relation.
+
+
+quant_rel := arg0_relation & [
+  rstr handle,
+  body handle ].
+
+udef_q    := quant_rel.
+def_q     := quant_rel.
+every_q   := quant_rel.
+exists_q  := quant_rel.
+pronoun_q := quant_rel.
+proper_q  := quant_rel.
+
+arg1_relation := relation & [
+  arg1 event_or_index ].
+
+arg2_relation := relation & [
+  arg2 event_or_index ].
+
+arg3_relation := relation & [
+  arg3 event_or_index ].
+
+
+arg01_relation := arg0_relation & arg1_relation.
+
+arg02_relation := arg0_relation & arg2_relation.
+
+arg03_relation := arg0_relation & arg3_relation.
+
+arg012_relation := arg01_relation & arg02_relation.
+
+arg013_relation := arg01_relation & arg03_relation.
+
+arg0123_relation := arg012_relation & arg013_relation.
+
+; decided to just number arguments in order of appearance.
+; maybe we have generalizations over roles, not sure yet.
+; 03.10.2026
+; arg023_relation := arg02_relation & arg03_relation.
+
+arg12_relation := arg1_relation & arg2_relation.
+
+
+lassen_rel := arg013_relation.
+lassen_passive_rel := arg013_relation. ; nur zum Testen
+sehen_rel  := arg013_relation.
+
+versuchen_rel := arg013_relation.
+
+; Es beginnt zu lachen.
+; Es lacht los.
+beginnen_rel := arg03_relation.
+
+
+; Kopula
+support_rel :< arg03_relation.
+
+scheinen_rel := arg03_relation.
+
+groß_rel        := arg01_relation.
+interessant_rel := arg01_relation.
+klein_rel       := arg01_relation.
+klug_rel        := arg01_relation.
+schön_rel       := arg01_relation.
+schwierig_rel   := arg01_relation.
+
+treu_rel      :< arg012_relation.
+stolz_auf_rel :< arg012_relation.
+
+gerichtet_auf :< arg12_relation.
+
+
+angeblich_rel      := arg3_relation.
+mutmaßlich_rel     := arg3_relation.
+nicht_rel          := arg3_relation.
+wahrscheinlich_rel := arg3_relation.
+
+
+verbal_relation := arg0_relation & [
+  arg0       event,
+  aktionsart aktionsart ].
+
+verbal_arg01_relation   := verbal_relation & arg01_relation.
+verbal_arg02_relation   := verbal_relation & arg02_relation.
+verbal_arg03_relation   := verbal_relation & arg03_relation.
+verbal_arg012_relation  := verbal_relation & arg012_relation.
+verbal_arg0123_relation := verbal_relation & arg0123_relation.
+
+; Am-Progressiv / Dynamizität: Er ist am Lachen. ✓ (Aktivität), ?Es ist am Stinken. ✗ (Zustand)
+
+; Imperativ / Agentivität: Lach! ✓, Schlaf! ✓, *Stink! ✗
+
+; Zeitadverbial: stundenlang geht bei Zuständen und Aktivitäten (stundenlang lachen), in einer
+; Stunde nur bei telischen Verben (in einer Stunde das Haus bauen).
+
+; Verträglichkeit mit „aufhören": Er hörte auf zu lachen ⇒ er hat gelacht (Aktivität, atelisch). Er
+; hörte auf, das Haus zu bauen ⇒ nicht notwendig ein fertiges Haus (Accomplishment).
+
+aktionsart :< bot.
+
+; wissen, lieben, stinken, besitzen
+state          :< aktionsart.
+
+accomplishment_or_achievement_or_activity_or_semelfactive :< aktionsart.
+
+accomplishment_or_achievement_or_activity :< accomplishment_or_achievement_or_activity_or_semelfactive.
+
+; lesen und singen sind lexikalisch Activities. Mit einem begrenzten Objekt (das Buch lesen, ein
+; Lied singen) werden sie zu Accomplishments, was sich auf Satzebene (Komposition) ergibt, nicht im
+; Lexikoneintrag.
+accomplishment_or_activity :< accomplishment_or_achievement_or_activity.
+
+;schlagen ist semelfaktiv (einzelner Schlag, iterierbar), mit Plural- oder Mehrfachlesart auch Activity.
+activity_or_semelfactive :< accomplishment_or_achievement_or_activity_or_semelfactive.
+
+accomplishment_or_achievement :< accomplishment_or_achievement_or_activity.
+
+; lachen, schlafen, laufen, schieben
+activity       := accomplishment_or_activity & activity_or_semelfactive.
+
+; ein Haus bauen, einen Brief schreiben, das Fenster öffnen
+accomplishment := accomplishment_or_activity & accomplishment_or_achievement.
+
+; ankommen, finden, erkennen, sterben
+achievement    :< accomplishment_or_achievement.
+
+; Semelfaktiv (punktuell, ohne Resultat, iterierbar): klopfen, hüsteln, blinzeln, auflachen.
+semelfactive :< activity_or_semelfactive.
+
+
+
+
+
+arbeiten_rel  := verbal_arg01_relation & [
+  aktionsart activity].
+
+;bellen ist iterativ, aber als Dauerverhalten atelisch, daher Activity. Ein einzelnes Bellen wäre semelfaktiv.
+bellen_rel    := verbal_arg01_relation & [
+  aktionsart activity].
+
+fetzen_rel    := verbal_arg01_relation  & [
+  aktionsart state].
+
+lachen_rel    := verbal_arg01_relation & [
+  aktionsart activity].
+
+; schlafen ist ein Grenzfall zwischen Activity und stage-level State. Ich habe Activity gewählt (Imperativ und Progressiv gehen).
+schlafen_rel  := verbal_arg01_relation  & [
+  aktionsart activity].
+
+; schmelzen ist graduell und hat einen Endpunkt (in einer Stunde schmelzen), daher Accomplishment. Mit arg02 ist das Subjekt vermutlich das Thema (unakkusativ).
+schmelzen_rel := verbal_arg02_relation  & [
+  aktionsart accomplishment].
+
+spielen_rel   := verbal_arg01_relation  & [
+  aktionsart activity].
+
+tanzen_rel    := verbal_arg01_relation  & [
+  aktionsart activity].
+
+;helfen und jagen sind atelisch und dynamisch, also Activity. Bei jagen ist das Ziel offen, es gibt keinen inhärenten Endpunkt.
+;Sie half ihm stundenlang. ist eine Aktivität, atelisch, ohne Resultat. Das ist die Lesart, die ich für helfen_rel angesetzt hatte.
+;Sie half ihm (und damit war sein Problem gelöst). ist erfolgsimplizierend und hat einen Resultatszustand: Ihm ist geholfen = sein Problem ist behoben, er ist nicht mehr in Not.
+helfen_rel        := verbal_arg012_relation  & [
+  aktionsart accomplishment_or_achievement_or_activity].
+
+jagen_rel         := verbal_arg012_relation  & [
+  aktionsart activity].
+
+kennen_rel        := verbal_arg012_relation  & [
+  aktionsart state].
+
+lesen_rel         := verbal_arg012_relation  & [
+  aktionsart accomplishment_or_activity].
+
+lieben_rel        := verbal_arg012_relation  & [
+  aktionsart state].
+;nehmen und widersprechen habe ich als punktuell (Achievement) eingestuft. Widersprechen könnte man auch als Activity lesen, wenn man es als Sprechhandlung mit Dauer versteht.
+nehmen_rel        := verbal_arg012_relation  & [
+  aktionsart achievement].
+
+malen_rel         := verbal_arg012_relation  & [
+  aktionsart accomplishment_or_activity].
+
+reparieren_rel    := verbal_arg012_relation  & [
+  aktionsart accomplishment].
+
+; schlagen ist semelfaktiv (einzelner Schlag, iterierbar), mit Plural- oder Mehrfachlesart auch Activity.
+; Er schlug ihn. (einmal): semelfaktiv, kein Resultat
+; Er schlug den Gegner. (besiegen): Achievement bzw. Accomplishment, mit Resultat „besiegt"
+schlagen_rel      := verbal_arg012_relation & [
+  aktionsart accomplishment_or_achievement_or_activity_or_semelfactive].
+
+
+singen_rel        := verbal_arg012_relation & [
+  aktionsart accomplishment_or_activity].
+
+vorschlagen_rel := verbal_arg012_relation & [ 
+  aktionsart accomplishment_or_achievement ].
+
+widersprechen_rel := verbal_arg012_relation  & [
+  aktionsart achievement].
+
+denken_an_rel := verbal_arg012_relation & [
+  aktionsart activity].
+
+
+
+glauben_rel   := verbal_arg012_relation  & [
+  aktionsart state].
+
+erlauben_rel    := verbal_arg0123_relation  & [
+  aktionsart achievement].
+
+erzählen_rel    := verbal_arg0123_relation  & [
+  aktionsart accomplishment].
+
+geben_rel       :=  verbal_arg0123_relation  & [
+  aktionsart achievement].
+
+schenken_rel    :=  verbal_arg0123_relation  & [
+  aktionsart achievement].
+
+versprechen_rel := verbal_arg0123_relation  & [
+  aktionsart achievement].
+
+zwingen_rel     := verbal_arg0123_relation  & [
+  aktionsart accomplishment].
+
+
+grauen_rel  := verbal_arg02_relation  & [
+  aktionsart state].
+
+sterben_rel := verbal_arg02_relation  & [
+  aktionsart achievement].
+
+poss_rel := verbal_arg012_relation  & [
+  aktionsart state].
+
+
+besitzen_rel  := verbal_arg012_relation  & [
+  aktionsart state].
+
+gelingen_rel  := verbal_arg012_relation  & [
+  aktionsart achievement].
+
+
+in_rel      := arg12_relation.
+
+bild_rel    := arg02_relation.
+tochter_rel := arg02_relation.
+sohn_rel    := arg02_relation.
+
+
+conjunction_rel := arg0_relation & [
+  lindex event_or_index,
+  rindex event_or_index].
+
+conjunction_n_rel := conjunction_rel & [
+  arg0 index ].
+
+conjunction_v_rel := conjunction_rel & [
+  arg0 event,
+  lhandle handle,
+  rhandle handle].
+
+und_rel := conjunction_rel.
+
+und_n_rel := conjunction_n_rel & und_rel.
+und_v_rel := conjunction_v_rel & und_rel.
+
+modal_rel := verbal_arg03_relation.
+
+dürfen_können_müssen_sollen_rel :< modal_rel.
+können_müssen_sollen_rel :< dürfen_können_müssen_sollen_rel.
+müssen_sollen_rel :< können_müssen_sollen_rel.
+
+
+dürfen_rel := dürfen_können_müssen_sollen_rel.
+können_rel := können_müssen_sollen_rel.
+müssen_rel := müssen_sollen_rel.
+sollen_rel := müssen_sollen_rel.
+wollen_rel := modal_rel.
+
+futur_rel   := arg03_relation.
+perfect_rel := arg03_relation.
+
+; placeholder for decompositional analysis
+stative_passive_rel := arg03_relation.
+
+
+event_or_index := bot & [
+      sort anything].
+
+event := event_or_index & [
+  mode mode ].
+
+
+; Für Satztypen
+mode := bot.
+
+; dass-Sätze haben keinen instantiierten MODE-Wert.
+; steht schon oben, weil none noch von mehreren Typen erbt.
+; none :< mode.
+
+assertion_or_imperative_or_interrogative := mode.
+assertion_or_imperative     := assertion_or_imperative_or_interrogative.
+assertion_or_interrogative  := assertion_or_imperative_or_interrogative.      ; Flexion = ind_conj -> assertion_or_interrogative
+imperative_or_interrogative := assertion_or_imperative_or_interrogative.
+
+interrogative := assertion_or_interrogative  & imperative_or_interrogative.
+imperative    := imperative_or_interrogative & assertion_or_imperative.
+
+assertion  := assertion_or_imperative & assertion_or_interrogative.
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 			TENSE-MOOD- combinations		;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; this is a trick sort that can be used to push things down
+;; to one of the sorts that inherit from it.
+
+
+; tense and mood are collapsed
+temo := arg03_relation.
+
+;    tense
+pres := temo.
+pres_ind_conj := pres & ind_conj.
+pres_ind_imp  := pres & ind_imp.
+pres_conj_imp := pres & conj_imp.
+
+pres_ind  := pres_ind_conj & pres_ind_imp  & pres_ind_or_past_conj.
+pres_conj := pres_ind_conj & pres_conj_imp & conj.
+
+; = imp
+pres_imp  := pres_conj_imp & pres_ind_imp & imp_or_past_conj.
+
+; = past_ind or past_conj
+past_ind_conj := ind_or_past_conj.
+
+past_ind  := past_ind_conj.
+past_conj := past_ind_conj & pres_ind_or_past_conj & conj & imp_or_past_conj.
+
+
+
+; mood
+ind_conj := temo.
+
+               ind_or_past_conj := ind_conj & ind_imp_or_past_conj.
+                 ind := ind_or_past_conj & ind_imp.
+
+
+
+                 pres_ind_or_past_conj := ind_or_past_conj.
+               conj := ind_conj & conj_imp.
+             ind_imp_or_past_conj := temo.
+             ind_imp := ind_imp_or_past_conj.
+
+
+;       %         imp 
+;       %           &pres_imp     % single branch redundant
+
+
+               imp_or_past_conj := ind_imp_or_past_conj.
+
+conj_imp := temo.
+
+intro_per := bot & [
+  per per ].
+
+
+index := event_or_index & intro_num & intro_per.
+ref := index & intro_gen.
+expl := index & [
+  per third,
+  num sg ].
+
+handle := event_or_index.
+
+qeq := bot & [
+  harg handle,
+  larg handle ].
+
+nonloc := bot & [
+  rel   list,
+  slash list ].
+
+case_type := bot.
+str := case_type.
+lex := case_type.
+
+case := bot.
+
+nom_or_dat_or_acc := case.
+
+; Plural
+nom_or_gen_or_acc := case.
+
+; Endung `n' in Singular Junggesellen
+gen_or_dat_or_acc := case.
+
+nom_or_acc := nom_or_gen_or_acc & nom_or_dat_or_acc.
+dat_or_acc := gen_or_dat_or_acc & nom_or_dat_or_acc.
+gen_or_dat := gen_or_dat_or_acc.
+
+nom := nom_or_acc.
+gen := gen_or_dat & nom_or_gen_or_acc.
+dat := gen_or_dat & dat_or_acc.
+acc := nom_or_acc & dat_or_acc.
+
+
+genus := bot.
+
+; Beamte
+fem_or_mas := genus.
+
+; Index von Mädchen, Weib, ...
+fem_or_neu := genus.
+
+; ein
+mas_or_neu := genus.
+       
+fem := fem_or_mas & fem_or_neu.
+mas := fem_or_mas & mas_or_neu.
+neu := fem_or_neu & mas_or_neu.
+
+per := bot.
+
+first_or_third := per.
+
+; Stamm 2:  ich fange vs. du fängst, er fängt
+second_or_third := per.
+
+first  := first_or_third.
+second := second_or_third.
+third  := first_or_third & second_or_third.
+
+
+num := bot.
+sg  := num.
+pl  := num.
+
+intro_dtype := bot & [
+  dtype dtype ].
+
+dtype  := bot.
+weak   := dtype.
+strong := dtype.
+
+
+intro_num := bot & [
+  num num ].
+
+intro_gen := bot & [
+  gen genus ].
+
+fk := bot.
+
+fk_n := fk.
+
+fk_v := fk.
+
+nfk_1 := fk_n.
+nfk_2 := fk_n.
+nfk_3 := fk_n.
+nfk_4 := fk_n.
+nfk_e := fk_n.
+
+nfk_e1 := nfk_e.
+nfk_e2 := nfk_e.
+nfk_e3 := nfk_e.
+
+nfk_er := fk_n.
+nfk_es := fk_n.
+nfk_n1 := fk_n.
+nfk_n2 := fk_n.
+nfk_n3 := fk_n.
+nfk_n4 := fk_n.
+nfk_n5 := fk_n.
+nfk_s  := fk_n.
+
+nfk_s1 := nfk_s.
+nfk_s2 := nfk_s.
+
+nfk_p   := fk_n.
+nfk_i1  := fk_n.
+nfk_ten := fk_n.
+
+non_strong := fk_v.
+non_weak   := fk_v.
+mixed_or_modal := non_strong & non_weak.
+
+v_weak   := non_strong.
+mixed    := mixed_or_modal.
+modal    := mixed_or_modal.
+v_strong := non_weak.
+
+
+
+; affix_ ist ein technisches Merkmal, das gebraucht wird, weil
+; für relationale Beschränkungen in LRs nur der Input berücksichtigt wird.
+infl := bot & [
+  affix_ affix ].
+
+noun_infl := infl & intro_fk & [
+  umlaut string,
+  k_umw  bool ].
+
+; Alle flexionsrelevante Information:
+; FK ist die FLexionsklasse.
+; MORPHOPHON wird mit den Merkmalen des Affixes geteilt.
+; V_STEMS enthält weiter Stämme bei starken Verben
+; BET1 enthält Information über die Betonung der ersten Silbe.
+; Das ist für die Partizipbildung relevant. ge-redet vs. *ge-interessiert.
+verb_infl := infl & intro_fk & intro_morphophon & [
+  v_stems v_stems,
+  bet1    bool ].
+
+v_stems := bot & [
+  pres2  string,
+  past   string,
+  part   string,
+  conj   string,
+  imp_st string ].
+
+
+bool_or_t := bot.
+bool := bool_or_t.
+t    := bool_or_t.
+
+plus   := bool.
+
+minus_or_extraction_or_vm := bot.
+
+extraction_or_minus := minus_or_extraction_or_vm.
+extraction_or_vm    := minus_or_extraction_or_vm.
+minus_or_vm         := minus_or_extraction_or_vm.
+
+extraction := extraction_or_minus & extraction_or_vm.
+minus      := extraction_or_minus & minus_or_vm          & bool.
+vm         := extraction_or_vm    & minus_or_vm.
+
+
+
+
+; Only for generator coverage; never part of the MRS RELS list.
+generator_relation := bot & [generator_index event_or_index].
+generator_pers_pronoun_rel := generator_relation & [generator_index index].
+generator_relative_pronoun_rel :< generator_relation.
+
+ec_trial_entity_rel := arg0_relation & [arg0 ref].
+ec_content := mrs_lists & [ec_indices list].
+ec_analysis := bot & [ec_args list,ec_bound list].
+ec_trial_pronoun := nominal_pronoun.
