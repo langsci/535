@@ -187,8 +187,16 @@ undelayed_unrealized_args([(Arg,
    unrealized_args(T1,T2).
 
 
-% Ohne das raised:minus wird analysiert und generiert.
+% Ohne das raised:minus wird analysiert und generiert:
 % * Des Romans wird gekannt und von dem Kind geliebt.
-undelayed_unrealized_args([(raised:minus,
+%
+% trace:minus schließt Extraktion von Argumenten aus, die zu gemeinsamen Argumenten der Koordination werden können.
+% Damit wird der folgenden Satz eindeutig. Der zweite Satz ist davon nicht betroffen, weil die Spuren innerhalb des dass-Satzes sind.
+%
+% Dem Mann glaube ich, dass er ein Buch gibt und ein Märchen erzählt.
+% Dem Mann glaube ich, dass er ein Buch gibt und dass er ein Märchen erzählt.
+% 
+undelayed_unrealized_args([(arg:trace:minus,
+                            raised:minus,
                             realized:plus)|T1],T2) if 
    unrealized_args(T1,T2).
