@@ -166,10 +166,9 @@ reg_ppp_verb_infl_lr := ppp_verb_infl_lr & n_v_infl_lr & reg_non_fin_verb_infl_l
 ; Wörter, die im Lexikon aufgelistet sind.
 
 ; aux-Typ, um Disjunktion zu vermeiden
-word_or_v_trace :< lexical_sign.
+word_or_v_trace := lexical_sign & syntactic_sign.
 
 word :=
-  syntactic_sign &
   word_or_v_trace & [
   cannonical bool].
 
@@ -774,6 +773,7 @@ eis_rel         := arg0_relation.
 überraschung_rel := arg0_relation.
 wagen_rel        := arg0_relation.
 wurst_rel        := arg0_relation.
+zeitschrift_rel  := arg0_relation.
 
 pronoun_rel      := arg0_relation.
 
