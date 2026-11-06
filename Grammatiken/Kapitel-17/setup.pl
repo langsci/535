@@ -9,6 +9,14 @@ generator_input_lexicon_exceptions([von,durch]).
 % Andere Lesarten derselben Wortformen bleiben auf die Eingabe beschraenkt.
 generator_input_lexicon_exception_type(rel_pronoun).
 
+% Admit passive auxiliary inflections through their morphological stem type.
+% Example: Der Mann hat ihm zu helfen. -> Ihm hat von dem Mann geholfen zu werden.
+% Only zero-EP entries are affected; ordinary semantic matching is retained.
+% Bounded Chapter-17 test (empty_only, restricted content vocabulary):
+% the requested passive appears among 19 outputs (12.455 s CPU, 841 edges).
+% This is a diagnostic, not a full-suite timing measurement.
+generator_input_lexicon_exception_stem_type(agentive_passive_aux_verb).
+
 % Modalrelationen duerfen beim Generieren nicht spezifischer werden als
 % die Eingabe: z.B. müssen_sollen_rel darf nicht zu müssen_rel werden.
 % Er hat das Buch zu lesen. -/-> Er muss das Buch lesen.
@@ -38,6 +46,11 @@ generator_no_semantic_specialization(anything).
 % Ein Märchen erzählen wird er ihr müssen.
 % Er wird ihr ein Märchen zu erzählen haben.
 % Ein Märchen wird ihr von ihm zu erzählen sein.
+%
+% Ohne den strikten Test wird auch folgendes zugelassen:
+%
+%   Er wird lachen können wollen.
+% * Von ihm wird zu lachen sein wollen.
 %
 % generator_exact_semantic_type(modal_rel).
 
