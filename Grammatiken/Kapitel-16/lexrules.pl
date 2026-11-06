@@ -453,14 +453,14 @@ inf_or_ppp_part_derivation_lr *>
 %
 % DA ist verfügbar für von-PP
 %
-% der von allen geleiebte Affe
+% der von allen geliebte Affe
 %
 % Flexionsregel erzeugt dann: geliebt (A) -> geliebte
 %
 ppp_part_derivation_lr *>
  (%inf_or_ppp_part_derivation_lr & non_relational_lr
   inf_marking:Zu,
-  dtr: (synsem:loc:cat:head:(aux:minus,
+  dtr: (synsem:loc:cat:head:(%aux:minus, % der gelesen gewesene Aufsatz
                              vform:ppp),
            inf_marking:Zu)).
 
@@ -479,7 +479,7 @@ ppp_part_derivation_lr lex_rule
   dtr:Dtr
   )
 morphs
-  X becomes X.
+  X becomes X when X \= [g,e,h,a,b,t].
 
 
 
@@ -582,7 +582,12 @@ bse_part_derivation_lr lex_rule
   )
 morphs
   %sein becomes seiend, 
-  X becomes (X,d) when X \= [s,e,i,n].
+  X becomes (X,d) when
+  % das gelesen seiende Buch
+  X \= [s,e,i,n],
+  % Futur ist ausgeschlossen, weil es nur finites "werden" gibt.
+  % das ein Lied singen werdende Kind
+  X \= [w,e,r,d,e,n].
 
 
 % for islands 
