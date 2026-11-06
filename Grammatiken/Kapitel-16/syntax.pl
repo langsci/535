@@ -567,6 +567,11 @@ undelayed_at_least_one_unrealized_element([realized:minus|_]) if !,true.
 undelayed_at_least_one_unrealized_element([_|T]) if
    at_least_one_unrealized_element(T).
                                          
+% Wenn eine VP über das Kopf-Komplement-Schema
+%(head_complement_phrase,
+% synsem:loc:cat:head:optionally_coherent:plus,
+% non_head_dtrs:hd:synsem:(loc:cat:head:verb,
+%                          trace:minus)) *>
 
 % Geht durch eine Liste und gibt dem letzten Element die
 % Person und Numerus-Merkmale, wenn die Liste mit einer NP_str
@@ -844,10 +849,10 @@ phrase *> dtrs:list_of_zu_minus.
 
 root :=
  (synsem:(loc:cat:(head:dsl:none,
-                  spr:list_of_spirits,
-                  comps:list_of_spirits),
-         nonloc:slash:[]),
-  utterance:plus).
+                   spr:list_of_spirits,
+                   comps:list_of_spirits),
+          nonloc:slash:[]),
+     utterance:plus).
 
 initial_fin_verb :=
  (@root,
