@@ -52,10 +52,10 @@ kapitel19.tgz: clean
 
 #kapitel14.tgz kapitel15.tgz kapitel16.tgz kapitel17.tgz kapitel18.tgz kapitel19.tgz
 
-public: alle-grammatiken.tgz kapitel03.tgz kapitel04.tgz kapitel05.tgz kapitel06.tgz kapitel08.tgz kapitel09.tgz kapitel10.tgz kapitel11.tgz kapitel12.tgz kapitel13.tgz kapitel14.tgz
+public: alle-grammatiken.tgz kapitel03.tgz kapitel04.tgz kapitel05.tgz kapitel06.tgz kapitel08.tgz kapitel09.tgz kapitel10.tgz kapitel11.tgz kapitel12.tgz kapitel13.tgz kapitel14.tgz kapitel15.tgz
 	cp -p $? /Users/stefan/public_html/Pub/Einfuehrung/
 
-o-public: alle-grammatiken.tgz kapitel03.tgz kapitel04.tgz kapitel05.tgz kapitel06.tgz kapitel08.tgz kapitel09.tgz kapitel10.tgz kapitel11.tgz kapitel12.tgz kapitel13.tgz kapitel14.tgz
+o-public: alle-grammatiken.tgz kapitel03.tgz kapitel04.tgz kapitel05.tgz kapitel06.tgz kapitel08.tgz kapitel09.tgz kapitel10.tgz kapitel11.tgz kapitel12.tgz kapitel13.tgz kapitel14.tgz kapitel15.tgz kapitel16.tgz kapitel17.tgz
 	scp -p $? hpsg.hu-berlin.de:/home/stefan/public_html/Pub/Einfuehrung/
 
 old-o-public: knoppix o-copy
@@ -94,3 +94,9 @@ realclean: clean
 
 cvs:
 	cvs 
+
+# Renumber active and commented test facts in each chapter independently.
+TEST_ITEMS ?= $(wildcard Kapitel-*/test_items.pl)
+.PHONY: renumber
+renumber:
+	python3 ./renumber-items $(TEST_ITEMS)
