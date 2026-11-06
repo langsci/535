@@ -263,10 +263,21 @@ head_cluster_phrase *> synsem:loc:cat:comps:list_of_arguments. % Extraktionsspur
 % Das Buch lesen müssen glaube ich dass er wird.
 %
 % 233 -> 177 Kanten
-
+%
+% Leider geht das nur, wenn FLIP zwei Möglichkeiten hat, also Oberfeldumstellung optional ist. Denn
+% ansonsten wird der folgende Satz ausgeschlossen, denn da ist Oberfeldumstellung obligatorisch.
+%
+% dass er wird haben schlafen wollen
+% [Schlafen wollen]_i wird_j er [_j haben _i] 
+/*
 (head_cluster_phrase,
  non_head_dtrs:[synsem:(nonloc:slash:hd:loc:cat:head:verb;
                         trace:extraction)]) *> non_head_dtrs:hd:synsem:loc:cat:head:flip:minus.
+*/
+(head_cluster_phrase,
+ dtrs:tl:hd:synsem:(nonloc:slash:hd:loc:cat:head:verb;
+                    trace:extraction)) *> dtrs:hd:phon:hd: (a_ haben).
+
 
 
 % Terminierung: Der Regelberechnung.
@@ -318,11 +329,43 @@ non_fin_verb_infl_lr *>
 % This does not hold true of NPs and PPs. They never enter the predicate complex.
 % They always have to be phrases, even if adjacent to an optionally coherent verb.
 % St. Mü. 30.07.2009
+%
 Synsem^(head_complement_phrase,
-  synsem:loc:cat:head:optionally_coherent:plus,
+  head_dtr:synsem:loc:cat:head:optionally_coherent:plus,   
   head_dtr:synsem:loc:cat:comps:hd:arg:Synsem,
   non_head_dtrs:hd:synsem:(Synsem,
                            loc:cat:head:adj_or_participle_or_verb)) *> (head_dtr:phrase,
+                                                                           non_head_dtrs:hd:synsem:trace:minus).
+
+% They have to be phrases and even head_non_cluster_phrases, since otherwise we could get:
+%
+% Er bekommt [den Aufsatz zu lesen] [cl_h versprochen _]
+%
+% Muss zu gelassen werden:
+%
+% Dass [den Kran zu reparieren] versucht wurde.
+%
+% Das geht nur adjazent als inkohärente Konstruktion. Kohärent wäre es "der Kran".
+%
+% dass der Kran [[zu reparieren versucht] wurde]
+%
+% Geht alles nicht, denn auch "Er bekommt den Aufsatz zu lesen versprochen" ist ja Passiv.
+%
+% Wenn die angehobenen Argumente noch ein Subjekt davor haben, dann ist das Objekt im Akkusativ und man
+% kann die inkohärente Analyse ausschließen.
+%
+% Versagt bei dass ihm der Kran/den Kran zu reparieren erlaubt wurde, weil erlauben noch Dativ hat.
+%
+Synsem^(head_complement_phrase,
+  head_dtr:non_head_dtrs:hd:synsem:loc:cat:head:optionally_coherent:plus,   % versprochen
+  head_dtr:synsem:loc:cat:comps:tl:(hd:arg:Synsem,                          % versucht bekommt Synsem ist "zu lesen" 
+                                    tl:tl:ne_list),                         % Der Verbalkomplex der kohärenten Konstruktion hat einen Nominativ.
+                                                                            % Damit wäre ein aus einer VP angezogenes Objekt an zweiter Stelle und
+                                                                            % müsste auch in der kohärenten Konstruktion Akkusativ werden.
+                                                                            % Also kann die inkohärente Konstruktion ausgeschlossen werden.
+                                                                            % [V[ppp],V[inf],PP[von],NP]
+  non_head_dtrs:hd:synsem:(Synsem,
+                           loc:cat:head:adj_or_participle_or_verb)) *> (head_dtr:head_non_cluster_phrase,
                                                                            non_head_dtrs:hd:synsem:trace:minus).
 
 % If we are combining an optionally coherent verb with an argument via the head-complement-phrase,
