@@ -131,8 +131,10 @@ headed_phrase *>
 */
 
 headed_phrase *>
-   (synsem:loc:cont:ind:Ind,
-    head_dtr:synsem:loc:cont:ind:Ind).
+   (synsem:loc:cont:(ind:Ind,
+                     key:Key),
+    head_dtr:synsem:loc:cont:(ind:Ind,
+                              key:Key)).
 
 % head_complement_phrase, head_specifier_phrase, head_filler_phrase
 head_non_adjunct_phrase *>
