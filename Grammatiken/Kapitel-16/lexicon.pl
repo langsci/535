@@ -108,9 +108,9 @@ märchen   ---> @noun(case,             neu,pl,märchen_rel).
 % ist allerdings feminin oder neutrum möglich.
 % Das Mädchen ... Sie/es ...
 
-mädchen  ---> @noun(nom_or_dat_or_acc,neu,  fem_or_neu,sg,mädchen_rel).
-mädchens ---> @noun(gen,              neu,  fem_or_neu,sg,mädchen_rel).
-mädchen  ---> @noun(case,             genus,fem_or_neu,pl,mädchen_rel).
+mädchen  ---> @noun(nom_or_dat_or_acc,neu,  fem_or_neu,sg,mädchen_rel,human).
+mädchens ---> @noun(gen,              neu,  fem_or_neu,sg,mädchen_rel,human).
+mädchen  ---> @noun(case,             genus,fem_or_neu,pl,mädchen_rel,human).
 
 
 % Nomina mask
@@ -185,8 +185,8 @@ wagen   ---> @noun(case,             mas,pl,wagen_rel).
 
 % Nomina fem
 
-frau   ---> @noun(case,fem,sg,frau_rel).
-frauen ---> @noun(case,fem,pl,frau_rel).
+frau   ---> @noun(case,fem,sg,frau_rel,human).
+frauen ---> @noun(case,fem,pl,frau_rel,human).
 
 speisekammer  ---> @noun(case,fem,sg,speisekammer_rel).
 speisekammern ---> @noun(case,fem,pl,speisekammer_rel).
@@ -201,6 +201,9 @@ töchtern ---> @relational_noun(dat,              fem,pl,tochter_rel).
 wurst   ---> @noun(case,fem,sg,wurst_rel).
 würste  ---> @noun(nom_or_gen_or_acc,fem,pl,wurst_rel).
 würsten ---> @noun(dat,              fem,pl,wurst_rel).
+
+zeitschrift   ---> @noun(case,fem,sg,zeitschrift_rel,info_bearer).
+zeitschriften ---> @noun(case,fem,pl,zeitschrift_rel,info_bearer).
 
 
 % adjektivisch flektierte Nomina
@@ -220,25 +223,25 @@ würsten ---> @noun(dat,              fem,pl,wurst_rel).
 % Er ließ ihn Beamten werden.
 
 
-beamte ---> @adj_noun(nom_or_acc,fem,        sg,dtype, beamter_rel).
-beamte ---> @adj_noun(nom,       mas,        sg,strong,beamter_rel).
-beamte ---> @adj_noun(nom_or_acc,fem_or_mas, pl,weak,  beamter_rel).
+beamte ---> @adj_noun(nom_or_acc,fem,        sg,dtype, beamter_rel,human).
+beamte ---> @adj_noun(nom,       mas,        sg,strong,beamter_rel,human).
+beamte ---> @adj_noun(nom_or_acc,fem_or_mas, pl,weak,  beamter_rel,human).
 
-beamten ---> @adj_noun(gen_or_dat,fem_or_mas,sg,strong,beamter_rel).
-%beamten ---> @adj_noun(gen,       mas,       sg,weak,  beamter_rel).  % nicht gebraucht
-beamten ---> @adj_noun(case,      fem_or_mas,pl,strong,beamter_rel).
-beamten ---> @adj_noun(acc,       mas,       sg,dtype, beamter_rel).
-beamten ---> @adj_noun(gen,       mas,       pl,weak,  beamter_rel).
-beamten ---> @adj_noun(dat,       fem_or_mas,pl,weak,  beamter_rel).
+beamten ---> @adj_noun(gen_or_dat,fem_or_mas,sg,strong,beamter_rel,human).
+%beamten ---> @adj_noun(gen,       mas,       sg,weak,  beamter_rel,human).  % nicht gebraucht
+beamten ---> @adj_noun(case,      fem_or_mas,pl,strong,beamter_rel,human).
+beamten ---> @adj_noun(acc,       mas,       sg,dtype, beamter_rel,human).
+beamten ---> @adj_noun(gen,       mas,       pl,weak,  beamter_rel,human).
+beamten ---> @adj_noun(dat,       fem_or_mas,pl,weak,  beamter_rel,human).
 
-%beamtem ---> @adj_noun(dat,       mas,       sg,weak,  beamter_rel).  % nicht gebraucht
+%beamtem ---> @adj_noun(dat,       mas,       sg,weak,  beamter_rel,human).  % nicht gebraucht
 
 
 %
-%beamter ---> @noun(gen_or_dat,fem,       sg,weak,  beamter_rel).      % nicht gebraucht
+%beamter ---> @noun(gen_or_dat,fem,       sg,weak,  beamter_rel,human).      % nicht gebraucht
 
-beamter ---> @adj_noun(nom,       mas,       sg,weak,  beamter_rel).
-beamter ---> @adj_noun(gen,       fem_or_mas,pl,weak,  beamter_rel).
+beamter ---> @adj_noun(nom,       mas,       sg,weak,  beamter_rel,human).
+beamter ---> @adj_noun(gen,       fem_or_mas,pl,weak,  beamter_rel,human).
 
 
 

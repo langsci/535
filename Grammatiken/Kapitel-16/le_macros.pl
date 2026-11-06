@@ -455,22 +455,26 @@ simple_noun *>
 
 % Bei Mädchen, Weib usw. sind SynGenus und SemGenus
 % verschieden.
-noun(Case,SynGenus,SemGenus,Numerus,Relation) :=
+noun(Case,SynGenus,SemGenus,Numerus,Relation,Sort) :=
  (simple_noun,
   synsem:loc:(cat:(head:case:morph_case:Case,
                    spr:[arg:loc:cat:head:gen:SynGenus]),
               cont:ind:(num:Numerus,
-                        gen:SemGenus)),
+                        gen:SemGenus,
+                        sort:Sort)),
   rels:[Relation]).
 
 % Normalerweise sind die Genus-Werte aber gleich.
 % Haus
 noun(Case,Genus,Numerus,Relation) :=
- (@noun(Case,Genus,Genus,Numerus,Relation)).
+ (@noun(Case,Genus,Genus,Numerus,Relation,anything)).
+
+noun(Case,Genus,Numerus,Relation,Sort) :=
+ (@noun(Case,Genus,Genus,Numerus,Relation,Sort)).
 
 % Beamter, Verwandter
-adj_noun(Case,Genus,Numerus,DType,Relation) :=
- (@noun(Case,Genus,Genus,Numerus,Relation),
+adj_noun(Case,Genus,Numerus,DType,Relation,Sort) :=
+ (@noun(Case,Genus,Genus,Numerus,Relation,Sort),
   synsem:loc:cat:spr:[arg:loc:cat:head:dtype:DType]).
 
 
