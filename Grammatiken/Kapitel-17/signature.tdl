@@ -30,9 +30,9 @@ none_or_synsem := bot.
 none   := none_or_synsem & none_or_local & mode.
 
 synsem := none_or_synsem & [
- loc  local,
+ loc    local,
  nonloc nonloc,
- trace minus_or_extraction_or_vm,
+ trace  minus_or_extraction_or_vm,
  lex    bool,
  phrase bool,
  max_   bool].
@@ -1090,12 +1090,13 @@ modal_rel := verbal_arg03_relation.
 
 dürfen_können_müssen_sollen_rel :< modal_rel.
 können_müssen_sollen_rel :< dürfen_können_müssen_sollen_rel.
+können_müssen_rel :< können_müssen_sollen_rel.
 müssen_sollen_rel :< können_müssen_sollen_rel.
 
 
 dürfen_rel := dürfen_können_müssen_sollen_rel.
-können_rel := können_müssen_sollen_rel.
-müssen_rel := müssen_sollen_rel.
+können_rel := können_müssen_rel.
+müssen_rel := können_müssen_rel & müssen_sollen_rel.
 sollen_rel := müssen_sollen_rel.
 wollen_rel := modal_rel.
 
