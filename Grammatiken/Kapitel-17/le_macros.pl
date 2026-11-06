@@ -968,10 +968,11 @@ raising_verb *>
 % scheinen, not AcI, phase_verb
 subj_raising_verb *>
  (%raising_verb,
-  synsem:loc:cat:arg_st:[arg:loc:cat:(head:subj:(Subj,
-                                                 list_of_raised_arguments), % löschen?
+  synsem:loc:cat:arg_st:[arg:loc:cat:(head:(da:DA,
+                                           subj:(Subj,
+                                                 list_of_raised_arguments)), % löschen?
                                       comps:Comps)
-                        |raise(append_known_prefix(Comps,Subj))]).
+                        |raise(append_known_prefix(without_own_passive_pp(DA,Comps),Subj))]).
 
 
 coherent_le *>
@@ -1121,7 +1122,8 @@ werden(VForm) :=
 %  rels:hd:stative_passive_rel).
 
 stative_passive_aux_verb *>
-  synsem:loc:cat:comps:hd:arg:loc:cont:key:aktionsart:accomplishment_or_achievement,
+% funktioniert noch nicht, weil "genug" die Aktionsart von "gearbeitet" auf accomplishment ändern muss.
+%  synsem:loc:cat:comps:hd:arg:loc:cont:key:aktionsart:accomplishment_or_achievement,
   rels:[stative_passive_rel].
 
 % sein Zustandspassiv
@@ -1254,6 +1256,17 @@ modal_zu_inf *>
 modal_haben *>
   rels:[müssen_sollen_rel]. % [können_müssen_sollen_rel].
 
+% Er hat dem Mann zu helfen = Er muss dem Mann helfen.
+(modal_haben,
+ synsem:loc:cat:arg_st:hd:arg:loc:cont:key:helfen_rel) *>
+ rels:hd:müssen_rel.
+
+% Er hat das Buch zu lesen = Er muss/soll? das Buch lesen.
+(modal_haben,
+ synsem:loc:cat:arg_st:hd:arg:loc:cont:key:lesen_rel) *>
+ rels:hd:müssen_sollen_rel.
+
+  
 % sein + zu
 % Variante I können
 % der noch heute in der Kirche zu sehen ist = gesehen werden kann
@@ -1293,6 +1306,23 @@ modal_sein *>
   synsem:loc:cat:head:(%aux:plus, bei modal_zu_inf            % den zu lesenden Aufsatz, aber * den zu lesen seienden Aufsatz
                        auxf:sein),
   rels:[dürfen_können_müssen_sollen_rel].
+
+% Dem Mann ist zu helfen = Dem Mann muss/kann geholfen werden.
+(modal_sein,
+ synsem:loc:cat:arg_st:hd:arg:loc:cont:key:helfen_rel) *>
+ rels:hd:können_müssen_rel.
+
+% weil zu lachen ist -> weil gelacht werden muss
+(modal_sein,
+ synsem:loc:cat:arg_st:hd:arg:loc:cont:key:lachen_rel) *>
+ rels:hd:müssen_rel.
+
+% weil das Buch zu lesen ist -> weil das Buch gelesen werden muss/soll
+% weil das Buch gut zu lesen ist -> kann
+(modal_sein,
+ synsem:loc:cat:arg_st:hd:arg:loc:cont:key:lesen_rel) *>
+ rels:hd:können_müssen_sollen_rel.
+
 
 sein_modal(Per-per,Num-num,TeMo-temo) :=
  (@irregular_verb(Per,Num,TeMo),
@@ -1342,7 +1372,7 @@ obj_control_verb *>
 % sowohl für kohärente als auch für inkohärente Konstruktion
 np_v_subj_zu_inf_control_verb *>
   (%zu_inf_subj_control_verb,
-   synsem:loc:cat:arg_st:[arg:loc:cat:comps:Comps|append(attract_unrealized(Comps),[@np_str])]).
+   synsem:loc:cat:arg_st:[arg:loc:cat:(head:da:DA,comps:Comps)|append(attract_unrealized(without_own_passive_pp(DA,Comps)),[@np_str])]).
 
 
 np_v_subj_control_verb(Relation) :=
@@ -1356,18 +1386,18 @@ np_v_subj_control_verb(Relation,Sort) :=
 
 np_np_v_subj_zu_inf_control_verb *>
   (%zu_inf_control_verb,
-   synsem:loc:cat:arg_st:[arg:loc:cat:comps:Comps|append(attract_unrealized(Comps),[@np(ObjInd),@np_str])],
+   synsem:loc:cat:arg_st:[arg:loc:cat:(head:da:DA,comps:Comps)|append(attract_unrealized(without_own_passive_pp(DA,Comps)),[@np(ObjInd),@np_str])],
    rels:hd:arg2:ObjInd).
 
 % ihm versprechen
 np_np_v_subj_control_verb(Case,Relation) :=
   (np_np_v_subj_zu_inf_control_verb,
-   synsem:loc:cat:arg_st:[arg:loc:cat:comps:Comps|append(attract_unrealized(Comps),[@np(Case,_ObjInd),_])],
+   synsem:loc:cat:arg_st:[arg:loc:cat:(head:da:DA,comps:Comps)|append(attract_unrealized(without_own_passive_pp(DA,Comps)),[@np(Case,_ObjInd),_])],
    rels:hd:Relation).
 
 np_np_v_subj_control_verb(Case,Relation,Sort1,Sort2) :=
   (np_np_v_subj_zu_inf_control_verb,
-   synsem:loc:cat:arg_st:[arg:loc:cat:comps:Comps|append(attract_unrealized(Comps),[@np(Case,_ObjInd),_])],
+   synsem:loc:cat:arg_st:[arg:loc:cat:(head:da:DA,comps:Comps)|append(attract_unrealized(without_own_passive_pp(DA,Comps)),[@np(Case,_ObjInd),_])],
    rels:hd:(Relation,
             arg1:sort:Sort1,
             arg2:sort:Sort2)).
@@ -1375,12 +1405,12 @@ np_np_v_subj_control_verb(Case,Relation,Sort1,Sort2) :=
 % zwingen
 np_np_v_obj_control_verb(Relation) :=
   (np_np_v_obj_zu_inf_control_verb,
-   synsem:loc:cat:arg_st:[arg:loc:cat:comps:Comps|append(attract_unrealized(Comps),[@np_str,_])],
+   synsem:loc:cat:arg_st:[arg:loc:cat:(head:da:DA,comps:Comps)|append(attract_unrealized(without_own_passive_pp(DA,Comps)),[@np_str,_])],
    rels:hd:Relation).
 
 np_np_v_obj_control_verb(Relation,Sort1,Sort2) :=
   (np_np_v_obj_zu_inf_control_verb,
-   synsem:loc:cat:arg_st:[arg:loc:cat:comps:Comps|append(attract_unrealized(Comps),[@np_str,_])],
+   synsem:loc:cat:arg_st:[arg:loc:cat:(head:da:DA,comps:Comps)|append(attract_unrealized(without_own_passive_pp(DA,Comps)),[@np_str,_])],
    rels:hd:(Relation,
             arg1:sort:Sort1,
             arg2:sort:Sort2)).
@@ -1388,12 +1418,12 @@ np_np_v_obj_control_verb(Relation,Sort1,Sort2) :=
 % erlauben
 np_np_v_obj_control_verb(Case,Relation) :=
   (np_np_v_obj_zu_inf_control_verb,
-   synsem:loc:cat:arg_st:[arg:loc:cat:comps:Comps|append(attract_unrealized(Comps),[@np(Case,_ObjInd),_])],
+   synsem:loc:cat:arg_st:[arg:loc:cat:(head:da:DA,comps:Comps)|append(attract_unrealized(without_own_passive_pp(DA,Comps)),[@np(Case,_ObjInd),_])],
    rels:hd:Relation).
 
 np_np_v_obj_control_verb(Case,Relation,Sort1,Sort2) :=
   (np_np_v_obj_zu_inf_control_verb,
-   synsem:loc:cat:arg_st:[arg:loc:cat:comps:Comps|append(attract_unrealized(Comps),[@np(Case,_ObjInd),_])],
+   synsem:loc:cat:arg_st:[arg:loc:cat:(head:da:DA,comps:Comps)|append(attract_unrealized(without_own_passive_pp(DA,Comps)),[@np(Case,_ObjInd),_])],
    rels:hd:(Relation,
             arg1:sort:Sort1,
             arg2:sort:Sort2)).
@@ -1412,8 +1442,8 @@ phase_verb(Relation) :=
 
 % lassen, sehen, hören
 aci_verb *>
- (synsem:loc:cat:arg_st:[(arg:loc:cat:(head:subj:Subj,
-                                       comps:Comps))|append(attract_unrealized(append(Comps,Subj)),[@np_str(Ind)])],
+ (synsem:loc:cat:arg_st:[(arg:loc:cat:(head:(subj:Subj,da:DA),
+                                       comps:Comps))|append(attract_unrealized(append(without_own_passive_pp(DA,Comps),Subj)),[@np_str(Ind)])],
   rels:hd:arg1:Ind).
 
 aci_verb(Relation) :=
