@@ -365,7 +365,9 @@ Synsem^(head_complement_phrase,
 Synsem^(head_complement_phrase,
   head_dtr:non_head_dtrs:hd:synsem:loc:cat:head:optionally_coherent:plus,   % versprochen
   head_dtr:synsem:loc:cat:comps:tl:(hd:arg:Synsem,                          % versucht bekommt Synsem ist "zu lesen" 
-                                    tl:tl:ne_list),                         % Der Verbalkomplex der kohärenten Konstruktion hat einen Nominativ.
+                                    (tl:[(arg:loc:cat:head:prep,
+                                          realized:minus)]; % Von ihm wurde zu lachen versucht.
+                                     tl:tl:ne_list)),                       % Der Verbalkomplex der kohärenten Konstruktion hat einen Nominativ.
                                                                             % Damit wäre ein aus einer VP angezogenes Objekt an zweiter Stelle und
                                                                             % müsste auch in der kohärenten Konstruktion Akkusativ werden.
                                                                             % Also kann die inkohärente Konstruktion ausgeschlossen werden.
