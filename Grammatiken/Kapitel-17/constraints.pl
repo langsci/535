@@ -257,3 +257,34 @@ block_da((DA,
                                                           % later that the DA of the embedded ppp_verb differs from the ppp_verb
          Argst,RedArgst) if
   append(RedArgst,DA,Argst).
+
+
+% Remove only the PP inserted for this verb's DA. Inherited passive PPs stay.
+% This is the inverse of the current add_optional_passive_pp_after_verb layout.
+fun without_own_passive_pp(+,+,-).
+without_own_passive_pp(DA,Comps,Rest) if
+  when(DA=(e_list;ne_list),
+       without_own_passive_pp_da(DA,Comps,Rest)).
+
+without_own_passive_pp_da([],Comps,Comps) if true.
+without_own_passive_pp_da([arg:loc:cont:ind:Ind],Comps,Rest) if
+  when(Comps=ne_list,
+       without_own_passive_pp_first(Ind,Comps,Rest)).
+
+without_own_passive_pp_first(Ind,[H|T],Rest) if
+  when(H=arg:loc:cat:head:(verb;part;prep),
+       without_own_passive_pp_head(Ind,H,T,Rest)).
+
+without_own_passive_pp_head(Ind,
+  (raised:minus,
+   realized:plus,
+   @optional_passive_pp(Ind),
+   arg:loc:cat:(spr:[],comps:[])),Rest,Rest) if true.
+
+without_own_passive_pp_head(Ind,
+  (H,arg:loc:cat:head:(verb;part)),
+  [(raised:minus,
+    realized:plus,
+    @optional_passive_pp(Ind),
+    arg:loc:cat:(spr:[],comps:[]))|Rest],
+  [H|Rest]) if true.
