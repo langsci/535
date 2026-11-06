@@ -179,53 +179,53 @@ ts(139,"Kleinen Kinder schlafen.",@decl,0,[],_Generated,'Kapitel 12: Kongruenz')
 ts(140,"Ich fetze.",@decl,1,[1],[1],'Kapitel 12: Kongruenz').
 ts(141,"Du  fetzt.",@decl,1,[1],[1],'Kapitel 12: Kongruenz').
 
-%ts(138,"Er arbeitet der ganze Tag.", @decl,0,_Scopes,_Generated,'Kapitel 13: Kasus').
+%ts(142,"Er arbeitet der ganze Tag.", @decl,0,_Scopes,_Generated,'Kapitel 13: Kasus').
 %t(126,"weil der ganze Tag gearbeitet wurde."@decl,0,'Kapitel 13: Kasus').
 
-ts(142,"Dass Aicke lacht, freut mich.",@decl,1,[],_Generated,'Kapitel 13: Kasus').
-ts(143,"Dass Aicke lacht, freut er.",  @decl,0,[],_Generated,'Kapitel 13: Kasus').
+%ts(143,"Dass Aicke lacht, freut mich.",@decl,1,[],_Generated,'Kapitel 13: Kasus').
+%ts(144,"Dass Aicke lacht, freut er.",  @decl,0,[],_Generated,'Kapitel 13: Kasus').
 
 
 
 % Verbalkomplexe
-ts(144,"dass er lachen wird",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex').
-ts(145,"dass lachen er wird",@root,0,[],_Generated,'Kapitel 14: Verbalkomplex').
-ts(146,"dass er den Aufsatz lesen wird",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex').
-ts(147,"dass lesen er den Aufsatz wird",@root,0,[],_Generated,'Kapitel 14: Verbalkomplex').
-ts(148,"dass er lesen den Aufsatz wird",@root,0,[],_Generated,'Kapitel 14: Verbalkomplex').
-ts(149,"Er wird das Lied singen dürfen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex').
-ts(150,"Er wird lachen können wollen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex').
+ts(145,"dass er lachen wird",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex').
+ts(146,"dass lachen er wird",@root,0,[],_Generated,'Kapitel 14: Verbalkomplex').
+ts(147,"dass er den Aufsatz lesen wird",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex').
+ts(148,"dass lesen er den Aufsatz wird",@root,0,[],_Generated,'Kapitel 14: Verbalkomplex').
+ts(149,"dass er lesen den Aufsatz wird",@root,0,[],_Generated,'Kapitel 14: Verbalkomplex').
+ts(150,"Er wird das Lied singen dürfen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex').
+ts(151,"Er wird lachen können wollen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex').
 
 % Partial Verb Phrase Fronting
-ts(151,"Lachen muss er.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + PVP').
-ts(152,"Dem Kind erzählen muss er das Märchen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + PVP').
-ts(153,"Ein Märchen erzählen muss er dem Kind.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + PVP').
-ts(154,"Ein Märchen erzählen wird er ihm müssen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + PVP').
-ts(155,"Müssen wird er ihm ein Märchen erzählen.",@decl,0,[],_Generated,'Kapitel 14: Verbalkomplex + PVP').
+ts(152,"Lachen muss er.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + PVP').
+ts(153,"Dem Kind erzählen muss er das Märchen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + PVP').
+ts(154,"Ein Märchen erzählen muss er dem Kind.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + PVP').
+ts(155,"Ein Märchen erzählen wird er ihm müssen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + PVP').
+ts(156,"Müssen wird er ihm ein Märchen erzählen.",@decl,0,[],_Generated,'Kapitel 14: Verbalkomplex + PVP').
 
 % Oberfeldumstellung z.T. mit Ersatzinfinitiv
-ts(156,"dass Aicke den Roman wird lesen dürfen",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex + PVP').
-ts(157,"dass Aicke den Roman hat lesen dürfen",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex + PVP').
-ts(158,"dass Aicke den Roman wird haben lesen dürfen",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex + PVP').
-ts(159,"Aicke wird haben schlafen wollen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + Oberfeldumstellung').
+ts(157,"dass Aicke den Roman wird lesen dürfen",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex + PVP').
+ts(158,"dass Aicke den Roman hat lesen dürfen",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex + PVP').
+ts(159,"dass Aicke den Roman wird haben lesen dürfen",@root,1,[],_Generated,'Kapitel 14: Verbalkomplex + PVP').
+ts(160,"Aicke wird haben schlafen wollen.",@decl,1,[1],_Generated,'Kapitel 14: Verbalkomplex + Oberfeldumstellung').
 
 % scheinbar mehrfache Vorfeldbesetzung uncomment loding :- ['mehrfache-vorfeldbesetzung']. in theory.pl
-% ts(157,"Der Frau das Buch gibt er nicht.",@decl,1,_Scopes,_Generated,'Kapitel 14: Merhfache Vorfeldbesetzung').
-% ts(158,"Der Frau den Aufsatz will er geben.",@decl,1,_Scopes,_Generated,'Kapitel 14: Merhfache Vorfeldbesetzung').
-% ts(159,"Der Frau der Aufsatz gibt er.",@root,0,_Scopes,_Generated,'Kapitel 14: Merhfache Vorfeldbesetzung').
-% ts(160,"Der Frau der Aufsatz will er geben.",@root,0,_Scopes,_Generated,'Kapitel 14: Merhfache Vorfeldbesetzung').
+% ts(161,"Der Frau das Buch gibt er nicht.",@decl,1,_Scopes,_Generated,'Kapitel 14: Merhfache Vorfeldbesetzung').
+% ts(162,"Der Frau den Aufsatz will er geben.",@decl,1,_Scopes,_Generated,'Kapitel 14: Merhfache Vorfeldbesetzung').
+% ts(163,"Der Frau der Aufsatz gibt er.",@root,0,_Scopes,_Generated,'Kapitel 14: Merhfache Vorfeldbesetzung').
+% ts(164,"Der Frau der Aufsatz will er geben.",@root,0,_Scopes,_Generated,'Kapitel 14: Merhfache Vorfeldbesetzung').
 
-ts(160,"dass er ihn zu lesen scheint",@root,1,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
-ts(161,"dass ihm zu grauen scheint",@root,1,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
-ts(162,"dass den Aufsatz zu lesen der Mann beginnt",@root,1,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
-ts(163,"dass der Mann den Aufsatz zu lesen morgen beginnt",@root,1,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
-ts(164,"Er sieht es schlafen.",@decl,1,[1],_Generated,'Kapitel 15: Anhebung und Kontrolle').
-ts(165,"Er versucht, das Lied zu singen.",@decl,2,[1,1],_Generated,'Kapitel 15: Anhebung und Kontrolle').
-ts(166,"Er verspricht ihm, das Lied zu singen.",@decl,2,[1,1],_Generated,'Kapitel 15: Anhebung und Kontrolle').
-ts(167,"Er zwingt ihn, das Lied zu singen.",@decl,3,[1,1,1],_Generated,'Kapitel 15: Anhebung und Kontrolle').
-ts(168,"dass ihn der Mann zu lesen versucht",@root,1,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
-ts(169,"dass ihn zu lesen der Mann versucht",@root,1,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
-ts(170,"dass er ihn den Aufsatz lesen sah",@root,2,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
+ts(165,"dass er ihn zu lesen scheint",@root,1,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
+ts(166,"dass ihm zu grauen scheint",@root,1,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
+ts(167,"dass den Aufsatz zu lesen der Mann beginnt",@root,1,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
+ts(168,"dass der Mann den Aufsatz zu lesen morgen beginnt",@root,1,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
+ts(169,"Er sieht es schlafen.",@decl,1,[1],_Generated,'Kapitel 15: Anhebung und Kontrolle').
+ts(170,"Er versucht, das Lied zu singen.",@decl,2,[1,1],_Generated,'Kapitel 15: Anhebung und Kontrolle').
+ts(171,"Er verspricht ihm, das Lied zu singen.",@decl,2,[1,1],_Generated,'Kapitel 15: Anhebung und Kontrolle').
+ts(172,"Er zwingt ihn, das Lied zu singen.",@decl,3,[1,1,1],_Generated,'Kapitel 15: Anhebung und Kontrolle').
+ts(173,"dass ihn der Mann zu lesen versucht",@root,1,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
+ts(174,"dass ihn zu lesen der Mann versucht",@root,1,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
+ts(175,"dass er ihn den Aufsatz lesen sah",@root,2,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
 
 
 % Langer Satz

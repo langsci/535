@@ -51,6 +51,8 @@ test_memory_messages(off).
 % Interaktives p_and_g wird dadurch nicht begrenzt.
 generator_test_timeout(1200000). % 20 Minuten
 
+% generator_test_timeout(2400000). % 40 Minuten
+
 :- [tokenization].
 % SVG in der auf dem Mac eingestellten Anwendung öffnen.
 graphviz_option(svg,'sleep 0.5; open').

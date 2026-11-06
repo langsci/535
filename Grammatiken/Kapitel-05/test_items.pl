@@ -60,16 +60,16 @@ ts(33,"Der Affe fetzt.",@decl,1,[1],_Generated,'Kapitel 5: Semantik, Skopus').
 
 
 /*
-ts(32,"Eine Tochter eines Mitarbeiters kennt einen Affen.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
+ts(34,"Eine Tochter eines Mitarbeiters kennt einen Affen.",@decl,1,[1],'Kapitel 5: Semantik, Skopus').
 
-ts(33,"Eine Tochter eines Mitarbeiters kennt einen Affen.",_Root,1,_Scopes,_Generated,'').
+ts(35,"Eine Tochter eines Mitarbeiters kennt einen Affen.",_Root,1,_Scopes,_Generated,'').
 
 % scopings only make sense if a description is given
-% ts(34,"Eine Tochter eines Mitarbeiters kennt einen Affen.",1,[1]).
+% ts(36,"Eine Tochter eines Mitarbeiters kennt einen Affen.",1,[1]).
 
 %t(33,"Eine Tochter eines Mitarbeiters kennt einen Affen.",@decl,1).
 
-ts(35,"Eine Tochter eines Mitarbeiters kennt einen Affen.",@decl,1,[1],_Generated,'').
+ts(37,"Eine Tochter eines Mitarbeiters kennt einen Affen.",@decl,1,[1],_Generated,'').
 
 */
 
