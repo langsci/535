@@ -53,27 +53,33 @@ suffix_table(fin, fin_17, [per,num,temo], @fin_v_infl_affix([a_ est],   v_strong
 suffix_table(fin, fin_18, [per,num,temo], @fin_v_infl_affix([a_ est],   v_strong,       temo, spe:plus,                     per,num), [[second,         sg, past_ind]]).
 suffix_table(fin, fin_19, [per,num,temo], @fin_v_infl_affix([a_ est],   mixed,          temo, (ep:plus, sm:minus),          per,num), [[second,         sg, pres_ind]]).
 suffix_table(fin, fin_20, [per,num,temo], @fin_v_infl_affix([a_ est],   v_weak,         temo, ep:plus,                      per,num), [[second,         sg, pres_ind]]).
-suffix_table(fin, fin_21, [per,num,temo], @fin_v_infl_affix([a_ est],   modal,          temo, (ep:plus, sm:minus),          per,num), [[second,         sg, pres_ind]]).
-suffix_table(fin, fin_22, [per,num,temo], @fin_v_infl_affix([a_ st],    v_strong,       temo, (ep:minus, sm:minus),         per,num), [[second,         sg, pres_ind]]).
-suffix_table(fin, fin_23, [per,num,temo], @fin_v_infl_affix([a_ st],    v_strong,       temo, (ep:plus, sm:minus, tm:plus), per,num), [[second,         sg, pres_ind]]).
-suffix_table(fin, fin_24, [per,num,temo], @fin_v_infl_affix([a_ st],    v_strong,       temo, (ep:plus, tm:t),              per,num), [[second,         sg, pres_ind]]).
-suffix_table(fin, fin_25, [per,num,temo], @fin_v_infl_affix([a_ st],    v_strong,       temo, (evp:minus, sm:minus),        per,num), [[second,         sg, past_ind_conj]]).
-suffix_table(fin, fin_26, [per,num,temo], @fin_v_infl_affix([a_ st],    mixed,          temo, (ep:minus, sm:minus),         per,num), [[second,         sg, pres_ind]]).
-suffix_table(fin, fin_27, [per,num,temo], @fin_v_infl_affix([a_ st],    modal,          temo, (ep:minus, sm:minus),         per,num), [[second,         sg, pres_ind]]).
-suffix_table(fin, fin_28, [per,num,temo], @fin_v_infl_affix([a_ st],    v_weak,         temo, (ep:minus, sm:minus),         per,num), [[second,         sg, pres_ind_conj]]).
-suffix_table(fin, fin_29, [per,num,temo], @fin_v_infl_affix([a_ t],     v_strong,       temo, (ep:minus, sm:plus),          per,num), [[second,         sg, pres_ind_conj]]).
-suffix_table(fin, fin_30, [per,num,temo], @fin_v_infl_affix([a_ t],     v_strong,       temo, (ep:minus, tm:minus),         per,num), [[third,          sg, pres_ind]]).
-suffix_table(fin, fin_31, [per,num,temo], @fin_v_infl_affix([a_ t],     mixed,          temo, ep:minus,                     per,num), [[third,          sg, pres_ind]]).
-suffix_table(fin, fin_32, [per,num,temo], @fin_v_infl_affix([a_ t],     v_strong,       temo, (ep:plus, tm:t),              per,num), [[third,          sg, pres_ind]]).
-suffix_table(fin, fin_33, [per,num,temo], @fin_v_infl_affix([a_ t],     v_weak,         temo, (ep:minus, sm:plus),          per,num), [[second,         sg, pres_ind_conj]]).
-suffix_table(fin, fin_34, [per,num,temo], @fin_v_infl_affix([a_ t],     v_weak,         temo, ep:minus,                     per,num), [[third,          sg, pres_ind],
+% neu 06.11.2026 du fetzt aber du fetzest
+suffix_table(fin, fin_21, [per,num,temo], @fin_v_infl_affix([a_ est],   v_weak,         temo, ep:minus,                     per,num), [[second,         sg, pres_conj]]).
+suffix_table(fin, fin_22, [per,num,temo], @fin_v_infl_affix([a_ est],   modal,          temo, (ep:plus, sm:minus),          per,num), [[second,         sg, pres_ind]]).
+suffix_table(fin, fin_23, [per,num,temo], @fin_v_infl_affix([a_ st],    v_strong,       temo, (ep:minus, sm:minus),         per,num), [[second,         sg, pres_ind]]).
+suffix_table(fin, fin_24, [per,num,temo], @fin_v_infl_affix([a_ st],    v_strong,       temo, (ep:plus, sm:minus, tm:plus), per,num), [[second,         sg, pres_ind]]).
+suffix_table(fin, fin_25, [per,num,temo], @fin_v_infl_affix([a_ st],    v_strong,       temo, (ep:plus, tm:t),              per,num), [[second,         sg, pres_ind]]).
+suffix_table(fin, fin_26, [per,num,temo], @fin_v_infl_affix([a_ st],    v_strong,       temo, (evp:minus, sm:minus),        per,num), [[second,         sg, past_ind_conj]]).
+suffix_table(fin, fin_27, [per,num,temo], @fin_v_infl_affix([a_ st],    mixed,          temo, (ep:minus, sm:minus),         per,num), [[second,         sg, pres_ind]]).
+suffix_table(fin, fin_28, [per,num,temo], @fin_v_infl_affix([a_ st],    modal,          temo, (ep:minus, sm:minus),         per,num), [[second,         sg, pres_ind]]).
+suffix_table(fin, fin_29, [per,num,temo], @fin_v_infl_affix([a_ st],    v_weak,         temo, (ep:minus, sm:minus),         per,num), [[second,         sg, pres_ind_conj]]).
+suffix_table(fin, fin_30, [per,num,temo], @fin_v_infl_affix([a_ t],     v_strong,       temo, (ep:minus, sm:plus),          per,num), [[second,         sg, pres_ind_conj]]).
+suffix_table(fin, fin_31, [per,num,temo], @fin_v_infl_affix([a_ t],     v_strong,       temo, (ep:minus, tm:minus),         per,num), [[third,          sg, pres_ind]]).
+suffix_table(fin, fin_32, [per,num,temo], @fin_v_infl_affix([a_ t],     mixed,          temo, ep:minus,                     per,num), [[third,          sg, pres_ind]]).
+suffix_table(fin, fin_33, [per,num,temo], @fin_v_infl_affix([a_ t],     v_strong,       temo, (ep:plus, tm:t),              per,num), [[third,          sg, pres_ind]]).
+%suffix_table(fin, fin_33, [per,num,temo], @fin_v_infl_affix([a_ t],     v_weak,         temo, (ep:minus, sm:plus),          per,num), [[second,         sg, pres_ind_conj]]).
+% geändert 06.11.2026 du fetzt aber nur als Indikativ
+suffix_table(fin, fin_34, [per,num,temo], @fin_v_infl_affix([a_ t],     v_weak,         temo, (ep:minus, sm:plus),          per,num), [[second,         sg, pres_ind],
+                                                                                                                                       [third,          sg, pres_ind],
                                                                                                                                        [second,         pl, pres_ind]]).
-suffix_table(fin, fin_35, [per,num,temo], @fin_v_infl_affix([a_ t],     modal,          temo, sm:plus,                      per,num), [[second,         sg, pres_ind]]).
-suffix_table(fin, fin_36, [per,num,temo], @fin_v_infl_affix([a_ t],     v_strong,       temo, ep:minus,                     per,num), [[second,         pl, pres_ind]]).
-suffix_table(fin, fin_37, [per,num,temo], @fin_v_infl_affix([a_ te],    v_weak,         temo, ep:minus,                     per,num), [[first_or_third, sg, past_ind]]).
-suffix_table(fin, fin_38, [per,num,temo], @fin_v_infl_affix([a_ te],    mixed,          temo, ep:minus,                     per,num), [[first_or_third, sg, past_ind_conj]]).
-suffix_table(fin, fin_39, [per,num,temo], @fin_v_infl_affix([a_ te],    modal,          temo, ep:minus,                     per,num), [[first_or_third, sg, past_ind_conj]]).
-suffix_table(fin, fin_40, [per,num,temo], @fin_v_infl_affix([a_ test],  non_strong,     temo, ep:minus,                     per,num), [[second,         sg, past_ind_conj]]).
+suffix_table(fin, fin_35, [per,num,temo], @fin_v_infl_affix([a_ t],     v_weak,         temo, (ep:minus, sm:minus),         per,num), [[third,          sg, pres_ind],
+                                                                                                                                       [second,         pl, pres_ind]]).
+suffix_table(fin, fin_36, [per,num,temo], @fin_v_infl_affix([a_ t],     modal,          temo, sm:plus,                      per,num), [[second,         sg, pres_ind]]).
+suffix_table(fin, fin_37, [per,num,temo], @fin_v_infl_affix([a_ t],     v_strong,       temo, ep:minus,                     per,num), [[second,         pl, pres_ind]]).
+suffix_table(fin, fin_38, [per,num,temo], @fin_v_infl_affix([a_ te],    v_weak,         temo, ep:minus,                     per,num), [[first_or_third, sg, past_ind]]).
+suffix_table(fin, fin_39, [per,num,temo], @fin_v_infl_affix([a_ te],    mixed,          temo, ep:minus,                     per,num), [[first_or_third, sg, past_ind_conj]]).
+suffix_table(fin, fin_40, [per,num,temo], @fin_v_infl_affix([a_ te],    modal,          temo, ep:minus,                     per,num), [[first_or_third, sg, past_ind_conj]]).
+suffix_table(fin, fin_41, [per,num,temo], @fin_v_infl_affix([a_ test],  non_strong,     temo, ep:minus,                     per,num), [[second,         sg, past_ind_conj]]).
 
 attr_adj_i_suffix *>
 (
@@ -126,7 +132,8 @@ fin_verb_i_suffix *>
   suffix_choices(a_ fin_37);
   suffix_choices(a_ fin_38);
   suffix_choices(a_ fin_39);
-  suffix_choices(a_ fin_40)
+  suffix_choices(a_ fin_40);
+  suffix_choices(a_ fin_41)
 ).
 
 ppp_verb_i_suffix *>
