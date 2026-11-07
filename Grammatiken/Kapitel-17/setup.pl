@@ -62,7 +62,7 @@ generator_distributive_conjunction(conjunction_rel,[lbl],[arg0],[[lhandle],[rhan
 % Zeige alle morphologischen Formen, die über Lexikoneregeln erzeugt werden.
 % In Kapiteln kann Ausgabe von Flexionsmerkmalen konfiguriert werden.
 % Pro Kapitel einschalten.
-:- ale_flag(morphoutput,_,on).
+:- ale_flag(morphoutput,_,paradigm).
 %:- ale_flag(morphoutput,_,off).
 
 
@@ -96,6 +96,8 @@ comps  <<< arg_st.
 
 %gtop <<< ltop.
 ltop <<< ind.
+ind  <<< key.
+key  <<< aktionsart.
 
 arg0 <<< rstr.
 rstr <<< body.
@@ -313,6 +315,20 @@ grale_abbreviation(
 
     
 strike_out_pattern(realized:plus).
+
+% German display templates; no linguistic constraint is changed.
+:- dynamic morphology_paradigm_info/3.
+:- retractall(morphology_paradigm_info(_,_,_)).
+
+morphology_paradigm_info(reg_fin_verb_infl_lr,
+    (affix:(per:Per,num:Num),rels:hd:Tense),
+    [Per,Num,type(Tense)]) :-
+    member(Per,[first,second,third]),
+    member(Num,[sg,pl]).
+
+morphology_paradigm_info(non_fin_verb_infl_lr,
+    synsem:loc:cat:head:vform:VForm,
+    [type(VForm)]).
 
 :- dynamic morphology_info/2.
 
