@@ -297,10 +297,10 @@ ts(175,"dass der Mann den Aufsatz zu lesen morgen beginnt",@root,1,[],[10],'Kapi
 ts(176,"Er sieht den Affen schlafen.",@decl,1,[1],[4],'Kapitel 15: Anhebung und Kontrolle').
 ts(177,"Er versucht, den Aufsatz zu lesen.",@decl,1,[1],_Generated,'Kapitel 15: Anhebung und Kontrolle').
 ts(178,"Er verspricht ihm, den Aufsatz zu lesen.",@decl,1,[1],_Generated,'Kapitel 15: Anhebung und Kontrolle').
-ts(179,"Er zwingt ihn, den Aufsatz zu lesen.",@decl,2,[1,1],_Generated,'Kapitel 15: Anhebung und Kontrolle').
+ts(179,"Er zwingt ihn, den Aufsatz zu lesen.",@decl,1,[1],_Generated,'Kapitel 15: Anhebung und Kontrolle').
 ts(180,"dass ihn der Mann zu lesen versucht",@root,1,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
 ts(181,"dass ihn zu lesen der Mann versucht",@root,1,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
-ts(182,"dass er ihn den Aufsatz lesen sah",@root,2,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
+ts(182,"dass er ihn den Aufsatz lesen sah",@root,1,[],_Generated,'Kapitel 15: Anhebung und Kontrolle').
 
 ts(183,"Zu lachen beginnt er.",@decl,1,[1],_Generated,'Kapitel 15: Anhebung und Kontrolle').
 ts(184,"Den Aufsatz zu lesen beginnt er.",@decl,1,[1],_Generated,'Kapitel 15: Anhebung und Kontrolle').
@@ -379,7 +379,7 @@ ts(230,"Von ihm wurde zu lachen versucht.",@decl,1,[1],[6],'Passiv + optionale K
 
 
 ts(231,"dass er dem Mann haben wird",@root,0,[],[],'Partizip + Passiv + attributiv + unakkusativ').
-ts(232,"Der Affe lässt den Mann den Kran reparieren.",@decl,2,[1,1],_Generated,'Kapitel 16: Passiv + lassen-Passiv').
+ts(232,"Der Affe lässt den Mann den Kran reparieren.",@decl,1,[1],_Generated,'Kapitel 16: Passiv + lassen-Passiv').
 ts(233,"Der Affe lässt den Kran reparieren.",@decl,1,[1],_Generated,'Kapitel 16: Passiv + lassen-Passiv').
 ts(234,"Der Affe lässt den Kran von einem Mann reparieren.",@decl,1,[1],_Generated,'Kapitel 16: Passiv + lassen-Passiv').
 ts(235,"Der Affe lässt dem Mann helfen.",@decl,1,[1],_Generated,'Kapitel 16: Passiv + lassen-Passiv').
@@ -489,7 +489,7 @@ ts(308,"das gelesen wordene Buch",@root,0,[],[],'Kapitel 16: Passiv + Voranstell
 % belegt in COSMAS
 % 1 	A00/JUL.47575 	Das verstand der 1914-1918 	gesiegt habende Westen auch 1938 noch nicht.
 % 4 	WPD/OOO.03573 	Von ihm gibt es ein Aufsehen 	erregt habendes Werk: "Das Finanzkapital". 
-ts(309,"der das Buch gelesen habende Affe",@root,1,[],[8],'Kapitel 16: Passiv + Voranstellung + PVP').
+ts(309,"die den Aufsatz gelesen habende Frau",@root,1,[],[6],'Kapitel 16: Passiv + Voranstellung + PVP').
 
 
 
@@ -523,6 +523,13 @@ ts(318,"Oft schläft der lachende Affe.",@decl,1,[1],_Gen,'Kapitel 16: Passiv + 
 ts(319,"Der das Buch zu lesen gezwungene Mann lacht.",@decl,1,[1],[1],'Kapitel 16: Passiv + Voranstellung + PVP').
 ts(320,"der das Buch zu lesen versprochene Mann",@root,0,[],[],'Kapitel 16: Passiv + Voranstellung + PVP').
 ts(321,"Das zu lesen versprochene Buch hilft mir.",@decl,1,[1],[1],'Kapitel 16: Passiv + Voranstellung + PVP').
+
+
+% Linearisierungsbedingungen mit Spirits
+ts(321,"Glaubt, dass Aicke lacht, er?",@root,0,[],[],'Kapitel 16: Linearisierungsbedingungen mit Spirits').
+ts(321,"Glaubt er, dass Aicke lacht?", @interrog,1,[1],_Gen,'Kapitel 16: Linearisierungsbedingungen mit Spirits').
+
+
 
 ts(322,"Er schlägt die Frau vor.",@decl,1,[1],[12],'Kapitel 18: Partikelverben').
 ts(323,"Er lacht los.",@decl,1,[1],[5],'Kapitel 18: Partikelverben').
