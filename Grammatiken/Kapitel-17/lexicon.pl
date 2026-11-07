@@ -75,36 +75,36 @@ deren  ---> @possessive_rel_pronoun(fem,sg).
 
 % Nomina neutr
 
-buch    ---> @noun(nom_or_dat_or_acc,neu,sg,buch_rel).
-buches  ---> @noun(gen,              neu,sg,buch_rel).
-bücher  ---> @noun(nom_or_gen_or_acc,neu,pl,buch_rel).
-büchern ---> @noun(dat,              neu,pl,buch_rel).
+buch    ---> @noun(nom_or_dat_or_acc,neu,sg,buch_rel,info_bearer).
+buches  ---> @noun(gen,              neu,sg,buch_rel,info_bearer).
+bücher  ---> @noun(nom_or_gen_or_acc,neu,pl,buch_rel,info_bearer).
+büchern ---> @noun(dat,              neu,pl,buch_rel,info_bearer).
 
-kind   ---> @noun(nom_or_dat_or_acc,neu,sg,kind_rel).
-kindes ---> @noun(gen,              neu,sg,kind_rel).
-kinder ---> @noun(nom_or_gen_or_acc,neu,pl,kind_rel).
-kindern ---> @noun(dat,             neu,pl,kind_rel).
-
-
-beispiel ---> @noun(nom_or_dat_or_acc,neu,sg,beispiel_rel).
-
-bild   ---> @relational_noun(nom_or_dat_or_acc,neu,sg,bild_rel).
-
-einhorn ---> @noun(nom_or_dat_or_acc,neu,sg,einhorn_rel).
-einhorns ---> @noun(gen,neu,sg,einhorn_rel).
-
-fahrrad  ---> @noun(nom_or_dat_or_acc,neu,sg,fahrrad_rel).
-fahrrads ---> @noun(gen,              neu,sg,fahrrad_rel).
-
-lied   ---> @noun(nom_or_dat_or_acc,neu,sg,lied_rel).
-liedes ---> @noun(gen,              neu,sg,lied_rel).
-lieder  ---> @noun(nom_or_gen_or_acc,neu,pl,lied_rel).
-liedern ---> @noun(dat,              neu,pl,lied_rel).
+kind   ---> @noun(nom_or_dat_or_acc,neu,sg,kind_rel,human).
+kindes ---> @noun(gen,              neu,sg,kind_rel,human).
+kinder ---> @noun(nom_or_gen_or_acc,neu,pl,kind_rel,human).
+kindern ---> @noun(dat,             neu,pl,kind_rel,human).
 
 
-märchen  ---> @noun(nom_or_dat_or_acc,neu,sg,märchen_rel).
-märchens ---> @noun(gen,              neu,sg,märchen_rel).
-märchen   ---> @noun(case,             neu,pl,märchen_rel).
+beispiel ---> @noun(nom_or_dat_or_acc,neu,sg,beispiel_rel,info_content).
+
+bild     ---> @relational_noun(nom_or_dat_or_acc,neu,sg,bild_rel,info_bearer).
+
+einhorn  ---> @noun(nom_or_dat_or_acc,neu,sg,einhorn_rel,animal).
+einhorns ---> @noun(gen,              neu,sg,einhorn_rel,animal).
+
+fahrrad  ---> @noun(nom_or_dat_or_acc,neu,sg,fahrrad_rel,vehicle).
+fahrrads ---> @noun(gen,              neu,sg,fahrrad_rel,vehicle).
+
+lied    ---> @noun(nom_or_dat_or_acc,neu,sg,lied_rel,info_content).
+liedes  ---> @noun(gen,              neu,sg,lied_rel,info_content).
+lieder  ---> @noun(nom_or_gen_or_acc,neu,pl,lied_rel,info_content).
+liedern ---> @noun(dat,              neu,pl,lied_rel,info_content).
+
+
+märchen  ---> @noun(nom_or_dat_or_acc,neu,sg,märchen_rel,info_content).
+märchens ---> @noun(gen,              neu,sg,märchen_rel,info_content).
+märchen  ---> @noun(case,             neu,pl,märchen_rel,info_content).
 
 % Achtung! Mädchen hat das Genus Neutrum, für Pronomenbindung
 % ist allerdings feminin oder neutrum möglich.
@@ -117,14 +117,14 @@ mädchen  ---> @noun(case,             genus,fem_or_neu,pl,mädchen_rel,human).
 
 % Nomina mask
 
-affe   ---> @noun(nom,       mas,sg,affe_rel).
-affen  ---> @noun(gen_or_dat_or_acc,mas,sg,affe_rel).
-affen  ---> @noun(case,      mas,pl,affe_rel).
+affe   ---> @noun(nom,              mas,sg,affe_rel,animal).
+affen  ---> @noun(gen_or_dat_or_acc,mas,sg,affe_rel,animal).
+affen  ---> @noun(case,             mas,pl,affe_rel,animal).
 
-aufsatz   ---> @noun(nom_or_dat_or_acc,mas,sg,aufsatz_rel).
-aufsatzes ---> @noun(gen,              mas,sg,aufsatz_rel).
-aufsätze  ---> @noun(nom_or_gen_or_acc,mas,pl,aufsatz_rel).
-aufsätzen ---> @noun(dat,              mas,pl,aufsatz_rel).
+aufsatz   ---> @noun(nom_or_dat_or_acc,mas,sg,aufsatz_rel,info_bearer).
+aufsatzes ---> @noun(gen,              mas,sg,aufsatz_rel,info_bearer).
+aufsätze  ---> @noun(nom_or_gen_or_acc,mas,pl,aufsatz_rel,info_bearer).
+aufsätzen ---> @noun(dat,              mas,pl,aufsatz_rel,info_bearer).
 
 ball   ---> @noun(nom_or_dat_or_acc,mas,sg,ball_rel).
 balls  ---> @noun(gen,              mas,sg,ball_rel).
@@ -136,53 +136,53 @@ films  ---> @noun(gen,              mas,sg,film_rel).
 filme  ---> @noun(nom_or_gen_or_acc,mas,pl,film_rel).
 filmen ---> @noun(dat,              mas,pl,film_rel).
 
-kran    ---> @noun(nom_or_dat_or_acc,mas,sg,kran_rel).
-kranes  ---> @noun(gen,              mas,sg,kran_rel).
-kräne   ---> @noun(nom_or_gen_or_acc,mas,pl,kran_rel).
-kränen  ---> @noun(dat,              neu,pl,kran_rel).
+kran    ---> @noun(nom_or_dat_or_acc,mas,sg,kran_rel,instrument).
+kranes  ---> @noun(gen,              mas,sg,kran_rel,instrument).
+kräne   ---> @noun(nom_or_gen_or_acc,mas,pl,kran_rel,instrument).
+kränen  ---> @noun(dat,              neu,pl,kran_rel,instrument).
 
-lügner  ---> @noun(nom_or_dat_or_acc,mas,sg,lügner_rel).
-lügners ---> @noun(gen,              mas,sg,lügner_rel).
-lügner  ---> @noun(nom_or_gen_or_acc,mas,pl,lügner_rel).
-lügnern ---> @noun(dat,              neu,pl,lügner_rel).
+lügner  ---> @noun(nom_or_dat_or_acc,mas,sg,lügner_rel,human).
+lügners ---> @noun(gen,              mas,sg,lügner_rel,human).
+lügner  ---> @noun(nom_or_gen_or_acc,mas,pl,lügner_rel,human).
+lügnern ---> @noun(dat,              neu,pl,lügner_rel,human).
 
 
-mann    ---> @noun(nom_or_dat_or_acc,mas,sg,mann_rel).
-mannes  ---> @noun(gen,              mas,sg,mann_rel).
-männer  ---> @noun(nom_or_gen_or_acc,mas,pl,mann_rel).
-männern ---> @noun(dat,              mas,pl,mann_rel).
+mann    ---> @noun(nom_or_dat_or_acc,mas,sg,mann_rel,human).
+mannes  ---> @noun(gen,              mas,sg,mann_rel,human).
+männer  ---> @noun(nom_or_gen_or_acc,mas,pl,mann_rel,human).
+männern ---> @noun(dat,              mas,pl,mann_rel,human).
 
-mitarbeiter  ---> @noun(nom_or_dat_or_acc,mas,sg,mitarbeiter_rel).
-mitarbeiters ---> @noun(gen,              mas,sg,mitarbeiter_rel).
-mitarbeiter  ---> @noun(nom_or_gen_or_acc,mas,pl,mitarbeiter_rel).
-mitarbeitern ---> @noun(dat,              mas,pl,mitarbeiter_rel).
+mitarbeiter  ---> @noun(nom_or_dat_or_acc,mas,sg,mitarbeiter_rel,human).
+mitarbeiters ---> @noun(gen,              mas,sg,mitarbeiter_rel,human).
+mitarbeiter  ---> @noun(nom_or_gen_or_acc,mas,pl,mitarbeiter_rel,human).
+mitarbeitern ---> @noun(dat,              mas,pl,mitarbeiter_rel,human).
 
-mörder  ---> @noun(nom_or_dat_or_acc,mas,sg,mörder_rel).
-mörders ---> @noun(gen,              mas,sg,mörder_rel).
-mörder  ---> @noun(nom_or_gen_or_acc,mas,pl,mörder_rel).
-mördern ---> @noun(dat,              neu,pl,mörder_rel).
+mörder  ---> @noun(nom_or_dat_or_acc,mas,sg,mörder_rel,human).
+mörders ---> @noun(gen,              mas,sg,mörder_rel,human).
+mörder  ---> @noun(nom_or_gen_or_acc,mas,pl,mörder_rel,human).
+mördern ---> @noun(dat,              neu,pl,mörder_rel,human).
 
-roman   ---> @noun(nom_or_dat_or_acc,mas,sg,roman_rel).
-romans  ---> @noun(gen,              mas,sg,roman_rel).
-romane  ---> @noun(nom_or_gen_or_acc,mas,pl,roman_rel).
-romanen ---> @noun(dat,              mas,pl,roman_rel).
+roman   ---> @noun(nom_or_dat_or_acc,mas,sg,roman_rel,info_bearer).
+romans  ---> @noun(gen,              mas,sg,roman_rel,info_bearer).
+romane  ---> @noun(nom_or_gen_or_acc,mas,pl,roman_rel,info_bearer).
+romanen ---> @noun(dat,              mas,pl,roman_rel,info_bearer).
 
 sohn    ---> @noun(nom_or_dat_or_acc,mas,sg,sohn_rel).
 sohnes  ---> @noun(gen,              mas,sg,sohn_rel).
 söhne   ---> @noun(nom_or_gen_or_acc,mas,pl,sohn_rel).
 söhnen  ---> @noun(dat,              neu,pl,sohn_rel).
 
-stock    ---> @noun(nom_or_dat_or_acc,mas,sg,stock_rel).
-stockes  ---> @noun(gen,              mas,sg,stock_rel).
-stöcker  ---> @noun(nom_or_gen_or_acc,mas,pl,stock_rel).
-stöckern ---> @noun(dat,              mas,pl,stock_rel).
+stock    ---> @noun(nom_or_dat_or_acc,mas,sg,stock_rel,thing).
+stockes  ---> @noun(gen,              mas,sg,stock_rel,thing).
+stöcker  ---> @noun(nom_or_gen_or_acc,mas,pl,stock_rel,thing).
+stöckern ---> @noun(dat,              mas,pl,stock_rel,thing).
 
-eis  ---> @noun(nom_or_dat_or_acc,neu,sg,eis_rel).
-eises ---> @noun(gen,              neu,sg,eis_rel).
+eis   ---> @noun(nom_or_dat_or_acc,neu,sg,eis_rel,substance).
+eises ---> @noun(gen,              neu,sg,eis_rel,substance).
 
-wagen   ---> @noun(nom_or_dat_or_acc,mas,sg,wagen_rel).
-wagens  ---> @noun(gen,              mas,sg,wagen_rel).
-wagen   ---> @noun(case,             mas,pl,wagen_rel).
+wagen   ---> @noun(nom_or_dat_or_acc,mas,sg,wagen_rel,vehicle).
+wagens  ---> @noun(gen,              mas,sg,wagen_rel,vehicle).
+wagen   ---> @noun(case,             mas,pl,wagen_rel,vehicle).
 
 
 % Nomina fem
@@ -190,19 +190,19 @@ wagen   ---> @noun(case,             mas,pl,wagen_rel).
 frau   ---> @noun(case,fem,sg,frau_rel,human).
 frauen ---> @noun(case,fem,pl,frau_rel,human).
 
-speisekammer  ---> @noun(case,fem,sg,speisekammer_rel).
-speisekammern ---> @noun(case,fem,pl,speisekammer_rel).
+speisekammer  ---> @noun(case,fem,sg,speisekammer_rel,nongeo_location).
+speisekammern ---> @noun(case,fem,pl,speisekammer_rel,nongeo_location).
 
-tochter  ---> @relational_noun(case,             fem,sg,tochter_rel).
-töchter  ---> @relational_noun(nom_or_gen_or_acc,fem,pl,tochter_rel).
-töchtern ---> @relational_noun(dat,              fem,pl,tochter_rel).
+tochter  ---> @relational_noun(case,             fem,sg,tochter_rel,human).
+töchter  ---> @relational_noun(nom_or_gen_or_acc,fem,pl,tochter_rel,human).
+töchtern ---> @relational_noun(dat,              fem,pl,tochter_rel,human).
 
-überraschung   ---> @noun(case,fem,sg,überraschung_rel).
-überraschungen ---> @noun(case,fem,pl,überraschung_rel).
+überraschung   ---> @noun(case,fem,sg,überraschung_rel,situation).
+überraschungen ---> @noun(case,fem,pl,überraschung_rel,situation).
 
-wurst   ---> @noun(case,fem,sg,wurst_rel).
-würste  ---> @noun(nom_or_gen_or_acc,fem,pl,wurst_rel).
-würsten ---> @noun(dat,              fem,pl,wurst_rel).
+wurst   ---> @noun(case,             fem,sg,wurst_rel,food).
+würste  ---> @noun(nom_or_gen_or_acc,fem,pl,wurst_rel,food).
+würsten ---> @noun(dat,              fem,pl,wurst_rel,food).
 
 zeitschrift   ---> @noun(case,fem,sg,zeitschrift_rel,info_bearer).
 zeitschriften ---> @noun(case,fem,pl,zeitschrift_rel,info_bearer).
@@ -364,7 +364,7 @@ conny ---> @proper_noun(fem_or_mas,'Conny').
 % Verben
 
 % Menschen und Elefanten?
-arbeit  ---> @intrans_verb(arbeiten_rel,agentive),
+arbeit  ---> @intrans_verb(arbeiten_rel,activity,agentive),
             @vflex_fk(v_weak),
 
             @vflex_ep(plus),
@@ -374,7 +374,7 @@ arbeit  ---> @intrans_verb(arbeiten_rel,agentive),
             @vflex_bet1(plus).
 
 % Hunde und auch Menschen
-bell    ---> @intrans_verb(bellen_rel,agentive),
+bell    ---> @intrans_verb(bellen_rel,activity,agentive),
             @vflex_fk(v_weak),
  
             @vflex_ep(minus),
@@ -383,7 +383,7 @@ bell    ---> @intrans_verb(bellen_rel,agentive),
             @vflex_em(minus),
             @vflex_bet1(plus).
 
-lach    ---> @intrans_verb(lachen_rel,agentive),
+lach    ---> @intrans_verb(lachen_rel,activity,agentive),
             @vflex_fk(v_weak),
  
             @vflex_ep(minus),
@@ -393,7 +393,7 @@ lach    ---> @intrans_verb(lachen_rel,agentive),
             @vflex_bet1(plus).
 
 
-schlaf ---> @intrans_verb(schlafen_rel,agentive),
+schlaf ---> @intrans_verb(schlafen_rel,activity,agentive),
            @pres2_stem(a_ schläf),
            @past_stem(a_ schlief),
             
@@ -408,7 +408,7 @@ schlaf ---> @intrans_verb(schlafen_rel,agentive),
            @vflex_em(minus),
            @vflex_bet1(plus).
 
-tanz   ---> @intrans_verb(tanzen_rel,agentive),
+tanz   ---> @intrans_verb(tanzen_rel,activity,agentive),
            @vflex_fk(v_weak),
  
            @vflex_ep(minus),
@@ -418,7 +418,7 @@ tanz   ---> @intrans_verb(tanzen_rel,agentive),
            @vflex_bet1(plus).
 
 
-sterb  ---> @intrans_unacc_verb(sterben_rel,anything),
+sterb  ---> @intrans_unacc_verb(sterben_rel,achievement,anything),
            @pres2_stem(a_ stirb),
            @past_stem(a_ starb),
            @part_stem(a_ storb),
@@ -449,7 +449,7 @@ regn  --->  @expl_np_verb(regnen_rel),
            @vflex_bet1(plus).
 
 % eigentlich würde man hier `auffallen' nehmen, aber das ist leider ein Partikelverb.
-geling ---> @np_np_unacc_verb(dat,gelingen_rel,anything,agentive),
+geling ---> @np_np_unacc_verb(dat,gelingen_rel,achievement,anything,agentive),
            @past_stem(a_ gelang),
            @part_stem(a_ gelung),
               
@@ -468,7 +468,7 @@ geling ---> @np_np_unacc_verb(dat,gelingen_rel,anything,agentive),
 
 
 % der Wind?
-spiel  ---> @intrans_verb(spielen_rel,agentive),
+spiel  ---> @intrans_verb(spielen_rel,activity,agentive),
             @vflex_fk(v_weak),
 
             @vflex_ep(minus),
@@ -478,7 +478,7 @@ spiel  ---> @intrans_verb(spielen_rel,agentive),
             @vflex_bet1(plus).
 
 
-grau   ---> @subjlos_verb(dat,grauen_rel,human),
+grau   ---> @subjlos_verb(dat,grauen_rel,state,human),
            @vflex_fk(v_weak),
  
            @vflex_ep(minus),
@@ -491,7 +491,7 @@ grau   ---> @subjlos_verb(dat,grauen_rel,human),
 
 % Die Tablette hilft. Das Buch hilft mir.
 % ? Der Plan hilft mir. Erst mal Objekt
-helf   ---> @np_np_dat_verb(helfen_rel,object,agentive),
+helf   ---> @np_np_dat_verb(helfen_rel,accomplishment_or_achievement_or_activity,object,agentive),
 
            @pres2_stem(a_ hilf),
            @past_stem(a_ half),
@@ -512,7 +512,7 @@ helf   ---> @np_np_dat_verb(helfen_rel,object,agentive),
            @vflex_bet1(plus).
 
 
-jag    ---> @trans_verb(jagen_rel,agentive,agentive),
+jag    ---> @trans_verb(jagen_rel,activity,agentive,agentive),
            @vflex_fk(v_weak),
  
            @vflex_ep(minus),
@@ -522,7 +522,7 @@ jag    ---> @trans_verb(jagen_rel,agentive,agentive),
            @vflex_bet1(plus).
 
 
-kenn  --->  @trans_verb(kennen_rel,agentive,anything),
+kenn  --->  @trans_verb(kennen_rel,state,agentive,anything),
            @past_stem(a_ kann),
            @part_stem(a_ kann),
             
@@ -536,7 +536,7 @@ kenn  --->  @trans_verb(kennen_rel,agentive,anything),
            @vflex_em(minus),
            @vflex_bet1(plus).
 
-les  ---> @trans_verb(lesen_rel,agentive,info_bearer),
+les  ---> @trans_verb(lesen_rel,accomplishment_or_activity,agentive,info_bearer),
          @pres2_stem(a_ lies),
 
          @past_stem(a_ las),
@@ -555,7 +555,7 @@ les  ---> @trans_verb(lesen_rel,agentive,info_bearer),
          @vflex_em(minus),
          @vflex_bet1(plus).
 
-schmelz ---> @intrans_unacc_verb(schmelzen_rel,thing_or_substance),
+schmelz ---> @intrans_unacc_verb(schmelzen_rel,accomplishment,thing_or_substance),
          @pres2_stem(a_ schmilz),
 
          @past_stem(a_ schmolz),
@@ -574,7 +574,7 @@ schmelz ---> @intrans_unacc_verb(schmelzen_rel,thing_or_substance),
          @vflex_em(minus),
          @vflex_bet1(plus).
 
-lieb  ---> @trans_verb(lieben_rel,agentive,anything),
+lieb  ---> @trans_verb(lieben_rel,state,agentive,anything),
            @vflex_fk(v_weak),
             
            @vflex_ep(minus),
@@ -585,7 +585,7 @@ lieb  ---> @trans_verb(lieben_rel,agentive,anything),
            @vflex_em(minus),
            @vflex_bet1(plus).
 
-mal   ---> @trans_verb(malen_rel,agentive,anything),
+mal   ---> @trans_verb(malen_rel,accomplishment_or_activity,agentive,anything),
            @vflex_fk(v_weak),
  
            @vflex_ep(minus),
@@ -594,7 +594,7 @@ mal   ---> @trans_verb(malen_rel,agentive,anything),
            @vflex_em(minus),
            @vflex_bet1(plus).
 
-nehm  ---> @trans_verb(nehmen_rel,agentive,object),
+nehm  ---> @trans_verb(nehmen_rel,achievement,agentive,object),
            @pres2_stem(a_ nimm),
 
            @past_stem(a_ nahm),
@@ -613,7 +613,7 @@ nehm  ---> @trans_verb(nehmen_rel,agentive,object),
            @vflex_bet1(plus).
 
 
-reparier  ---> @trans_verb(reparieren_rel,human,thing),
+reparier  ---> @trans_verb(reparieren_rel,accomplishment,human,thing),
               @vflex_fk(v_weak),
  
               @vflex_ep(minus),
@@ -623,7 +623,7 @@ reparier  ---> @trans_verb(reparieren_rel,human,thing),
               @vflex_bet1(minus).
 
 % Menschen und Kängurus
-schlag ---> @trans_verb(schlagen_rel,agentive,agentive),
+schlag ---> @trans_verb(schlagen_rel,accomplishment_or_achievement_or_activity_or_semelfactive,agentive,agentive),
            @pres2_stem(a_ schläg),
            @past_stem(a_ schlug),
            @part_stem(a_ schlag),
@@ -641,7 +641,7 @@ schlag ---> @trans_verb(schlagen_rel,agentive,agentive),
            @vflex_bet1(plus).
 
 % Vögel und Menschen. Der Wind?
-sing  ---> @trans_verb(singen_rel,agentive,info_content),
+sing  ---> @trans_verb(singen_rel,accomplishment_or_activity,agentive,info_content),
            @past_stem(a_ sang),
            @part_stem(a_ sung),
               
@@ -660,7 +660,7 @@ sing  ---> @trans_verb(singen_rel,agentive,info_content),
 
 
 %vorschlagen
-schlag ---> @trans_verb(vorschlagen_rel,a_ vor),
+schlag ---> @trans_verb(vorschlagen_rel,accomplishment_or_achievement,a_ vor),
            @pres2_stem(a_ schläg),
            @past_stem(a_ schlug),
            @part_stem(a_ schlag),
@@ -681,7 +681,7 @@ schlag ---> @trans_verb(vorschlagen_rel,a_ vor),
 % Sind LLMs agentive? Darüber denken wir lieber nicht weiter nach.
 % Ob Codex eingeschnappt ist, wenn er das hier liest?
 % Er/sie/es kann ja Bescheid sagen, wenn es passiert ist.
-widersprech  ---> @np_np_dat_verb(widersprechen_rel,agentive,agentive),
+widersprech  ---> @np_np_dat_verb(widersprechen_rel,achievement,agentive,agentive),
             @pres2_stem(a_ widersprich),
             @past_stem(a_ widersprach),
             @part_stem(a_ widersproch),
@@ -701,7 +701,7 @@ widersprech  ---> @np_np_dat_verb(widersprechen_rel,agentive,agentive),
 
 
 % Ditransitive Verben
-erzähl  ---> @ditrans_verb(erzählen_rel,agentive,agentive,info_content),
+erzähl  ---> @ditrans_verb(erzählen_rel,accomplishment,agentive,agentive,info_content),
             @vflex_fk(v_weak),
             
             @vflex_ep(minus),
@@ -712,7 +712,7 @@ erzähl  ---> @ditrans_verb(erzählen_rel,agentive,agentive,info_content),
             @vflex_em(minus),
             @vflex_bet1(minus).
 
-geb  ---> @ditrans_verb(geben_rel,agentive,agentive,object),
+geb  ---> @ditrans_verb(geben_rel,achievement,agentive,agentive,object),
          @pres2_stem(a_ gib),
          @past_stem(a_ gab),
          @part_stem(a_ geb),
@@ -731,7 +731,8 @@ geb  ---> @ditrans_verb(geben_rel,agentive,agentive,object),
          @vflex_em(minus),
          @vflex_bet1(plus).
 
-schenk  ---> @ditrans_verb(schenken_rel,human,human,object),
+% Kann man Affen etwas schenken?
+schenk ---> @ditrans_verb(schenken_rel,achievement,human,agentive,object),
             @vflex_fk(v_weak),
 
             @vflex_ep(minus),
@@ -743,7 +744,7 @@ schenk  ---> @ditrans_verb(schenken_rel,human,human,object),
             @vflex_bet1(plus).
 
 
-denk  ---> @np_pp_verb(an_pform,acc,denken_an_rel,agentive,anything),
+denk  ---> @np_pp_verb(an_pform,acc,denken_an_rel,activity,agentive,anything),
           @past_stem(a_ dach),
           @part_stem(a_ dach),
           
@@ -758,7 +759,7 @@ denk  ---> @np_pp_verb(an_pform,acc,denken_an_rel,agentive,anything),
 
 
 
-fetz ---> @np_or_cp_verb(fetzen_rel,anything),
+fetz ---> @np_or_cp_verb(fetzen_rel,state,anything),
           @vflex_fk(v_weak),
           @vflex_ep(minus),
           @vflex_sm(plus),
@@ -768,7 +769,7 @@ fetz ---> @np_or_cp_verb(fetzen_rel,anything),
           @vflex_em(minus),
           @vflex_bet1(plus).
 
-glaub ---> @glauben_denken_verb(glauben_rel,human),
+glaub ---> @glauben_denken_verb(glauben_rel,state,agentive),
           @vflex_fk(v_weak),
           @vflex_ep(minus),
           @vflex_sm(minus),
@@ -849,9 +850,9 @@ woll   ---> @modal_verb(wollen_rel),
            @vflex_em(minus),
            @vflex_bet1(plus).
 
-
-versprech --->  ( @np_v_subj_control_verb(versprechen_rel,human)
-               ; @np_np_v_subj_control_verb(dat,versprechen_rel,human,human)
+% Kann man Affen etwas versprechen?
+versprech ---> ( @np_v_subj_control_verb(versprechen_rel,achievement,human)
+               ; @np_np_v_subj_control_verb(dat,versprechen_rel,achievement,human,agentive)
                ),
               @pres2_stem(a_ versprich),
 
@@ -872,7 +873,7 @@ versprech --->  ( @np_v_subj_control_verb(versprechen_rel,human)
               @vflex_em(minus),
               @vflex_bet1(minus).
 
-versuch   ---> @np_v_subj_control_verb(versuchen_rel,human),
+versuch   ---> @np_v_subj_control_verb(versuchen_rel,_,human),
               @vflex_fk(v_weak),
  
               @vflex_ep(minus),
@@ -885,7 +886,7 @@ versuch   ---> @np_v_subj_control_verb(versuchen_rel,human),
 
 
 % Objektkontrollverben
-erlaub    ---> @np_np_v_obj_control_verb(dat,erlauben_rel,human,human),
+erlaub    ---> @np_np_v_obj_control_verb(dat,erlauben_rel,achievement,human,human),
               @vflex_fk(v_weak),
               
               @vflex_ep(minus),
@@ -894,7 +895,7 @@ erlaub    ---> @np_np_v_obj_control_verb(dat,erlauben_rel,human,human),
               @vflex_em(minus),
               @vflex_bet1(minus).
 
-zwing     ---> @np_np_v_obj_control_verb(zwingen_rel,human,agentive),
+zwing     ---> @np_np_v_obj_control_verb(zwingen_rel,accomplishment,human,agentive),
               @past_stem(a_ zwang),
               @part_stem(a_ zwung),
               
@@ -1186,7 +1187,7 @@ morgen  ---> @temp_adv(morgen_rel).
 
 immer   ---> @temp_adv(immer_rel).
 
-genug  ---> @isect_adv(genug_rel).
+genug  ---> @isect_adv(genug_rel,accomplishment).
 leicht ---> @isect_adv(leicht_rel). % sollte über Lexikonregel lizenziert werden
 
 

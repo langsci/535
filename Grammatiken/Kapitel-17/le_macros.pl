@@ -514,12 +514,13 @@ relational_noun *>
   synsem:loc:cat:arg_st:hd:arg:nonloc:rel:[]).
 
 
-relational_noun(Case,Genus,Numerus,Relation) :=
+relational_noun(Case,Genus,Numerus,Relation,Sort) :=
  (relational_noun,
   synsem:loc:(cat:head:case:morph_case:Case,
               cont:ind:(num:Numerus,
                         gen:Genus)),
-  rels:[Relation]).
+  rels:[(Relation,
+         arg0:sort:Sort)]).
 
 pronoun(Case,Person,Numerus,Genus) :=
   (synsem:loc:(cat:head:case:morph_case:Case,
@@ -698,12 +699,14 @@ strict_intrans_verb *>
   synsem:loc:cat:arg_st:[_]).
 
 
-intrans_verb(Relation) :=
+intrans_verb(Relation,Aktionsart) :=
  (strict_intrans_nerg_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   rels:hd:Relation).
 
-intrans_verb(Relation,Sort) :=
+intrans_verb(Relation,Aktionsart,Sort) :=
  (strict_intrans_nerg_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   rels:hd:(Relation,
            arg1:sort:Sort)).
 
@@ -712,17 +715,19 @@ intrans_unacc_verb *>
  (%non_flip_verb_le,
   synsem:loc:cat:(head:auxf:sein,
                   arg_st:ArgSt),
-  rels:[arg2:Ind])
+  rels:[arg1:Ind])
  goal last(ArgSt,@np_str(Ind)).
 
-intrans_unacc_verb(Relation) :=
+intrans_unacc_verb(Relation,Aktionsart) :=
  (strict_intrans_unacc_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   rels:hd:Relation).
 
-intrans_unacc_verb(Relation,Sort) :=
+intrans_unacc_verb(Relation,Aktionsart,Sort) :=
  (strict_intrans_unacc_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   rels:hd:(Relation,
-           arg2:sort:Sort)).
+           arg1:sort:Sort)).
 
 
 np_pp_verb *> 
@@ -730,13 +735,15 @@ np_pp_verb *>
   %bi_or_more_val_verb, 
   synsem:loc:cat:arg_st:[ @pp, _ ]).
 
-np_pp_verb(PForm,Case,Relation) :=
+np_pp_verb(PForm,Case,Relation,Aktionsart) :=
  (np_pp_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   synsem:loc:cat:arg_st:hd: @pp(PForm,Case),
   rels:hd:Relation).
 
-np_pp_verb(PForm,Case,Relation,Sort1,Sort2) :=
+np_pp_verb(PForm,Case,Relation,Aktionsart,Sort1,Sort2) :=
  (np_pp_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   synsem:loc:cat:arg_st:hd: @pp(PForm,Case),
   rels:hd:(Relation,
            arg1:sort:Sort1,
@@ -759,8 +766,9 @@ subjlos_verb *>
                   arg_st:[ @np(Ind) ]),
   rels:[arg2:Ind]).
 
-subjlos_verb(Case,Relation,Sort) :=
+subjlos_verb(Case,Relation,Aktionsart,Sort) :=
  (subjlos_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   synsem:loc:cat:arg_st:[ @np(Case,_Ind) ],
   rels:hd:(Relation,
            arg2:sort:Sort)).
@@ -777,12 +785,14 @@ strict_trans_verb *>
  (%trans_verb = bi_or_more_val_verb
   synsem:loc:cat:arg_st:[ @np_str, _ ]).
 
-trans_verb(Relation) :=
+trans_verb(Relation,Aktionsart) :=
  (strict_trans_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   rels:hd:Relation).
 
-trans_verb(Relation,Sort1,Sort2) :=
+trans_verb(Relation,Aktionsart,Sort1,Sort2) :=
  (strict_trans_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   rels:hd:(Relation,
            arg1:sort:Sort1,
            arg2:sort:Sort2)).
@@ -793,12 +803,14 @@ np_np_dat_nerg_verb *>
  (%bi_or_more_val_verb
   synsem:loc:cat:arg_st:[ @np(dat,_), _ ]).
 
-np_np_dat_verb(Relation) :=
+np_np_dat_verb(Relation,Aktionsart) :=
  (np_np_dat_nerg_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   rels:hd:Relation).
 
-np_np_dat_verb(Relation,Sort1,Sort2) :=
+np_np_dat_verb(Relation,Aktionsart,Sort1,Sort2) :=
  (np_np_dat_nerg_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   rels:hd:(Relation,
            arg1:sort:Sort1,
            arg2:sort:Sort2)).
@@ -809,13 +821,15 @@ np_np_unacc_verb *>
   rels:[(arg1:Ind1,
          arg2:Ind2)]).
 
-np_np_unacc_verb(Case,Relation) :=
+np_np_unacc_verb(Case,Relation,Aktionsart) :=
  (np_np_unacc_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   synsem:loc:cat:arg_st:hd: @np(Case,_Ind2),
   rels:hd:Relation).
 
-np_np_unacc_verb(Case,Relation,Sort1,Sort2) :=
+np_np_unacc_verb(Case,Relation,Aktionsart,Sort1,Sort2) :=
  (np_np_unacc_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   synsem:loc:cat:arg_st:hd: @np(Case,_Ind2),
   rels:hd:(Relation,
            arg1:sort:Sort1,
@@ -826,12 +840,14 @@ ditrans_verb *>
   synsem:loc:cat:arg_st:[ @np_str(Ind3), @np(dat,_), _  ],
   rels:[arg3:Ind3]).
 
-ditrans_verb(Relation) :=
+ditrans_verb(Relation,Aktionsart) :=
  (ditrans_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   rels:hd:Relation).
 
-ditrans_verb(Relation,Sort1,Sort2,Sort3) :=
+ditrans_verb(Relation,Aktionsart,Sort1,Sort2,Sort3) :=
  (ditrans_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   rels:hd:(Relation,
            arg1:sort:Sort1,
            arg2:sort:Sort2,
@@ -845,8 +861,9 @@ trans_particle_verb *>
          arg2:Ind2)]).
 
 % vorschlagen
-trans_verb(Relation,Particle) :=
+trans_verb(Relation,Aktionsart,Particle) :=
  (trans_particle_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   synsem:loc:cat:arg_st:hd: @particle(Particle),
   rels:hd:Relation).
 
@@ -873,8 +890,9 @@ np_or_cp_verb *>
 
 
 % Die Sorte kann man per Macro nur zuweisen, wenn man eine Disjunktion hat.
-np_or_cp_verb(Relation,_Sort) :=
+np_or_cp_verb(Relation,Aktionsart,_Sort) :=
  (np_or_cp_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   rels:hd:Relation).
 
 glauben_denken_verb *>
@@ -891,12 +909,14 @@ glauben_denken_verb *>
           larg:Larg)]).
 
 
-glauben_denken_verb(Relation) :=
+glauben_denken_verb(Relation,Aktionsart) :=
  (glauben_denken_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   rels:hd:Relation).
 
-glauben_denken_verb(Relation,Sort) :=
+glauben_denken_verb(Relation,Aktionsart,Sort) :=
  (glauben_denken_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
   rels:hd:(Relation,
            arg1:sort:Sort)).
 
@@ -1123,7 +1143,9 @@ werden(VForm) :=
 
 stative_passive_aux_verb *>
 % funktioniert noch nicht, weil "genug" die Aktionsart von "gearbeitet" auf accomplishment ändern muss.
-%  synsem:loc:cat:comps:hd:arg:loc:cont:key:aktionsart:accomplishment_or_achievement,
+  synsem:loc:(cat:(head:auxf:sein,
+                   comps:hd:arg:loc:cont:aktionsart:accomplishment_or_achievement),
+              cont:aktionsart:state),
   rels:[stative_passive_rel].
 
 % sein Zustandspassiv
@@ -1375,12 +1397,14 @@ np_v_subj_zu_inf_control_verb *>
    synsem:loc:cat:arg_st:[arg:loc:cat:(head:da:DA,comps:Comps)|append(attract_unrealized(without_own_passive_pp(DA,Comps)),[@np_str])]).
 
 
-np_v_subj_control_verb(Relation) :=
+np_v_subj_control_verb(Relation,Aktionsart) :=
   (np_v_subj_zu_inf_control_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
    rels:hd:Relation).
 
-np_v_subj_control_verb(Relation,Sort) :=
+np_v_subj_control_verb(Relation,Aktionsart,Sort) :=
   (np_v_subj_zu_inf_control_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
    rels:hd:(Relation,
             arg1:sort:Sort)).
 
@@ -1390,39 +1414,45 @@ np_np_v_subj_zu_inf_control_verb *>
    rels:hd:arg2:ObjInd).
 
 % ihm versprechen
-np_np_v_subj_control_verb(Case,Relation) :=
+np_np_v_subj_control_verb(Case,Relation,Aktionsart) :=
   (np_np_v_subj_zu_inf_control_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
    synsem:loc:cat:arg_st:[arg:loc:cat:(head:da:DA,comps:Comps)|append(attract_unrealized(without_own_passive_pp(DA,Comps)),[@np(Case,_ObjInd),_])],
    rels:hd:Relation).
 
-np_np_v_subj_control_verb(Case,Relation,Sort1,Sort2) :=
+np_np_v_subj_control_verb(Case,Relation,Aktionsart,Sort1,Sort2) :=
   (np_np_v_subj_zu_inf_control_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
    synsem:loc:cat:arg_st:[arg:loc:cat:(head:da:DA,comps:Comps)|append(attract_unrealized(without_own_passive_pp(DA,Comps)),[@np(Case,_ObjInd),_])],
    rels:hd:(Relation,
             arg1:sort:Sort1,
             arg2:sort:Sort2)).
 
 % zwingen
-np_np_v_obj_control_verb(Relation) :=
+np_np_v_obj_control_verb(Relation,Aktionsart) :=
   (np_np_v_obj_zu_inf_control_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
    synsem:loc:cat:arg_st:[arg:loc:cat:(head:da:DA,comps:Comps)|append(attract_unrealized(without_own_passive_pp(DA,Comps)),[@np_str,_])],
    rels:hd:Relation).
 
-np_np_v_obj_control_verb(Relation,Sort1,Sort2) :=
+np_np_v_obj_control_verb(Relation,Aktionsart,Sort1,Sort2) :=
   (np_np_v_obj_zu_inf_control_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
    synsem:loc:cat:arg_st:[arg:loc:cat:(head:da:DA,comps:Comps)|append(attract_unrealized(without_own_passive_pp(DA,Comps)),[@np_str,_])],
    rels:hd:(Relation,
             arg1:sort:Sort1,
             arg2:sort:Sort2)).
 
 % erlauben
-np_np_v_obj_control_verb(Case,Relation) :=
+np_np_v_obj_control_verb(Case,Relation,Aktionsart) :=
   (np_np_v_obj_zu_inf_control_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
    synsem:loc:cat:arg_st:[arg:loc:cat:(head:da:DA,comps:Comps)|append(attract_unrealized(without_own_passive_pp(DA,Comps)),[@np(Case,_ObjInd),_])],
    rels:hd:Relation).
 
-np_np_v_obj_control_verb(Case,Relation,Sort1,Sort2) :=
+np_np_v_obj_control_verb(Case,Relation,Aktionsart,Sort1,Sort2) :=
   (np_np_v_obj_zu_inf_control_verb,
+  synsem:loc:cont:aktionsart:Aktionsart,
    synsem:loc:cat:arg_st:[arg:loc:cat:(head:da:DA,comps:Comps)|append(attract_unrealized(without_own_passive_pp(DA,Comps)),[@np(Case,_ObjInd),_])],
    rels:hd:(Relation,
             arg1:sort:Sort1,
@@ -1441,10 +1471,21 @@ phase_verb(Relation) :=
   rels:hd:Relation).
 
 % lassen, sehen, hören
+%   Den Sänger jodeln lässt der König.
+%   Der König lässt den Mann den Wagen reparieren.
+%   Der König lässt den Wagen repariert werden.
+%   Den Wagen repariert lässt der König werden. (schräg)
+% * Der Wagen repariert lässt der König werden.
 aci_verb *>
  (synsem:loc:cat:arg_st:[(arg:loc:cat:(head:(subj:Subj,da:DA),
-                                       comps:Comps))|append(attract_unrealized(append(without_own_passive_pp(DA,Comps),Subj)),[@np_str(Ind)])],
+                                       comps:Comps))|append(raise(append(without_own_passive_pp(DA,Comps),Subj)),[@np_str(Ind)])],
   rels:hd:arg1:Ind).
+
+%aci_verb *>
+% (synsem:loc:cat:arg_st:[(arg:loc:cat:(head:subj:Subj,
+%                                       comps:Comps))|append(attract_unrealized(append(Comps,Subj)),[@np_str(Ind)])],
+%  rels:hd:arg1:Ind).
+
 
 aci_verb(Relation) :=
  (aci_verb,
@@ -1597,13 +1638,28 @@ v_modifier *>
 adv_word *>
  synsem:loc:cat:head:adv.
 
+% check
+scopal_adv_word *>
+  synsem:loc:(cat:head:mod:loc:cont:aktionsart:Aktionsart,
+              cont:aktionsart:Aktionsart).
+
+
 % wahrscheinlich
 scopal_adv(Relation) :=
  (scopal_adv_word,
   rels:[Relation]).   
 
+% Keine Aktionsart angegeben -> Aktionsart wird vom Kopf übernommen.
 isect_adv(Relation) :=
  (isect_adv_word,
+  synsem:loc:(cat:head:mod:loc:cont:aktionsart:Aktionsart,
+              cont:aktionsart:Aktionsart),
+  rels:[Relation]).
+
+% Es ist genug gearbeitet. -> aus der activity wird ein accomplishment
+isect_adv(Relation,Aktionsart) :=
+ (isect_adv_word,
+  synsem:loc:cont:aktionsart:Aktionsart,
   rels:[Relation]).
 
 temp_adv(Relation) :=

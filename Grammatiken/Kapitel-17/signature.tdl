@@ -26,8 +26,9 @@ ne_list := list & [
   hd bot,
   tl list ].
 
+
 none_or_synsem := bot.
-none   := none_or_synsem & none_or_local & mode.
+none   := none_or_synsem & none_or_local & aktionsart_or_none & mode_or_none.
 
 synsem := none_or_synsem & [
  loc    local,
@@ -50,9 +51,10 @@ cat := bot & [
   arg_st list ].
 
 hook := bot & [
-  ltop handle,
-  ind  event_or_index,
-  key  relation ].
+  ltop       handle,
+  ind        event_or_index,
+  key        relation,
+  aktionsart aktionsart_or_none ].
 
 intro_complex_sign := sign &
  [ dtrs list ].
@@ -894,8 +896,7 @@ wahrscheinlich_rel := arg3_relation.
 
 
 verbal_relation := arg0_relation & [
-  arg0       event,
-  aktionsart aktionsart ].
+  arg0       event ].
 
 verbal_arg01_relation   := verbal_relation & arg01_relation.
 verbal_arg02_relation   := verbal_relation & arg02_relation.
@@ -913,7 +914,9 @@ verbal_arg0123_relation := verbal_relation & arg0123_relation.
 ; Verträglichkeit mit „aufhören": Er hörte auf zu lachen ⇒ er hat gelacht (Aktivität, atelisch). Er
 ; hörte auf, das Haus zu bauen ⇒ nicht notwendig ein fertiges Haus (Accomplishment).
 
-aktionsart :< bot.
+aktionsart_or_none := bot.
+
+aktionsart :< aktionsart_or_none.
 
 ; wissen, lieben, stinken, besitzen
 state          :< aktionsart.
@@ -948,118 +951,85 @@ semelfactive :< activity_or_semelfactive.
 
 
 
-arbeiten_rel  := verbal_arg01_relation & [
-  aktionsart activity].
+arbeiten_rel  := verbal_arg01_relation.
 
 ;bellen ist iterativ, aber als Dauerverhalten atelisch, daher Activity. Ein einzelnes Bellen wäre semelfaktiv.
-bellen_rel    := verbal_arg01_relation & [
-  aktionsart activity].
+bellen_rel    := verbal_arg01_relation.
 
-fetzen_rel    := verbal_arg01_relation  & [
-  aktionsart state].
+fetzen_rel    := verbal_arg01_relation.
 
-lachen_rel    := verbal_arg01_relation & [
-  aktionsart activity].
+lachen_rel    := verbal_arg01_relation.
 
 ; schlafen ist ein Grenzfall zwischen Activity und stage-level State. Ich habe Activity gewählt (Imperativ und Progressiv gehen).
-schlafen_rel  := verbal_arg01_relation  & [
-  aktionsart activity].
+schlafen_rel  := verbal_arg01_relation.
 
 ; schmelzen ist graduell und hat einen Endpunkt (in einer Stunde schmelzen), daher Accomplishment. Mit arg02 ist das Subjekt vermutlich das Thema (unakkusativ).
-schmelzen_rel := verbal_arg02_relation  & [
-  aktionsart accomplishment].
+schmelzen_rel := verbal_arg01_relation.
 
-spielen_rel   := verbal_arg01_relation  & [
-  aktionsart activity].
+spielen_rel   := verbal_arg01_relation.
 
-tanzen_rel    := verbal_arg01_relation  & [
-  aktionsart activity].
+tanzen_rel    := verbal_arg01_relation.
 
 ;helfen und jagen sind atelisch und dynamisch, also Activity. Bei jagen ist das Ziel offen, es gibt keinen inhärenten Endpunkt.
 ;Sie half ihm stundenlang. ist eine Aktivität, atelisch, ohne Resultat. Das ist die Lesart, die ich für helfen_rel angesetzt hatte.
 ;Sie half ihm (und damit war sein Problem gelöst). ist erfolgsimplizierend und hat einen Resultatszustand: Ihm ist geholfen = sein Problem ist behoben, er ist nicht mehr in Not.
-helfen_rel        := verbal_arg012_relation  & [
-  aktionsart accomplishment_or_achievement_or_activity].
+helfen_rel        := verbal_arg012_relation.
 
-jagen_rel         := verbal_arg012_relation  & [
-  aktionsart activity].
+jagen_rel         := verbal_arg012_relation.
 
-kennen_rel        := verbal_arg012_relation  & [
-  aktionsart state].
+kennen_rel        := verbal_arg012_relation.
 
-lesen_rel         := verbal_arg012_relation  & [
-  aktionsart accomplishment_or_activity].
+lesen_rel         := verbal_arg012_relation.
 
-lieben_rel        := verbal_arg012_relation  & [
-  aktionsart state].
+lieben_rel        := verbal_arg012_relation.
 ;nehmen und widersprechen habe ich als punktuell (Achievement) eingestuft. Widersprechen könnte man auch als Activity lesen, wenn man es als Sprechhandlung mit Dauer versteht.
-nehmen_rel        := verbal_arg012_relation  & [
-  aktionsart achievement].
+nehmen_rel        := verbal_arg012_relation.
 
-malen_rel         := verbal_arg012_relation  & [
-  aktionsart accomplishment_or_activity].
+malen_rel         := verbal_arg012_relation.
 
-reparieren_rel    := verbal_arg012_relation  & [
-  aktionsart accomplishment].
+reparieren_rel    := verbal_arg012_relation.
 
 ; schlagen ist semelfaktiv (einzelner Schlag, iterierbar), mit Plural- oder Mehrfachlesart auch Activity.
 ; Er schlug ihn. (einmal): semelfaktiv, kein Resultat
 ; Er schlug den Gegner. (besiegen): Achievement bzw. Accomplishment, mit Resultat „besiegt"
-schlagen_rel      := verbal_arg012_relation & [
-  aktionsart accomplishment_or_achievement_or_activity_or_semelfactive].
+schlagen_rel      := verbal_arg012_relation.
 
 
-singen_rel        := verbal_arg012_relation & [
-  aktionsart accomplishment_or_activity].
+singen_rel        := verbal_arg012_relation.
 
-vorschlagen_rel := verbal_arg012_relation & [ 
-  aktionsart accomplishment_or_achievement ].
+vorschlagen_rel := verbal_arg012_relation.
 
-widersprechen_rel := verbal_arg012_relation  & [
-  aktionsart achievement].
+widersprechen_rel := verbal_arg012_relation.
 
-denken_an_rel := verbal_arg012_relation & [
-  aktionsart activity].
+denken_an_rel := verbal_arg012_relation.
 
 
 
-glauben_rel   := verbal_arg012_relation  & [
-  aktionsart state].
+glauben_rel   := verbal_arg012_relation.
 
-erlauben_rel    := verbal_arg0123_relation  & [
-  aktionsart achievement].
+erlauben_rel    := verbal_arg0123_relation.
 
-erzählen_rel    := verbal_arg0123_relation  & [
-  aktionsart accomplishment].
+erzählen_rel    := verbal_arg0123_relation.
 
-geben_rel       :=  verbal_arg0123_relation  & [
-  aktionsart achievement].
+geben_rel       :=  verbal_arg0123_relation.
 
-schenken_rel    :=  verbal_arg0123_relation  & [
-  aktionsart achievement].
+schenken_rel    :=  verbal_arg0123_relation.
 
-versprechen_rel := verbal_arg0123_relation  & [
-  aktionsart achievement].
+versprechen_rel := verbal_arg0123_relation.
 
-zwingen_rel     := verbal_arg0123_relation  & [
-  aktionsart accomplishment].
+zwingen_rel     := verbal_arg0123_relation.
 
 
-grauen_rel  := verbal_arg02_relation  & [
-  aktionsart state].
+grauen_rel  := verbal_arg02_relation.
 
-sterben_rel := verbal_arg02_relation  & [
-  aktionsart achievement].
+sterben_rel := verbal_arg01_relation.
 
-poss_rel := verbal_arg012_relation  & [
-  aktionsart state].
+poss_rel := verbal_arg012_relation.
 
 
-besitzen_rel  := verbal_arg012_relation  & [
-  aktionsart state].
+besitzen_rel  := verbal_arg012_relation.
 
-gelingen_rel  := verbal_arg012_relation  & [
-  aktionsart achievement].
+gelingen_rel  := verbal_arg012_relation.
 
 
 in_rel      := arg12_relation.
@@ -1111,11 +1081,12 @@ event_or_index := bot & [
       sort anything].
 
 event := event_or_index & [
-  mode mode ].
+  mode mode_or_none ].
 
+mode_or_none := bot.
 
 ; Für Satztypen
-mode := bot.
+mode := mode_or_none.
 
 ; dass-Sätze haben keinen instantiierten MODE-Wert.
 ; steht schon oben, weil none noch von mehreren Typen erbt.
