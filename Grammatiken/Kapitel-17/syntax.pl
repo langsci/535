@@ -138,12 +138,16 @@ headed_phrase *>
 
 % head_complement_phrase, head_specifier_phrase, head_filler_phrase
 head_non_adjunct_phrase *>
-   (synsem:loc:cont:ltop:LTop,
-    head_dtr:synsem:loc:cont:ltop:LTop).
+   (synsem:loc:cont:(ltop:LTop,
+                     aktionsart:Aktionsart),
+    head_dtr:synsem:loc:cont:(ltop:LTop,
+                              aktionsart:Aktionsart)).
 
 head_adjunct_phrase *>
-   (synsem:loc:cont:ltop:LTop,
-    non_head_dtrs:[synsem:loc:cont:ltop:LTop]).
+   (synsem:loc:cont:(ltop:LTop,
+                     aktionsart:Aktionsart),
+    non_head_dtrs:[synsem:loc:cont:(ltop:LTop,
+                                    aktionsart:Aktionsart)]).
 
 % Wegen „ein scheinbar schwieriges Beispiel“ kann sich „schwieriges“ nicht im Lexikon den LTop-Wert
 % von „Beispiel“ nehmen, denn der LTop-Wert von „Beispiel“ muss mit dem von „scheinbar schwieriges“ gleichgesetzt werden.
@@ -613,11 +617,18 @@ subj_verb_agreement1([H|T],Per,Num) if
       , undelayed_subj_verb_agreement_([H|T],Per,Num)
       ).
 
-undelayed_subj_verb_agreement_([@np_str(Per,Num)],         Per,  Num) if true.
-undelayed_subj_verb_agreement_([@np_lex],                  third,sg)  if true.
-undelayed_subj_verb_agreement_([arg:loc:cat:head:(@not(noun))],third,sg)  if true.
-undelayed_subj_verb_agreement_(tl:T1,Per,Num) if
-  subj_verb_agreement2(T1,Per,Num).
+% Wait for head and case information; do not choose an argument category.
+undelayed_subj_verb_agreement_([H|T],Per,Num) if
+  when(T=(e_list;ne_list),subject_agreement_tail(T,H,Per,Num)).
+subject_agreement_tail([],(H,arg:loc:cat:head:Head),Per,Num) if
+  (when(Head=noun,subject_agreement_case(H,Per,Num)),
+   when(disjoint(Head,noun),(Per=third,Num=sg))).
+subject_agreement_tail((T,ne_list),_,Per,Num) if subj_verb_agreement2(T,Per,Num).
+subject_agreement_case((H,arg:loc:cat:head:case:case_type:Case),Per,Num) if
+  (when(Case=str,subject_agreement_structural(H,Per,Num)),
+   when(Case=lex,subject_agreement_lexical(H,Per,Num))).
+subject_agreement_structural(@np_str(Per,Num),Per,Num) if true.
+subject_agreement_lexical(@np_lex,third,sg) if true.
 
 subj_verb_agreement2(L,Per,Num) if
   when( L=(e_list;ne_list)
