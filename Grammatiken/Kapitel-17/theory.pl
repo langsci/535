@@ -113,3 +113,5 @@ examples(['  dass Aicke lachen muss',
 
 
 :- ['closure'].
+
+:- ['linearization-constraints'].
